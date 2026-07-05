@@ -12,10 +12,12 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "type": "component"
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": true,
+          "type": "service"
         },
         "@schematics/angular:guard": {
           "skipTests": true
@@ -27,7 +29,12 @@
           "skipTests": true
         },
         "@schematics/angular:directive": {
-          "skipTests": true
+          "skipTests": true,
+          "type": "directive"
+        },
+        "@schematics/angular:interface": {
+          "prefix": "I",
+          "type": "interface"
         }
       },
       "root": "",
