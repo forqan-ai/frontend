@@ -1,20 +1,59 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.model';
-import { Observable } from 'rxjs';
+import { Observable, retry, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import {
+  AuthResponse,
+  AuthUser,
+  ExternalProvider,
+  LoginRequest,
+  RegisterRequest,
+} from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private readonly baseUrl = `${environment.apiUrl}/auth`;
+  private readonly userStorageKey = 'ForqanKey';
 
-  register(credentials: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, credentials);
+  constructor(private readonly http: HttpClient) {}
+
+  // ---- Email / password ------------------------------------------------------
+  login(data: LoginRequest): Observable<AuthResponse> {
+    console.log(data);
+
+    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
+      tap((res) => {
+        localStorage.setItem(this.userStorageKey, res.token);
+      }),
+    );
   }
-  login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials);
+
+  register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
+      tap((res) => {
+        localStorage.setItem(this.userStorageKey, res.token);
+      }),
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.userStorageKey);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.userStorageKey);
+  }
+
+  IsAuthenticated() {
+    return this.getToken() ? true : false;
+  }
+  loginWithProvider(provider: ExternalProvider): void {
+    const url =
+      provider === 'google' ? environment.auth.googleLoginUrl : environment.auth.facebookLoginUrl;
+
+    const returnUrl = `${window.location.origin}/auth/callback`;
+    window.location.href = `${url}?returnUrl=${encodeURIComponent(returnUrl)}`;
   }
 }

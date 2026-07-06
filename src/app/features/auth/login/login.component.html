@@ -1,0 +1,182 @@
+<div class="background-image min-vh-100 d-flex align-items-center py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10 col-lg-11">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div class="row g-0">
+            <!-- Left Side (Form) -->
+            <div
+              class="col-md-6 d-flex align-items-center justify-content-center bg-cream p-4 p-lg-5"
+            >
+              <div class="w-100" style="max-width: 440px">
+                <div class="text-center mb-4">
+                  <img src="images/logo.png" alt="منارة العلم" class="mb-2 logo-brand" />
+                  <h2 class="fw-bold text-brown mb-1">تسجيل الدخول</h2>
+                  <p class="text-muted small">مرحبًا بعودتك، سجل الدخول للمتابعة.</p>
+                </div>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <!-- Email -->
+                  <div class="mb-3">
+                    <div class="input-group custom-input-group">
+                      <input
+                        type="email"
+                        class="form-control border-2"
+                        placeholder="البريد الإلكتروني"
+                        formControlName="email"
+                        [class.is-invalid]="email.invalid && email.touched"
+                      />
+
+                      <i class="bi bi-envelope position-absolute"></i>
+                    </div>
+
+                    @if (email.touched && email.invalid) {
+                      <small class="text-danger">
+                        @if (email.hasError('required')) {
+                          البريد الإلكتروني مطلوب
+                        } @else if (email.hasError('email')) {
+                          البريد الإلكتروني غير صالح
+                        }
+                      </small>
+                    }
+                  </div>
+
+                  <!-- Password -->
+                  <div class="mb-3">
+                    <div class="input-group custom-input-group">
+                      <input
+                        [type]="showPassword() ? 'text' : 'password'"
+                        class="form-control border-2"
+                        placeholder="كلمة المرور"
+                        formControlName="password"
+                        [class.is-invalid]="password.invalid && password.touched"
+                      />
+
+                      <i class="bi bi-lock position-absolute"></i>
+
+                      <button
+                        type="button"
+                        class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted pe-3 z-3"
+                        (click)="togglePassword()"
+                      >
+
+                      </button>
+                    </div>
+
+                    @if (password.touched && password.invalid) {
+                      <small class="text-danger">
+                        @if (password.hasError('required')) {
+                          كلمة المرور مطلوبة
+                        } @else if (password.hasError('minlength')) {
+                          كلمة المرور يجب أن تكون 8 أحرف على الأقل
+                        }
+                      </small>
+                    }
+                  </div>
+
+                  <!-- Remember Me & Forgot Password -->
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2"
+                  >
+                    <div class="form-check d-flex align-items-center gap-2 p-0">
+                      <input
+                        class="form-check-input m-0"
+                        type="checkbox"
+                        id="rememberMe"
+                        formControlName="rememberMe"
+                      />
+
+                      <label
+                        class="form-check-label small text-muted"
+                        for="rememberMe"
+                      >
+                        تذكرني
+                      </label>
+                    </div>
+
+                    <a
+                      routerLink="/forgot-password"
+                      class="small text-brown text-decoration-none fw-semibold"
+                    >
+                      نسيت كلمة المرور؟
+                    </a>
+                  </div>
+
+                  <!-- API Error -->
+                  @if (errorMessage()) {
+                    <div class="alert alert-danger">
+                      {{ errorMessage() }}
+                    </div>
+                  }
+
+                  <!-- Submit -->
+                  <button
+                    type="submit"
+                    class="btn btn-brown w-100 py-2 mb-4 text-white"
+                    [disabled]="isSubmitting()"
+                  >
+                    @if (isSubmitting()) {
+                      <span
+                        class="spinner-border spinner-border-sm me-2"
+                        aria-hidden="true"
+                      ></span>
+                    }
+
+                    {{
+                      isSubmitting()
+                        ? 'جاري تسجيل الدخول...'
+                        : 'تسجيل الدخول'
+                    }}
+                  </button>
+
+                  <!-- Divider -->
+                  <div class="d-flex align-items-center my-4">
+                    <hr class="flex-grow-1" />
+                    <span class="mx-3 text-muted small">أو</span>
+                    <hr class="flex-grow-1" />
+                  </div>
+
+                  <!-- Google -->
+                  <button
+                    type="button"
+                    class="btn btn-outline-social w-100 mb-2 d-flex align-items-center justify-content-center gap-2"
+                    (click)="loginWithProvider('google')"
+                  >
+                    <i class="bi bi-google text-danger"></i>
+                    تسجيل الدخول عبر جوجل
+                  </button>
+
+                  <!-- Facebook -->
+                  <button
+                    type="button"
+                    class="btn btn-outline-social w-100 mb-4 d-flex align-items-center justify-content-center gap-2"
+                    (click)="loginWithProvider('facebook')"
+                  >
+                    <i class="bi bi-facebook text-primary-emphasis"></i>
+                    تسجيل الدخول عبر فيسبوك
+                  </button>
+
+                  <!-- Register -->
+                  <div class="text-center">
+                    <p class="small text-muted mb-0">
+                      ليس لديك حساب؟
+                      <a
+                        routerLink="/register"
+                        class="text-brown fw-bold text-decoration-none"
+                      >
+                        إنشاء حساب
+                      </a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Right Side Image -->
+            <div class="col-md-6 d-none d-md-block library-bg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
