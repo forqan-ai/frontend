@@ -1,11 +1,10 @@
-/* --- متغيرات الألوان العامة --- */
 :root {
-  --primary-green: #06402b; /* اللون الأخضر الغامق الخاص بهوية التطبيق */
+  --primary-green: #06402b;
   --text-muted: #7a869a;
   --bg-light: #f9fafb;
+  --bs-primary-rgb: 11, 182, 11;
 }
 
-/* --- إعدادات الصفحة وهوية اتجاه الخط العربي RTL --- */
 body {
   direction: rtl;
   text-align: right;
@@ -15,7 +14,6 @@ body {
   margin: 0;
 }
 
-/* --- الهياكل المشتركة للصفحات --- */
 .auth-container {
   min-height: 100vh;
 }
@@ -25,7 +23,6 @@ body {
   color: #ffffff;
 }
 
-/* --- أزرار الإرسال والـ Submit --- */
 .btn-submit-green {
   background-color: var(--primary-green);
   color: #ffffff;
@@ -39,7 +36,6 @@ body {
   color: #ffffff;
 }
 
-/* --- أزرار الشبكات الاجتماعية (جوجل / أبل) --- */
 .social-auth-btn {
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
@@ -57,7 +53,6 @@ body {
   color: #2d3748;
 }
 
-/* --- عناصر حقول الإدخال والفورم --- */
 .auth-form-control {
   padding: 0.75rem 1rem;
   border: 1px solid #e2e8f0;
@@ -70,4 +65,7 @@ body {
   border-color: var(--primary-green);
   outline: none;
   box-shadow: 0 0 0 3px rgba(6, 64, 43, 0.15);
+}
+a {
+  cursor: pointer;
 }
