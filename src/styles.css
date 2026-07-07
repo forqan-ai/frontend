@@ -17,8 +17,8 @@
   --outline: #707974;
   --outline-variant: #bfc9c3;
 
-  --bs-primary: #003527;
-  --bs-primary-rgb: 0, 53, 39;
+  --bs-primary: #2b6954;
+  --bs-primary-rgb: 43, 105, 84;
   --on-primary: #ffffff;
   --primary-container: #064e3b;
   --on-primary-container: #80bea6;
@@ -54,8 +54,8 @@
   --error-container: #ffdad6;
   --on-error-container: #93000a;
 
-  --bs-font-sans-serif: "Plus Jakarta Sans", sans-serif;
-  --font-display: "Newsreader", serif;
+  --bs-font-sans-serif: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Newsreader', serif;
 
   --bs-border-radius: 0.5rem;
   --bs-border-radius-sm: 0.25rem;
@@ -92,6 +92,26 @@ button,
 input,
 label {
   font-family: var(--bs-font-sans-serif);
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #064e3b;
+  --bs-btn-hover-border-color: #064e3b;
+
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #002117;
+  --bs-btn-active-border-color: #002117;
+
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--bs-primary);
+  --bs-btn-disabled-border-color: var(--bs-primary);
 }
 
 .display-lg {
@@ -141,4 +161,8 @@ label {
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
+}
+
+a {
+  cursor: pointer;
 }
