@@ -6,10 +6,10 @@
           <div class="row g-0">
             <!-- right Side -->
             <div
-              class="right-side col-lg-5 bg-success bg-gradient text-white p-5 d-none d-lg-flex flex-column"
+              class="right-side col-lg-5 bg-primary bg-gradient text-white p-5 d-none d-lg-flex flex-column"
             >
               <div>
-                <span class="badge bg-light text-success px-3 py-2 mb-4"> منصة تعليمية </span>
+                <span class="badge bg-light text-primary px-3 py-2 mb-4"> منصة تعليمية </span>
 
                 <h2 class="fw-bold display-6">ديني حياتي</h2>
               </div>
@@ -110,7 +110,7 @@
 
                   <!-- Login -->
                   <button
-                    class="btn btn-success btn-lg w-100"
+                    class="btn btn-primary btn-lg w-100"
                     type="submit"
                     [disabled]="loginForm.invalid"
                   >
@@ -123,15 +123,13 @@
                     <span class="text-muted"> أو المتابعة باستخدام </span>
                   </div>
 
-                  <!-- Google -->
-                  <div class="d-flex justify-content-center">
-                    <button
-                      type="button"
-                      class="btn btn-light border d-flex align-items-center gap-3"
-                    >
-                      <img src="/images/google.svg" width="22" alt="Google" />
-
-                      <span>Continue with Google</span>
+                  <!-- social -->
+                  <div class="d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-light border">
+                      <img src="/images/google.svg" width="22" height="22" alt="Google" />
+                    </button>
+                    <button type="button" class="btn btn-light border">
+                      <img src="/images/facebook.svg" width="22" height="22" alt="Google" />
                     </button>
                   </div>
 

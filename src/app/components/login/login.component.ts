@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { retry } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { LoginRequest } from '../../core/models/auth.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
