@@ -1,0 +1,25 @@
+.login-page {
+  background-image: url('/images/background_registration.webp');
+  background-repeat: repeat;
+  height: 100vh;
+  background-size: contain;
+}
+
+.login-card {
+  box-shadow: 0px 4px 20px rgba(6, 78, 59, 0.05);
+  background-color: #ffffff;
+}
+
+.bg-primary-container {
+  background-color: var(--color-primary-container);
+}
+
+.right-side {
+  background:
+    linear-gradient(rgba(40, 112, 64, 0.45), rgba(9, 99, 32, 0.45)),
+    url('/images/login-background.png') !important;
+}
+input:focus {
+  box-shadow: none !important;
+  outline: none;
+}
