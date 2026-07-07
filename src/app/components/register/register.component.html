@@ -1,0 +1,222 @@
+<div class="container-fluid py-5 register-bg" dir="rtl">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-11">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div class="row g-0">
+            <div
+              class="col-lg-5 bg-success bg-gradient text-white p-5 d-none d-lg-flex flex-column"
+            >
+              <div>
+                <span class="badge bg-light text-success px-3 py-2 mb-4"> منصة تعليمية </span>
+                <h2 class="fw-bold display-6">ديني حياتي</h2>
+                <p class="opacity-75 mt-3 mb-5">
+                  تعلم العلوم الشرعية بطريقة حديثة، مع مسارات تعليمية منظمة واختبارات ومتابعة
+                  مستمرة.
+                </p>
+
+                <div class="d-flex align-items-center mb-4">
+                  <div
+                    class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center ms-3"
+                    style="width: 55px; height: 55px"
+                  >
+                    <i class="bi bi-journal-bookmark-fill fs-4"></i>
+                  </div>
+                  <div>
+                    <h5 class="mb-0 fw-bold">+300</h5>
+                    <small class="opacity-75"> دورة علمية </small>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-4">
+                  <div
+                    class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center ms-3"
+                    style="width: 55px; height: 55px"
+                  >
+                    <i class="bi bi-people-fill fs-4"></i>
+                  </div>
+                  <div>
+                    <h5 class="mb-0 fw-bold">+5000</h5>
+                    <small class="opacity-75"> طالب علم </small>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center ms-3"
+                    style="width: 55px; height: 55px"
+                  >
+                    <i class="bi bi-stars fs-4"></i>
+                  </div>
+                  <div>
+                    <h5 class="mb-0 fw-bold">AI Assistant</h5>
+                    <small class="opacity-75"> مساعد ذكي للإجابة عن أسئلتك </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-auto pt-5">
+                <div class="border rounded-4 p-4 bg-white bg-opacity-10">
+                  <i class="bi bi-mortarboard-fill fs-2 mb-3 d-block"></i>
+                  <p class="mb-0 small opacity-75">
+                    ابدأ رحلتك العلمية اليوم، واستمتع بتجربة تعليمية متكاملة مصممة خصيصًا لك.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-7 bg-white">
+              <div class="p-4 p-lg-5">
+                <h3 class="fw-bold">إنشاء حساب</h3>
+                <p class="text-muted mb-4">مرحبًا بك قم بإنشاء حساب جديد للبدء.</p>
+
+                <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+                  <div class="mb-3">
+                    <i class="bi bi-person ms-1"></i>
+                    <label class="form-label fw-semibold"> الاسم الكامل </label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        formControlName="fullName"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid': fullName.invalid && (fullName.dirty || fullName.touched),
+                        }"
+                        placeholder="أدخل اسمك الكامل"
+                      />
+                      @if (fullName.invalid && (fullName.dirty || fullName.touched)) {
+                        <div class="invalid-feedback d-block">
+                          @if (fullName.hasError('required')) {
+                            <span>الاسم الكامل مطلوب.</span>
+                          }
+
+                          @if (fullName.hasError('minlength')) {
+                            <span>يجب أن يكون الاسم 3 أحرف على الأقل.</span>
+                          }
+
+                          @if (fullName.hasError('maxlength')) {
+                            <span>تجاوزت الحد الأقصى المسموح به للأحرف.</span>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <i class="bi bi-envelope ms-1"></i>
+                    <label class="form-label fw-semibold"> البريد الإلكتروني </label>
+                    <div class="input-group">
+                      <input
+                        type="email"
+                        formControlName="email"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid': email.invalid && (email.dirty || email.touched),
+                        }"
+                        placeholder="name@example.com"
+                      />
+                      @if (email.invalid && (email.dirty || email.touched)) {
+                        <div class="invalid-feedback d-block">
+                          @if (email.hasError('required')) {
+                            <span>البريد الإلكتروني مطلوب.</span>
+                          }
+
+                          @if (email.hasError('email')) {
+                            <span>يرجى إدخال بريد إلكتروني بشكل صحيح.</span>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="mb-2">
+                    <i class="bi bi-lock ms-1"></i>
+                    <label class="form-label fw-semibold"> كلمة المرور </label>
+                    <div class="input-group position-relative">
+                      <input
+                        [type]="isPasswordVisible ? 'text' : 'password'"
+                        formControlName="password"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid': password.invalid && (password.dirty || password.touched),
+                        }"
+                        placeholder="********"
+                      />
+                      <span
+                        class="eye position-absolute start-0 translate-middle-y px-3"
+                        style="cursor: pointer; z-index: 5"
+                        (click)="togglePasswordVisibility()"
+                      >
+                      </span>
+                      @if (password.invalid && (password.dirty || password.touched)) {
+                        <div class="invalid-feedback d-block">
+                          @if (password.hasError('required')) {
+                            <span>كلمة المرور مطلوبة.</span>
+                          }
+
+                          @if (password.hasError('minlength')) {
+                            <span>يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل.</span>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="form-check mb-4">
+                    <input
+                      id="terms"
+                      class="form-check-input"
+                      type="checkbox"
+                      formControlName="acceptTerms"
+                      [ngClass]="{
+                        'is-invalid':
+                          acceptTerms.invalid && (acceptTerms.dirty || acceptTerms.touched),
+                      }"
+                    />
+                    <label for="terms" class="form-check-label">
+                      أوافق على <a href="#" class="text-decoration-none"> الشروط والأحكام </a>
+                    </label>
+                    @if (acceptTerms.invalid && (acceptTerms.dirty || acceptTerms.touched)) {
+                      <div class="invalid-feedback d-block">
+                        يجب عليك الموافقة على الشروط والأحكام للمتابعة.
+                      </div>
+                    }
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-lg w-100"
+                    [disabled]="registerForm.invalid && registerForm.touched"
+                  >
+                    <i class="bi bi-person-plus-fill me-2"></i> إنشاء الحساب
+                  </button>
+
+                  <div class="text-center my-4">
+                    <span class="text-muted"> أو المتابعة باستخدام </span>
+                  </div>
+
+                  <div class="d-flex justify-content-center">
+                    <button
+                      type="button"
+                      class="btn btn-light border d-flex justify-content-between column-gap-3 align-items-center"
+                    >
+                      <p class="m-0">continue with google</p>
+                      <div class="image-cover">
+                        <img class="img-fluid" src="/images/google.svg" alt="" />
+                      </div>
+                    </button>
+                  </div>
+
+                  <p class="text-center mt-4 mb-0">
+                    لديك حساب بالفعل؟
+                    <a routerLink="/login" class="fw-bold text-decoration-none"> تسجيل الدخول </a>
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
