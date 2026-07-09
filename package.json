@@ -38,6 +38,7 @@
     "@angular/build": "^22.0.6",
     "@angular/cli": "^22.0.6",
     "@angular/compiler-cli": "^22.0.6",
+    "@types/bootstrap": "^5.2.11",
     "jsdom": "^27.1.0",
     "typescript": "~6.0.3",
     "vitest": "^4.0.8"
