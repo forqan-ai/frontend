@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   apiUrl: 'http://localhost:5193/api',
   auth: {
     googleLoginUrl: 'https://api.your-domain.com/api/auth/external/google',
