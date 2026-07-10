@@ -1,0 +1,197 @@
+<div class="background-image min-vh-100 d-flex align-items-center py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10 col-lg-11">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div class="row g-0">
+            <!-- Left Side (Form) -->
+            <div
+              class="col-md-6 d-flex align-items-center justify-content-center bg-cream p-4 p-lg-5"
+            >
+              <div class="w-100" style="max-width: 440px">
+                <div class=" d-flex flex-column align-items-center text-center mb-4">
+                  <img src="images/start_logo.png" alt="منارة العلم" class="mb-2 logo-brand" />
+                  <h2 class="fw-bold text-brown mb-1">إنشاء حساب</h2>
+                  <p class="text-muted small">ابدأ رحلتك التعليمية معنا.</p>
+                </div>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <!-- Full Name -->
+                  <div class="mb-3">
+                    <div class="input-group custom-input-group">
+                      <input
+                        type="text"
+                        class="form-control border-2"
+                        placeholder="الاسم الكامل"
+                        formControlName="fullName"
+                        [class.is-invalid]="fullName.invalid && fullName.touched"
+                      />
+                      <i class="bi bi-person position-absolute"></i>
+                    </div>
+
+                    @if (fullName.touched && fullName.invalid) {
+                      <small class="text-danger">
+                        @if (fullName.hasError('required')) {
+                          الاسم مطلوب
+                        } @else if (fullName.hasError('minlength')) {
+                          الاسم يجب أن يكون 3 أحرف على الأقل
+                        }
+                      </small>
+                    }
+                  </div>
+
+                  <!-- Email -->
+                  <div class="mb-3">
+                    <div class="input-group custom-input-group">
+                      <input
+                        type="email"
+                        class="form-control border-2"
+                        placeholder="البريد الإلكتروني"
+                        formControlName="email"
+                        [class.is-invalid]="email.invalid && email.touched"
+                      />
+                      <i class="bi bi-envelope position-absolute"></i>
+                    </div>
+
+                    @if (email.touched && email.invalid) {
+                      <small class="text-danger">
+                        @if (email.hasError('required')) {
+                          البريد الإلكتروني مطلوب
+                        } @else if (email.hasError('email')) {
+                          البريد الإلكتروني غير صالح
+                        }
+                      </small>
+                    }
+                  </div>
+
+                  <!-- Password -->
+                  <div class="mb-3">
+                    <div class="input-group custom-input-group">
+                      <input
+                        [type]="showPassword() ? 'text' : 'password'"
+                        class="form-control border-2"
+                        placeholder="كلمة المرور"
+                        formControlName="password"
+                        [class.is-invalid]="password.invalid && password.touched"
+                      />
+
+                      <i class="bi bi-lock position-absolute"></i>
+                    </div>
+
+                    @if (password.touched && password.invalid) {
+                      <small class="text-danger">
+                        @if (password.hasError('required')) {
+                          كلمة المرور مطلوبة
+                        } @else if (password.hasError('minlength')) {
+                          كلمة المرور يجب أن تكون 8 أحرف على الأقل
+                        }
+                      </small>
+                    }
+                  </div>
+
+                  <!-- Confirm Password -->
+                  <div class="mb-3">
+                    <div class="input-group custom-input-group">
+                      <input
+                        [type]="showConfirmPassword() ? 'text' : 'password'"
+                        class="form-control border-2"
+                        placeholder="تأكيد كلمة المرور"
+                        formControlName="confirmPassword"
+                        [class.is-invalid]="confirmPassword.invalid && confirmPassword.touched"
+                      />
+
+                      <i class="bi bi-lock position-absolute"></i>
+                    </div>
+
+                    @if (confirmPassword.touched && confirmPassword.invalid) {
+                      <small class="text-danger">
+                        @if (confirmPassword.hasError('required')) {
+                          تأكيد كلمة المرور مطلوب
+                        }
+                      </small>
+                    }
+                  </div>
+
+                  <!-- Terms -->
+                  <div class="form-check d-flex align-items-center gap-2 mb-2 p-0">
+                    <input
+                      class="form-check-input m-0"
+                      type="checkbox"
+                      id="terms"
+                      formControlName="acceptTerms"
+                    />
+
+                    <label class="form-check-label small text-muted" for="terms">
+                      أوافق على الشروط والأحكام وسياسة الخصوصية.
+                    </label>
+                  </div>
+
+                  @if (acceptTerms.touched && acceptTerms.invalid) {
+                    <small class="text-danger d-block mb-3">
+                      يجب الموافقة على الشروط والأحكام.
+                    </small>
+                  }
+
+                  <!-- API Error -->
+                  @if (errorMessage()) {
+                    <div class="alert alert-danger">
+                      {{ errorMessage() }}
+                    </div>
+                  }
+
+                  <button
+                    type="submit"
+                    class="btn btn-brown w-100 py-2 mb-4 text-white"
+                    [disabled]="isSubmitting()"
+                  >
+                    @if (isSubmitting()) {
+                      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                    }
+
+                    {{ isSubmitting() ? 'جاري إنشاء الحساب...' : 'إنشاء حساب' }}
+                  </button>
+
+                  <div class="d-flex align-items-center my-4">
+                    <hr class="flex-grow-1" />
+                    <span class="mx-3 text-muted small">أو</span>
+                    <hr class="flex-grow-1" />
+                  </div>
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-social w-100 mb-2 d-flex align-items-center justify-content-center gap-2"
+                    (click)="registerWithProvider('google')"
+                  >
+                    <i class="bi bi-google text-danger"></i>
+                    التسجيل عبر جوجل
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-social w-100 mb-4 d-flex align-items-center justify-content-center gap-2"
+                    (click)="registerWithProvider('facebook')"
+                  >
+                    <i class="bi bi-facebook text-primary"></i>
+                    التسجيل عبر فيسبوك
+                  </button>
+
+                  <div class="text-center">
+                    <p class="small text-muted mb-0">
+                      لديك حساب بالفعل؟
+                      <a routerLink="/login" class="text-brown fw-bold text-decoration-none">
+                        تسجيل دخول
+                      </a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Right Side Image -->
+            <div class="col-md-6 d-none d-md-block library-bg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

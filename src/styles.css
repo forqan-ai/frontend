@@ -81,3 +81,6 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
+a {
+  cursor: pointer;
+}

@@ -1,0 +1,103 @@
+
+.background-image {
+  background-size: contain;
+  background-image: url('/images/background_registration.webp');
+}
+
+.bg-cream {
+  background-color: #f8f4ee;
+}
+
+.logo-brand {
+  width: 200px;
+}
+
+.library-bg {
+  background-size: cover;
+  background-image: url('/images/login.png');
+}
+
+input {
+  border-radius: 50px !important; 
+  border-color: #5d4037;
+  padding: 10px 20px;
+}
+
+.custom-input-group .form-control:focus {
+  border-color: #af8779;
+  box-shadow: none;
+}
+
+.custom-input-group .input-group-text {
+  background: #fff;
+}
+
+.form-control::placeholder {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #aaa;
+
+}
+
+
+.btn-brown,
+.btn-brown:focus,
+.btn-brown:active,
+.btn-brown:focus:active {
+  background: #6d4c41 !important;
+  border-color: #6d4c41;
+  border-radius: 50px !important;
+}
+
+.btn-brown:hover {
+  background: #5d4037;
+  border-color: #5d4037;
+}
+
+.btn-outline-social {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 50px !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-social:hover {
+  background-color: #fcfcfc;
+  border-color: #bbb;
+}
+
+.bi {
+  top: calc(50% - 11px);
+  left: 13px;
+}
+
+.toggle-password-icon {
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.text-info-custom {
+  color: #17a2b8;
+  border-bottom: 1px solid #17a2b8;
+  padding-bottom: 2px;
+}
+
+.text-info-custom:hover {
+  color: #117a8b;
+  border-color: #117a8b;
+}
+
+
+.form-check-input:checked {
+  background-color: #5d4037;
+  border-color: #5d4037;
+}
+
+.form-check-input:focus {
+  box-shadow: none;
+  border-color: #5d4037;
+}
