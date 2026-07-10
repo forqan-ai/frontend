@@ -9,8 +9,8 @@
               class="col-md-6 d-flex align-items-center justify-content-center bg-cream p-4 p-lg-5"
             >
               <div class="w-100" style="max-width: 440px">
-                <div class="text-center mb-4">
-                  <img src="images/logo.png" alt="منارة العلم" class="mb-2 logo-brand" />
+                <div class="d-flex flex-column align-items-center text-center mb-4">
+                  <img src="images/start_logo.png" alt="منارة العلم" class="mb-2 logo-brand" />
                   <h2 class="fw-bold text-brown mb-1">تسجيل الدخول</h2>
                   <p class="text-muted small">مرحبًا بعودتك، سجل الدخول للمتابعة.</p>
                 </div>
@@ -58,9 +58,7 @@
                         type="button"
                         class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted pe-3 z-3"
                         (click)="togglePassword()"
-                      >
-
-                      </button>
+                      ></button>
                     </div>
 
                     @if (password.touched && password.invalid) {
@@ -86,10 +84,7 @@
                         formControlName="rememberMe"
                       />
 
-                      <label
-                        class="form-check-label small text-muted"
-                        for="rememberMe"
-                      >
+                      <label class="form-check-label small text-muted" for="rememberMe">
                         تذكرني
                       </label>
                     </div>
@@ -116,17 +111,10 @@
                     [disabled]="isSubmitting()"
                   >
                     @if (isSubmitting()) {
-                      <span
-                        class="spinner-border spinner-border-sm me-2"
-                        aria-hidden="true"
-                      ></span>
+                      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
                     }
 
-                    {{
-                      isSubmitting()
-                        ? 'جاري تسجيل الدخول...'
-                        : 'تسجيل الدخول'
-                    }}
+                    {{ isSubmitting() ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول' }}
                   </button>
 
                   <!-- Divider -->
@@ -152,7 +140,7 @@
                     class="btn btn-outline-social w-100 mb-4 d-flex align-items-center justify-content-center gap-2"
                     (click)="loginWithProvider('facebook')"
                   >
-                    <i class="bi bi-facebook text-primary-emphasis"></i>
+                    <i class="bi bi-facebook text-primary"></i>
                     تسجيل الدخول عبر فيسبوك
                   </button>
 
@@ -160,10 +148,7 @@
                   <div class="text-center">
                     <p class="small text-muted mb-0">
                       ليس لديك حساب؟
-                      <a
-                        routerLink="/register"
-                        class="text-brown fw-bold text-decoration-none"
-                      >
+                      <a routerLink="/register" class="text-brown fw-bold text-decoration-none">
                         إنشاء حساب
                       </a>
                     </p>
