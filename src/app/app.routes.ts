@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+<<<<<<< HEAD
+    path: '',
+=======
     path: 'register',
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
@@ -15,6 +18,14 @@ export const routes: Routes = [
   },
   { 
     path: '', 
+>>>>>>> 49af35e055f3ae63977df366804dd645a070d8cc
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+  },
+  {
+    path: 'course-details/:id',
+    loadComponent: () =>
+      import('./features/Course/Pages/course-details/course-details.component').then(
+        m => m.CourseDetailsComponent
+      )
   }
 ];
