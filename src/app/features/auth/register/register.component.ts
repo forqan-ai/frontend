@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +11,8 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiError, ExternalProvider } from '../../../core/models/auth.models';
 import { CommonModule } from '@angular/common';
+import { GoogleAuthService } from '../../../core/services/google-auth.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-register',
@@ -23,10 +25,14 @@ export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  private readonly googleService = inject(GoogleAuthService);
   readonly isSubmitting = signal(false);
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
   readonly errorMessage = signal<string | null>(null);
+
+  @ViewChild('googleButton', { static: true })
+  googleButton!: ElementRef<HTMLDivElement>;
 
   readonly form = this.fb.nonNullable.group({
     fullName: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,6 +41,51 @@ export class RegisterComponent {
     confirmPassword: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
   });
+
+  ngAfterViewInit(): void {
+    this.googleService.initialize(
+      environment.auth.googleClientId,
+      this.handleCredentialResponse.bind(this),
+    );
+
+    this.googleService.renderButton(this.googleButton.nativeElement);
+
+    this.googleService.prompt();
+  }
+
+  private handleCredentialResponse(response: any): void {
+    this.errorMessage.set(null);
+    this.isSubmitting.set(true);
+
+    console.log('Google Response:', response);
+
+    this.authService.googleLogin(response.credential).subscribe({
+      next: (res) => {
+        this.isSubmitting.set(false);
+
+        console.log(res);
+
+        if (res.succeeded) {
+          this.router.navigate(['/']);
+        } else {
+          const apiError = res.errors as ApiError[];
+
+          this.errorMessage.set(apiError[0]?.description ?? 'Google login failed.');
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.isSubmitting.set(false);
+
+        console.error(err);
+
+        const apiError = err.error?.errors as ApiError[];
+
+        this.errorMessage.set(
+          apiError?.[0]?.description ?? 'حدث خطأ أثناء تسجيل الدخول بواسطة Google.',
+        );
+      },
+    });
+  }
 
   togglePasswordVisibility(): void {
     this.showPassword.update((v) => !v);
@@ -62,9 +113,10 @@ export class RegisterComponent {
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
-        const apiError = err.error as ApiError | undefined;
+        const apiError = err.error.errors as ApiError[];
+
         this.errorMessage.set(
-          apiError?.detail ?? 'حدث خطأ أثناء إنشاء الحساب، يرجى المحاولة مرة أخرى.',
+          apiError[0]?.description ?? 'حدث خطأ أثناء إنشاء الحساب، يرجى المحاولة مرة أخرى.',
         );
       },
     });

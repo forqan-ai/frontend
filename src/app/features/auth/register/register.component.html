@@ -9,7 +9,7 @@
               class="col-md-6 d-flex align-items-center justify-content-center bg-cream p-4 p-lg-5"
             >
               <div class="w-100" style="max-width: 440px">
-                <div class=" d-flex flex-column align-items-center text-center mb-4">
+                <div class="d-flex flex-column align-items-center text-center mb-4">
                   <img src="images/start_logo.png" alt="منارة العلم" class="mb-2 logo-brand" />
                   <h2 class="fw-bold text-brown mb-1">إنشاء حساب</h2>
                   <p class="text-muted small">ابدأ رحلتك التعليمية معنا.</p>
@@ -157,13 +157,10 @@
                     <hr class="flex-grow-1" />
                   </div>
 
-                  <button
-                    type="button"
-                    class="btn btn-outline-social w-100 mb-2 d-flex align-items-center justify-content-center gap-2"
-                    (click)="registerWithProvider('google')"
-                  >
+                  <!-- Google -->
+                  <button #googleButton type="button" class="">
                     <i class="bi bi-google text-danger"></i>
-                    التسجيل عبر جوجل
+                    تسجيل الدخول عبر جوجل
                   </button>
 
                   <button
