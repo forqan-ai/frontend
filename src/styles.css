@@ -6,6 +6,7 @@
   --surface: #ffffff;
   --text: #341b16;
   --text-light: #7a635d;
+  --text-muted: #7c7267;
   --border: #e8ddd2;
 }
 * {
@@ -34,7 +35,8 @@ h6 {
   color: var(--text);
 }
 p {
-  font-weight: 400;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-weight: 500;
   color: var(--text-light);
   line-height: 1.8;
 }
@@ -80,4 +82,16 @@ button {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+
+/* currency icon */
+@font-face {
+    font-family: 'Arshid';
+    src: url('../public/fonts/Arshid.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+.sar{
+    font-family: 'Arshid', sans-serif;
 }
