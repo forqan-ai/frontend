@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, retry, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import {
+  ApiResponse,
   AuthResponse,
   AuthUser,
   ExternalProvider,
@@ -15,14 +16,12 @@ import {
 })
 export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/auth`;
-  private readonly userStorageKey = 'ForqanKey';
+  public readonly userStorageKey = 'ForqanKey';
 
   constructor(private readonly http: HttpClient) {}
 
   // ---- Email / password ------------------------------------------------------
   login(data: LoginRequest): Observable<AuthResponse> {
-    console.log(data);
-
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((res) => {
         localStorage.setItem(this.userStorageKey, res.token);
@@ -36,6 +35,18 @@ export class AuthService {
         localStorage.setItem(this.userStorageKey, res.token);
       }),
     );
+  }
+
+  googleLogin(idToken: string | undefined) {
+    return this.http
+      .post<ApiResponse<any>>(`${this.baseUrl}/google-login`, {
+        idToken,
+      })
+      .pipe(
+        tap((res) => {
+          localStorage.setItem(this.userStorageKey, res.data.token);
+        }),
+      );
   }
 
   logout(): void {
