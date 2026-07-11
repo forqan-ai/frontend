@@ -60,23 +60,12 @@ export class RegisterComponent {
     console.log('Google Response:', response);
 
     this.authService.googleLogin(response.credential).subscribe({
-      next: (res) => {
+      next: () => {
         this.isSubmitting.set(false);
-
-        console.log(res);
-
-        if (res.succeeded) {
-          this.router.navigate(['/']);
-        } else {
-          const apiError = res.errors as ApiError[];
-
-          this.errorMessage.set(apiError[0]?.description ?? 'Google login failed.');
-        }
+        this.router.navigate(['/']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
-
-        console.error(err);
 
         const apiError = err.error?.errors as ApiError[];
 

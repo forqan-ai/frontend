@@ -57,5 +57,7 @@ input {
   background-size: cover;
   background-image: url('/images/register2.jpg');
 }
+input[type="checkbox"]{
+  cursor: pointer;
+}
 
-/*  */

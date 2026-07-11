@@ -100,6 +100,7 @@ export class LoginComponent implements AfterViewInit {
           console.error(err);
 
           const apiError = err.error?.errors as ApiError[];
+          console.error(err.error);
 
           this.errorMessage.set(
             apiError?.[0]?.description ??

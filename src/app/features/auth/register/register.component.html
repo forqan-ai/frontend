@@ -157,25 +157,26 @@
                     <hr class="flex-grow-1" />
                   </div>
 
-                  <!-- Google -->
-                  <button #googleButton type="button" class="">
-                    <i class="bi bi-google text-danger"></i>
-                    تسجيل الدخول عبر جوجل
-                  </button>
-
-                  <button
-                    type="button"
-                    class="btn btn-outline-social w-100 mb-4 d-flex align-items-center justify-content-center gap-2"
-                    (click)="registerWithProvider('facebook')"
+                  <div
+                    class="social d-flex justify-content-center flex-column align-items-center gap-2"
                   >
-                    <i class="bi bi-facebook text-primary"></i>
-                    التسجيل عبر فيسبوك
-                  </button>
+                    <!-- Google -->
+                    <button #googleButton type="button" class=""></button>
+
+                    <!-- Facebook -->
+                    <button
+                      type="button"
+                      class="btn btn-outline-social rounded-5 mb-4 d-flex align-items-center justify-content-center gap-2" style="width: 270px;"
+                    >
+                      <i class="bi bi-facebook text-primary"></i>
+                      تسجيل الدخول عبر فيسبوك
+                    </button>
+                  </div>
 
                   <div class="text-center">
                     <p class="small text-muted mb-0">
                       لديك حساب بالفعل؟
-                      <a routerLink="/login" class="text-brown fw-bold text-decoration-none">
+                      <a routerLink="/login" class=" fw-bold text-decoration-none">
                         تسجيل دخول
                       </a>
                     </p>

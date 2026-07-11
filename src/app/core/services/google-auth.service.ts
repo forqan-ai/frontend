@@ -18,7 +18,7 @@ export class GoogleAuthService {
       type: 'standard',
       theme: 'outline',
       size: 'large',
-      width: 340,
+      width: 270,
       text: 'signin_with',
       shape: 'pill',
       locale: 'ar',
