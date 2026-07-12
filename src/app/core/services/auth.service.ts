@@ -21,22 +21,20 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   // ---- Email / password ------------------------------------------------------
-  login(data: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
-      tap((res) => {
-        localStorage.setItem(this.userStorageKey, res.token);
-      }),
-    );
-  }
-
-  register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
-      tap((res) => {
-        localStorage.setItem(this.userStorageKey, res.token);
-      }),
-    );
-  }
-
+ login(data: LoginRequest): Observable<AuthResponse> {
+  return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
+    tap((res) => {
+      localStorage.setItem(this.userStorageKey, res.data.token);
+    })
+  );
+}
+register(data: RegisterRequest): Observable<AuthResponse> {
+  return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
+    tap((res) => {
+      localStorage.setItem(this.userStorageKey, res.data.token);
+    })
+  );
+}
   googleLogin(idToken: string | undefined) {
     return this.http
       .post<ApiResponse<any>>(`${this.baseUrl}/google-login`, {
