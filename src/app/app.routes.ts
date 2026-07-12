@@ -24,10 +24,10 @@ export const routes: Routes = [
         m => m.CourseDetailsComponent
       )
   },
-   {
+  {
     path: 'studentprofile',
     loadComponent: () =>
-      import('./features/student/components/studentprofile/studentprofile.component').then(
+      import('./features/student/Components/studentprofile/studentprofile.component').then(
         (m) => m.StudentprofileComponent
       ),
     title: 'الملف الشخصي للطالب',
