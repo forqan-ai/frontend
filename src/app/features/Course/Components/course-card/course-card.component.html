@@ -1,0 +1,46 @@
+<div class="custom-course-card" dir="rtl" (click)="onCardClick()">
+    <button class="favorite-btn" [class.is-fav]="course.isFavorite" (click)="onFavoriteClick($event)"
+        aria-label="أضف للمفضلة">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+        </svg>
+    </button>
+
+    <div class="card-top-content">
+        <h3 class="course-card-title">{{ course.title }}</h3>
+
+        <div class="badges-row d-flex gap-2 justify-content-start my-2">
+            <span class="badge-item badge-blue">{{ course.category }}</span>
+            <span class="badge-item badge-orange">متميز</span>
+            <span class="badge-item badge-green">جديد</span>
+        </div>
+
+        <div class="instructor-row d-flex align-items-center gap-2 text-muted mb-2">
+            <span class="meta-icon">
+                <i class="bi bi-person"></i>
+
+            </span>
+            <span class="instructor-name">{{ course.instructor }}</span>
+        </div>
+
+        <div class="rating-row d-flex align-items-center gap-1 mb-2">
+
+            <img style="width: 18px; gap: 4px;" src="images/star.png">
+            <img style="width: 18px; gap: 4px;" src="images/star.png">
+            <img style="width: 18px; gap: 4px;" src="images/star.png">
+            <img style="width: 18px; gap: 4px;" src="images/star.png">
+            <img style="width: 18px; gap: 4px;" src="images/star.png">
+            <span class="rating-num me-1">{{ course.rating }}</span>
+            <span class="reviews-count text-muted small">({{ course.reviewsCount }} مراجعة)</span>
+        </div>
+    </div>
+
+    <div class="card-bottom-image-wrapper">
+        <img [src]="course.imageUrl" [alt]="course.title" class="course-thumb">
+        <div class="price-badge"> <span style="font-family: 'Arshid';"> {{ course.price === '٠' ? 'مجاني' : course.price
+                +
+                '$' }}
+            </span>
+        </div>
+    </div>
+</div>
