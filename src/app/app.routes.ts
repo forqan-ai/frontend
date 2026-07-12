@@ -27,7 +27,7 @@ export const routes: Routes = [
    {
     path: 'studentprofile',
     loadComponent: () =>
-      import('./features/student/Components/studentprofile/studentprofile.component').then(
+      import('./features/student/components/studentprofile/studentprofile.component').then(
         (m) => m.StudentprofileComponent
       ),
     title: 'الملف الشخصي للطالب',
