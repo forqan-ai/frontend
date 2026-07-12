@@ -2,9 +2,6 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-<<<<<<< HEAD
-    path: '',
-=======
     path: 'register',
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
@@ -16,9 +13,8 @@ export const routes: Routes = [
       import('./features/auth/login/login.component').then((m) => m.LoginComponent),
     title: ' تسجيل الدخول',
   },
-  { 
-    path: '', 
->>>>>>> 49af35e055f3ae63977df366804dd645a070d8cc
+  {
+    path: '',
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
   },
   {
@@ -27,5 +23,13 @@ export const routes: Routes = [
       import('./features/Course/Pages/course-details/course-details.component').then(
         m => m.CourseDetailsComponent
       )
+  },
+   {
+    path: 'studentprofile',
+    loadComponent: () =>
+      import('./features/student/Components/studentprofile/studentprofile.component').then(
+        (m) => m.StudentprofileComponent
+      ),
+    title: 'الملف الشخصي للطالب',
   }
 ];

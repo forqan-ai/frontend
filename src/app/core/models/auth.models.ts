@@ -20,12 +20,14 @@ export interface AuthUser {
 }
 
 export interface AuthResponse {
-  user: AuthUser;
-  token: string;
   succeeded: boolean;
-  errors: ApiError[];
+  data: AuthData;
+  errors: ApiError[] | null;
 }
-
+export interface AuthData {
+  token: string;
+  user: AuthUser;
+}
 export type ExternalProvider = 'google' | 'facebook';
 
 
