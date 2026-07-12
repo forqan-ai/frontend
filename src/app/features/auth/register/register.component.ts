@@ -40,6 +40,7 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
+    gender: ['', [Validators.required]],
   });
 
   ngAfterViewInit(): void {
@@ -60,23 +61,12 @@ export class RegisterComponent {
     console.log('Google Response:', response);
 
     this.authService.googleLogin(response.credential).subscribe({
-      next: (res) => {
+      next: () => {
         this.isSubmitting.set(false);
-
-        console.log(res);
-
-        if (res.succeeded) {
-          this.router.navigate(['/']);
-        } else {
-          const apiError = res.errors as ApiError[];
-
-          this.errorMessage.set(apiError[0]?.description ?? 'Google login failed.');
-        }
+        this.router.navigate(['/']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
-
-        console.error(err);
 
         const apiError = err.error?.errors as ApiError[];
 
@@ -104,9 +94,9 @@ export class RegisterComponent {
     }
 
     this.isSubmitting.set(true);
-    const { fullName, email, password, confirmPassword } = this.form.getRawValue();
+    const { fullName, email, password, confirmPassword,gender } = this.form.getRawValue();
 
-    this.authService.register({ fullName, email, password, confirmPassword }).subscribe({
+    this.authService.register({ fullName, email, password, confirmPassword, gender }).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.router.navigate(['/']);
@@ -140,5 +130,8 @@ export class RegisterComponent {
   }
   get acceptTerms() {
     return this.form.controls.acceptTerms;
+  }
+  get gender() {
+    return this.form.controls.gender;
   }
 }

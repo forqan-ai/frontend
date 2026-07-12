@@ -101,3 +101,7 @@ input {
   box-shadow: none;
   border-color: #5d4037;
 }
+
+input[type="checkbox"]{
+  cursor: pointer;
+}

@@ -100,6 +100,7 @@ export class LoginComponent implements AfterViewInit {
           console.error(err);
 
           const apiError = err.error?.errors as ApiError[];
+          console.error(err.error);
 
           this.errorMessage.set(
             apiError?.[0]?.description ??
@@ -126,6 +127,7 @@ export class LoginComponent implements AfterViewInit {
     const request: LoginRequest = {
       email: this.form.controls.email.value,
       password: this.form.controls.password.value,
+      rememberMe: this.form.controls.rememberMe.value
     };
 
     this.authService.login(request).subscribe({

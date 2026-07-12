@@ -1,7 +1,7 @@
 export interface LoginRequest {
   email: string;
   password: string;
-  // rememberMe:boolean;
+  rememberMe:boolean;
 }
 
 export interface RegisterRequest {
@@ -9,35 +9,31 @@ export interface RegisterRequest {
   email: string;
   password: string;
   confirmPassword: string;
+  gender: string;
 }
 
-export interface AuthUser {
-  id: string;
-  fullName: string;
-  email: string;
-  avatarUrl?: string | null;
-  roles: string[];
-}
+// export interface AuthUser {
+//   id: string;
+//   fullName: string;
+//   email: string;
+//   avatarUrl?: string | null;
+//   roles: string[];
+// }
 
 export interface AuthResponse {
   succeeded: boolean;
   data: AuthData;
-  errors: ApiError[] | null;
+  errors: ApiError[];
 }
 export interface AuthData {
-  token: string;
-  user: AuthUser;
+  confirmationToken: string;
+  userId: string;
 }
+
 export type ExternalProvider = 'google' | 'facebook';
 
 
-export interface ApiResponse<T> {
-  succeeded: boolean;
-  data: T | null;
-  errors: ApiError[];
-}
 export interface ApiError {
   code: string;
   description: string;
 }
-
