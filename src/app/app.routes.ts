@@ -2,9 +2,6 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-<<<<<<< HEAD
-    path: '',
-=======
     path: 'register',
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
@@ -18,7 +15,6 @@ export const routes: Routes = [
   },
   { 
     path: '', 
->>>>>>> 49af35e055f3ae63977df366804dd645a070d8cc
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
   },
   {
