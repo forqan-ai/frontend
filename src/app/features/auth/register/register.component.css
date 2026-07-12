@@ -1,7 +1,11 @@
 /* Color Palette Profiles */
-.background-image {
+.register {
   background-size: contain;
   background-image: url('/images/background_registration.webp');
+
+
+
+  --border:#5d4037;
 }
 .bi {
   top: calc(50% - 11px);
@@ -59,5 +63,12 @@ input {
 }
 input[type="checkbox"]{
   cursor: pointer;
+}
+select,
+select:focus,
+select option:hover{
+  border-color: var(--border);
+  box-shadow: none ;
+  cursor: pointer ;
 }
 

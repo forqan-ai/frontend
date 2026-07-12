@@ -40,6 +40,7 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
+    gender: ['', [Validators.required]],
   });
 
   ngAfterViewInit(): void {
@@ -93,9 +94,9 @@ export class RegisterComponent {
     }
 
     this.isSubmitting.set(true);
-    const { fullName, email, password, confirmPassword } = this.form.getRawValue();
+    const { fullName, email, password, confirmPassword,gender } = this.form.getRawValue();
 
-    this.authService.register({ fullName, email, password, confirmPassword }).subscribe({
+    this.authService.register({ fullName, email, password, confirmPassword, gender }).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.router.navigate(['/']);
@@ -129,5 +130,8 @@ export class RegisterComponent {
   }
   get acceptTerms() {
     return this.form.controls.acceptTerms;
+  }
+  get gender() {
+    return this.form.controls.gender;
   }
 }

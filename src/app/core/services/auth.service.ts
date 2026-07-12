@@ -5,7 +5,6 @@ import { environment } from '../../../environments/environment.development';
 import {
 
   AuthResponse,
-  AuthUser,
   ExternalProvider,
   LoginRequest,
   RegisterRequest,
@@ -25,7 +24,7 @@ export class AuthService {
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((res) => {
-        localStorage.setItem(this.userStorageKey, res.data.token);
+        localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
       }),
     );
   }
@@ -33,7 +32,9 @@ export class AuthService {
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
       tap((res) => {
-        localStorage.setItem(this.userStorageKey, res.data.token);
+        console.log(res);
+        
+        localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
       }),
     );
   }
@@ -45,7 +46,7 @@ export class AuthService {
       })
       .pipe(
         tap((res) => {
-          localStorage.setItem(this.userStorageKey, res.data.token);
+          localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
         }),
       );
   }

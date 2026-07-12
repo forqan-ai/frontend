@@ -127,6 +127,7 @@ export class LoginComponent implements AfterViewInit {
     const request: LoginRequest = {
       email: this.form.controls.email.value,
       password: this.form.controls.password.value,
+      rememberMe: this.form.controls.rememberMe.value
     };
 
     this.authService.login(request).subscribe({
