@@ -1,0 +1,187 @@
+<main class="courses-page" dir="rtl">
+  <section class="courses-hero">
+    <div class="container hero-content">
+      <h1>تصفح الدورات التي تناسبك</h1>
+
+      <p>
+        اكتشف مجموعة متنوعة من العلوم الإسلامية مع أفضل المعلمين
+      </p>
+
+      <label class="search-box">
+        <i class="bi bi-search" aria-hidden="true"></i>
+
+        <input
+          type="search"
+          [formField]="filtersForm.search"
+          placeholder="ابحث عن دورة..."
+          aria-label="البحث عن دورة"
+        />
+      </label>
+    </div>
+  </section>
+
+  <section class="courses-section">
+    <div class="container">
+      <div class="category-filter">
+        <div class="category-heading">
+          <h2>التصنيفات</h2>
+
+          @if (selectedCategoryId() !== null || filtersModel().search) {
+            <button
+              type="button"
+              class="clear-button"
+              (click)="clearFilters()"
+            >
+              مسح الفلاتر
+            </button>
+          }
+        </div>
+
+        @if (categoriesError()) {
+          <div class="categories-error">
+            <span>{{ categoriesError() }}</span>
+
+            <button type="button" (click)="retryCategories()">
+              إعادة المحاولة
+            </button>
+          </div>
+        } @else {
+          <div class="category-tabs" aria-label="تصنيفات الدورات">
+            <button
+              type="button"
+              [class.active]="selectedCategoryId() === null"
+              (click)="selectCategory(null)"
+            >
+              الكل
+            </button>
+
+            @for (
+              category of categories();
+              track category.categoryID
+            ) {
+              <button
+                type="button"
+                [class.active]="
+                  selectedCategoryId() === category.categoryID
+                "
+                (click)="selectCategory(category.categoryID)"
+              >
+                {{ category.name }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <section class="courses-results">
+        <div class="results-header">
+          <p>
+            تم العثور على <strong>{{ totalCount() }}</strong> دورة
+          </p>
+        </div>
+
+        @if (isLoadingCourses()) {
+          <div class="page-state">
+            <div
+              class="spinner-border"
+              role="status"
+              aria-label="جار تحميل الدورات"
+            ></div>
+
+            <p>جار تحميل الدورات...</p>
+          </div>
+        } @else if (coursesError()) {
+          <div class="page-state error-state">
+            <i
+              class="bi bi-exclamation-circle"
+              aria-hidden="true"
+            ></i>
+
+            <h2>تعذر تحميل الدورات</h2>
+
+            <p>{{ coursesError() }}</p>
+
+            <button type="button" (click)="retryCourses()">
+              إعادة المحاولة
+            </button>
+          </div>
+        } @else if (courses().length === 0) {
+          <div class="page-state">
+            <i class="bi bi-search" aria-hidden="true"></i>
+
+            <h2>لا توجد دورات مطابقة</h2>
+
+            <p>
+              جرّب تغيير كلمة البحث أو اختيار تصنيف آخر.
+            </p>
+
+            <button type="button" (click)="clearFilters()">
+              عرض جميع الدورات
+            </button>
+          </div>
+        } @else {
+          <div class="courses-grid">
+            @for (
+              course of courses();
+              track course.courseID
+            ) {
+              <app-courses-browse-card [course]="course" />
+            }
+          </div>
+
+          @if (totalPages() > 1) {
+            <nav class="pagination" aria-label="صفحات الدورات">
+              <button
+                type="button"
+                [disabled]="pageNumber() === 1"
+                (click)="goToPage(pageNumber() - 1)"
+              >
+                السابق
+              </button>
+
+              @for (page of pageNumbers(); track page) {
+                <button
+                  type="button"
+                  [class.active]="pageNumber() === page"
+                  [attr.aria-current]="
+                    pageNumber() === page ? 'page' : null
+                  "
+                  (click)="goToPage(page)"
+                >
+                  {{ page }}
+                </button>
+              }
+
+              <button
+                type="button"
+                [disabled]="pageNumber() === totalPages()"
+                (click)="goToPage(pageNumber() + 1)"
+              >
+                التالي
+              </button>
+            </nav>
+          }
+        }
+      </section>
+
+      <section class="challenge-banner">
+        <div class="challenge-content">
+          <span class="challenge-label">طور مستواك</span>
+
+          <h2>انضم إلى تحديات التعلم</h2>
+
+          <p>
+            تابع تقدمك وشارك في تحديات تعليمية تساعدك على الاستمرار.
+          </p>
+
+          <a routerLink="/register">اشترك الآن</a>
+        </div>
+
+        <img
+          src="images/instructor.webp"
+          alt="تحديات التعلم"
+        />
+      </section>
+    </div>
+  </section>
+</main>
