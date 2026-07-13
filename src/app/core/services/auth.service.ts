@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, retry, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import {
-
   AuthResponse,
   ExternalProvider,
   LoginRequest,
+  Payload,
   RegisterRequest,
+  Role,
 } from '../models/auth.models';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
       tap((res) => {
         console.log(res);
-        
+
         localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
       }),
     );
@@ -60,28 +61,37 @@ export class AuthService {
   }
 
   IsAuthenticated() {
-    const token  = this.getToken();
-    if(!token){
+    const token = this.getToken();
+    if (!token) {
       return false;
     }
-    if(token && this.isTokenExpired(token)){
+    if (token && this.isTokenExpired(token)) {
       localStorage.removeItem(this.userStorageKey);
       return false;
     }
     return true;
   }
-  
-  loginWithProvider(provider: ExternalProvider): void {
-    const url =
-      provider === 'google' ? environment.auth.googleLoginUrl : environment.auth.facebookLoginUrl;
 
-    const returnUrl = `${window.location.origin}/auth/callback`;
-    window.location.href = `${url}?returnUrl=${encodeURIComponent(returnUrl)}`;
+  getPayload(): Payload | null {
+    const token = this.getToken();
+
+    if (!token) return null;
+    const payload = jwtDecode<Payload>(token);
+
+    return payload;
   }
 
-    isTokenExpired(token: string): boolean {
+  getRole(): string | null {
+    return this.getPayload()?.role ?? null;
+  }
+
+  hasRole(role: Role): boolean {
+    return this.getRole() === role.toString();
+  }
+
+  isTokenExpired(token: string): boolean {
     try {
-      const decoded = jwtDecode<{exp:number}>(token);
+      const decoded = jwtDecode<{ exp: number }>(token);
       return Date.now() >= decoded.exp * 1000;
     } catch {
       return true;
