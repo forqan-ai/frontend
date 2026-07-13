@@ -13,16 +13,16 @@ export const teacherRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent
-  },
+  }
 
-//   {
-//     path: 'my-courses',
-//     component: MyCoursesComponent
-//   },
+  //   {
+  //     path: 'my-courses',
+  //     component: MyCoursesComponent
+  //   },
 
-//   {
-//     path: 'create-course',
-//     component: CreateCourseComponent
-//   }
+  //   {
+  //     path: 'create-course',
+  //     component: CreateCourseComponent
+  //   }
 
 ];

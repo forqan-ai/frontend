@@ -1,10 +1,11 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ICategoryProgress } from '../../models/category-progress.interface';
-import { IRecentActivity } from '../../models/recent-activity.interface';
-import { IStudentCourse } from '../../models/student-course.interface';
-import { IStudentProfile } from '../../models/student-profile.interface';
-import { StudentService } from '../../services/student.service';
+// import { ICategoryProgress } from '../../models/category-progress.interface';
+import { ICategoryProgress } from '../../Models/category-progress.interface';
+import { IRecentActivity } from '../../Models/recent-activity.interface';
+import { IStudentCourse } from '../../Models/student-course.interface';
+import { IStudentProfile } from '../../Models/student-profile.interface';
+import { StudentService } from '../../Services/student.service';
 
 @Component({
   selector: 'app-studentprofile',

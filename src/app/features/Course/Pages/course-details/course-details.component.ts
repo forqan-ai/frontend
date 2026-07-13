@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CourseCardComponent } from '../../Components/course-card/course-card.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ICourseDetailsDto } from '../../Models/course-details-dto.interface';
 import { CourseService } from '../../Services/course.service';
 import { ICourseCardDto } from '../../Models/course-card-dto.interface';
@@ -14,7 +14,7 @@ import { ICourseModuleDto } from '../../Models/course-module-dto.interface';
 
 @Component({
   selector: 'app-course-details',
-  imports: [CommonModule, CourseCardComponent],
+  imports: [CommonModule, CourseCardComponent, RouterLink],
   templateUrl: './course-details.component.html',
   styleUrl: './course-details.component.css',
 })
