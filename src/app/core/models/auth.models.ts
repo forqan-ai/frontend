@@ -12,13 +12,12 @@ export interface RegisterRequest {
   gender: string;
 }
 
-// export interface AuthUser {
-//   id: string;
-//   fullName: string;
-//   email: string;
-//   avatarUrl?: string | null;
-//   roles: string[];
-// }
+export interface Payload{
+  role:string;
+  email:string;
+  id:string;
+  exp:number;
+}
 
 export interface AuthResponse {
   succeeded: boolean;
@@ -36,4 +35,10 @@ export type ExternalProvider = 'google' | 'facebook';
 export interface ApiError {
   code: string;
   description: string;
+}
+
+export enum Role {
+  Student = 'Student',
+  Teacher = 'Teacher',
+  Admin = 'Admin'
 }

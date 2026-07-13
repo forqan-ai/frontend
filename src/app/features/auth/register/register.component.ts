@@ -112,9 +112,7 @@ export class RegisterComponent {
     });
   }
 
-  registerWithProvider(provider: ExternalProvider): void {
-    this.authService.loginWithProvider(provider);
-  }
+
 
   get fullName() {
     return this.form.controls.fullName;
