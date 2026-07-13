@@ -1,0 +1,107 @@
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-reset-password',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.css']
+})
+export class ResetPasswordComponent implements OnInit {
+  isResetMode = false;
+  status: 'idle' | 'loading' | 'success' | 'error' = 'idle';
+  errorMessage = '';
+
+  email = '';
+  newPassword = '';
+  confirmPassword = '';
+  token = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const urlEmail = params['email'];
+      let urlToken = params['token'];
+
+      if (urlEmail && urlToken) {
+        this.email = urlEmail;
+        this.token = urlToken.replace(/ /g, '+');
+        this.isResetMode = true;
+      }
+    });
+  }
+
+  handleForgotPassword() {
+    if (!this.email) {
+      this.status = 'error';
+      this.errorMessage = 'الرجاء إدخال البريد الإلكتروني.';
+      return;
+    }
+
+    this.status = 'loading';
+    const apiUrl = 'https://localhost:7054/api/auth/forgot-password';
+
+    this.http.post(apiUrl, { email: this.email }).subscribe({
+      next: () => {
+        this.status = 'success';
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.status = 'error';
+        this.errorMessage = 'فشل إرسال رابط استعادة كلمة المرور.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  handleResetPassword() {
+    if (!this.newPassword || !this.confirmPassword) {
+      this.status = 'error';
+      this.errorMessage = 'الرجاء ملء جميع الحقول.';
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.status = 'error';
+      this.errorMessage = 'كلمتا المرور غير متطابقتين.';
+      return;
+    }
+
+    this.status = 'loading';
+    const apiUrl = 'https://localhost:7054/api/auth/reset-password';
+
+    const payload = {
+      email: this.email,
+      token: this.token,
+      newPassword: this.newPassword
+    };
+
+    this.http.post(apiUrl, payload).subscribe({
+      next: () => {
+        this.status = 'success';
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.status = 'error';
+        this.errorMessage = 'فشل إعادة تعيين كلمة المرور، قد يكون الرابط منتهي الصلاحية.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+}

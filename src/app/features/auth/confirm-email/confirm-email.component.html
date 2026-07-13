@@ -1,0 +1,46 @@
+<div class="background-image min-vh-100 d-flex align-items-center py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="card custom-large-card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div class="row g-0">
+            <div class="col-md-6 d-flex align-items-center justify-content-center bg-cream p-4 p-lg-5">
+              <div class="inner-content text-center">
+                <img src="images/start_logo.png" alt="منارة العلم" class="mb-4 logo-brand mx-auto" />
+
+                @if (status === 'loading') {
+                  <div class="spinner-border text-brown mb-4" role="status">
+                    <span class="visually-hidden">جاري التحميل...</span>
+                  </div>
+                  <h2 class="fw-bold text-brown mb-1">جاري تفعيل الحساب</h2>
+                  <p class="text-muted small mb-0">برجاء الانتظار، نحن نتحقق من بياناتك...</p>
+                }
+
+                @if (status === 'success') {
+                  <i class="bi bi-check-circle text-success fs-1 d-block mb-3"></i>
+                  <h2 class="fw-bold text-brown mb-1">تم التفعيل بنجاح!</h2>
+                  <p class="text-muted small mb-4">تم تأكيد بريدك الإلكتروني، يمكنك الآن الدخول إلى منصة فرقان</p>
+                  <button type="button" class="btn btn-brown w-100 py-2 text-white" (click)="goToLogin()">
+                    تسجيل الدخول
+                  </button>
+                }
+
+                @if (status === 'error') {
+                  <i class="bi bi-x-circle text-danger fs-1 d-block mb-3"></i>
+                  <h2 class="fw-bold text-brown mb-1">فشل التفعيل</h2>
+                  <p class="text-muted small mb-4">{{ errorMessage }}</p>
+                  <button type="button" class="btn btn-outline-social w-100 py-2" (click)="goToLogin()">
+                    العودة للرئيسية
+                  </button>
+                }
+
+              </div>
+            </div>
+
+            <div class="col-md-6 d-none d-md-block library-bg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

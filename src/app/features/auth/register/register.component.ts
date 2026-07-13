@@ -99,7 +99,7 @@ export class RegisterComponent {
     this.authService.register({ fullName, email, password, confirmPassword, gender }).subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        this.router.navigate(['/']);
+        this.router.navigate(['/check-email']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);

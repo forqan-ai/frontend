@@ -1,0 +1,63 @@
+.background-image {
+  background-size: contain;
+  background-image: url('/images/background_registration.webp');
+}
+
+.bg-cream {
+  background-color: #f8f4ee;
+}
+
+.logo-brand {
+  width: 200px;
+}
+
+.library-bg {
+  background-size: cover;
+  background-image: url('/images/login.png');
+}
+
+.text-brown {
+  color: #6d4c41;
+}
+
+.btn-brown,
+.btn-brown:focus,
+.btn-brown:active,
+.btn-brown:focus:active {
+  background: #6d4c41 !important;
+  border-color: #6d4c41;
+  border-radius: 50px !important;
+}
+
+.btn-brown:hover {
+  background: #5d4037 !important;
+  border-color: #5d4037 !important;
+}
+
+.btn-outline-social {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 50px !important;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-outline-social:hover {
+  background-color: #fcfcfc;
+  border-color: #bbb;
+}
+
+.custom-large-card {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.custom-large-card .row {
+  min-height: 620px;
+}
+
+.inner-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}

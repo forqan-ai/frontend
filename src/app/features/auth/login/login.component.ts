@@ -135,7 +135,7 @@ export class LoginComponent implements AfterViewInit {
         this.isSubmitting.set(false);
 
         if (res.succeeded) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/studentprofile']);
         } else {
           const apiError = res.errors as ApiError[];
 

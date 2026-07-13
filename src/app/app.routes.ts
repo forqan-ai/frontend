@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
-
+import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email.component';
+import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
+import { CheckEmailComponent } from './features/auth/check-email/check-email.component';
 export const routes: Routes = [
   {
     path: 'register',
@@ -42,4 +44,8 @@ export const routes: Routes = [
           module.coursesBrowseRoutes,
       ),
   },
+  { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'forgot-password', component: ResetPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'check-email', component: CheckEmailComponent }
 ];
