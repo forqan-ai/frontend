@@ -16,6 +16,12 @@ export const routes: Routes = [
     title: ' تسجيل الدخول',
   },
   {
+    path: 'teachers/:id/details',
+    loadComponent: () => import('./features/teacher/pages/teacher-details/teacher-details.component').then(
+      m => m.TeacherDetailsComponent
+    )
+  },
+  {
     path: '',
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
   },
@@ -34,6 +40,11 @@ export const routes: Routes = [
       ),
     title: 'الملف الشخصي للطالب',
   },
+
+
+
+
+  
   {
     path: 'courses',
     loadChildren: () =>
