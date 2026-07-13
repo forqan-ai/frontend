@@ -31,5 +31,15 @@ export const routes: Routes = [
         (m) => m.StudentprofileComponent
       ),
     title: 'الملف الشخصي للطالب',
-  }
+  },
+  {
+    path: 'courses',
+    loadChildren: () =>
+      import(
+        './features/courses-browse/courses-browse.routes'
+      ).then(
+        (module) =>
+          module.coursesBrowseRoutes,
+      ),
+  },
 ];

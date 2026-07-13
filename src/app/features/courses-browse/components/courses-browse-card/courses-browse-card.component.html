@@ -1,0 +1,40 @@
+<a
+  class="course-card"
+  [routerLink]="['/course-details', course.courseID]"
+  [attr.aria-label]="'عرض تفاصيل دورة ' + course.title"
+>
+  <div class="course-image-wrapper">
+    <img
+      class="course-image"
+      [src]="course.thumbnailURL || 'images/card1.jfif'"
+      [alt]="course.title"
+      (error)="onImageError($event)"
+    />
+  </div>
+
+  <div class="course-content">
+    <div class="course-badges">
+      <span class="badge category-badge">
+        {{ course.categoryName }}
+      </span>
+
+      <span class="badge level-badge">
+        {{ levelLabel }}
+      </span>
+    </div>
+
+    <h3 class="course-title">{{ course.title }}</h3>
+
+    <div class="course-meta">
+      <div class="teacher-row">
+        <i class="bi bi-person-fill" aria-hidden="true"></i>
+        <span>{{ course.teacherName }}</span>
+      </div>
+
+      <div class="duration-row">
+        <i class="bi bi-clock" aria-hidden="true"></i>
+        <span>{{ formattedDuration }}</span>
+      </div>
+    </div>
+  </div>
+</a>
