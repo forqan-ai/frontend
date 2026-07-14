@@ -5,6 +5,7 @@ import { ICategoryProgress } from '../Models/category-progress.interface';
 import { IRecentActivity } from '../Models/recent-activity.interface';
 import { IStudentCourse } from '../Models/student-course.interface';
 import { IStudentProfile } from '../Models/student-profile.interface';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class StudentService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'https://localhost:7054/api/users/student';
+  private apiUrl = `${environment.apiUrl}/api/users/student`;
 
 
 

@@ -14,7 +14,7 @@ import { ITeacherDetailsDto } from '../models/teacher-details-dto.interface';
 export class TeacherService {
   private http = inject(HttpClient);
 
-  private api = `${environment.apiUrl}/teachers`;
+  private api = `${environment.apiUrl}/api/users/teachers`;
 
   getProfile(): Observable<TeacherProfile> {
     return this.http.get<TeacherProfile>(`${this.api}/me`);

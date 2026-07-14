@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-confirm-email',
@@ -36,7 +37,7 @@ export class ConfirmEmailComponent implements OnInit {
   }
 
 confirmUserEmail(userId: string, token: string) {
-    const apiUrl = 'https://localhost:7054/api/auth/confirm-email';
+    const apiUrl = `${environment.apiUrl}/api/auth/confirm-email`;
     const params = new HttpParams().set('userId', userId).set('token', token);
     this.http.get(apiUrl, { params }).subscribe({
       next: (response) => {
