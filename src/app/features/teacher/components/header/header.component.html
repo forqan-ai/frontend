@@ -1,0 +1,22 @@
+<header class="header">
+  <div class="page-title">
+    <h1>لوحة تحكم المعلم</h1>
+    <p>مرحبًا بعودتك</p>
+  </div>
+
+  <div class="header-actions">
+    <button class="notification">
+      <span class="material-symbols-outlined"> notifications </span>
+    </button>
+
+    <div class="teacher-info">
+      <img [src]="image() || 'assets/images/avatar.png'" alt="المعلم" />
+
+      <div>
+        <h4>{{ teacherName() }}</h4>
+
+        <span>معلم</span>
+      </div>
+    </div>
+  </div>
+</header>

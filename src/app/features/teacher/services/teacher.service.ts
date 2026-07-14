@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import { Teacher } from '../models/teacher.model';
+import { TeacherProfile } from '../models/teacher-profile.model';
 import { environment } from '../../../../environments/environment';
+import { TeacherDashboard } from '../models/teacher-dashboard.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +12,18 @@ export class TeacherService {
 
   private http = inject(HttpClient);
 
-  private api = `${environment.apiUrl}/teachers`;
+  getProfile(): Observable<TeacherProfile> {
 
-  getProfile(): Observable<Teacher> {
-    return this.http.get<Teacher>(`${this.api}/me`);
-  }
+    return this.http.get<TeacherProfile>(
+      `${environment.apiUrl}/teachers/me`
+    );
 
-  updateProfile(data: { bio: string }) {
-    return this.http.put(`${this.api}/me`, data);
   }
+  getDashboard() {
+
+  return this.http.get<TeacherDashboard>(
+    `${environment.apiUrl}/teachers/dashboard`
+  );
+
+}
 }

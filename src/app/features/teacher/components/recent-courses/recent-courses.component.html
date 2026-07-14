@@ -1,0 +1,62 @@
+<section class="courses">
+
+    <div class="title">
+
+        <h2>
+
+            أحدث الدورات
+
+        </h2>
+
+        <a routerLink="/teacher/courses">
+
+            عرض الكل
+
+        </a>
+
+    </div>
+
+    <div class="course-list">
+
+        @for(course of courses();track course.courseID){
+
+            <div class="course-card">
+
+                <img [src]="course.thumbnailURL">
+
+                <div class="body">
+
+                    <h3>
+
+                        {{course.title}}
+
+                    </h3>
+
+                    <p>
+
+                        {{course.description}}
+
+                    </p>
+
+                    <span>
+
+                        {{course.level}}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        }
+
+        @empty{
+
+            <div class="empty">
+                لا توجد دورات حتى الآن
+            </div>
+        }
+
+    </div>
+
+</section>

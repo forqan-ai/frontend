@@ -1,0 +1,31 @@
+@if (teacher(); as teacher) {
+  <div class="profile-card">
+    <img [src]="teacher.profileImageURL || 'assets/images/avatar.png'" class="avatar" />
+
+    <h2>
+      {{ teacher.fullName }}
+    </h2>
+
+    <p>
+      {{ teacher.bio }}
+    </p>
+
+    <div class="rating">
+      ⭐ {{ teacher.rating }}
+
+      ({{ teacher.ratingCount }})
+    </div>
+
+    @if (teacher.verifiedStatus) {
+      <div class="verified">✔ مدرس معتمد</div>
+    }
+
+    <div class="specialties">
+      @for (item of teacher.specialties; track item) {
+        <span>
+          {{ item }}
+        </span>
+      }
+    </div>
+  </div>
+}

@@ -1,4 +1,4 @@
-export interface Teacher {
+export interface TeacherProfile {
 
   teacherId: string;
 
@@ -6,9 +6,9 @@ export interface Teacher {
 
   email: string;
 
-  profileImageURL?: string;
+  profileImageURL: string;
 
-  bio?: string;
+  bio: string;
 
   rating: number;
 

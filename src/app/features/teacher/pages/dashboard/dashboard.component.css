@@ -1,0 +1,16 @@
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+.content {
+    flex: 1;
+    padding: 24px;
+}
+
+.dashboard-grid {
+    display: grid;
+    gap: 24px;
+    margin-top: 24px;
+}

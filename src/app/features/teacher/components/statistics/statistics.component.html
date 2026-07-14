@@ -1,0 +1,27 @@
+<div class="statistics">
+
+  <div class="card">
+    <span class="material-symbols-outlined">groups</span>
+    <h2>{{ dashboard()?.totalStudents ?? 0 }}</h2>
+    <p>الطلاب</p>
+  </div>
+
+  <div class="card">
+    <span class="material-symbols-outlined">menu_book</span>
+    <h2>{{ dashboard()?.totalCourses ?? 0 }}</h2>
+    <p>الدورات</p>
+  </div>
+
+  <div class="card">
+    <span class="material-symbols-outlined">star</span>
+    <h2>{{ dashboard()?.rating ?? 0 }}</h2>
+    <p>التقييم</p>
+  </div>
+
+  <div class="card">
+    <span class="material-symbols-outlined">forum</span>
+    <h2>{{ dashboard()?.learningCirclesCount ?? 0 }}</h2>
+    <p>حلقات العلم</p>
+  </div>
+
+</div>
