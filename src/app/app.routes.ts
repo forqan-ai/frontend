@@ -16,6 +16,10 @@ export const routes: Routes = [
     title: ' تسجيل الدخول',
   },
   {
+    path: 'teacher',
+    loadChildren: () => import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+  },
+  {
     path: 'teachers/:id/details',
     loadComponent: () =>
       import('./features/teacher/pages/teacher-details/teacher-details.component').then(
@@ -49,7 +53,13 @@ export const routes: Routes = [
       ),
     title: 'الإعدادات',
   },
-
+{
+  path: 'dashboard',
+  loadComponent: () =>
+    import('./features/teacher/pages/dashboard/dashboard.component').then(
+      (m) => m.DashboardComponent
+    ),
+},
   {
     path: 'courses',
     loadChildren: () =>

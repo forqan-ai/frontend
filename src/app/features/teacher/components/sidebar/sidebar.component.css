@@ -1,109 +1,131 @@
 .sidebar {
+  width: 270px;
 
-    width: 270px;
+  min-width: 270px;
 
-    background: white;
+  height: 100vh;
 
-    border-right: 1px solid #ECECEC;
+  background: white;
 
-    display: flex;
+  border-right: 1px solid #ececec;
 
-    flex-direction: column;
+  display: flex;
 
-    justify-content: space-between;
+  flex-direction: column;
 
-    padding: 24px;
+  justify-content: space-between;
 
+  padding: 24px;
+
+  transition: 0.3s;
 }
 
-.logo{
+.logo {
+  display: flex;
 
-    display:flex;
+  justify-content: center;
 
-    align-items:center;
+  align-items: center;
 
-    gap:12px;
-
-    margin-bottom:40px;
-
+  margin-bottom: 40px;
 }
 
-.logo img{
-
-    width:45px;
-
+.logo img {
+  width: 140px;
 }
 
-.logo h2{
+nav {
+  display: flex;
 
-    font-size:22px;
+  flex-direction: column;
 
-    font-weight:700;
-
+  gap: 10px;
 }
 
-nav{
+nav a {
+  display: flex;
 
-    display:flex;
+  align-items: center;
 
-    flex-direction:column;
+  gap: 14px;
 
-    gap:10px;
+  text-decoration: none;
 
+  color: #444;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  transition: 0.3s;
 }
 
-nav a{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-    text-decoration:none;
-
-    color:#444;
-
-    padding:14px;
-
-    border-radius:14px;
-
-    transition:.3s;
-
+nav a:hover {
+  background: #341b1698;
+  color: #fff
 }
 
-nav a:hover{
-
-    background:#F3F6FF;
-
+nav a.active {
+  background: #341b16;
+  color: #fff;
 }
 
-.active{
+.logout {
+  margin-top: 30px;
 
-    background:#4F46E5;
+  border: none;
 
-    color:white;
+  background: #f8f8f8;
 
+  border-radius: 14px;
+
+  padding: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+
+  font-size: 15px;
 }
 
-.logout{
+.overlay {
+  display: none;
+}
 
-    margin-top:30px;
+/* ============================= */
+/* Tablet & Mobile */
+/* ============================= */
 
-    border:none;
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed;
 
-    background:#F8F8F8;
+    top: 0;
 
-    border-radius:14px;
+    right: -270px;
 
-    padding:14px;
+    z-index: 1001;
 
-    display:flex;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
 
-    align-items:center;
+  .sidebar.open {
+    right: 0;
+  }
 
-    gap:10px;
+  .overlay {
+    display: block;
 
-    cursor:pointer;
+    position: fixed;
 
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1000;
+  }
 }

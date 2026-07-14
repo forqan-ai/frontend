@@ -1,0 +1,23 @@
+@if (teacher(); as teacher) {
+  <div class="card">
+    <img class="avatar" [src]="teacher.profileImageURL || 'profile/images/avatar.webp'" />
+
+    <h2>
+      {{ teacher.fullName }}
+    </h2>
+
+    <p>
+      {{ teacher.email }}
+    </p>
+
+    <div class="rating">
+      ⭐ {{ teacher.rating }}
+
+      ({{ teacher.ratingCount }})
+    </div>
+
+    @if (teacher.verifiedStatus) {
+      <div class="verified">✔ مدرس معتمد</div>
+    }
+  </div>
+}

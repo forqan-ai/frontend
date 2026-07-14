@@ -1,7 +1,14 @@
 <header class="header">
-  <div class="page-title">
-    <h1>لوحة تحكم المعلم</h1>
-    <p>مرحبًا بعودتك</p>
+  <div class="header-left">
+    <button class="menu-btn" (click)="menuClick.emit()">
+      <span class="material-symbols-outlined"> menu </span>
+    </button>
+
+    <div class="page-title">
+      <h1>لوحة تحكم المعلم</h1>
+
+      <p>مرحبًا بعودتك 👋</p>
+    </div>
   </div>
 
   <div class="header-actions">
@@ -10,12 +17,14 @@
     </button>
 
     <div class="teacher-info">
-      <img [src]="image() || 'assets/images/avatar.png'" alt="المعلم" />
+      <img [src]="image() || 'assets/images/avatar.png'" />
 
       <div>
-        <h4>{{ teacherName() }}</h4>
+        <h4>
+          {{ teacherName() }}
+        </h4>
 
-        <span>معلم</span>
+        <span> معلم </span>
       </div>
     </div>
   </div>

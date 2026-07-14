@@ -1,16 +1,83 @@
 .dashboard {
-    display: flex;
-    min-height: 100vh;
-    background: #f5f7fb;
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fb;
 }
 
 .content {
-    flex: 1;
-    padding: 24px;
+  flex: 1;
+  padding: 24px;
 }
 
 .dashboard-grid {
-    display: grid;
-    gap: 24px;
-    margin-top: 24px;
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #f6f8fb;
+}
+
+.content {
+  flex: 1;
+  padding: 24px;
+  overflow-x: hidden;
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* Tablet */
+
+@media (max-width: 992px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  app-sidebar {
+    width: 100%;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .statistics {
+    grid-template-columns: 1fr;
+  }
+
+  .course-list {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small Mobile */
+
+@media (max-width: 480px) {
+  .content {
+    padding: 12px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
 }
