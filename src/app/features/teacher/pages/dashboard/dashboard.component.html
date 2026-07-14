@@ -1,1 +1,19 @@
-<p>dashboard works!</p>
+<app-header
+  [teacherName]="profile()?.fullName ?? ''"
+  [image]="profile()?.profileImageURL ?? ''">
+</app-header>
+
+<div class="dashboard-grid">
+
+  <app-profile-card
+    [teacher]="profile()">
+  </app-profile-card>
+
+  <app-statistics
+    [dashboard]="dashboard()">
+  </app-statistics>
+
+  <app-quick-actions />
+
+
+</div>

@@ -1,0 +1,83 @@
+.profile-card{
+
+background:white;
+
+border-radius:20px;
+
+padding:30px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+text-align:center;
+
+}
+
+.avatar{
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:5px solid #f1e6d5;
+
+}
+
+h2{
+
+margin-top:15px;
+
+color:#5b3d21;
+
+}
+
+p{
+
+    margin:15px 0;
+
+    color:#666;
+
+}
+
+.rating{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+.verified{
+
+    color:green;
+
+    margin-bottom:15px;
+
+}
+
+.specialties{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+.specialties span{
+
+    background:#f6efe7;
+
+    padding:8px 16px;
+
+    border-radius:20px;
+
+}

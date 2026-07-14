@@ -1,0 +1,25 @@
+<div class="sidebar">
+  <div class="logo">
+    <img src="assets/images/logo.png" alt="logo" />
+
+    <h2>الفرقان</h2>
+  </div>
+
+  <nav>
+    @for (item of menu(); track item.route) {
+      <a [routerLink]="item.route" routerLinkActive="active">
+        <span class="material-symbols-outlined">
+          {{ item.icon }}
+        </span>
+
+        {{ item.title }}
+      </a>
+    }
+  </nav>
+
+  <button class="logout">
+    <span class="material-symbols-outlined"> logout </span>
+
+    تسجيل خروج
+  </button>
+</div>
