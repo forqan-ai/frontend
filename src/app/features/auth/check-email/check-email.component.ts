@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../environments/environment.development';
 @Component({
   selector: 'app-check-email',
   standalone: true,
@@ -30,7 +31,7 @@ export class CheckEmailComponent implements OnInit {
   resendActivationEmail() {
     if (!this.userEmail) return;
     const payload = { email: this.userEmail };
-    this.http.post('https://localhost:7054/api/auth/resend-confirmation-email', payload)
+    this.http.post(`${environment.apiUrl}/api/auth/resend-confirmation-email`, payload)
       .subscribe({
         next: (response) => {
         },

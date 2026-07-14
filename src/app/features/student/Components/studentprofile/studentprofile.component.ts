@@ -6,6 +6,7 @@ import { IRecentActivity } from '../../Models/recent-activity.interface';
 import { IStudentCourse } from '../../Models/student-course.interface';
 import { IStudentProfile } from '../../Models/student-profile.interface';
 import { StudentService } from '../../Services/student.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-studentprofile',
@@ -17,7 +18,7 @@ import { StudentService } from '../../Services/student.service';
 export class StudentprofileComponent implements OnInit {
   private studentService = inject(StudentService);
 
-  apiUrl = 'https://localhost:7054';
+  apiUrl = `${environment.apiUrl}`;
 
   loading = signal(true);
 

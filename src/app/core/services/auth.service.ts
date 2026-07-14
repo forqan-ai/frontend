@@ -16,7 +16,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseUrl = `${environment.apiUrl}/auth`;
+  private readonly baseUrl = `${environment.apiUrl}/api/auth`;
   public readonly userStorageKey = 'ForqanKey';
 
   constructor(private readonly http: HttpClient) {}

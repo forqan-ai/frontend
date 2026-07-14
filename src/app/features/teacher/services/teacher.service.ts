@@ -13,7 +13,7 @@ export class TeacherService {
 
   private http = inject(HttpClient);
 
-  private api = `${environment.apiUrl}/teachers`;
+  private api = `${environment.apiUrl}/api/users/teachers`;
 
   getProfile(): Observable<Teacher> {
     return this.http.get<Teacher>(`${this.api}/me`);
