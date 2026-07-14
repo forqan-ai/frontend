@@ -1,0 +1,18 @@
+<aside class="sidebar">
+  <div class="sidebar-profile">
+    <div class="avatar sidebar-avatar">
+      <img [src]="studentImage()" alt="Profile" />
+    </div>
+    <span>{{ user()?.fullName }}</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="active"><i class="bi bi-grid-1x2-fill"></i> الرئيسية</a>
+    <a><i class="bi bi-book"></i> دوراتي</a>
+    <a><i class="bi bi-award"></i> شهاداتي</a>
+    <a><i class="bi bi-people"></i> حلقات العلم</a>
+    <a routerLink="/settings"><i class="bi bi-gear"></i> الإعدادات</a>
+  </nav>
+
+  <a class="sidebar-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i> تسجيل خروج</a>
+</aside>

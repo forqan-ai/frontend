@@ -1,7 +1,7 @@
 export interface LoginRequest {
   email: string;
   password: string;
-  rememberMe:boolean;
+  rememberMe: boolean;
 }
 
 export interface RegisterRequest {
@@ -12,25 +12,34 @@ export interface RegisterRequest {
   gender: string;
 }
 
-export interface Payload{
-  role:string;
-  email:string;
-  id:string;
-  exp:number;
+export interface Payload {
+  role: string;
+  email: string;
+  id: string;
+  exp: number;
 }
 
 export interface AuthResponse {
   succeeded: boolean;
   data: AuthData;
-  errors: ApiError[];
+  errors: ApiError[] | null;
 }
+
 export interface AuthData {
-  confirmationToken: string;
-  userId: string;
+  token: string;
+  user: UserDto;
+}
+
+export interface UserDto {
+  id: string;
+  fullName: string;
+  email: string;
+  role: string;
+  status: string;
+  profileImageURL: string | null;
 }
 
 export type ExternalProvider = 'google' | 'facebook';
-
 
 export interface ApiError {
   code: string;
@@ -42,3 +51,4 @@ export enum Role {
   Teacher = 'Teacher',
   Admin = 'Admin'
 }
+

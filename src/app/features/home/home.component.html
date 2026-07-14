@@ -1,11 +1,11 @@
 <section class="hero">
   <div
-    id="heroCarousel"
-    class="carousel slide"
-    data-bs-interval="2500"
-    data-bs-pause="false"
-    data-bs-wrap="true"
-  >
+  id="heroCarousel"
+  class="carousel slide"
+  data-bs-ride="carousel"
+  data-bs-interval="2500"
+  data-bs-pause="false"
+  data-bs-wrap="true">
     <div class="carousel-indicators">
       <button
         type="button"
@@ -14,63 +14,91 @@
         class="active"
         aria-current="true"
       ></button>
+
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
     </div>
+
     <div class="carousel-inner">
       <div class="carousel-item active">
         <div class="container hero-content">
           <div class="hero-center">
-            <span class="hero-badge"> منصة فرقان </span>
+            <span class="hero-badge">منصة فرقان</span>
+
             <h1>
-              تعلّم العلوم الشرعية <br />
+              تعلّم العلوم الشرعية
+              <br />
               بطريقة سهلة ومنظمة
             </h1>
+
             <p>
               ابدأ رحلتك في تعلم القرآن الكريم والحديث الشريف والعقيدة والفقه والسيرة النبوية مع
               نخبة من المعلمين، في منصة واحدة توفر لك تجربة تعليمية مميزة لجميع الأعمار.
             </p>
+
             <div class="hero-buttons">
               <a routerLink="/courses" class="primary-btn"> ابدأ التعلم </a>
+
               <a routerLink="/about" class="secondary-btn"> اعرف أكثر </a>
             </div>
           </div>
-          <div class="hero-image"><img src="images/hero.png" alt="تعلم القرآن" /></div>
+
+          <div class="hero-image">
+            <img src="images/hero.png" alt="تعلم القرآن" />
+          </div>
         </div>
       </div>
+
       <div class="carousel-item">
         <div class="container hero-content">
           <div class="hero-center">
-            <span class="hero-badge"> القرآن الكريم </span>
+            <span class="hero-badge">القرآن الكريم</span>
+
             <h1>
-              احفظ كتاب الله <br />
+              احفظ كتاب الله
+              <br />
               بخطوات بسيطة
             </h1>
+
             <p>برامج تعليمية تساعدك على الحفظ والمراجعة مع متابعة مستمرة من معلمين متخصصين.</p>
+
             <div class="hero-buttons">
               <a routerLink="/courses" class="primary-btn"> ابدأ الآن </a>
             </div>
           </div>
-          <div class="hero-image"><img src="images/hero3.png" alt="القرآن الكريم" /></div>
+
+          <div class="hero-image">
+            <img src="images/hero3.png" alt="القرآن الكريم" />
+          </div>
         </div>
       </div>
+
       <div class="carousel-item">
         <div class="container hero-content">
           <div class="hero-center">
-            <span class="hero-badge"> لكل الأعمار </span>
+            <span class="hero-badge">لكل الأعمار</span>
+
             <h1>
-              تعلم أينما كنت <br />
+              تعلم أينما كنت
+              <br />
               وفي أي وقت
             </h1>
+
             <p>منصة واحدة تجمع العلوم الشرعية بطريقة حديثة وسهلة لجميع أفراد الأسرة.</p>
+
             <div class="hero-buttons">
               <a routerLink="/register" class="primary-btn"> سجل الآن </a>
             </div>
           </div>
-          <div class="hero-image"><img src="images/hero2.png" alt="التعلم" /></div>
+
+          <div class="hero-image">
+            <img src="images/hero2.png" alt="التعلم" />
+          </div>
         </div>
       </div>
     </div>
+
     <button
       class="carousel-control-prev"
       type="button"
@@ -79,6 +107,7 @@
     >
       <span class="carousel-control-prev-icon"></span>
     </button>
+
     <button
       class="carousel-control-next"
       type="button"

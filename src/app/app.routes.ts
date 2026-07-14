@@ -17,46 +17,48 @@ export const routes: Routes = [
   },
   {
     path: 'teachers/:id/details',
-    loadComponent: () => import('./features/teacher/pages/teacher-details/teacher-details.component').then(
-      m => m.TeacherDetailsComponent
-    )
+    loadComponent: () =>
+      import('./features/teacher/pages/teacher-details/teacher-details.component').then(
+        (m) => m.TeacherDetailsComponent,
+      ),
   },
   {
     path: '',
-    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+    loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'course-details/:id',
     loadComponent: () =>
       import('./features/Course/Pages/course-details/course-details.component').then(
-        m => m.CourseDetailsComponent
-      )
+        (m) => m.CourseDetailsComponent,
+      ),
   },
   {
     path: 'studentprofile',
     loadComponent: () =>
-      import('./features/student/Components/studentprofile/studentprofile.component').then(
-        (m) => m.StudentprofileComponent
+      import('./features/student/Pages/studentprofile/studentprofile.component').then(
+        (m) => m.StudentprofileComponent,
       ),
     title: 'الملف الشخصي للطالب',
   },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./features/student/Pages/settings/settings.component').then(
+        (m) => m.SettingsComponent,
+      ),
+    title: 'الإعدادات',
+  },
 
-
-
-
-  
   {
     path: 'courses',
     loadChildren: () =>
-      import(
-        './features/courses-browse/courses-browse.routes'
-      ).then(
-        (module) =>
-          module.coursesBrowseRoutes,
+      import('./features/courses-browse/courses-browse.routes').then(
+        (module) => module.coursesBrowseRoutes,
       ),
   },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'check-email', component: CheckEmailComponent }
+  { path: 'check-email', component: CheckEmailComponent },
 ];
