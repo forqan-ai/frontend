@@ -8,6 +8,7 @@ import { IStudentProfile } from '../../Models/student-profile.interface';
 
 import { StudentService } from '../../Services/student.service';
 import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-studentprofile',
@@ -19,7 +20,7 @@ import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 export class StudentprofileComponent implements OnInit {
   private studentService = inject(StudentService);
 
-  apiUrl = 'https://localhost:7054';
+  apiUrl = `${environment.apiUrl}`;
 
   loading = signal(true);
 

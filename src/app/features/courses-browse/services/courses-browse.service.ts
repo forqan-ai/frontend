@@ -12,8 +12,8 @@ import { ICategory } from '../models/category.interface';
 export class CoursesBrowseService {
   private readonly http = inject(HttpClient);
 
-  private readonly coursesUrl = `${environment.apiUrl}/courses`;
-  private readonly categoriesUrl = `${environment.apiUrl}/categories`;
+  private readonly coursesUrl = `${environment.apiUrl}/api/courses`;
+  private readonly categoriesUrl = `${environment.apiUrl}/api/categories`;
 
   getCourses(query: ICoursesQuery): Observable<IPaginatedResult<ICourseListItem>> {
     let params = new HttpParams()

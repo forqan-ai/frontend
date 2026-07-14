@@ -3,6 +3,7 @@ import { inject, Injectable, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICourseDetailsDto } from '../Models/course-details-dto.interface';
 import { ICourseModuleDto } from '../Models/course-module-dto.interface';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class CourseService {
 
     http = inject(HttpClient);
 
-    private baseUrl = 'https://localhost:7054/api/courses';
+    private baseUrl = `${environment.apiUrl}/api/courses`;
 
     getCourseDetails(courseId: string): Observable<ICourseDetailsDto> {
         return this.http.get<ICourseDetailsDto>(`${this.baseUrl}/${courseId}`);
