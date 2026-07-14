@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ICategoryProgress } from '../models/category-progress.interface';
-import { IRecentActivity } from '../models/recent-activity.interface';
-import { IStudentCourse } from '../models/student-course.interface';
-import { IStudentProfile } from '../models/student-profile.interface';
+import { ICategoryProgress } from '../Models/category-progress.interface';
+import { IRecentActivity } from '../Models/recent-activity.interface';
+import { IStudentCourse } from '../Models/student-course.interface';
+import { IStudentProfile } from '../Models/student-profile.interface';
 
 @Injectable({
   providedIn: 'root'

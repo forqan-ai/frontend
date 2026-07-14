@@ -1,29 +1,30 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TeacherProfile } from '../models/teacher-profile.model';
+
 import { environment } from '../../../../environments/environment';
+
+import { TeacherProfile } from '../models/teacher-profile.model';
 import { TeacherDashboard } from '../models/teacher-dashboard.model';
+import { ITeacherDetailsDto } from '../models/teacher-details-dto.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeacherService {
-
   private http = inject(HttpClient);
 
+  private api = `${environment.apiUrl}/teachers`;
+
   getProfile(): Observable<TeacherProfile> {
-
-    return this.http.get<TeacherProfile>(
-      `${environment.apiUrl}/teachers/me`
-    );
-
+    return this.http.get<TeacherProfile>(`${this.api}/me`);
   }
-  getDashboard() {
 
-  return this.http.get<TeacherDashboard>(
-    `${environment.apiUrl}/teachers/dashboard`
-  );
+  getDashboard(): Observable<TeacherDashboard> {
+    return this.http.get<TeacherDashboard>(`${this.api}/dashboard`);
+  }
 
-}
+  getTeacherDetails(id: string): Observable<ITeacherDetailsDto> {
+    return this.http.get<ITeacherDetailsDto>(`${this.api}/${id}/details`);
+  }
 }

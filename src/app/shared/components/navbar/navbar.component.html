@@ -1,93 +1,73 @@
 <nav class="navbar navbar-expand-lg" dir="rtl">
-
   <div class="container">
-
-    <a class="navbar-brand" routerLink="/">
-      <img src="images/logo.png" alt="Furqan">
+    <a class="navbar-brand" routerLink="/" (click)="closeMenu()">
+      <img src="images/logo.png" alt="Furqan" />
     </a>
+
     <button
       class="navbar-toggler"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarMenu"
-      aria-controls="navbarMenu"
-      aria-expanded="false">
-
-      <i class="bi bi-list"></i>
-
+      aria-label="Toggle navigation"
+      [attr.aria-expanded]="isMenuOpen"
+      (click)="toggleMenu()"
+    >
+      <i class="bi" [class.bi-x-lg]="isMenuOpen" [class.bi-list]="!isMenuOpen"> </i>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarMenu">
-
+    <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
       <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
-
         <li class="nav-item">
-          <a 
+          <a
             class="nav-link"
             routerLink="/"
             routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact:true}">
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMenu()"
+          >
             الرئيسية
           </a>
         </li>
 
-
         <li class="nav-item">
-          <a 
-            class="nav-link"
-            routerLink="/courses"
-            routerLinkActive="active">
+          <a class="nav-link" routerLink="/courses" routerLinkActive="active" (click)="closeMenu()">
             الدورات
           </a>
         </li>
 
-
         <li class="nav-item">
-          <a 
+          <a
             class="nav-link"
             routerLink="/categories"
-            routerLinkActive="active">
+            routerLinkActive="active"
+            (click)="closeMenu()"
+          >
             التصنيفات
           </a>
         </li>
 
-
         <li class="nav-item">
-          <a 
+          <a
             class="nav-link"
             routerLink="/teachers"
-            routerLinkActive="active">
+            routerLinkActive="active"
+            (click)="closeMenu()"
+          >
             المعلمون
           </a>
         </li>
 
-
         <li class="nav-item">
-          <a 
-            class="nav-link"
-            routerLink="/about"
-            routerLinkActive="active">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active" (click)="closeMenu()">
             من نحن
           </a>
         </li>
-
       </ul>
 
       <div class="navbar-actions">
+        <a class="login-btn" routerLink="/login" (click)="closeMenu()"> تسجيل الدخول </a>
 
-        <a routerLink="/login" class="login-btn">
-          تسجيل الدخول
-        </a>
-
-        <a routerLink="/register" class="register-btn">
-          إنشاء حساب
-        </a>
-
+        <a class="register-btn" routerLink="/register" (click)="closeMenu()"> إنشاء حساب </a>
       </div>
-
-
     </div>
-
   </div>
-
 </nav>

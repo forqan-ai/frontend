@@ -1,15 +1,18 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ICategoryProgress } from '../../models/category-progress.interface';
-import { IRecentActivity } from '../../models/recent-activity.interface';
-import { IStudentCourse } from '../../models/student-course.interface';
-import { IStudentProfile } from '../../models/student-profile.interface';
-import { StudentService } from '../../services/student.service';
+
+import { ICategoryProgress } from '../../Models/category-progress.interface';
+import { IRecentActivity } from '../../Models/recent-activity.interface';
+import { IStudentCourse } from '../../Models/student-course.interface';
+import { IStudentProfile } from '../../Models/student-profile.interface';
+
+import { StudentService } from '../../Services/student.service';
+import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, SidebarComponent],
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
 })
@@ -86,7 +89,7 @@ export class StudentprofileComponent implements OnInit {
   latestActivities = computed(() => this.activities().slice(0, 5));
 
   getStudentImage(imageUrl?: string | null): string {
-    if (!imageUrl || imageUrl.toLowerCase() === 'null') return 'images/avatar.png';
+    if (!imageUrl || imageUrl.toLowerCase() === 'null') return 'images/avatar.webp';
 
     return imageUrl.startsWith('http') ? imageUrl : this.apiUrl + imageUrl;
   }
@@ -99,7 +102,6 @@ export class StudentprofileComponent implements OnInit {
 
   progressColor(progress: number): string {
     if (progress >= 80) return '#6e8f6b';
-
     if (progress >= 50) return '#341b16';
     if (progress >= 25) return '#c1663c';
 
@@ -108,11 +110,8 @@ export class StudentprofileComponent implements OnInit {
 
   progressStatus(progress: number): string {
     if (progress >= 100) return 'مكتمل';
-
     if (progress >= 75) return 'ممتاز';
-
     if (progress >= 50) return 'جيد';
-
     if (progress >= 25) return 'مستمر';
 
     return 'بدأ للتو';
@@ -122,7 +121,6 @@ export class StudentprofileComponent implements OnInit {
     const hour = new Date().getUTCHours();
 
     if (hour < 12) return 'صباح الخير';
-
     if (hour < 17) return 'مساء الخير';
 
     return 'أهلاً بك';

@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, retry, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import {
-
   AuthResponse,
-  ExternalProvider,
   LoginRequest,
+  Payload,
   RegisterRequest,
+  Role,
 } from '../models/auth.models';
 import { jwtDecode } from 'jwt-decode';
 
@@ -20,68 +20,91 @@ export class AuthService {
 
   constructor(private readonly http: HttpClient) {}
 
-  // ---- Email / password ------------------------------------------------------
+
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((res) => {
-        localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
-      }),
+        localStorage.setItem(this.userStorageKey, res.data.token);
+      })
     );
   }
+
+ 
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
       tap((res) => {
         console.log(res);
-        
-        localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
-      }),
+        localStorage.setItem(this.userStorageKey, res.data.token);
+      })
     );
   }
 
-  googleLogin(idToken: string | undefined) {
+ 
+
+  googleLogin(idToken: string | undefined): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(`${this.baseUrl}/google-login`, {
         idToken,
       })
       .pipe(
         tap((res) => {
-          localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
-        }),
+          localStorage.setItem(this.userStorageKey, res.data.token);
+        })
       );
   }
+
+
 
   logout(): void {
     localStorage.removeItem(this.userStorageKey);
   }
 
+
   getToken(): string | null {
     return localStorage.getItem(this.userStorageKey);
   }
 
-  IsAuthenticated() {
-    const token  = this.getToken();
-    if(!token){
+
+
+  IsAuthenticated(): boolean {
+    const token = this.getToken();
+
+    if (!token) {
       return false;
     }
-    if(token && this.isTokenExpired(token)){
-      localStorage.removeItem(this.userStorageKey);
+
+    if (this.isTokenExpired(token)) {
+      this.logout();
       return false;
     }
+
     return true;
   }
-  
-  loginWithProvider(provider: ExternalProvider): void {
-    const url =
-      provider === 'google' ? environment.auth.googleLoginUrl : environment.auth.facebookLoginUrl;
 
-    const returnUrl = `${window.location.origin}/auth/callback`;
-    window.location.href = `${url}?returnUrl=${encodeURIComponent(returnUrl)}`;
+  
+
+  getPayload(): Payload | null {
+    const token = this.getToken();
+
+    if (!token) return null;
+
+    return jwtDecode<Payload>(token);
   }
 
-    isTokenExpired(token: string): boolean {
+  getRole(): string | null {
+    return this.getPayload()?.role ?? null;
+  }
+
+  hasRole(role: Role): boolean {
+    return this.getRole() === role;
+  }
+
+
+
+  isTokenExpired(token: string): boolean {
     try {
-      const decoded = jwtDecode<{exp:number}>(token);
+      const decoded = jwtDecode<{ exp: number }>(token);
       return Date.now() >= decoded.exp * 1000;
     } catch {
       return true;
