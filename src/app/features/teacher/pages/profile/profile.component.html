@@ -1,1 +1,18 @@
-<p>profile works!</p>
+<div class="dashboard">
+  <app-sidebar [opened]="sidebarOpen()" (close)="closeSidebar()"> </app-sidebar>
+
+  <div class="content">
+    <app-header
+      [teacherName]="profile()?.fullName ?? ''"
+      [image]="profile()?.profileImageURL ?? ''"
+      (menuClick)="toggleSidebar()"
+    >
+    </app-header>
+
+    <div class="profile-grid">
+      <app-profile-summary [teacher]="profile()"> </app-profile-summary>
+
+      <!-- <app-profile-form [teacher]="profile()" (save)="saveProfile($event)"> </app-profile-form> -->
+    </div>
+  </div>
+</div>

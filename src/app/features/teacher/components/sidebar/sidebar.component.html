@@ -1,19 +1,34 @@
-<div class="sidebar">
-  <div class="logo">
-    <img src="assets/images/logo.png" alt="logo" />
+@if (opened()) {
+  <div class="overlay" (click)="closeSidebar()"></div>
+}
 
-    <h2>الفرقان</h2>
+<div class="sidebar" [class.open]="opened()">
+  <div class="logo">
+    <img src="images/logo.png" alt="logo" />
   </div>
 
   <nav>
     @for (item of menu(); track item.route) {
-      <a [routerLink]="item.route" routerLinkActive="active">
-        <span class="material-symbols-outlined">
-          {{ item.icon }}
-        </span>
+      @if (item.route === '/teacher') {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <span class="material-symbols-outlined">
+            {{ item.icon }}
+          </span>
 
-        {{ item.title }}
-      </a>
+          {{ item.title }}
+        </a>
+      } @else {
+        <a [routerLink]="item.route" routerLinkActive="active">
+          <span class="material-symbols-outlined">
+            {{ item.icon }}
+          </span>
+          {{ item.title }}
+        </a>
+      }
     }
   </nav>
 

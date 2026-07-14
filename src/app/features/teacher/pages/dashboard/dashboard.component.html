@@ -1,19 +1,22 @@
-<app-header
-  [teacherName]="profile()?.fullName ?? ''"
-  [image]="profile()?.profileImageURL ?? ''">
-</app-header>
+<div class="dashboard">
+  <app-sidebar [opened]="sidebarOpen()" (close)="closeSidebar()"> </app-sidebar>
 
-<div class="dashboard-grid">
+  <div class="content">
+    <app-header
+      [teacherName]="dashboard()?.fullName ?? ''"
+      [image]="profile()?.profileImageURL ?? ''"
+      (menuClick)="toggleSidebar()">
+    >
+    </app-header>
 
-  <app-profile-card
-    [teacher]="profile()">
-  </app-profile-card>
+    <div class="dashboard-grid">
+      <app-profile-card [teacher]="profile()"> </app-profile-card>
 
-  <app-statistics
-    [dashboard]="dashboard()">
-  </app-statistics>
+      <app-statistics [dashboard]="dashboard()"> </app-statistics>
 
-  <app-quick-actions />
+      <app-quick-actions />
 
-
+      <!-- <app-recent-courses /> -->
+    </div>
+  </div>
 </div>

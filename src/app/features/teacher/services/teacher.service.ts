@@ -16,6 +16,9 @@ export class TeacherService {
 
   private api = `${environment.apiUrl}/api/users/teachers`;
 
+  constructor() {
+    console.log(this.api);
+  }
   getProfile(): Observable<TeacherProfile> {
     return this.http.get<TeacherProfile>(`${this.api}/me`);
   }
