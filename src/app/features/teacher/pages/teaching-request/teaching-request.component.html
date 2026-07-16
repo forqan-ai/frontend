@@ -1,0 +1,332 @@
+<div class="teacher-request-wrapper" dir="rtl">
+    <div class="tr-container">
+        <h1 class="tr-title">قدّم كمدرّس: كن جزءاً من مسيرتنا التعليمية</h1>
+
+        <div class="tr-stepper">
+            <div class="tr-stepper-line"></div>
+            <div class="tr-step tr-step--active">
+                <div class="tr-step-dot tr-step-dot--filled"></div>
+                <span class="tr-step-label tr-step-label--active">إرسال الطلب</span>
+                <span class="tr-step-status">(Active)</span>
+            </div>
+            <div class="tr-step">
+                <div class="tr-step-dot"></div>
+                <span class="tr-step-label">القبول</span>
+                <span class="tr-step-status">(Upcoming)</span>
+            </div>
+            <div class="tr-step">
+                <div class="tr-step-dot"></div>
+                <span class="tr-step-label">مراجعة الإدارة</span>
+                <span class="tr-step-status">(Upcoming)</span>
+            </div>
+            <div class="tr-step">
+                <div class="tr-step-dot"></div>
+                <span class="tr-step-label">بدء التدريس</span>
+                <span class="tr-step-status">(Upcoming)</span>
+            </div>
+        </div>
+
+        <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-4">
+
+            @if (errorMsg()) {
+            <div class="tr-toast-error">{{ errorMsg() }}</div>
+            }
+
+            <div class="tr-section">
+                <h2 class="tr-section-title">المعلومات الشخصية</h2>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end" for="academicTitle">اللقب العلمي</label>
+                    <input id="academicTitle" type="text" formControlName="academicTitle" class="tr-input w-100"
+                        placeholder="مثال: دكتور، أستاذ، معلم..." />
+                    <span class="text-muted small">يظهر أسفل الاسم</span>
+                    @if (getValidationMessage(teacherForm.controls.academicTitle)) {
+                    <span class="tr-error">{{ getValidationMessage(teacherForm.controls.academicTitle) }}</span>
+                    }
+                </div>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end" for="bio">نبذة تعريفية</label>
+                    <textarea id="bio" formControlName="bio" class="tr-input tr-textarea w-100"
+                        placeholder="اكتب نبذة مختصرة عن خبرتك ومسيرتك التعليمية..." rows="4"></textarea>
+                    @if (getValidationMessage(teacherForm.controls.bio)) {
+                    <span class="tr-error">{{ getValidationMessage(teacherForm.controls.bio) }}</span>
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="tr-field col-md-6">
+                        <label class="tr-label fw-bold text-end" for="phoneNumber">رقم الهاتف</label>
+                        <input id="phoneNumber" type="tel" formControlName="phoneNumber" class="tr-input w-100"
+                            placeholder="+1234567890" />
+                        @if (getValidationMessage(teacherForm.controls.phoneNumber)) {
+                        <span class="tr-error">{{ getValidationMessage(teacherForm.controls.phoneNumber) }}</span>
+                        }
+                    </div>
+
+                    <div class="tr-field col-md-6">
+                        <label class="tr-label fw-bold text-end">الدولة</label>
+                        <div class="tr-country-wrapper" (click)="toggleCountryDropdown()">
+                            <div class="tr-select-trigger">
+                                <span>{{ teacherForm.value.country || 'اختر الدولة' }}</span>
+                                <svg class="tr-chevron" width="18" height="18" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2.7" d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                            <div class="tr-dropdown tr-country-dropdown" [class.tr-dropdown--open]="countryOpen()">
+                                <div class="tr-country-search" (click)="$event.stopPropagation()">
+                                    <input type="text" class="tr-input w-100" placeholder="ابحث عن دولة..."
+                                        [value]="countrySearch()" (input)="onCountrySearchInput($event)" />
+                                </div>
+                                @for (country of filteredCountries(); track country) {
+                                <div class="tr-dropdown-item"
+                                    [class.tr-dropdown-item--selected]="teacherForm.value.country === country"
+                                    (click)="selectCountry(country)">
+                                    {{ country }}
+                                    @if (teacherForm.value.country === country) {
+                                    <span class="tr-checkmark">&#10003;</span>
+                                    }
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        @if (getValidationMessage(teacherForm.controls.country)) {
+                        <span class="tr-error">{{ getValidationMessage(teacherForm.controls.country) }}</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="tr-section">
+                <h2 class="tr-section-title">المؤهلات</h2>
+
+                <div class="row">
+                    <div class="tr-field col-md-6">
+                        <label class="tr-label fw-bold text-end">التخصصات الشرعية</label>
+                        <div class="tr-select-wrapper" (click)="openSpecDropdown()" #specDropdown>
+                            <div class="tr-select-trigger">
+                                <div class="tr-tags">
+                                    @for (spec of teacherForm.value.specializations; track spec) {
+                                    <span class="tr-tag">
+                                        {{ spec }}
+                                        <span class="tr-tag-remove"
+                                            (click)="toggleSpecialization(spec); $event.stopPropagation()">&times;</span>
+                                    </span>
+                                    }
+                                </div>
+                                <svg class="tr-chevron" width="18" height="18" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2.7" d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                            <div class="tr-dropdown" [class.tr-dropdown--open]="specOpen()">
+                                @for (spec of specializationsList(); track spec) {
+                                <div class="tr-dropdown-item"
+                                    [class.tr-dropdown-item--selected]="isSpecializationSelected(spec)"
+                                    (click)="toggleSpecialization(spec)">
+                                    {{ spec }}
+                                    @if (isSpecializationSelected(spec)) {
+                                    <span class="tr-checkmark">&#10003;</span>
+                                    }
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        @if (getValidationMessage(teacherForm.controls.specializations)) {
+                        <span class="tr-error">{{ getValidationMessage(teacherForm.controls.specializations) }}</span>
+                        }
+                    </div>
+
+                    <div class="tr-field col-md-6">
+                        <label class="tr-label fw-bold text-end">أعلى مؤهل علمي</label>
+                        <div class="tr-qual-wrapper" (click)="toggleQualDropdown()">
+                            <div class="tr-select-trigger">
+                                <span>{{ teacherForm.value.highestQualification || 'اختر المؤهل' }}</span>
+                                <svg class="tr-chevron" width="18" height="18" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2.7" d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                            <div class="tr-dropdown" [class.tr-dropdown--open]="qualOpen()">
+                                @for (q of qualificationsList(); track q) {
+                                <div class="tr-dropdown-item"
+                                    [class.tr-dropdown-item--selected]="teacherForm.value.highestQualification === q"
+                                    (click)="selectQualification(q)">
+                                    {{ q }}
+                                    @if (teacherForm.value.highestQualification === q) {
+                                    <span class="tr-checkmark">&#10003;</span>
+                                    }
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        @if (getValidationMessage(teacherForm.controls.highestQualification)) {
+                        <span class="tr-error">{{ getValidationMessage(teacherForm.controls.highestQualification)
+                            }}</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end">الإجازات والشهادات</label>
+                    <div class="tr-cert-area">
+                        <button type="button" class="tr-cert-add-btn" (click)="onCertificateAdd()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M12 5v14m-7-7h14" />
+                            </svg>
+                            إضافة ملف
+                        </button>
+                    </div>
+                    @if (certificateFiles().length) {
+                    <div class="tr-cert-list">
+                        @for (item of certificateFiles(); track item.id) {
+                        <div class="tr-cert-item">
+                            <div class="tr-cert-item-info">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                </svg>
+                                <span class="tr-cert-item-name">{{ item.file.name }}</span>
+                                <span class="tr-cert-item-size">{{ (item.file.size / 1024).toFixed(1) }} KB</span>
+                            </div>
+                            <button type="button" class="tr-cert-item-remove" (click)="removeCertificate(item.id)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M18 6 6 18M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="tr-section">
+                <h2 class="tr-section-title">الخبرة</h2>
+
+                <div class="row">
+                    <div class="tr-field col-md-6">
+                        <label class="tr-label fw-bold text-end" for="experienceYears">سنوات الخبرة</label>
+                        <input id="experienceYears" type="number" formControlName="experienceYears"
+                            class="tr-input w-100" placeholder="عدد سنوات الخبرة" />
+                        @if (getValidationMessage(teacherForm.controls.experienceYears)) {
+                        <span class="tr-error">{{ getValidationMessage(teacherForm.controls.experienceYears) }}</span>
+                        }
+                    </div>
+
+                    <div class="tr-field col-md-6">
+                        <label class="tr-label fw-bold text-end" for="previousInstitutions">أماكن التدريس السابقة <span
+                                class="text-muted small fw-normal">(اختياري)</span></label>
+                        <textarea id="previousInstitutions" formControlName="previousInstitutions"
+                            class="tr-input tr-textarea w-100"
+                            placeholder="اذكر المؤسسات التعليمية التي درّست فيها سابقاً..." rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end" for="previouslyTaughtCourses">الدورات التي سبق
+                        تدريسها</label>
+                    <textarea id="previouslyTaughtCourses" formControlName="previouslyTaughtCourses"
+                        class="tr-input tr-textarea w-100"
+                        placeholder="اذكر الدورات والمواد التي قمت بتدريسها سابقاً..." rows="3"></textarea>
+                    @if (getValidationMessage(teacherForm.controls.previouslyTaughtCourses)) {
+                    <span class="tr-error">{{ getValidationMessage(teacherForm.controls.previouslyTaughtCourses)
+                        }}</span>
+                    }
+                </div>
+            </div>
+
+            <div class="tr-section">
+                <h2 class="tr-section-title">المرفقات</h2>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end">رفع السيرة الذاتية <span
+                            class="text-muted small fw-normal">(اختياري)</span></label>
+                    <div class="tr-upload-zone">
+                        <input type="file" accept=".pdf" (change)="onCVChange($event)" class="tr-file-input" id="cv" />
+                        <label for="cv" class="tr-upload-label">
+                            <svg width="40" height="40" viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path d="M12 13v8m-8-6.101A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+                                    <path d="m8 17 4-4 4 4" />
+                                </g>
+                            </svg>
+                            <span class="tr-upload-text">اضغط لرفع السيرة الذاتية</span>
+                            <span class="tr-upload-hint">(PDF - الحد الأقصى 2 ميجابايت)</span>
+                        </label>
+                    </div>
+                    @if (cvFile()) {
+                    <div class="tr-file-list">
+                        <div class="tr-file-item">
+                            <span class="tr-file-name">{{ cvFile()?.name }}</span>
+                            <span class="tr-file-size">{{ (cvFile()!.size / 1024).toFixed(1) }} KB</span>
+                            <button type="button" class="tr-file-remove" (click)="removeCV()">&times;</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end">فيديو أو رابط لشرح سابق <span
+                            class="text-muted small fw-normal">(اختياري)</span></label>
+                    <div class="row">
+                        <div class="tr-field col-md-6">
+                            <input type="url" formControlName="teachingVideoUrl" class="tr-input w-100"
+                                placeholder="رابط يوتيوب أو فيديو (اختياري)" />
+                            @if (getValidationMessage(teacherForm.controls.teachingVideoUrl)) {
+                            <span class="tr-error">{{ getValidationMessage(teacherForm.controls.teachingVideoUrl)
+                                }}</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tr-section">
+                <h2 class="tr-section-title">معلومات إضافية</h2>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end" for="teachingReason">لماذا ترغب في الانضمام إلى
+                        المنصة؟</label>
+                    <textarea id="teachingReason" formControlName="teachingReason" class="tr-input tr-textarea w-100"
+                        placeholder="حدثنا عن دوافعك للانضمام كمعلم في منصتنا..." rows="4"></textarea>
+                    @if (getValidationMessage(teacherForm.controls.teachingReason)) {
+                    <span class="tr-error">{{ getValidationMessage(teacherForm.controls.teachingReason) }}</span>
+                    }
+                </div>
+
+                <div class="tr-field">
+                    <label class="tr-label fw-bold text-end" for="additionalInfo">هل لديك أي معلومات إضافية تود
+                        مشاركتها؟ <span class="text-muted small fw-normal">(اختياري)</span></label>
+                    <textarea id="additionalInfo" formControlName="additionalInfo" class="tr-input tr-textarea w-100"
+                        placeholder="أي معلومات إضافية ترى أنها مهمة..." rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="tr-section">
+                <div class="tr-declaration">
+                    <label class="tr-declaration-label">
+                        <input type="checkbox" formControlName="declaration" class="tr-checkbox" />
+                        <span class="tr-declaration-text">أقر بأن جميع البيانات المقدمة صحيحة، وأتحمل مسؤولية صحتها،
+                            وأوافق على
+                            مراجعتها من قبل إدارة المنصة.</span>
+                    </label>
+                    @if (getValidationMessage(teacherForm.controls.declaration)) {
+                    <span class="tr-error">{{ getValidationMessage(teacherForm.controls.declaration) }}</span>
+                    }
+                </div>
+            </div>
+
+            <button type="submit" class="tr-submit" [disabled]="teacherForm.invalid && teacherForm.touched">
+                إرسال الطلب
+            </button>
+        </form>
+    </div>
+</div>
