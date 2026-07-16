@@ -16,7 +16,7 @@ import {
   ChangePasswordRequest,
 } from '../../Models/settings.interface';
 import { SettingsService } from '../../Services/settings.service';
-
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value ?? '';
   const hasUpperCase = /[A-Z]/.test(value);
@@ -41,7 +41,7 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, ButtonComponent],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
 })

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import {
@@ -12,35 +12,38 @@ import {
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/api/auth`;
   public readonly userStorageKey = 'ForqanKey';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
+  isLoggedIn = signal(!!localStorage.getItem('ForqanKey'));
 
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((res) => {
         localStorage.setItem(this.userStorageKey, res.data.token);
+        this.isLoggedIn.set(true);
       })
     );
   }
 
- 
+
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
       tap((res) => {
         console.log(res);
         localStorage.setItem(this.userStorageKey, res.data.token);
+        this.isLoggedIn.set(true);   // <-- Missing
       })
     );
   }
 
- 
+
 
   googleLogin(idToken: string | undefined): Observable<AuthResponse> {
     return this.http
@@ -50,6 +53,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           localStorage.setItem(this.userStorageKey, res.data.token);
+          this.isLoggedIn.set(true);
         })
       );
   }
@@ -58,6 +62,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.userStorageKey);
+    this.isLoggedIn.set(false);
   }
 
 
@@ -82,7 +87,7 @@ export class AuthService {
     return true;
   }
 
-  
+
 
   getPayload(): Payload | null {
     const token = this.getToken();

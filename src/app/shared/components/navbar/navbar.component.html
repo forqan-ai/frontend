@@ -4,26 +4,16 @@
       <img src="images/logo.png" alt="Furqan" />
     </a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      aria-label="Toggle navigation"
-      [attr.aria-expanded]="isMenuOpen"
-      (click)="toggleMenu()"
-    >
+    <button class="navbar-toggler" type="button" aria-label="Toggle navigation" [attr.aria-expanded]="isMenuOpen"
+      (click)="toggleMenu()">
       <i class="bi" [class.bi-x-lg]="isMenuOpen" [class.bi-list]="!isMenuOpen"> </i>
     </button>
 
     <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
       <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMenu()"
-          >
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMenu()">
             الرئيسية
           </a>
         </li>
@@ -35,23 +25,13 @@
         </li>
 
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/categories"
-            routerLinkActive="active"
-            (click)="closeMenu()"
-          >
+          <a class="nav-link" routerLink="/categories" routerLinkActive="active" (click)="closeMenu()">
             التصنيفات
           </a>
         </li>
 
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/teachers"
-            routerLinkActive="active"
-            (click)="closeMenu()"
-          >
+          <a class="nav-link" routerLink="/teachers" routerLinkActive="active" (click)="closeMenu()">
             المعلمون
           </a>
         </li>
@@ -64,9 +44,25 @@
       </ul>
 
       <div class="navbar-actions">
-        <a class="login-btn" routerLink="/login" (click)="closeMenu()"> تسجيل الدخول </a>
+        <!-- <a [hidden]="authService.isLoggedIn()" class="login-btn" routerLink="/login" (click)="closeMenu()"> تسجيل
+          الدخول </a> -->
 
-        <a class="register-btn" routerLink="/register" (click)="closeMenu()"> إنشاء حساب </a>
+        <app-button (btnClick)="closeMenu()" pageLink="/login" [hidden]="authService.isLoggedIn()" variant="secondary"
+          size="small">تسجيل
+          الدخول
+        </app-button>
+        <app-button (btnClick)="closeMenu()" pageLink="/register" [hidden]="authService.isLoggedIn()"
+          variant="secondary" size="small">إنشاء
+          حساب
+        </app-button>
+
+
+        <!-- <a [hidden]="authService.isLoggedIn()" class="register-btn" routerLink="/register" (click)="closeMenu()"> إنشاء
+          حساب </a> -->
+
+        <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
+          الخروج <i class="bi bi-box-arrow-left"></i>
+        </app-button>
       </div>
     </div>
   </div>
