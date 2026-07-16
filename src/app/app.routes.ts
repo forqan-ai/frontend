@@ -53,13 +53,20 @@ export const routes: Routes = [
       ),
     title: 'الإعدادات',
   },
-{
-  path: 'dashboard',
-  loadComponent: () =>
-    import('./features/teacher/pages/dashboard/dashboard.component').then(
-      (m) => m.DashboardComponent
-    ),
-},
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/teacher/pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
+  },
+  {
+    path: 'studentprofile/teaching-request',
+    loadComponent: () =>
+      import('./features/teacher/pages/teaching-request/teaching-request.component').then(
+        (m) => m.TeachingRequestComponent
+      ),
+  },
   {
     path: 'courses',
     loadChildren: () =>

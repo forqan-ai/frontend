@@ -1,0 +1,120 @@
+/* ==========================
+   BASE BUTTON
+========================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    border-radius: 12px;
+    font-weight: 600;
+
+    border: 1px solid transparent;
+
+    transition:
+        background-color .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+
+    user-select: none;
+    white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(52, 27, 22, 0.18);
+}
+
+.btn:active:not(:disabled) {
+    box-shadow: 0 2px px rgba(52, 27, 22, 0.12);
+}
+
+.btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* ==========================
+   PRIMARY
+========================== */
+
+.primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(52, 27, 22, .18);
+}
+
+.primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    box-shadow: 0 8px 18px rgba(52, 27, 22, .28);
+}
+
+/* ==========================
+   SECONDARY
+========================== */
+
+.secondary {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary-light);
+}
+
+.secondary:hover:not(:disabled) {
+    background: #e2cab3;
+    box-shadow: 0 6px 14px rgba(52,27,22,.12);
+}
+
+/* ==========================
+   OUTLINE
+========================== */
+
+.outline {
+    background: var(--surface);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.outline:hover:not(:disabled) {
+    background: var(--primary);
+    color: white;
+}
+
+/* ==========================
+   GHOST
+========================== */
+
+.ghost {
+    background: transparent;
+    color: var(--primary);
+    border-color: transparent;
+}
+
+.ghost:hover:not(:disabled) {
+    background: rgba(52, 27, 22, .06);
+}
+
+/* ==========================
+   SIZES
+========================== */
+
+.small {
+    height: 38px;
+    padding: 0 16px;
+    font-size: 14px;
+}
+
+.medium {
+    height: 46px;
+    padding: 0 24px;
+    font-size: 15px;
+}
+
+.large {
+    height: 54px;
+    padding: 0 32px;
+    font-size: 17px;
+}

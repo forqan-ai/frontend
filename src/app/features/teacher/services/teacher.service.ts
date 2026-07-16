@@ -30,7 +30,7 @@ export class TeacherService {
   }
 
   getTeacherDetails(id: string): Observable<ITeacherDetailsDto> {
-    return this.http.get<ITeacherDetailsDto>(`${this.api}/${id}/details`);
+    return this.http.get<ITeacherDetailsDto>(`${environment.apiUrl}/api/teachers/${id}/details`);
   }
 
   updateProfile(data: FormData) {
