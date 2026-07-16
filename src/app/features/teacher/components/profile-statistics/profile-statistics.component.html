@@ -1,0 +1,35 @@
+@if (dashboard(); as dashboard) {
+  <div class="statistics">
+    <div>
+      <h2>
+        {{ dashboard.totalStudents }}
+      </h2>
+
+      <p>طالب</p>
+    </div>
+
+    <div>
+      <h2>
+        {{ dashboard.totalCourses }}
+      </h2>
+
+      <p>دورة</p>
+    </div>
+
+    <div>
+      <h2>
+        {{ dashboard.rating }}
+      </h2>
+
+      <p>التقييم</p>
+    </div>
+
+    <div>
+      <h2>
+        {{ dashboard.learningCirclesCount }}
+      </h2>
+
+      <p>حلقة</p>
+    </div>
+  </div>
+}

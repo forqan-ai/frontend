@@ -1,0 +1,145 @@
+.card {
+  background: #fff;
+
+  border-radius: 18px;
+
+  padding: 24px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* Header */
+
+.card-header h2 {
+  margin: 0;
+
+  font-size: 24px;
+
+  color: #222;
+}
+
+.card-header p {
+  margin-top: 8px;
+
+  color: #777;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+/* Select */
+
+.specialties-select {
+  margin-top: 20px;
+}
+
+/* Button */
+
+.save-btn {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #0f766e;
+
+  color: #fff;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  background: #115e59;
+}
+
+/* Current Specialties */
+
+.current-specialties {
+  margin-top: 30px;
+
+  border-top: 1px solid #ececec;
+
+  padding-top: 24px;
+}
+
+.current-specialties h4 {
+  margin-bottom: 18px;
+
+  font-size: 17px;
+
+  color: #444;
+}
+
+/* Chips */
+
+.chips {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+.chip {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  border-radius: 30px;
+
+  background: #ecfdf5;
+
+  color: #0f766e;
+
+  font-weight: 600;
+
+  border: 1px solid #d1fae5;
+
+  transition: 0.25s;
+}
+
+.chip:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.15);
+}
+
+.chip .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Empty */
+
+.empty-state {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  background: #f8fafc;
+
+  color: #888;
+
+  font-size: 14px;
+}

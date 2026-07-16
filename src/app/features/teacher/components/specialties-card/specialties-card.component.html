@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="card-header">
+    <h2>التخصصات</h2>
+
+    <p>اختر التخصصات التي تقوم بتدريسها لتظهر في ملفك الشخصي.</p>
+  </div>
+
+  <ng-select
+    class="specialties-select"
+    [items]="specialties()"
+    bindLabel="name"
+    bindValue="id"
+    [multiple]="true"
+    [searchable]="true"
+    [closeOnSelect]="false"
+    [clearable]="false"
+    placeholder="اختر التخصصات..."
+    [ngModel]="selected()"
+    (ngModelChange)="selected.set($event)"
+  >
+  </ng-select>
+
+  <button class="save-btn" (click)="saveChanges()">حفظ التخصصات</button>
+
+  <div class="current-specialties">
+    <h4>التخصصات الحالية</h4>
+
+    @if (teacherSpecialties().length > 0) {
+      <div class="chips">
+        @for (item of teacherSpecialties(); track item) {
+          <span class="chip">
+            <span class="material-symbols-outlined"> school </span>
+
+            {{ item }}
+          </span>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <span class="material-symbols-outlined"> info </span>
+
+        لم تقم بإضافة أي تخصص حتى الآن.
+      </div>
+    }
+  </div>
+</div>

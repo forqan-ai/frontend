@@ -10,9 +10,20 @@
     </app-header>
 
     <div class="profile-grid">
-      <app-profile-summary [teacher]="profile()"> </app-profile-summary>
+      <app-profile-summary [teacher]="profile()" (imageSelected)="onImageSelected($event)">
+      </app-profile-summary>
 
-      <!-- <app-profile-form [teacher]="profile()" (save)="saveProfile($event)"> </app-profile-form> -->
+      <app-profile-form [teacher]="profile()" (save)="updateProfile($event)"> </app-profile-form>
     </div>
+
+    <app-specialties-card
+      [specialties]="specialties()"
+      [selectedIds]="profile()?.specialtyIds ?? []"
+      [teacherSpecialties]="profile()?.specialties ?? []"
+      (save)="saveSpecialties($event)"
+    >
+    </app-specialties-card>
+    <app-profile-statistics [dashboard]="dashboard()"> </app-profile-statistics>
+    <app-quick-actions></app-quick-actions>
   </div>
 </div>
