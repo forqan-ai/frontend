@@ -3,6 +3,7 @@ import { Component, input, output, effect, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { TeacherProfile } from '../../models/teacher-profile.model';
+import { UpdateTeacherProfile } from '../../models/update-teacher-profile.model';
 
 @Component({
   selector: 'app-profile-form',
@@ -13,15 +14,14 @@ import { TeacherProfile } from '../../models/teacher-profile.model';
 })
 export class ProfileFormComponent {
   private fb = inject(FormBuilder);
-
   teacher = input<TeacherProfile | null>(null);
 
-  save = output<any>();
+  save = output<UpdateTeacherProfile>();
 
   form = this.fb.group({
     fullName: [''],
 
-    email: [''],
+    email: [{ value: '', disabled: true }],
 
     bio: [''],
   });
@@ -43,6 +43,14 @@ export class ProfileFormComponent {
   }
 
   submit() {
-    this.save.emit(this.form.getRawValue());
+    if (this.form.invalid) return;
+
+    this.save.emit({
+      fullName: this.form.getRawValue().fullName ?? '',
+
+      bio: this.form.getRawValue().bio ?? '',
+    });
   }
+
+
 }

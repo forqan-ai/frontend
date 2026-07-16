@@ -1,5 +1,4 @@
 export interface TeacherProfile {
-
   teacherId: string;
 
   fullName: string;
@@ -17,4 +16,5 @@ export interface TeacherProfile {
   verifiedStatus: boolean;
 
   specialties: string[];
+  specialtyIds: string[];
 }
