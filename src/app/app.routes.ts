@@ -2,80 +2,211 @@ import { Routes } from '@angular/router';
 import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { CheckEmailComponent } from './features/auth/check-email/check-email.component';
+import { PublicLayoutComponent } from './Layout/public_layout/public-layout/public-layout.component';
+import { HomeComponent } from './features/home/pages/home/home.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { coursesBrowseRoutes } from './features/courses-browse/courses-browse.routes';
+import { CoursesBrowseComponent } from './features/courses-browse/pages/courses-browse/courses-browse.component';
+import { TeachersBrowseComponent } from './features/teacher/pages/teachers-browse/teachers-browse.component';
+import { AboutUsComponent } from './features/home/pages/about-us/about-us.component';
+import { TeacherDetailsComponent } from './features/teacher/pages/teacher-details/teacher-details.component';
+import { CourseDetailsComponent } from './features/Course/Pages/course-details/course-details.component';
+import { DashboardLayoutComponent } from './Layout/dashboard_layout/dashboard-layout/dashboard-layout.component';
+import { StudentprofileComponent } from './features/student/Pages/studentprofile/studentprofile.component';
+import { StudentCertificatesComponent } from './features/student/Pages/student-certificates/student-certificates.component';
+import { StudentLearningCirclesComponent } from './features/student/Pages/student-learning-circles/student-learning-circles.component';
+import { StudentCoursesComponent } from './features/student/Pages/student-courses/student-courses.component';
+import { StudentSettingsComponent } from './features/student/Pages/student-settings/student-settings.component';
 export const routes: Routes = [
   {
-    path: 'register',
-    loadComponent: () =>
-      import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
-    title: 'إنشاء حساب',
+    path: '', component: PublicLayoutComponent,
+    children:
+      [
+        {
+          path: '', component: HomeComponent
+        },
+        {
+          path: 'login',
+          component: LoginComponent,
+          title: 'تسجيل الدخول'
+        }
+        ,
+        {
+          path: 'signup',
+          component: RegisterComponent,
+          title: 'إنشاء حساب'
+        },
+        {
+          path: 'courses',
+          component: CoursesBrowseComponent,
+          title: 'تصفح الدورات المقدمة من منصة الفرقان'
+        },
+        {
+          path: 'course-details/:id',
+          component: CourseDetailsComponent,
+          title: 'تفاصيل الدورة'
+        },
+        {
+          path: 'teachers',
+          component: TeachersBrowseComponent,
+          title: 'تصفح المعلمون المسجلون علي من منصة الفرقان'
+        },
+        {
+          path: 'teachers/:id/details',
+          component: TeacherDetailsComponent,
+          title: 'تفاصيل عن المعلم'
+        },
+        {
+          path: 'about',
+          component: AboutUsComponent,
+          title: 'من نحن | تعرف علي فريق الفرقان'
+        },
+        {
+          path: 'confirm-email',
+          component: ConfirmEmailComponent,
+          title: 'تأكيد البريد الإلكتروني'
+        },
+        {
+          path: 'forgot-password',
+          component: ResetPasswordComponent,
+          title: 'نسيت كلمة المرور'
+        },
+        {
+          path: 'reset-password',
+          component: ResetPasswordComponent,
+          title: 'إعادة تعيين كلمة المرور'
+        },
+        {
+          path: 'check-email',
+          component: CheckEmailComponent,
+          title: 'التحقق من البريد الإلكتروني'
+        }
+      ]
   },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import('./features/auth/login/login.component').then((m) => m.LoginComponent),
-    title: ' تسجيل الدخول',
-  },
-  {
-    path: 'teacher',
-    loadChildren: () => import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
-  },
-  {
-    path: 'teachers/:id/details',
-    loadComponent: () =>
-      import('./features/teacher/pages/teacher-details/teacher-details.component').then(
-        (m) => m.TeacherDetailsComponent,
-      ),
-  },
-  {
-    path: '',
-    loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
-  },
-  {
-    path: 'course-details/:id',
-    loadComponent: () =>
-      import('./features/Course/Pages/course-details/course-details.component').then(
-        (m) => m.CourseDetailsComponent,
-      ),
-  },
-  {
-    path: 'studentprofile',
-    loadComponent: () =>
-      import('./features/student/Pages/studentprofile/studentprofile.component').then(
-        (m) => m.StudentprofileComponent,
-      ),
-    title: 'الملف الشخصي للطالب',
-  },
-  {
-    path: 'settings',
-    loadComponent: () =>
-      import('./features/student/Pages/settings/settings.component').then(
-        (m) => m.SettingsComponent,
-      ),
-    title: 'الإعدادات',
-  },
+
   {
     path: 'dashboard',
-    loadComponent: () =>
-      import('./features/teacher/pages/dashboard/dashboard.component').then(
-        (m) => m.DashboardComponent
-      ),
-  },
-  {
-    path: 'studentprofile/teaching-request',
-    loadComponent: () =>
-      import('./features/teacher/pages/teaching-request/teaching-request.component').then(
-        (m) => m.TeachingRequestComponent
-      ),
-  },
-  {
-    path: 'courses',
-    loadChildren: () =>
-      import('./features/courses-browse/courses-browse.routes').then(
-        (module) => module.coursesBrowseRoutes,
-      ),
-  },
-  { path: 'confirm-email', component: ConfirmEmailComponent },
-  { path: 'forgot-password', component: ResetPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'check-email', component: CheckEmailComponent },
+    component: DashboardLayoutComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home'
+      },
+      {
+        path: 'home',
+        component: StudentprofileComponent,
+        title: 'الصفحة الرئيسية'
+      },
+      {
+        path: 'settings',
+        component: StudentSettingsComponent,
+        title: 'الإعدادات'
+      },
+      {
+        path: 'my-certificates',
+        component: StudentCertificatesComponent,
+        title: 'شهاداتي'
+      },
+      {
+        path: 'courses',
+        component: CoursesBrowseComponent,
+        title: 'تصفح الدورات المقدمة من منصة الفرقان'
+      },
+      {
+        path: 'teachers',
+        component: TeachersBrowseComponent,
+        title: 'تصفح المعلمون المسجلون علي من منصة الفرقان'
+      },
+      {
+        path: 'learning-circles',
+        component: StudentLearningCirclesComponent,
+        title: 'حلقات العلم الخاصة بي'
+      },
+      {
+        path: 'my-courses',
+        component: StudentCoursesComponent,
+        title: 'دوراتي'
+      },
+
+    ]
+
+  }
+
+  // {
+  //   path: 'register',
+  //   loadComponent: () =>
+  //     import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
+  //   title: 'إنشاء حساب',
+  // },
+  // {
+  //   path: 'login',
+  //   loadComponent: () =>
+  //     import('./features/auth/login/login.component').then((m) => m.LoginComponent),
+  //   title: ' تسجيل الدخول',
+  // },
+  // {
+  //   path: 'teacher',
+  //   loadChildren: () => import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+  // },
+  // {
+  //   path: 'teachers/:id/details',
+  //   loadComponent: () =>
+  //     import('./features/teacher/pages/teacher-details/teacher-details.component').then(
+  //       (m) => m.TeacherDetailsComponent,
+  //     ),
+  // },
+  // {
+  //   path: '',
+  //   loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+  // },
+  // {
+  //   path: 'course-details/:id',
+  //   loadComponent: () =>
+  //     import('./features/Course/Pages/course-details/course-details.component').then(
+  //       (m) => m.CourseDetailsComponent,
+  //     ),
+  // },
+  // {
+  //   path: 'studentprofile',
+  //   loadComponent: () =>
+  //     import('./features/student/Pages/studentprofile/studentprofile.component').then(
+  //       (m) => m.StudentprofileComponent,
+  //     ),
+  //   title: 'الملف الشخصي للطالب',
+  // },
+  // {
+  //   path: 'settings',
+  //   loadComponent: () =>
+  //     import('./features/student/Pages/settings/settings.component').then(
+  //       (m) => m.SettingsComponent,
+  //     ),
+  //   title: 'الإعدادات',
+  // },
+  // {
+  //   path: 'dashboard',
+  //   loadComponent: () =>
+  //     import('./features/teacher/pages/dashboard/dashboard.component').then(
+  //       (m) => m.DashboardComponent
+  //     ),
+  // },
+  // {
+  //   path: 'studentprofile/teaching-request',
+  //   loadComponent: () =>
+  //     import('./features/teacher/pages/teaching-request/teaching-request.component').then(
+  //       (m) => m.TeachingRequestComponent
+  //     ),
+  // },
+  // {
+  //   path: 'courses',
+  //   loadChildren: () =>
+  //     import('./features/courses-browse/courses-browse.routes').then(
+  //       (module) => module.coursesBrowseRoutes,
+  //     ),
+  // },
+  // { path: 'confirm-email', component: ConfirmEmailComponent },
+  // { path: 'forgot-password', component: ResetPasswordComponent },
+  // { path: 'reset-password', component: ResetPasswordComponent },
+  // { path: 'check-email', component: CheckEmailComponent },
 ];

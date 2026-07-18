@@ -98,3 +98,23 @@ a {
 .sar{
     font-family: 'Arshid', sans-serif;
 }
+
+
+/* .border-right-side{
+    border-right-width: 1px;
+    border-right-color: black;
+    border-right-style: solid;
+} */
+
+.border-bottom-side{
+    border-bottom-width: 2px;
+    border-bottom-color:rgba(233, 212, 191, 0.08);
+    border-bottom-style: solid;
+}
+
+
+.border-top-side{
+    border-top-width: 2px;
+    border-top-color: rgba(233, 212, 191, 0.08);
+    border-top-style: solid;
+}

@@ -76,7 +76,7 @@ export class LoginComponent implements AfterViewInit {
     console.log('Google Response:', response);
 
     this.authService
-      .googleLogin( response.credential)
+      .googleLogin(response.credential)
       .subscribe({
         next: (res) => {
           this.isSubmitting.set(false);
@@ -90,7 +90,7 @@ export class LoginComponent implements AfterViewInit {
 
             this.errorMessage.set(
               apiError[0]?.description ??
-                'Google login failed.'
+              'Google login failed.'
             );
           }
         },
@@ -104,7 +104,7 @@ export class LoginComponent implements AfterViewInit {
 
           this.errorMessage.set(
             apiError?.[0]?.description ??
-              'حدث خطأ أثناء تسجيل الدخول بواسطة Google.'
+            'حدث خطأ أثناء تسجيل الدخول بواسطة Google.'
           );
         },
       });
@@ -135,13 +135,13 @@ export class LoginComponent implements AfterViewInit {
         this.isSubmitting.set(false);
 
         if (res.succeeded) {
-          this.router.navigate(['/studentprofile']);
+          this.router.navigate(['/dashboard/home']);
         } else {
           const apiError = res.errors as ApiError[];
 
           this.errorMessage.set(
             apiError[0]?.description ??
-              'حدث خطأ أثناء تسجيل الدخول.'
+            'حدث خطأ أثناء تسجيل الدخول.'
           );
         }
       },
@@ -152,7 +152,7 @@ export class LoginComponent implements AfterViewInit {
 
         this.errorMessage.set(
           apiError?.[0]?.description ??
-            'حدث خطأ أثناء تسجيل الدخول.'
+          'حدث خطأ أثناء تسجيل الدخول.'
         );
       },
     });

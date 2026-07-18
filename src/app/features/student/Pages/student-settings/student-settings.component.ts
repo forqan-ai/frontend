@@ -17,6 +17,8 @@ import {
 } from '../../Models/settings.interface';
 import { SettingsService } from '../../Services/settings.service';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { ToastComponent } from "../../../../shared/components/toast/toast.component";
+import { RouterLink } from "@angular/router";
 function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value ?? '';
   const hasUpperCase = /[A-Z]/.test(value);
@@ -41,11 +43,11 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, ButtonComponent],
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, ButtonComponent, ToastComponent, RouterLink],
+  templateUrl: './student-settings.component.html',
+  styleUrls: ['./student-settings.component.css'],
 })
-export class SettingsComponent implements OnInit {
+export class StudentSettingsComponent implements OnInit {
   private fb = inject(FormBuilder);
   private settingsService = inject(SettingsService);
   private toast = inject(ToastService);
@@ -123,18 +125,28 @@ export class SettingsComponent implements OnInit {
       return;
     }
 
+    this.loading.set(true);
     const body: ChangePasswordRequest = this.passwordForm.getRawValue();
 
     this.settingsService.changePassword(body).subscribe({
       next: () => {
+        this.loading.set(false);
         this.passwordForm.reset({ currentPassword: '', newPassword: '' });
         this.toast.show('تم تغيير كلمة المرور بنجاح');
       },
       error: (err) => {
-        const message =
-          err.error?.errors?.[0]?.description ||
-          'حدث خطأ أثناء تغيير كلمة المرور';
-        this.toast.show(message, 'error');
+        this.loading.set(false);
+        const error = err.error?.errors?.[0];
+
+        if (error?.code === 'PasswordMismatch') {
+          this.toast.show('كلمة المرور الحالية غير صحيحة', 'error');
+          return;
+        }
+
+        this.toast.show(
+          error?.description || 'حدث خطأ أثناء تغيير كلمة المرور',
+          'error'
+        );
       },
     });
   }
@@ -155,10 +167,12 @@ export class SettingsComponent implements OnInit {
       this.toast.show('اختر صورة أولاً', 'error');
       return;
     }
+    this.loading.set(true);
     this.settingsService.updateProfileImage(this.selectedFile).subscribe({
       next: () => {
         this.settingsService.getSettings().subscribe({
           next: (res) => {
+            this.loading.set(false);
             this.settingsService.setUser(res);
             this.imagePreview.set(res.profileImageURL);
           },
@@ -168,6 +182,7 @@ export class SettingsComponent implements OnInit {
         this.toast.show('تم تغيير الصورة بنجاح');
       },
       error: () => {
+        this.loading.set(false);
         this.toast.show('حدث خطأ أثناء رفع الصورة', 'error');
       },
     });
