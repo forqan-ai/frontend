@@ -11,8 +11,10 @@
         <i class="bi bi-search" aria-hidden="true"></i>
 
         <input
+          #searchInputElement
           type="search"
-          [formField]="filtersForm.search"
+          [value]="searchInput()"
+          (input)="searchInput.set(searchInputElement.value)"
           placeholder="ابحث عن دورة..."
           aria-label="البحث عن دورة"
         />
@@ -26,7 +28,7 @@
         <div class="category-heading">
           <h2>التصنيفات</h2>
 
-          @if (selectedCategoryId() !== null || filtersModel().search) {
+          @if (selectedCategoryId() !== null || searchInput()) {
             <button
               type="button"
               class="clear-button"
