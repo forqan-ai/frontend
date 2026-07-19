@@ -1,0 +1,106 @@
+<div class="form-page">
+
+  <div class="panel">
+
+    <h2>
+      <i class="bi" [class]="isEdit() ? 'bi bi-pencil-square' : 'bi bi-plus-circle'"></i>
+      @if (isEdit()) { تعديل الجلسة } @else { جلسة جديدة }
+    </h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="field">
+        <label for="title">عنوان الجلسة</label>
+        <input id="title" type="text" formControlName="title" placeholder="مثال: مراجعة سورة البقرة" />
+        @if (hasError('title', 'required')) {
+          <small>العنوان مطلوب</small>
+        } @else if (hasError('title', 'minlength')) {
+          <small>العنوان قصير جداً</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="description">الوصف (اختياري)</label>
+        <textarea id="description" rows="4" formControlName="description" placeholder="اكتب وصفاً مختصراً للجلسة..."></textarea>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="date">التاريخ</label>
+          <input id="date" type="date" formControlName="date" />
+          @if (hasError('date', 'required')) {
+            <small>التاريخ مطلوب</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="time">الوقت</label>
+          <input id="time" type="time" formControlName="time" />
+          @if (hasError('time', 'required')) {
+            <small>الوقت مطلوب</small>
+          }
+        </div>
+      </div>
+
+      @if (scheduledAtInvalid) {
+        <div class="alert">
+          <i class="bi bi-exclamation-triangle"></i>
+          لا يمكن جدولة الجلسة في وقت مضى.
+        </div>
+      }
+
+      <div class="field">
+        <label for="duration">المدة (بالدقائق)</label>
+        <input id="duration" type="number" formControlName="durationMinutes" min="5" />
+        @if (hasError('durationMinutes', 'required') || hasError('durationMinutes', 'min')) {
+          <small>المدة يجب أن تكون 5 دقائق على الأقل</small>
+        }
+      </div>
+
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="checkbox" formControlName="isFree" />
+          <span>جلسة مجانية</span>
+        </label>
+      </div>
+
+      @if (!form.controls.isFree.value) {
+        <div class="field">
+          <label for="price">السعر (بالنقاط)</label>
+          <input id="price" type="number" formControlName="pointsPrice" min="1" />
+          @if (hasError('pointsPrice', 'required') || hasError('pointsPrice', 'min')) {
+            <small>السعر يجب أن يكون رقماً موجباً</small>
+          }
+        </div>
+      }
+
+      <div class="field">
+        <label for="meetingLink">رابط الجلسة (اختياري)</label>
+        <input id="meetingLink" type="url" formControlName="meetingLink" placeholder="https://meet.google.com/..." />
+      </div>
+
+      <div class="field">
+        <label for="platform">المنصة (اختياري)</label>
+        <input id="platform" type="text" formControlName="platform" placeholder="مثال: Google Meet / Zoom" />
+      </div>
+
+      @if (errorMsg(); as msg) {
+        <div class="alert">
+          <i class="bi bi-exclamation-circle"></i>
+          {{ msg }}
+        </div>
+      }
+
+      <div class="form-footer">
+        <button type="submit" class="btn-primary" [disabled]="submitting()">
+          @if (submitting()) { جارٍ الحفظ... }
+          @else if (isEdit()) { حفظ التعديلات }
+          @else { إنشاء الجلسة }
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

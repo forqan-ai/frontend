@@ -1,0 +1,67 @@
+<div class="session-card" [class.cancelled]="session().status === SessionStatus.Cancelled">
+
+  <div class="card-top">
+    <app-status-badge [status]="session().status" />
+
+    @if (countdown(); as cd) {
+      <span class="countdown">
+        <i class="bi bi-alarm"></i>
+        {{ cd }}
+      </span>
+    }
+  </div>
+
+  <a [routerLink]="['/sessions', session().sessionId]" class="card-title">
+    <h4>{{ session().title }}</h4>
+  </a>
+
+  <div class="card-meta">
+    <span>
+      <i class="bi bi-calendar3"></i>
+      {{ session().sessionDate | date: 'dd MMM yyyy - hh:mm a' }}
+    </span>
+    <span>
+      <i class="bi bi-clock"></i>
+      {{ session().durationMinutes }} دقيقة
+    </span>
+    @if (session().platform) {
+      <span>
+        <i class="bi bi-display"></i>
+        {{ session().platform }}
+      </span>
+    }
+  </div>
+
+  <div class="card-footer">
+    <strong class="price">
+      @if (isFree()) {
+        مجانية
+      } @else {
+        {{ session().pointsPrice }} نقطة
+      }
+    </strong>
+
+    <div class="actions">
+      @if (isTeacherOwner()) {
+        <a class="btn-icon" [routerLink]="['/sessions', session().sessionId, 'edit']" title="تعديل">
+          <i class="bi bi-pencil"></i>
+        </a>
+        @if (session().status === SessionStatus.Upcoming) {
+          <button class="btn-icon danger" (click)="cancel.emit(session())" title="إلغاء">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        }
+      } @else {
+        @if (isBooked()) {
+          <span class="booked-tag">
+            <i class="bi bi-check-circle-fill"></i>
+            محجوزة
+          </span>
+        } @else if (canBook()) {
+          <button class="btn-primary" (click)="book.emit(session())">احجز الآن</button>
+        }
+      }
+    </div>
+  </div>
+
+</div>
