@@ -89,6 +89,7 @@ export class SettingsService {
     data: ChangePasswordRequest
   ): Observable<void>{
 
+    console.log('change password call')
     return this.http.put<void>(
       `${this.apiUrl}/password`,
       data

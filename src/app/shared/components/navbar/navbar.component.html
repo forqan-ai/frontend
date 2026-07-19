@@ -46,23 +46,18 @@
       <div class="navbar-actions">
         <!-- <a [hidden]="authService.isLoggedIn()" class="login-btn" routerLink="/login" (click)="closeMenu()"> تسجيل
           الدخول </a> -->
-
-        <app-button (btnClick)="closeMenu()" pageLink="/login" [hidden]="authService.isLoggedIn()" variant="secondary"
-          size="small">تسجيل
+        <app-button (btnClick)="closeMenu()" pageLink="/login" variant="secondary" size="small">تسجيل
           الدخول
         </app-button>
-        <app-button (btnClick)="closeMenu()" pageLink="/register" [hidden]="authService.isLoggedIn()"
-          variant="secondary" size="small">إنشاء
+        <app-button (btnClick)="closeMenu()" pageLink="/register" variant="secondary" size="small">إنشاء
           حساب
         </app-button>
-
-
         <!-- <a [hidden]="authService.isLoggedIn()" class="register-btn" routerLink="/register" (click)="closeMenu()"> إنشاء
           حساب </a> -->
 
-        <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
+        <!-- <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
           الخروج <i class="bi bi-box-arrow-left"></i>
-        </app-button>
+        </app-button> -->
       </div>
     </div>
   </div>

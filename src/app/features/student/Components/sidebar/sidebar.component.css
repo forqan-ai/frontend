@@ -1,4 +1,4 @@
-:host {
+/* :host {
   display: block;
 }
 
@@ -166,4 +166,80 @@
   .sidebar-nav a {
     white-space: nowrap;
   }
+} */
+
+
+
+
+
+/* a {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.grey-anchor {
+    color: color-mix(in oklab, #fff 95%, transparent);
+    backdrop-filter: blur(8px);
+}
+
+
+.green-anchor {
+    color: var(--primary-light);
+    background-color: color-mix(in oklab, var(--primary-light) 20%, transparent);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 10px var(--secondary)
+} */
+
+
+
+a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ==========================
+   DEFAULT LINK
+========================== */
+
+.grey-anchor {
+    color: rgba(255, 255, 255, 0.82);
+    background: transparent;
+}
+
+.grey-anchor:hover {
+    color: #fff;
+    background: rgba(233, 212, 191, 0.08);
+}
+
+/* ==========================
+   ACTIVE LINK
+========================== */
+
+.green-anchor {
+    color: var(--primary-light);
+    background: rgba(233, 212, 191, 0.14);
+    border-right: 4px solid var(--primary-light);
+    font-weight: 600;
+}
+
+.green-anchor:hover {
+    background: rgba(233, 212, 191, 0.18);
+}
+
+/* ==========================
+   ICONS
+========================== */
+
+.grey-anchor i,
+.green-anchor i {
+    font-size: 18px;
+    transition: color .25s ease;
+}
+
+.grey-anchor:hover i {
+    color: var(--primary-light);
+}
+
+.green-anchor i {
+    color: var(--primary-light);
 }
