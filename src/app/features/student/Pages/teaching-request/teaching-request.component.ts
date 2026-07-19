@@ -1,18 +1,21 @@
-import { Component, HostListener, signal, computed } from '@angular/core';
+import { Component, HostListener, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
-import { ITeacherRequestForm } from '../../models/teacher-request-form.interface';
-
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { ITeacherRequestForm } from '../../Models/teacher-request-form.interface';
+import { ButtonComponent } from "../../../../shared/components/button/button.component";
+import { StudentService } from '../../Services/student.service';
+import { ToastService } from '../../../../core/services/toast.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { TeachignRequestStatusBarComponent } from "../../Components/teachign-request-status-bar/teachign-request-status-bar.component";
+import { TeachingRequestFormComponent } from "../../Components/teaching-request-form/teaching-request-form.component";
+import { TeachingRequestResultPendingComponent } from "../../Components/teaching-request-result-pending/teaching-request-result-pending.component";
+import { RequestStatus } from '../../Models/TeachingRequestStatusDto';
+import { TeachingRequestResultAcceptedComponent } from "../../Components/teaching-request-result-accepted/teaching-request-result-accepted.component";
+import { TeachingRequestResultRejectedComponent } from "../../Components/teaching-request-result-rejected/teaching-request-result-rejected.component";
 
 @Component({
   selector: 'app-teaching-request',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, TeachignRequestStatusBarComponent, TeachingRequestFormComponent, TeachingRequestResultPendingComponent, TeachingRequestResultAcceptedComponent, TeachingRequestResultRejectedComponent],
   templateUrl: './teaching-request.component.html',
   styleUrl: './teaching-request.component.css',
 })
@@ -74,6 +77,28 @@ export class TeachingRequestComponent {
     'الولايات المتحدة', 'الأوروغواي', 'أوزبكستان', 'فانواتو', 'الفاتيكان',
     'فنزويلا', 'فيتنام', 'اليمن', 'زامبيا', 'زيمبابوي',
   ]);
+
+  requestStatus = signal<RequestStatus>('Pending');
+
+  ngOnInit() {
+    this.studentService.getTeachingRequestStatus().subscribe({
+      next: (res) => {
+        this.requestStatus.set(res.status);
+        console.log(res.status);
+        console.log(this.requestStatus())
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+
+
+  studentService = inject(StudentService);
+  private toast = inject(ToastService);
+  authService = inject(AuthService);
+
 
   countrySearch = signal('');
   filteredCountries = computed(() => {
@@ -249,6 +274,8 @@ export class TeachingRequestComponent {
   }
 
 
+  isLoading = signal<boolean>(false);
+
   onSubmit() {
     if (this.teacherForm.invalid) {
       Object.values(this.teacherForm.controls).forEach((c) => {
@@ -256,7 +283,7 @@ export class TeachingRequestComponent {
       });
       return;
     }
-
+    this.isLoading.set(true);
     const formData = new FormData();
     const raw = this.teacherForm.getRawValue();
     formData.append('academicTitle', raw.academicTitle ?? '');
@@ -272,7 +299,7 @@ export class TeachingRequestComponent {
     formData.append('country', raw.country ?? '');
     formData.append('additionalInfo', raw.additionalInfo ?? '');
     formData.append('declaration', raw.declaration ? 'true' : 'false');
-
+    formData.append('userId', this.authService.getUserId()!)
     this.certificateFiles().forEach((item) => {
       formData.append('certificates', item.file);
     });
@@ -284,5 +311,18 @@ export class TeachingRequestComponent {
     for (const [key, value] of formData.entries()) {
       console.log(key, value);
     }
+
+    this.studentService.sendTeachingRequest(formData).subscribe({
+      next: (res) => {
+        console.log(res)
+        this.isLoading.set(false);
+        this.toast.show('تم أرسال طلبك بنجاح');
+      },
+      error: (err) => {
+        console.log(err);
+        this.isLoading.set(false);
+        this.toast.show('فشل الارسال, برجاء إعادة المحاولة لاحقا');
+      }
+    })
   }
 }

@@ -26,6 +26,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((res) => {
         localStorage.setItem(this.userStorageKey, res.data.token);
+        localStorage.setItem('userId', res.data.user.id)
         this.isLoggedIn.set(true);
       })
     );
@@ -38,6 +39,7 @@ export class AuthService {
       tap((res) => {
         console.log(res);
         localStorage.setItem(this.userStorageKey, res.data.token);
+        localStorage.setItem('userId', res.data.user.id)
         this.isLoggedIn.set(true);   // <-- Missing
       })
     );
@@ -53,6 +55,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           localStorage.setItem(this.userStorageKey, res.data.token);
+          localStorage.setItem('userId', res.data.user.id)
           this.isLoggedIn.set(true);
         })
       );
@@ -62,6 +65,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.userStorageKey);
+    localStorage.removeItem('userId');
     this.isLoggedIn.set(false);
   }
 
@@ -70,6 +74,9 @@ export class AuthService {
     return localStorage.getItem(this.userStorageKey);
   }
 
+  getUserId(): string | null {
+    return localStorage.getItem('userId');
+  }
 
 
   IsAuthenticated(): boolean {

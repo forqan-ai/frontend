@@ -18,6 +18,7 @@ import { StudentCertificatesComponent } from './features/student/Pages/student-c
 import { StudentLearningCirclesComponent } from './features/student/Pages/student-learning-circles/student-learning-circles.component';
 import { StudentCoursesComponent } from './features/student/Pages/student-courses/student-courses.component';
 import { StudentSettingsComponent } from './features/student/Pages/student-settings/student-settings.component';
+import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
 export const routes: Routes = [
   {
     path: '', component: PublicLayoutComponent,
@@ -84,54 +85,15 @@ export const routes: Routes = [
         }
       ]
   },
-
   {
     path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'home'
-      },
-      {
-        path: 'home',
-        component: StudentprofileComponent,
-        title: 'الصفحة الرئيسية'
-      },
-      {
-        path: 'settings',
-        component: StudentSettingsComponent,
-        title: 'الإعدادات'
-      },
-      {
-        path: 'my-certificates',
-        component: StudentCertificatesComponent,
-        title: 'شهاداتي'
-      },
-      {
-        path: 'courses',
-        component: CoursesBrowseComponent,
-        title: 'تصفح الدورات المقدمة من منصة الفرقان'
-      },
-      {
-        path: 'teachers',
-        component: TeachersBrowseComponent,
-        title: 'تصفح المعلمون المسجلون علي من منصة الفرقان'
-      },
-      {
-        path: 'learning-circles',
-        component: StudentLearningCirclesComponent,
-        title: 'حلقات العلم الخاصة بي'
-      },
-      {
-        path: 'my-courses',
-        component: StudentCoursesComponent,
-        title: 'دوراتي'
-      },
-
+        path: 'student',
+        loadChildren: () => import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
+      }
     ]
-
   }
 
   // {
