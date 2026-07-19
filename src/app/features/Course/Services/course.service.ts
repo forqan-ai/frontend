@@ -19,22 +19,17 @@ export class CourseService {
     return this.http.get<ICourseDetailsDto>(`${this.baseUrl}/${courseId}`);
   }
 
-    getCourseCurriculum(courseId: string): Observable<ICourseModuleDto[]> {
-        return this.http.get<ICourseModuleDto[]>(`${this.baseUrl}/${courseId}/curriculum`);
-    }
-    checkOwnership(courseId: string): Observable<ICourseOwnership> {
-        return this.http.get<ICourseOwnership>(`${this.baseUrl}/${courseId}/ownership`);
-    }
-   
-getCoursePlayer(courseId:string): Observable<ICoursePlayer> {
+  getCourseCurriculum(courseId: string): Observable<ICourseModuleDto[]> {
+    return this.http.get<ICourseModuleDto[]>(`${this.baseUrl}/${courseId}/curriculum`);
+  }
+  checkOwnership(courseId: string): Observable<ICourseOwnership> {
+    return this.http.get<ICourseOwnership>(`${this.baseUrl}/${courseId}/ownership`);
+  }
 
-  return this.http.get<ICoursePlayer>(
-    `${this.baseUrl}/${courseId}/player`
-  );
-
-}
+  getCoursePlayer(courseId: string): Observable<ICoursePlayer> {
+    return this.http.get<ICoursePlayer>(`${this.baseUrl}/${courseId}/player`);
+  }
   createCourse(data: FormData): Observable<any> {
     return this.http.post(this.baseUrl, data);
   }
-
 }
