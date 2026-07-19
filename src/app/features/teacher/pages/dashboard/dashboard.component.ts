@@ -63,7 +63,6 @@ export class DashboardComponent implements OnInit {
   loadProfile() {
     this.teacherService.getProfile().subscribe({
       next: (res) => this.profile.set(res),
-
       error: console.error,
     });
   }
