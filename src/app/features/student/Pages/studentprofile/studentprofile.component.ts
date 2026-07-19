@@ -7,7 +7,7 @@ import { IStudentCourse } from '../../Models/student-course.interface';
 import { IStudentProfile } from '../../Models/student-profile.interface';
 
 import { StudentService } from '../../Services/student.service';
-import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { environment } from '../../../../../environments/environment.development';
 import { PointsService } from '../../../points/services/points.service';
 import { RouterLink } from '@angular/router';

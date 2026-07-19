@@ -102,7 +102,7 @@ export class LoginComponent implements AfterViewInit {
         error: (err: HttpErrorResponse) => {
           this.isSubmitting.set(false);
 
-          console.error(err);
+          console.log(err);
 
           const apiError = err.error?.errors as ApiError[];
           console.error(err.error);

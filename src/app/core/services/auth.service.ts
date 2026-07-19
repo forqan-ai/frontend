@@ -131,7 +131,7 @@ export class AuthService {
     }
   }
 
-  getUserId(){
-    return this.getPayload()?.id;
-  }
+  // getUserId(){
+  //   return this.getPayload()?.id;
+  // }
 }

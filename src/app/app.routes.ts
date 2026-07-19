@@ -108,7 +108,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'course-details/:id',
@@ -128,8 +128,8 @@ export const routes: Routes = [
   {
     path: 'settings',
     loadComponent: () =>
-      import('./features/student/Pages/settings/settings.component').then(
-        (m) => m.SettingsComponent,
+      import('./features/student/Pages/student-settings/student-settings.component').then(
+        (m) => m.StudentSettingsComponent,
       ),
     title: 'الإعدادات',
   },
@@ -143,7 +143,7 @@ export const routes: Routes = [
   {
     path: 'studentprofile/teaching-request',
     loadComponent: () =>
-      import('./features/teacher/pages/teaching-request/teaching-request.component').then(
+      import('./features/student/Pages/teaching-request/teaching-request.component').then(
         (m) => m.TeachingRequestComponent,
       ),
   },
