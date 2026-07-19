@@ -1,14 +1,18 @@
 @if (teacher(); as teacher) {
   <div class="card">
-    <img class="avatar" [src]="teacher.profileImageURL || 'profile/images/avatar.webp'" />
+    <div class="avatar-wrapper">
+      <img class="avatar" [src]="previewUrl ||teacher.profileImageURL || 'images/avatar.webp'" />
 
-    <h2>
-      {{ teacher.fullName }}
-    </h2>
+      <label class="camera">
+        <span class="material-symbols-outlined"> photo_camera </span>
 
-    <p>
-      {{ teacher.email }}
-    </p>
+        <input hidden type="file" accept="image/*" (change)="onSelect($event)" />
+      </label>
+    </div>
+
+    <h2>{{ teacher.fullName }}</h2>
+
+    <p>{{ teacher.email }}</p>
 
     <div class="rating">
       ⭐ {{ teacher.rating }}

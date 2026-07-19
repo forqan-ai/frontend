@@ -53,5 +53,11 @@ export const STUDENT_ROUTES: Routes = [
         path: 'teaching-request',
         component: TeachingRequestComponent,
         title: 'طلب الانضمام كمعلم'
+    },
+    {
+        path: 'course-player/:id',
+        loadComponent: () =>
+            import('../../features/Course/Pages/course-player/course-player.component')
+                .then(m => m.CoursePlayerComponent)
     }
 ];

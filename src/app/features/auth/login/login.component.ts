@@ -23,6 +23,7 @@ import { GoogleAuthService } from '../../../core/services/google-auth.service';
 import {
   ApiError,
   LoginRequest,
+  Role,
 } from '../../../core/models/auth.models';
 
 @Component({
@@ -84,7 +85,11 @@ export class LoginComponent implements AfterViewInit {
           console.log(res);
 
           if (res.succeeded) {
-            this.router.navigate(['/']);
+            if (this.authService.hasRole(Role.Teacher)) {
+              this.router.navigate(['/teacher']);
+            } else {
+              this.router.navigate(['/studentprofile']);
+            }
           } else {
             const apiError = res.errors as ApiError[];
 
@@ -135,7 +140,11 @@ export class LoginComponent implements AfterViewInit {
         this.isSubmitting.set(false);
 
         if (res.succeeded) {
-          this.router.navigate(['/dashboard/student/home']);
+          if (this.authService.hasRole(Role.Teacher)) {
+            this.router.navigate(['/teacher']);
+          } else {
+            this.router.navigate(['/dashboard/student/home']);
+          }
         } else {
           const apiError = res.errors as ApiError[];
 

@@ -1,0 +1,129 @@
+.bookings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: min(94%, 900px);
+  margin-inline: auto;
+  padding-block: 32px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-header h2 {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-header h2 i { color: var(--primary); font-size: 17px; }
+.page-header span { font-size: 13px; color: var(--text-light); }
+
+.bookings-list {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 10px 22px;
+}
+
+.booking-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.booking-item:last-child { border-bottom: none; }
+
+.booking-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 15px;
+}
+
+.booking-info { flex: 1; min-width: 160px; }
+.booking-info h4 { font-size: 14px; font-weight: 700; }
+.booking-info h4:hover { color: var(--primary-hover); }
+.booking-info small { font-size: 11px; color: var(--text-light); }
+
+.booking-points {
+  font-size: 13px;
+  font-weight: 700;
+  color: #c1663c;
+}
+
+.btn-danger {
+  background-color: rgba(193, 102, 60, 0.12);
+  color: #c1663c;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.state-box {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.state-box i { font-size: 32px; color: var(--primary); }
+.state-box h4 { font-size: 16px; }
+.state-box p { font-size: 13px; }
+
+.skeleton-list {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.skeleton-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sk-line {
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--border) 25%, var(--secondary) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+.w20 { width: 20%; } .w40 { width: 40%; }
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}

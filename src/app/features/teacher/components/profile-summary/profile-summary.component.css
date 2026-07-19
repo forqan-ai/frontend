@@ -37,3 +37,50 @@
 
   font-weight: bold;
 }
+.avatar-wrapper {
+  position: relative;
+
+  width: 140px;
+
+  margin: auto;
+}
+
+.avatar {
+  width: 140px;
+
+  height: 140px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 4px solid #0b6e4f;
+}
+
+.camera {
+  position: absolute;
+
+  bottom: 5px;
+
+  right: 5px;
+
+  width: 38px;
+
+  height: 38px;
+
+  border-radius: 50%;
+
+  background: #0b6e4f;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  cursor: pointer;
+
+  color: white;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}

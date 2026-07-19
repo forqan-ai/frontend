@@ -1,3 +1,4 @@
+@import "@ng-select/ng-select/themes/material.theme.css";
 :root {
   --primary: #341b16;
   --primary-hover: #4a2620;

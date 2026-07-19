@@ -14,6 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/api/auth`;
   public readonly userStorageKey = 'ForqanKey';
@@ -74,9 +75,6 @@ export class AuthService {
     return localStorage.getItem(this.userStorageKey);
   }
 
-  getUserId(): string | null {
-    return localStorage.getItem('userId');
-  }
 
 
   IsAuthenticated(): boolean {
@@ -105,7 +103,15 @@ export class AuthService {
   }
 
   getRole(): string | null {
-    return this.getPayload()?.role ?? null;
+    const payload: any = this.getPayload();
+    if (!payload) return null;
+    return payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role || null;
+  }
+
+  getUserId(): string | null {
+    const payload: any = this.getPayload();
+    if (!payload) return null;
+    return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || payload.id || null;
   }
 
   hasRole(role: Role): boolean {
