@@ -36,7 +36,7 @@
 
   <nav class="flex-grow-1 p-3">
     <div class="d-flex flex-column gap-2">
-      <a routerLink="/dashboard/home" (click)="setActiveRoute('home')" [class.green-anchor]="isActive('home')"
+      <a routerLink="student/home" (click)="setActiveRoute('home')" [class.green-anchor]="isActive('home')"
         [class.grey-anchor]="!isActive('home')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-grid-1x2-fill"></i> الرئيسية
@@ -79,7 +79,7 @@
         <i class="bi bi-award"></i> شهاداتي
       </a> -->
 
-      <a routerLink="settings" (click)="setActiveRoute('settings')" [class.green-anchor]="isActive('settings')"
+      <a routerLink="student/settings" (click)="setActiveRoute('settings')" [class.green-anchor]="isActive('settings')"
         [class.grey-anchor]="!isActive('settings')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-person-gear"></i> إدارة حسابك
