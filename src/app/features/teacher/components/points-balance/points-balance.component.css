@@ -1,0 +1,125 @@
+.balance-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.balance-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(11, 110, 79, 0.15);
+}
+
+.balance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0b6e4f, #14a87a);
+  border-radius: 20px 20px 0 0;
+}
+
+.balance-card::after {
+  content: 'payments';
+  font-family: 'Material Symbols Outlined';
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  font-size: 120px;
+  color: #0b6e4f;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon-wrapper {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #0b6e4f15, #0b6e4f25);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wrapper span {
+  font-size: 26px;
+  color: #0b6e4f;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0b6e4f;
+  background: #0b6e4f12;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.balance-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.balance-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.amount {
+  font-size: 40px;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.unit {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0b6e4f;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+
+.hint span {
+  font-size: 14px;
+  color: #bbb;
+}
+
+.skeleton-block {
+  height: 48px;
+  width: 60%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

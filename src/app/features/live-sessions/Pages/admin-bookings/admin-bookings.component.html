@@ -1,0 +1,66 @@
+<div class="admin-page">
+
+  <div class="page-header">
+    <h2>
+      <i class="bi bi-clipboard-data"></i>
+      كل الحجوزات
+    </h2>
+  </div>
+
+  <div class="filters">
+    <select [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event)" aria-label="فلترة بالحالة">
+      <option value="">كل الحالات</option>
+      <option value="Pending">قيد الانتظار</option>
+      <option value="Confirmed">مؤكد</option>
+      <option value="Completed">مكتمل</option>
+      <option value="Cancelled">ملغي</option>
+    </select>
+
+    <input type="date" [ngModel]="dateFilter()" (ngModelChange)="dateFilter.set($event)" aria-label="فلترة بالتاريخ" />
+  </div>
+
+  @if (loading()) {
+    <div class="skeleton-table">
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <div class="sk-line"></div>
+      }
+    </div>
+  } @else if (error()) {
+    <div class="state-box">
+      <i class="bi bi-wifi-off"></i>
+      <h4>حدث خطأ أثناء التحميل</h4>
+      <button class="btn-primary" (click)="loadData()">إعادة المحاولة</button>
+    </div>
+  } @else if (!bookings().length) {
+    <div class="state-box">
+      <i class="bi bi-inbox"></i>
+      <h4>لا توجد حجوزات مطابقة</h4>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>الطالب</th>
+            <th>الجلسة</th>
+            <th>النقاط</th>
+            <th>تاريخ الحجز</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (booking of bookings(); track booking.bookingId) {
+            <tr>
+              <td>{{ booking.studentName }}</td>
+              <td>{{ booking.sessionTitle }}</td>
+              <td class="points">{{ booking.pointsCharged }}</td>
+              <td>{{ booking.bookedAt | date: 'dd MMM yyyy' }}</td>
+              <td><app-status-badge [status]="booking.status" /></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>

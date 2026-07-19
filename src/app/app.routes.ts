@@ -84,4 +84,11 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'check-email', component: CheckEmailComponent },
+  {
+  path: '',
+  loadChildren: () =>
+    import('./features/live-sessions/live-sessions.routes')
+      .then(m => m.LIVE_SESSIONS_ROUTES),
+},
+
 ];

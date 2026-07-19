@@ -9,11 +9,12 @@ import { IStudentProfile } from '../../Models/student-profile.interface';
 import { StudentService } from '../../Services/student.service';
 import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 import { environment } from '../../../../../environments/environment.development';
+import { PointsBalanceComponent } from '../../../teacher/components/points-balance/points-balance.component';
 
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
-  imports: [CommonModule, DatePipe, SidebarComponent],
+  imports: [CommonModule, DatePipe, SidebarComponent, PointsBalanceComponent],
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
 })

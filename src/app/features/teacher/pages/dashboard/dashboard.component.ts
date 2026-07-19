@@ -5,11 +5,13 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 import { StatisticsComponent } from '../../components/statistics/statistics.component';
 import { QuickActionsComponent } from '../../components/quick-actions/quick-actions.component';
+import { RouterLink } from '@angular/router';
 
 import { TeacherService } from '../../services/teacher.service';
 
 import { TeacherDashboard } from '../../models/teacher-dashboard.model';
 import { TeacherProfile } from '../../models/teacher-profile.model';
+import { PointsBalanceComponent } from '../../components/points-balance/points-balance.component';
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -20,6 +22,8 @@ import { TeacherProfile } from '../../models/teacher-profile.model';
     ProfileCardComponent,
     StatisticsComponent,
     QuickActionsComponent,
+    PointsBalanceComponent,
+    RouterLink
     // RecentCoursesComponent
   ],
   templateUrl: './dashboard.component.html',

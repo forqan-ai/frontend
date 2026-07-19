@@ -8,8 +8,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const token = authService.getToken();
-  const authorizedReq = token?req.clone({headers:new HttpHeaders({Authorization:`Bearer ${token}`})}):req;
-console.log(authorizedReq.headers.get('Authorization'));
+  const authorizedReq = token? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }): req;
+  console.log(authorizedReq.headers.get('Authorization'));
   return next(authorizedReq).pipe(
     catchError((error:HttpErrorResponse)=>{
       if(error.status === 401){
