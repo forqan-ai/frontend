@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { CheckEmailComponent } from './features/auth/check-email/check-email.component';
+import { PointPackagesComponent } from './features/points/pages/point-packages/point-packages.component';
+import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 export const routes: Routes = [
   {
     path: 'register',
@@ -57,14 +59,14 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () =>
       import('./features/teacher/pages/dashboard/dashboard.component').then(
-        (m) => m.DashboardComponent
+        (m) => m.DashboardComponent,
       ),
   },
   {
     path: 'studentprofile/teaching-request',
     loadComponent: () =>
       import('./features/teacher/pages/teaching-request/teaching-request.component').then(
-        (m) => m.TeachingRequestComponent
+        (m) => m.TeachingRequestComponent,
       ),
   },
   {
@@ -78,4 +80,6 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'check-email', component: CheckEmailComponent },
+  { path: 'pointPackages', component: PointPackagesComponent },
+  { path: 'checkout/:id', component: CheckoutComponent }
 ];

@@ -27,6 +27,8 @@ export class AuthService {
       tap((res) => {
         localStorage.setItem(this.userStorageKey, res.data.token);
         this.isLoggedIn.set(true);
+        console.log(this.getPayload());
+        
       })
     );
   }
@@ -114,5 +116,9 @@ export class AuthService {
     } catch {
       return true;
     }
+  }
+
+  getUserId(){
+    return this.getPayload()?.id;
   }
 }
