@@ -1,13 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { environment } from '../../../../environments/environment';
-
 import { TeacherProfile } from '../models/teacher-profile.model';
 import { TeacherDashboard } from '../models/teacher-dashboard.model';
 import { ITeacherDetailsDto } from '../models/teacher-details-dto.interface';
-import { UpdateTeacherProfile } from '../models/update-teacher-profile.model';
 import { Specialty } from '../models/specialty.model';
 
 @Injectable({
@@ -37,19 +34,13 @@ export class TeacherService {
     return this.http.put(`${this.api}/me`, data);
   }
 
-
   getAllSpecialties() {
-  return this.http.get<Specialty[]>(
-    `${environment.apiUrl}/api/specialties`
-  );
-}
+    return this.http.get<Specialty[]>(`${environment.apiUrl}/api/specialties`);
+  }
 
-updateTeacherSpecialties(ids: string[]) {
-  return this.http.put(
-    `${this.api}/me/specialties`,
-    {
-      specialtyIds: ids
-    }
-  );
-}
+  updateTeacherSpecialties(ids: string[]) {
+    return this.http.put(`${this.api}/me/specialties`, {
+      specialtyIds: ids,
+    });
+  }
 }

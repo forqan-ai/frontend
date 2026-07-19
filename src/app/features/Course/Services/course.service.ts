@@ -6,20 +6,22 @@ import { ICourseModuleDto } from '../Models/course-module-dto.interface';
 import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class CourseService {
+  http = inject(HttpClient);
 
-    http = inject(HttpClient);
+  private baseUrl = `${environment.apiUrl}/api/courses`;
 
-    private baseUrl = `${environment.apiUrl}/api/courses`;
+  getCourseDetails(courseId: string): Observable<ICourseDetailsDto> {
+    return this.http.get<ICourseDetailsDto>(`${this.baseUrl}/${courseId}`);
+  }
 
-    getCourseDetails(courseId: string): Observable<ICourseDetailsDto> {
-        return this.http.get<ICourseDetailsDto>(`${this.baseUrl}/${courseId}`);
-    }
+  getCourseCurriculum(courseId: string): Observable<ICourseModuleDto[]> {
+    return this.http.get<ICourseModuleDto[]>(`${this.baseUrl}/${courseId}/curriculum`);
+  }
 
-    getCourseCurriculum(courseId: string): Observable<ICourseModuleDto[]> {
-        return this.http.get<ICourseModuleDto[]>(`${this.baseUrl}/${courseId}/curriculum`);
-    }
+  createCourse(data: FormData): Observable<any> {
+    return this.http.post(this.baseUrl, data);
+  }
 }
