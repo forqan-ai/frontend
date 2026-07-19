@@ -1,0 +1,50 @@
+<!-- teachign-request-status-bar.component.html -->
+<div class="tr-stepper-wrapper">
+    <h1 class="tr-title">قدّم كمدرّس: كن جزءاً من مسيرتنا التعليمية</h1>
+
+    <div class="tr-stepper">
+        <div class="tr-stepper-line"></div>
+
+        <!-- Step 1: إرسال الطلب -->
+        <div class="tr-step" [class.tr-step--active]="currentStep >= 1">
+            <div class="tr-step-dot" [class.tr-step-dot--filled]="currentStep >= 1"></div>
+            <span class="tr-step-label" [class.tr-step-label--active]="currentStep >= 1">إرسال الطلب</span>
+            <span class="tr-step-status">
+                @if (currentStep === 1 && status === 'not registered') {
+                (جاري)
+                } @else if (currentStep > 1) {
+                (تم)
+                }
+            </span>
+        </div>
+
+        <!-- Step 2: مراجعة الإدارة -->
+        <div class="tr-step" [class.tr-step--active]="currentStep >= 2">
+            <div class="tr-step-dot" [class.tr-step-dot--filled]="currentStep >= 2"></div>
+            <span class="tr-step-label" [class.tr-step-label--active]="currentStep >= 2">مراجعة الإدارة</span>
+            <span class="tr-step-status" [class.tr-step-status--refused]="isRefused()">
+                @if (currentStep === 2 && status === 'Pending') {
+                (قيد المراجعة)
+                } @else if (isRefused()) {
+                (مرفوض)
+                } @else if (currentStep > 2) {
+                <span class="text-success fw-bold"> (تمت الموافقة)
+                </span>
+                }
+            </span>
+        </div>
+
+        <!-- Step 3: بدء التدريس -->
+        <div class="tr-step" [class.tr-step--active]="currentStep >= 3">
+            <div class="tr-step-dot" [class.tr-step-dot--filled]="currentStep >= 3"></div>
+            <span class="tr-step-label" [class.tr-step-label--active]="currentStep >= 3">بدء التدريس</span>
+            <span class="tr-step-status">
+                @if (currentStep === 3 && status === 'Accepted') {
+                (تم التفعيل)
+                } @else if (currentStep > 3) {
+                (مفعل)
+                }
+            </span>
+        </div>
+    </div>
+</div>

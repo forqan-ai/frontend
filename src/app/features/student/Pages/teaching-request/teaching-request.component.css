@@ -1,0 +1,46 @@
+.teacher-request-wrapper {
+  min-height: 100vh;
+  background-color: #f5f0ea;
+  font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+  direction: rtl;
+}
+
+.tr-container {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 3rem 4rem 4rem;
+}
+
+@media (max-width: 768px) {
+  .tr-container {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .tr-title {
+    font-size: 1.5rem;
+  }
+
+  .tr-stepper {
+    gap: 0.5rem;
+  }
+
+  .tr-stepper-line {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .tr-step-label {
+    font-size: 0.7rem;
+    max-width: 60px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tr-container {
+    padding: 2rem;
+  }
+
+  .tr-title {
+    font-size: 1.75rem;
+  }
+}

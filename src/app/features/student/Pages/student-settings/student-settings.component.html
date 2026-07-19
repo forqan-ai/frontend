@@ -1,0 +1,141 @@
+<div class="page-layout">
+    <!-- <app-sidebar></app-sidebar> -->
+    <div class="dashboard">
+        <section class="hero-card">
+            <div class="profile-info">
+                <div class="avatar"><i class="bi bi-person-gear"></i></div>
+                <div>
+                    <span>الحساب الشخصي</span>
+                    <h1>إدارة حسابك</h1>
+                    <p>قم بإدارة بياناتك الشخصية، تعديل إعدادات الحساب، والوصول إلى شهاداتك بسهولة.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="settings-list">
+            <div class="setting-card">
+                <div class="setting-header" (click)="toggleSection('profile')">
+                    <div class="setting-title"><i class="bi bi-person"></i> <span> تعديل الاسم </span></div>
+                    <i class="bi" [class.bi-chevron-down]="openSection() !== 'profile'"
+                        [class.bi-chevron-up]="openSection() === 'profile'">
+                    </i>
+                </div>
+                @if (openSection() === 'profile') {
+                <div class="setting-body">
+                    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+                        <div class="form-group">
+                            <label> الاسم بالكامل </label> <input type="text" formControlName="fullName" />
+                        </div>
+                        <!-- <button class="save-btn" type="submit" [disabled]="loading()">
+                            {{ loading() ? 'جارٍ الحفظ...' : 'حفظ التعديلات' }}
+                        </button> -->
+                        <app-button type="submit" [disabled]="loading()" [size]="'large'">
+                            {{ loading() ? 'جارٍ الحفظ...' : 'حفظ التعديلات' }}
+                        </app-button>
+                    </form>
+                </div>
+                }
+            </div>
+
+            <div class="setting-card">
+                <div class="setting-header" (click)="toggleSection('image')">
+                    <div class="setting-title">
+                        <i class="bi bi-image"></i> <span> تغيير الصورة الشخصية </span>
+                    </div>
+                    <i class="bi" [class.bi-chevron-down]="openSection() !== 'image'"
+                        [class.bi-chevron-up]="openSection() === 'image'">
+                    </i>
+                </div>
+                @if (openSection() === 'image') {
+                <div class="setting-body">
+                    <div class="profile-image-wrapper">
+                        @if (imagePreview()) {
+                        <img [src]="imagePreview()" class="profile-image" alt="Profile" />
+                        } @else {
+                        <div class="default-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        }
+
+                        <label for="imageUpload" class="edit-image-btn">
+                            <i class="bi bi-pencil-fill"></i>
+                        </label>
+
+                        <input #fileInput id="imageUpload" type="file" accept="image/*"
+                            (change)="onImageSelected($event)" />
+                    </div>
+
+                    <!-- <button class="save-btn upload-btn" [disabled]="!selectedFile" (click)="uploadImage(fileInput)">
+                        حفظ الصورة
+                    </button> -->
+                    <app-button type="submit" [disabled]="!selectedFile || loading()"
+                        (btnClick)="uploadImage(fileInput)" [size]="'large'">
+                        {{ loading() ? 'جارٍ الحفظ...' : 'حفظ الصورة' }}
+                    </app-button>
+                </div>
+                }
+            </div>
+
+            <div class="setting-card">
+                <div class="setting-header" (click)="toggleSection('password')">
+                    <div class="setting-title">
+                        <i class="bi bi-lock"></i> <span> تغيير كلمة المرور </span>
+                    </div>
+                    <i class="bi" [class.bi-chevron-down]="openSection() !== 'password'"
+                        [class.bi-chevron-up]="openSection() === 'password'">
+                    </i>
+                </div>
+                @if (openSection() === 'password') {
+                <div class="setting-body">
+                    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                        <div class="form-group">
+                            <label> كلمة المرور الحالية </label>
+                            <input type="password" formControlName="currentPassword" />
+                            @if (
+                            passwordForm.get('currentPassword')?.touched &&
+                            passwordForm.get('currentPassword')?.hasError('required')
+                            ) {
+                            <small class="text-danger">
+                                كلمة المرور الحالية مطلوبة
+                            </small>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label> كلمة المرور الجديدة </label>
+                            <input type="password" formControlName="newPassword" />
+                            @if (
+                            passwordForm.get('newPassword')?.touched &&
+                            passwordForm.get('newPassword')?.invalid
+                            ) {
+                            <small class="text-danger">
+                                لازم 6 أحرف على الأقل، وتحتوي على حرف كبير وحرف صغير ورقم ورمز خاص
+                            </small>
+                            }
+                        </div>
+                        <!-- <button class="save-btn" type="submit">تغيير كلمة fالمرور</button> -->
+                        <app-button type="submit" [size]="'large'" [disabled]="loading()">
+                            {{ loading() ? 'جارٍ الحفظ...' : 'تغيير كلمة المرور' }}
+                        </app-button>
+                    </form>
+                </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <app-button pageLink="/dashboard/student/my-certificates" customClass="w-100" [size]="'large'">
+                        شهاداتي<i class="bi bi-award"></i>
+                    </app-button>
+                </div>
+                <div class="col-6">
+                    <app-button customClass="w-100" [size]="'large'" pageLink="/dashboard/student/teaching-request">
+                        انضم كمعلم <i class="fa-solid fa-person-chalkboard me-3"></i>
+                    </app-button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,66 @@
+<div class="modal-overlay" (click)="closed.emit()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+
+    @if (success()) {
+      <div class="success-state">
+        <div class="success-icon">
+          <i class="bi bi-check-lg"></i>
+        </div>
+        <h3>تم الحجز بنجاح!</h3>
+        <p>نراك في الجلسة إن شاء الله</p>
+      </div>
+    } @else {
+
+      <div class="modal-header">
+        <h3>تأكيد الحجز</h3>
+        <button class="close-btn" (click)="closed.emit()" aria-label="إغلاق">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <h4>{{ session().title }}</h4>
+
+        <div class="row">
+          <span>سعر الجلسة</span>
+          <strong>
+           @if (isFree()) { مجانية } @else { {{ session().pointsPrice }} نقطة }
+          </strong>
+        </div>
+
+        <div class="row">
+          <span>رصيدك الحالي</span>
+          <strong>
+            @if (balance() !== null) { {{ balance() }} نقطة } @else { ... }
+          </strong>
+        </div>
+
+        @if (insufficient) {
+          <div class="alert">
+            <i class="bi bi-exclamation-triangle"></i>
+            رصيد النقاط غير كافٍ لحجز هذه الجلسة.
+          </div>
+        }
+
+        @if (errorMsg(); as msg) {
+          <div class="alert">
+            <i class="bi bi-exclamation-circle"></i>
+            {{ msg }}
+          </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="closed.emit()">إلغاء</button>
+        <button
+          class="btn-primary"
+          [disabled]="submitting() || insufficient"
+          (click)="confirm()">
+          @if (submitting()) { جارٍ الحجز... } @else { تأكيد الحجز }
+        </button>
+      </div>
+
+    }
+
+  </div>
+</div>

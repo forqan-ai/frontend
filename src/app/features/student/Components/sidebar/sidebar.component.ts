@@ -1,15 +1,14 @@
-import { Component, inject, OnInit, computed } from '@angular/core';
+import { Component, inject, OnInit, computed, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { Router } from '@angular/router';
-
+import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AvatarComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
@@ -19,6 +18,7 @@ export class SidebarComponent implements OnInit {
   private router = inject(Router);
 
   apiUrl = 'https://localhost:7054';
+  activeRoute: string = '';
 
   user = this.settingsService.user;
 
@@ -26,23 +26,65 @@ export class SidebarComponent implements OnInit {
     this.getStudentImage(this.user()?.profileImageURL)
   );
 
-ngOnInit(): void {
-  if (!this.settingsService.user()) {
-    this.settingsService.getSettings().subscribe({
-      next: (res) => {
-        console.log('Sidebar got user:', res);
-        this.settingsService.setUser(res);
-      },
-      error: (err) => console.error('Sidebar error:', err),
+  ngOnInit(): void {
+    // Load user data
+    if (!this.settingsService.user()) {
+      this.settingsService.getSettings().subscribe({
+        next: (res) => {
+          console.log('Sidebar got user:', res);
+          this.settingsService.setUser(res);
+        },
+        error: (err) => console.error('Sidebar error:', err),
+      });
+    }
+
+    // Set active route based on current URL
+    // First, set it immediately on load
+    const currentUrl = this.router.url;
+    this.updateActiveRoute(currentUrl);
+
+    // Then listen for changes
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const url = event.urlAfterRedirects;
+        this.updateActiveRoute(url);
+        console.log(url);
+      }
     });
   }
-}
+
+  private updateActiveRoute(url: string): void {
+    if (url.includes('home')) {
+      this.activeRoute = 'home';
+    } else if (url.includes('my-courses')) {
+      this.activeRoute = 'my-courses';
+    } else if (url.includes('learning-circles')) {
+      this.activeRoute = 'learning-circles';
+    } else if (url.includes('teachers')) {
+      this.activeRoute = 'teachers';
+    } else if (url.includes('courses')) {
+      this.activeRoute = 'courses';
+    } else if (url.includes('my-certificates')) {
+      this.activeRoute = 'my-certificates';
+    } else if (url.includes('settings')) {
+      this.activeRoute = 'settings';
+    }
+  }
 
   getStudentImage(imageUrl?: string | null): string {
     if (!imageUrl || imageUrl.toLowerCase() === 'null') {
       return 'images/avatar.webp';
     }
+
     return imageUrl.startsWith('http') ? imageUrl : this.apiUrl + imageUrl;
+  }
+
+  setActiveRoute(route: string): void {
+    this.activeRoute = route;
+  }
+
+  isActive(route: string): boolean {
+    return this.activeRoute === route;
   }
 
   logout(): void {
