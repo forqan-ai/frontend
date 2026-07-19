@@ -61,6 +61,12 @@ export const routes: Routes = [
       ),
   },
   {
+  path: 'course-player/:id',
+  loadComponent: () =>
+    import('./features/Course/Pages/course-player/course-player.component')
+      .then(m => m.CoursePlayerComponent)
+},
+  {
     path: 'studentprofile/teaching-request',
     loadComponent: () =>
       import('./features/teacher/pages/teaching-request/teaching-request.component').then(
@@ -78,4 +84,11 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'check-email', component: CheckEmailComponent },
+  {
+  path: '',
+  loadChildren: () =>
+    import('./features/live-sessions/live-sessions.routes')
+      .then(m => m.LIVE_SESSIONS_ROUTES),
+},
+
 ];
