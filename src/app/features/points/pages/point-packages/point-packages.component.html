@@ -1,0 +1,189 @@
+<div class="container-fluid px-0 recharge-page" dir="rtl">
+  <div class="row g-0">
+    <!-- Sidebar -->
+    <aside class="col-lg-2 d-none d-lg-block">
+      <app-sidebar></app-sidebar>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="col-lg-10 col-12">
+      <div class="container p-5">
+        <!-- ========================= -->
+        <!-- Header -->
+        <!-- ========================= -->
+        <!-- Wallet Card -->
+
+        <div class="wallet-card mb-5">
+          <div class="wallet-header">
+            <div class="wallet-title">
+              <i class="bi bi-wallet2"></i>
+
+              <span>رصيد النقاط</span>
+            </div>
+
+            <span class="wallet-badge"> متاح للاستخدام </span>
+          </div>
+
+          <div class="wallet-body">
+            <h1>
+              {{ currentPoints() }}
+
+              <small>نقطة</small>
+            </h1>
+
+            <p>استخدم نقاطك لحجز حلقات العلم داخل المنصة.</p>
+          </div>
+        </div>
+
+        <!-- ========================= -->
+        <!-- Packages -->
+        <!-- ========================= -->
+
+        <div class="row g-4 justify-content-center">
+          <!-- Starter -->
+          @for (item of pointPackages(); track $index) {
+            <div class="col-lg-4 col-md-6">
+              <div class="package-card">
+                <div class="package-body">
+                  @if (item.name == 'الحزمة المتوسطه') {
+                    <div class="ribbon">الأكثر مبيعاً</div>
+                  }
+                  <span class="package-type">{{ item.name }}</span>
+                  @if (item.name == 'الحزمة الصغيره') {
+                    <div class="package-icon">
+                      <i class="bi bi-wallet2"></i>
+                    </div>
+                  } @else if (item.name == 'الحزمة المتوسطه') {
+                    <div class="package-icon">
+                      <i class="bi bi-stars"></i>
+                    </div>
+                  } @else if (item.name == 'الحزمة الكبيره') {
+                    <div class="package-icon">
+                      <i class="bi bi-award"></i>
+                    </div>
+                  }
+
+                  <h3>{{ item.points }} نقطه</h3>
+
+                  <div class="package-price">
+                    {{ item.price }}
+                    <small>ج.م</small>
+                  </div>
+
+                  <button class="btn btn-outline-theme w-100" (click)="buyClick(item.id)">اشحن الآن</button>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Popular -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="package-card active">
+              <div class="ribbon">الأكثر مبيعاً</div>
+
+              <div class="package-body">
+                <span class="package-type"> الحزمة الذهبية </span>
+
+                <div class="package-icon">
+                  <i class="bi bi-stars"></i>
+                </div>
+
+                <h3>500 نقطة</h3>
+
+                <div class="package-price">
+                  <span class="new-price"> 650 </span>
+
+                  <small>ج.م</small>
+
+                  <del> 750 </del>
+                </div>
+
+                <button class="btn btn-theme w-100">اشحن الآن</button>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Premium -->
+
+          <!-- <div class="col-lg-4 col-md-6">
+            <div class="package-card">
+              <div class="package-body">
+                <span class="package-type"> حزمة المحترفين </span>
+
+                <div class="package-icon">
+                  <i class="bi bi-award"></i>
+                </div>
+
+                <h3>1000 نقطة</h3>
+
+                <div class="package-price">
+                  1200
+                  <small>ج.م</small>
+                </div>
+
+                <button class="btn btn-outline-theme w-100">اشحن الآن</button>
+              </div>
+            </div>
+          </div>-->
+        </div>
+
+        <!-- ========================= -->
+        <!-- Benefits -->
+        <!-- ========================= -->
+
+        <section class="benefits-section mt-5">
+          <div class="row align-items-center">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+              <img
+                src="images/pointsImage.png"
+                class="img-fluid rounded-4 shadow-sm w-100"
+                alt="Learning"
+              />
+            </div>
+
+            <div class="col-lg-7">
+              <h3 class="benefits-title">كيف تستفيد من نقاطك؟</h3>
+
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="bi bi-mortarboard"></i>
+                </div>
+
+                <div>
+                  <h6>الجلسات العلمية</h6>
+
+                  <p>استخدم نقاطك لحجز مقعدك في الجلسات المباشرة مع أفضل المعلمين.</p>
+                </div>
+              </div>
+
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="bi bi-trophy"></i>
+                </div>
+
+                <div>
+                  <h6>التحديات العلمية</h6>
+
+                  <p>احصل على نقاط إضافية بعد اجتياز الاختبارات والتحديات.</p>
+                </div>
+              </div>
+
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="bi bi-gift"></i>
+                </div>
+
+                <div>
+                  <h6>المكافآت</h6>
+
+                  <p>استبدل نقاطك بمزايا حصرية داخل المنصة.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
