@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { CheckEmailComponent } from './features/auth/check-email/check-email.component';
+import { PointPackagesComponent } from './features/points/pages/point-packages/point-packages.component';
+import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 import { PublicLayoutComponent } from './Layout/public_layout/public-layout/public-layout.component';
 import { HomeComponent } from './features/home/pages/home/home.component';
 import { LoginComponent } from './features/auth/login/login.component';
@@ -110,9 +112,56 @@ export const routes: Routes = [
   },
   {
     path: '',
+    loadComponent: () => import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'course-details/:id',
+    loadComponent: () =>
+      import('./features/Course/Pages/course-details/course-details.component').then(
+        (m) => m.CourseDetailsComponent,
+      ),
+  },
+  {
+    path: 'studentprofile',
+    loadComponent: () =>
+      import('./features/student/Pages/studentprofile/studentprofile.component').then(
+        (m) => m.StudentprofileComponent,
+      ),
+    title: 'الملف الشخصي للطالب',
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./features/student/Pages/student-settings/student-settings.component').then(
+        (m) => m.StudentSettingsComponent,
+      ),
+    title: 'الإعدادات',
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/teacher/pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent,
+      ),
+  },
+  {
+    path: 'studentprofile/teaching-request',
+    loadComponent: () =>
+      import('./features/student/Pages/teaching-request/teaching-request.component').then(
+        (m) => m.TeachingRequestComponent,
+      ),
+  },
+  {
+    path: 'courses',
     loadChildren: () =>
       import('./features/live-sessions/live-sessions.routes')
         .then(m => m.LIVE_SESSIONS_ROUTES),
   },
+  { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'forgot-password', component: ResetPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'check-email', component: CheckEmailComponent },
+  { path: 'pointPackages', component: PointPackagesComponent },
+  { path: 'checkout/:id', component: CheckoutComponent }
 
 ];
