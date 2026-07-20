@@ -81,6 +81,10 @@ export class TeachingRequestComponent {
   requestStatus = signal<RequestStatus>('Pending');
 
   ngOnInit() {
+    this.loadRequestStatus();
+  }
+
+  loadRequestStatus() {
     this.studentService.getTeachingRequestStatus().subscribe({
       next: (res) => {
         this.requestStatus.set(res.status);
@@ -92,8 +96,6 @@ export class TeachingRequestComponent {
       }
     })
   }
-
-
 
   studentService = inject(StudentService);
   private toast = inject(ToastService);

@@ -7,7 +7,6 @@ import { IStudentCourse } from '../../Models/student-course.interface';
 import { IStudentProfile } from '../../Models/student-profile.interface';
 
 import { StudentService } from '../../Services/student.service';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { environment } from '../../../../../environments/environment.development';
 import { PointsService } from '../../../points/services/points.service';
 import { RouterLink } from '@angular/router';
@@ -16,7 +15,7 @@ import { PointsBalanceComponent } from '../../../teacher/components/points-balan
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
-  imports: [CommonModule, DatePipe, SidebarComponent, PointsBalanceComponent,RouterLink],
+  imports: [CommonModule, DatePipe, PointsBalanceComponent],
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
 })

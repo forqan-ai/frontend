@@ -1,9 +1,9 @@
 <div class="container-fluid px-0 recharge-page" dir="rtl">
   <div class="row g-0">
     <!-- Sidebar -->
-    <aside class="col-lg-2 d-none d-lg-block">
+    <!-- <aside class="col-lg-2 d-none d-lg-block">
       <app-sidebar></app-sidebar>
-    </aside>
+    </aside> -->
 
     <!-- Main Content -->
     <main class="col-lg-10 col-12">
@@ -42,38 +42,38 @@
         <div class="row g-4 justify-content-center">
           <!-- Starter -->
           @for (item of pointPackages(); track $index) {
-            <div class="col-lg-4 col-md-6">
-              <div class="package-card">
-                <div class="package-body">
-                  @if (item.name == 'الحزمة المتوسطه') {
-                    <div class="ribbon">الأكثر مبيعاً</div>
-                  }
-                  <span class="package-type">{{ item.name }}</span>
-                  @if (item.name == 'الحزمة الصغيره') {
-                    <div class="package-icon">
-                      <i class="bi bi-wallet2"></i>
-                    </div>
-                  } @else if (item.name == 'الحزمة المتوسطه') {
-                    <div class="package-icon">
-                      <i class="bi bi-stars"></i>
-                    </div>
-                  } @else if (item.name == 'الحزمة الكبيره') {
-                    <div class="package-icon">
-                      <i class="bi bi-award"></i>
-                    </div>
-                  }
-
-                  <h3>{{ item.points }} نقطه</h3>
-
-                  <div class="package-price">
-                    {{ item.price }}
-                    <small>ج.م</small>
-                  </div>
-
-                  <button class="btn btn-outline-theme w-100" (click)="buyClick(item.id)">اشحن الآن</button>
+          <div class="col-lg-4 col-md-6">
+            <div class="package-card">
+              <div class="package-body">
+                @if (item.name == 'الحزمة المتوسطه') {
+                <div class="ribbon">الأكثر مبيعاً</div>
+                }
+                <span class="package-type">{{ item.name }}</span>
+                @if (item.name == 'الحزمة الصغيره') {
+                <div class="package-icon">
+                  <i class="bi bi-wallet2"></i>
                 </div>
+                } @else if (item.name == 'الحزمة المتوسطه') {
+                <div class="package-icon">
+                  <i class="bi bi-stars"></i>
+                </div>
+                } @else if (item.name == 'الحزمة الكبيره') {
+                <div class="package-icon">
+                  <i class="bi bi-award"></i>
+                </div>
+                }
+
+                <h3>{{ item.points }} نقطه</h3>
+
+                <div class="package-price">
+                  {{ item.price }}
+                  <small>ج.م</small>
+                </div>
+
+                <button class="btn btn-outline-theme w-100" (click)="buyClick(item.id)">اشحن الآن</button>
               </div>
             </div>
+          </div>
           }
 
           <!-- Popular -->
@@ -135,11 +135,7 @@
         <section class="benefits-section mt-5">
           <div class="row align-items-center">
             <div class="col-lg-5 mb-4 mb-lg-0">
-              <img
-                src="images/pointsImage.png"
-                class="img-fluid rounded-4 shadow-sm w-100"
-                alt="Learning"
-              />
+              <img src="images/pointsImage.png" class="img-fluid rounded-4 shadow-sm w-100" alt="Learning" />
             </div>
 
             <div class="col-lg-7">

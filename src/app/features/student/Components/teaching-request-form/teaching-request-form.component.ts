@@ -1,4 +1,4 @@
-import { Component, HostListener, signal, computed, inject } from '@angular/core';
+import { Component, HostListener, signal, computed, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ITeacherRequestForm } from '../../Models/teacher-request-form.interface';
@@ -6,6 +6,7 @@ import { StudentService } from '../../Services/student.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teaching-request-form',
@@ -250,8 +251,13 @@ export class TeachingRequestFormComponent {
     this.cvFile.set(null);
   }
 
+  @Output() requestSubmitted = new EventEmitter<void>();
+
+  private readonly router = inject(Router);
 
   isLoading = signal<boolean>(false);
+
+  
 
   onSubmit() {
     if (this.teacherForm.invalid) {
@@ -283,17 +289,13 @@ export class TeachingRequestFormComponent {
     if (this.cvFile()) {
       formData.append('cv', this.cvFile()!);
     }
-    console.log('----- FormData -----');
-
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
 
     this.studentService.sendTeachingRequest(formData).subscribe({
       next: (res) => {
         console.log(res)
         this.isLoading.set(false);
         this.toast.show('تم أرسال طلبك بنجاح');
+        this.requestSubmitted.emit();
       },
       error: (err) => {
         console.log(err);

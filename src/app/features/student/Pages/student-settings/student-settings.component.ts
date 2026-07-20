@@ -8,7 +8,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 import { ToastService } from '../../../../core/services/toast.service';
 import {
   IUserSettings,
@@ -43,7 +42,7 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, ButtonComponent, ToastComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, ToastComponent, RouterLink],
   templateUrl: './student-settings.component.html',
   styleUrls: ['./student-settings.component.css'],
 })

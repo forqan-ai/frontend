@@ -110,6 +110,7 @@ export class AuthService {
     return payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role || null;
   }
 
+
   getUserId(): string | null {
     const payload: any = this.getPayload();
     if (!payload) return null;
