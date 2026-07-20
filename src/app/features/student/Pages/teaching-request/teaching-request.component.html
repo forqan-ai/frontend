@@ -6,7 +6,7 @@
         <!-- <app-teaching-request-result-accepted></app-teaching-request-result-accepted> -->
 
         @if(requestStatus() == 'not registered'){
-        <app-teaching-request-form></app-teaching-request-form>
+        <app-teaching-request-form (requestSubmitted)="loadRequestStatus()"></app-teaching-request-form>
         }
         @else if(requestStatus() == 'Pending'){
         <app-teaching-request-result-pending></app-teaching-request-result-pending>

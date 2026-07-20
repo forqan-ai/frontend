@@ -43,7 +43,7 @@
 </div> -->
 
 
-<div class="offcanvas offcanvas-start bg-grey-dark" tabindex="-1" id="mobileSidebar"
+<div class="offcanvas offcanvas-start bg-grey-dark" tabindex="-1" id="adminMobileSidebar"
     style="width: 260px; background-color: var(--primary-hover);">
     <a data-bs-dismiss="offcanvas"> <i class="bi bi-x-lg exit" style=" color: var(--primary-light);"></i>
     </a>
@@ -62,61 +62,21 @@
     <div class="offcanvas-body p-0 d-flex flex-column bg-grey-dark">
         <nav class="flex-grow-1 p-3">
             <div class="d-flex flex-column gap-2">
-                <a routerLink="/dashboard/home" (click)="setActiveRoute('home')" [class.green-anchor]="isActive('home')"
-                    [class.grey-anchor]="!isActive('home')"
+                <a routerLink="admin/teaching-requests" (click)="setActiveRoute('teaching-requests')"
+                    [class.green-anchor]="isActive('teaching-requests')"
+                    [class.grey-anchor]="!isActive('teaching-requests')"
                     class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
                     data-bs-dismiss="offcanvas">
-                    <i class="bi bi-grid-1x2-fill"></i> الرئيسية
+                    <i class="bi bi-grid-1x2-fill"></i> طلبات التدريس
                 </a>
 
-                <a routerLink="my-courses" (click)="setActiveRoute('my-courses')"
-                    [class.green-anchor]="isActive('my-courses')" [class.grey-anchor]="!isActive('my-courses')"
+                <a routerLink="admin/courses-review" (click)="setActiveRoute('courses-review')"
+                    [class.green-anchor]="isActive('courses-review')" [class.grey-anchor]="!isActive('courses-review')"
                     class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
                     data-bs-dismiss="offcanvas">
-                    <i class="bi bi-book"></i> دوراتي
+                    <i class="bi bi-book"></i> مراجعة الدورات
                 </a>
 
-                <a routerLink="learning-circles" (click)="setActiveRoute('learning-circles')"
-                    [class.green-anchor]="isActive('learning-circles')"
-                    [class.grey-anchor]="!isActive('learning-circles')"
-                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-                    data-bs-dismiss="offcanvas">
-                    <!-- <i class="bi bi-people"></i>  -->
-                    <i class="bi bi-bounding-box-circles"></i>
-                    حلقات العلم
-                </a>
-
-                <a routerLink="teachers" (click)="setActiveRoute('teachers')"
-                    [class.green-anchor]="isActive('teachers')" [class.grey-anchor]="!isActive('teachers')"
-                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-                    data-bs-dismiss="offcanvas">
-                    <span class="material-symbols-outlined">
-                        groups
-                    </span>
-                    المعلمون
-                </a>
-
-                <a routerLink="courses" (click)="setActiveRoute('courses')" [class.green-anchor]="isActive('courses')"
-                    [class.grey-anchor]="!isActive('courses')"
-                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-                    data-bs-dismiss="offcanvas">
-                    <!-- <i class="bi bi-journal-bookmark-fill"></i> -->
-                    <i class="bi bi-collection-play"></i>
-                    الدورات
-                </a>
-
-                <!-- <a routerLink="my-certificates" (click)="setActiveRoute('my-certificates')"
-        [class.green-anchor]="isActive('my-certificates')" [class.grey-anchor]="!isActive('my-certificates')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-award"></i> شهاداتي
-      </a> -->
-
-                <a routerLink="settings" (click)="setActiveRoute('settings')"
-                    [class.green-anchor]="isActive('settings')" [class.grey-anchor]="!isActive('settings')"
-                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-                    data-bs-dismiss="offcanvas">
-                    <i class="bi bi-person-gear"></i> إدارة حسابك
-                </a>
             </div>
         </nav>
 

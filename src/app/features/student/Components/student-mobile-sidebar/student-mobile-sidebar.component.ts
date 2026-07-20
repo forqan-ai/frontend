@@ -5,12 +5,12 @@ import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
-  selector: 'app-mobile-sidebar',
+  selector: 'app-student-mobile-sidebar',
   imports: [AvatarComponent, RouterLink],
-  templateUrl: './mobile-sidebar.component.html',
-  styleUrl: './mobile-sidebar.component.css',
+  templateUrl: './student-mobile-sidebar.component.html',
+  styleUrl: './student-mobile-sidebar.component.css',
 })
-export class MobileSidebarComponent {
+export class StudentMobileSidebarComponent {
 
   private settingsService = inject(SettingsService);
   private authService = inject(AuthService);

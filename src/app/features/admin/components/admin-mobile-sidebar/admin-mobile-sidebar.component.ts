@@ -1,30 +1,37 @@
-import { Component, inject, OnInit, computed, Signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink, Router, NavigationEnd } from '@angular/router';
-import { SettingsService } from '../../Services/settings.service';
+import { Component, computed, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
+import { SettingsService } from '../../../student/Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [CommonModule, RouterLink, AvatarComponent],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css',
+  selector: 'app-adamin-mobile-sidebar',
+  imports: [AvatarComponent, RouterLink],
+  templateUrl: './admin-mobile-sidebar.component.html',
+  styleUrl: './admin-mobile-sidebar.component.css',
 })
-export class SidebarComponent implements OnInit {
+export class MobileSidebarComponent {
+
   private settingsService = inject(SettingsService);
   private authService = inject(AuthService);
   private router = inject(Router);
 
   apiUrl = 'https://localhost:7054';
-  activeRoute: string = '';
 
+  activeRoute: string = 'home';
   user = this.settingsService.user;
 
   studentImage = computed(() =>
     this.getStudentImage(this.user()?.profileImageURL)
   );
+
+  getStudentImage(imageUrl?: string | null): string {
+    if (!imageUrl || imageUrl.toLowerCase() === 'null') {
+      return 'images/avatar.webp';
+    }
+
+    return imageUrl.startsWith('http') ? imageUrl : this.apiUrl + imageUrl;
+  }
 
   ngOnInit(): void {
     // Load user data
@@ -54,29 +61,11 @@ export class SidebarComponent implements OnInit {
   }
 
   private updateActiveRoute(url: string): void {
-    if (url.includes('home')) {
-      this.activeRoute = 'home';
+    if (url.includes('teaching-requests')) {
+      this.activeRoute = 'teaching-requests';
     } else if (url.includes('my-courses')) {
       this.activeRoute = 'my-courses';
-    } else if (url.includes('learning-circles')) {
-      this.activeRoute = 'learning-circles';
-    } else if (url.includes('teachers')) {
-      this.activeRoute = 'teachers';
-    } else if (url.includes('courses')) {
-      this.activeRoute = 'courses';
-    } else if (url.includes('my-certificates')) {
-      this.activeRoute = 'my-certificates';
-    } else if (url.includes('settings')) {
-      this.activeRoute = 'settings';
     }
-  }
-
-  getStudentImage(imageUrl?: string | null): string {
-    if (!imageUrl || imageUrl.toLowerCase() === 'null') {
-      return 'images/avatar.webp';
-    }
-
-    return imageUrl.startsWith('http') ? imageUrl : this.apiUrl + imageUrl;
   }
 
   setActiveRoute(route: string): void {
