@@ -28,7 +28,7 @@ export class SidebarComponent {
     {
       title: 'دوراتي',
       icon: 'menu_book',
-      route: '/teacher/courses',
+      route: '/teacher/my-courses',
     },
 
     {

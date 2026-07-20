@@ -1,0 +1,39 @@
+<div class="layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="content">
+    <app-header></app-header>
+
+    <div class="page">
+      <h2>My Courses</h2>
+
+      <div class="courses-grid">
+        @for (course of courses; track course.courseID) {
+          <div class="course-card">
+            <img [src]="course.thumbnailURL || 'assets/images/course-placeholder.jpg'" />
+
+            <h3>
+              {{ course.title }}
+            </h3>
+
+            <p>
+              {{ course.subtitle }}
+            </p>
+
+            <span>
+              {{ course.categoryName }}
+            </span>
+
+            <div>
+              {{ course.status }}
+            </div>
+
+            <button (click)="buildCourse(course.courseID)">Build Content</button>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+
+  <app-quick-actions></app-quick-actions>
+</div>

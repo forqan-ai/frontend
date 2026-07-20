@@ -16,16 +16,19 @@ export const TEACHER_ROUTES: Routes = [
   },
   {
     path: 'create-course',
-    component: CreateCourseComponent
-}
+    component: CreateCourseComponent,
+  },
+  {
+    path: 'course-builder/:courseId',
+    loadComponent: () =>
+      import('./pages/course-builder/course-builder.component').then(
+        (c) => c.CourseBuilderComponent,
+      ),
+  },
 
-  // {
-  //   path: 'my-courses',
-  //   component: MyCoursesComponent
-  // },
-
-  // {
-  //   path: 'create-course',
-  //   component: CreateCourseComponent
-  // }
+  {
+    path: 'my-courses',
+    loadComponent: () =>
+      import('./pages/my-courses/my-courses.component').then((c) => c.MyCoursesComponent),
+  },
 ];
