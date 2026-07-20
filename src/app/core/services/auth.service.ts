@@ -29,6 +29,8 @@ export class AuthService {
         localStorage.setItem(this.userStorageKey, res.data.token);
         localStorage.setItem('userId', res.data.user.id)
         this.isLoggedIn.set(true);
+        console.log(this.getPayload());
+        
       })
     );
   }
@@ -128,4 +130,8 @@ export class AuthService {
       return true;
     }
   }
+
+  // getUserId(){
+  //   return this.getPayload()?.id;
+  // }
 }
