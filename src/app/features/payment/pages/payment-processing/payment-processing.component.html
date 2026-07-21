@@ -1,0 +1,16 @@
+<div class="processing-page" dir="rtl">
+  <div class="processing-card">
+
+    @if (!timedOut()) {
+      <div class="spinner-large"></div>
+      <h2>جارٍ التحقق من عملية الدفع...</h2>
+      <p>من فضلك لا تغلقي هذه الصفحة، العملية قد تستغرق لحظات</p>
+    } @else {
+      <i class="bi bi-hourglass-split timeout-icon"></i>
+      <h2>العملية استغرقت وقتًا أطول من المتوقع</h2>
+      <p>يمكنك المحاولة مرة أخرى أو مراجعة حالة الدفع لاحقًا</p>
+      <button class="retry-btn" (click)="retryCheck()">إعادة المحاولة</button>
+    }
+
+  </div>
+</div>

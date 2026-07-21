@@ -1,4 +1,4 @@
-<!--
+
 <div class="payment-page container-fluid py-5">
   <div class="bg-pattern-dots"></div>
 
@@ -38,7 +38,7 @@
           ملخص الطلب
         </h5>
 
-        <div class="summary-list flex-grow-1">
+        <div class="summary-list grow">
           <div class="summary-row">
             <span class="label">اسم الباقة</span>
             <strong class="value theme-text-brown">{{ package()?.name }}</strong>
@@ -54,9 +54,10 @@
 
           <div class="summary-row">
             <span class="label">السعر الأصلي</span>
-            <strong class="value price-text text-muted text-decoration-line-through fs-sm" *ngIf="package()?.oldPrice">
-              {{ package()?.price }} ج.م
-            </strong>
+           <div class="summary-row">
+  <span class="label">السعر الأصلي</span>
+  <strong class="value price-text">{{ package()?.price }} ج.م</strong>
+</div>
             <strong class="value price-text">{{ package()?.price }} ج.م</strong>
           </div>
 
@@ -85,4 +86,3 @@
   </div>
 </div>
 
--->

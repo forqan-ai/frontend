@@ -32,4 +32,10 @@ export class CourseService {
   createCourse(data: FormData): Observable<any> {
     return this.http.post(this.baseUrl, data);
   }
+  markLessonCompleted(lessonId: string): Observable<boolean> {
+  return this.http.post<boolean>(
+    `${this.baseUrl}/lessons/${lessonId}/complete`,
+    {}
+  );
+}
 }

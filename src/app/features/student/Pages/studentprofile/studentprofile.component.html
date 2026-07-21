@@ -129,7 +129,7 @@
 
         <div class="courses-grid">
           @for (course of courses(); track course.courseID) {
-            <div class="course-card">
+            <div class="course-card"  [routerLink]="['/course-details', course.courseID]">
               <div class="image">
                 <img [src]="getCourseImage(course.thumbnailURL)" alt="course" />
 
@@ -200,73 +200,82 @@
           }
         </div>
 
-        <div class="panel">
-          <div class="section-header">
-            <h3>
-              <i class="bi bi-bar-chart"></i>
+       <div class="panel">
+  <div class="section-header">
+    <h3>
+      <i class="bi bi-bar-chart"></i>
+      تقدمك
+    </h3>
+  </div>
 
-              تقدمك
-            </h3>
-          </div>
+  <div class="progress-summary">
 
-          <div class="circle-wrapper">
-            <div class="circle-progress" [style.--progress]="knowledgeProgress()">
-              <div class="circle-value">{{ knowledgeProgress() }}%</div>
-
-              <div class="points-info">
-                <span>النقاط المتاحة</span>
-                <h2>
-                  {{ currentPoints() }}
-                  <small>نقطة</small>
-                </h2>
-              </div>
-            </div>
-
-            <div class="points-message">
-              <i class="bi bi-stars"></i>
-              استخدم نقاطك لفتح المزيد من المحتوى التعليمي
-            </div>
-
-            <div class="progress-text">
-              <h4>مستوى الإنجاز</h4>
-
-              <p>استمر في التعلم للوصول إلى 100٪.</p>
-            </div>
-            <h3>التقدم حسب التصنيفات</h3>
-          </div>
-
-          <section class="section">
-            <div class="section-header">
-              <h3>
-                <i class="bi bi-grid"></i>
-
-                التقدم حسب التصنيفات
-              </h3>
-            </div>
-
-            @if (categories().length) {
-              <div class="categories-grid">
-                @for (category of categories(); track category.categoryID) {
-                  <div class="category-card">
-                    <div class="category-header">
-                      <h4>
-                        {{ category.categoryName }}
-                      </h4>
-
-                      <span> {{ category.averageScorePct }}% </span>
-                    </div>
-
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="category.averageScorePct"></div>
-                    </div>
-                  </div>
-                }
-              </div>
-            } @else {
-              <div class="empty">لا يوجد تقدم حتى الآن.</div>
-            }
-          </section>
+    <div class="circle-wrapper">
+      <div
+        class="circle-progress"
+        [style.--progress]="knowledgeProgress()"
+      >
+        <div class="circle-value">
+          {{ knowledgeProgress() }}%
         </div>
+      </div>
+    </div>
+
+    <div class="progress-text">
+      <h4>مستوى الإنجاز</h4>
+      <p>استمر في التعلم للوصول إلى 100٪.</p>
+    </div>
+
+    <div class="points-box">
+      <span>النقاط المتاحة</span>
+
+      <h2>
+        {{ currentPoints() }}
+        <small>نقطة</small>
+      </h2>
+    </div>
+
+    <div class="points-message">
+      <i class="bi bi-stars"></i>
+      استخدم نقاطك لفتح المزيد من المحتوى التعليمي.
+    </div>
+
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <h3>
+        <i class="bi bi-grid"></i>
+        التقدم حسب التصنيفات
+      </h3>
+    </div>
+
+    @if (categories().length) {
+      <div class="categories-grid">
+        @for (category of categories(); track category.categoryID) {
+          <div class="category-card">
+            <div class="category-header">
+              <h4>{{ category.categoryName }}</h4>
+
+              <span>{{ category.averageScorePct }}%</span>
+            </div>
+
+            <div class="progress">
+              <div
+                class="progress-bar"
+                [style.width.%]="category.averageScorePct"
+              ></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty">
+        لا يوجد تقدم حتى الآن.
+      </div>
+    }
+  </section>
+</div>
       </section>
     </div>
   </div>

@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment.development';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-email.component.html',
-  styleUrl: './check-email.component.css'
+  styleUrl: './check-email.component.css',
 })
 export class CheckEmailComponent implements OnInit {
   userEmail: string = '';
@@ -16,11 +16,11 @@ export class CheckEmailComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.userEmail = params['email'] || sessionStorage.getItem('registeredEmail') || '';
     });
   }
@@ -31,12 +31,9 @@ export class CheckEmailComponent implements OnInit {
   resendActivationEmail() {
     if (!this.userEmail) return;
     const payload = { email: this.userEmail };
-    this.http.post(`${environment.apiUrl}/api/auth/resend-confirmation-email`, payload)
-      .subscribe({
-        next: (response) => {
-        },
-        error: (error) => {
-        }
-      });
+    this.http.post(`${environment.apiUrl}/api/auth/resend-confirmation-email`, payload).subscribe({
+      next: (response) => {},
+      error: (error) => {},
+    });
   }
 }

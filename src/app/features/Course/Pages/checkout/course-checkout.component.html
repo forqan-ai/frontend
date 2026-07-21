@@ -1,0 +1,87 @@
+<div class="checkout-page" dir="rtl">
+  <div class="container py-5">
+
+    @if (loading()) {
+      <div class="state-box text-center py-5">
+        <div class="spinner"></div>
+        <p class="state-text">جارٍ التحميل...</p>
+      </div>
+    }
+
+    @if (error()) {
+      <div class="state-box error-box text-center py-5">
+        <i class="bi bi-exclamation-circle error-icon"></i>
+        <p class="state-text">{{ error() }}</p>
+      </div>
+    }
+
+    @if (!loading() && !error() && course()) {
+      <div class="checkout-wrapper">
+        <h1 class="checkout-title">إتمام عملية الشراء</h1>
+        <p class="checkout-subtitle">راجعي تفاصيل الدورة قبل الدفع</p>
+
+        <div class="checkout-card">
+
+          <div class="course-summary">
+            <img
+              [src]="course()?.thumbnailURL ?? 'images/course-placeholder.jpg'"
+              [alt]="course()?.title"
+              class="course-thumb"
+            />
+
+            <div class="course-info">
+              <span class="badge-owned-check">دورة تدريبية</span>
+              <h3 class="course-name">{{ course()?.title }}</h3>
+              <p class="course-teacher">
+                <i class="bi bi-person"></i>
+                {{ course()?.teacherName }}
+              </p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="price-row">
+            <span class="price-label">سعر الدورة</span>
+            <span class="price-value">{{ course()?.price }} $</span>
+          </div>
+
+          <div class="price-row total-row">
+            <span class="price-label">الإجمالي</span>
+            <span class="price-value total-value">{{ course()?.price }} $</span>
+          </div>
+
+          <div class="perks-list">
+            <div class="perk-item">
+              <i class="bi bi-infinity"></i>
+              <span>وصول مدى الحياة للمحتوى</span>
+            </div>
+            <div class="perk-item">
+              <i class="bi bi-patch-check"></i>
+              <span>شهادة إتمام معتمدة</span>
+            </div>
+            <div class="perk-item">
+              <i class="bi bi-shield-lock"></i>
+              <span>دفع آمن ومشفّر بالكامل</span>
+            </div>
+          </div>
+
+          <button
+            class="pay-btn"
+            [disabled]="loading()"
+            (click)="pay()"
+          >
+            <i class="bi bi-lock-fill"></i>
+            الدفع الآن
+          </button>
+
+          <p class="secure-note">
+            <i class="bi bi-shield-check"></i>
+            جميع المعاملات مؤمّنة عبر بوابة دفع معتمدة
+          </p>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

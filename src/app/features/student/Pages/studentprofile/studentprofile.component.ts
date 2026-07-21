@@ -15,7 +15,9 @@ import { PointsBalanceComponent } from '../../../teacher/components/points-balan
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
-  imports: [CommonModule, DatePipe, PointsBalanceComponent],
+
+  imports: [CommonModule, DatePipe, PointsBalanceComponent,RouterLink],
+
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
 })
