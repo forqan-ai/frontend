@@ -1,0 +1,21 @@
+<div class="teacher-request-wrapper" dir="rtl">
+    <div class="tr-container">
+        <app-teachign-request-status-bar [status]="requestStatus()"></app-teachign-request-status-bar>
+        <!-- <app-teaching-request-form></app-teaching-request-form> -->
+        <!-- <app-teaching-request-result-pending></app-teaching-request-result-pending> -->
+        <!-- <app-teaching-request-result-accepted></app-teaching-request-result-accepted> -->
+
+        @if(requestStatus() == 'not registered'){
+        <app-teaching-request-form (requestSubmitted)="loadRequestStatus()"></app-teaching-request-form>
+        }
+        @else if(requestStatus() == 'Pending'){
+        <app-teaching-request-result-pending></app-teaching-request-result-pending>
+        }
+        @else if(requestStatus() == 'Accepted'){
+        <app-teaching-request-result-accepted></app-teaching-request-result-accepted>
+        }
+        @else if (requestStatus() == 'Refused') {
+        <app-teaching-request-result-rejected></app-teaching-request-result-rejected>
+        }
+    </div>
+</div>

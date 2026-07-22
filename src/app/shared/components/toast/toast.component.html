@@ -1,20 +1,15 @@
 @if(toast.message()){
 
-<div 
-class="toast"
-[class.error]="toast.type() === 'error'">
+<div class="toast" [class.error]="toast.type() === 'error'">
 
 
-<i 
-class="bi"
-[class.bi-check-circle]="toast.type()==='success'"
-[class.bi-x-circle]="toast.type()==='error'">
-</i>
+    <i class="bi" [class.bi-check-circle]="toast.type()==='success'" [class.bi-x-circle]="toast.type()==='error'">
+    </i>
 
 
-<span>
-{{toast.message()}}
-</span>
+    <span>
+        {{toast.message()}}
+    </span>
 
 
 </div>

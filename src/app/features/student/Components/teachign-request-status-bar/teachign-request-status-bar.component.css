@@ -1,0 +1,207 @@
+/* .tr-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #2c1a0e;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+
+.tr-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.tr-stepper-line {
+  position: absolute;
+  top: 0.5rem;
+  left: 3rem;
+  right: 3rem;
+  height: 1px;
+  background-color: #c9b99a;
+  z-index: 0;
+}
+
+.tr-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+.tr-step-dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid #c9b99a;
+  background-color: #ffffff;
+}
+.tr-step-dot--filled {
+  background-color: #5c3d1e;
+  border-color: #5c3d1e;
+}
+.tr-step-label--active {
+  color: #5c3d1e;
+  font-weight: 700;
+}
+
+.tr-step-label {
+  font-size: 0.875rem;
+  text-align: center;
+  color: #8a7060;
+  line-height: 1.25;
+  max-width: 90px;
+}
+
+.tr-step-label--active {
+  color: #5c3d1e;
+  font-weight: 700;
+}
+
+
+.tr-step-status {
+  font-size: 0.75rem;
+  color: #8a7060;
+  text-align: center;
+}
+
+
+ */
+
+
+
+ /* teacher-stepper.component.scss */
+.tr-stepper-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #e0d5c8;
+  border-radius: 1rem;
+  padding: 2rem 2rem 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.tr-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #2c1a0e;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.tr-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.tr-stepper-line {
+  position: absolute;
+  top: 0.5rem;
+  left: 3rem;
+  right: 3rem;
+  height: 2px;
+  background-color: #c9b99a;
+  z-index: 0;
+}
+
+.tr-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1;
+  flex: 1;
+}
+
+.tr-step-dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid #c9b99a;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.tr-step-dot--filled {
+  background-color: #5c3d1e;
+  border-color: #5c3d1e;
+}
+
+.tr-step-label {
+  font-size: 0.875rem;
+  text-align: center;
+  color: #8a7060;
+  line-height: 1.25;
+  max-width: 90px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.tr-step-label--active {
+  color: #5c3d1e;
+  font-weight: 700;
+}
+
+.tr-step-status {
+  font-size: 0.75rem;
+  color: #8a7060;
+  text-align: center;
+  min-height: 1.2rem;
+}
+
+/* Step active state */
+.tr-step--active .tr-step-dot {
+  border-color: #5c3d1e;
+}
+
+/* Refused status styling */
+.tr-step-status--refused {
+  color: #dc3545 !important;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tr-stepper-wrapper {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .tr-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tr-stepper-line {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .tr-step-label {
+    font-size: 0.75rem;
+    max-width: 60px;
+  }
+
+  .tr-step-status {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tr-step-label {
+    font-size: 0.65rem;
+    max-width: 50px;
+  }
+
+  .tr-step-status {
+    font-size: 0.55rem;
+  }
+
+  .tr-step-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}

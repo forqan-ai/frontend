@@ -16,7 +16,7 @@ export class QuickActionsComponent {
   }
 
   goToCreateCourse() {
-    this.router.navigate(['/teacher/courses/create']);
+    this.router.navigate(['/teacher/create-course']);
   }
 
   goToStudents() {

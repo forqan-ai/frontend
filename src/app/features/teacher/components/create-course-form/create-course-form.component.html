@@ -1,0 +1,75 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="course-form">
+  <div class="row">
+    <div class="form-group">
+      <label>عنوان الدورة</label>
+
+      <input type="text" formControlName="title" placeholder="مثال : تعلم تفسير القرآن" />
+    </div>
+
+    <div class="form-group">
+      <label>العنوان الفرعي</label>
+
+      <input type="text" formControlName="subtitle" placeholder="اكتب عنواناً فرعياً" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>وصف الدورة</label>
+
+    <textarea rows="6" formControlName="description" placeholder="اكتب وصف الدورة"> </textarea>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label>التصنيف</label>
+
+      <select formControlName="categoryId">
+        <option value="">اختر التصنيف</option>
+
+        @for (category of categories(); track category.categoryID) {
+          <option [value]="category.categoryID">
+            {{ category.name }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>المستوى</label>
+
+      <select formControlName="level">
+        <option [value]="0">Beginner</option>
+
+        <option [value]="1">Intermediate</option>
+
+        <option [value]="2">Advanced</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label>اللغة</label>
+
+      <select formControlName="language">
+        <option [value]="0">العربية</option>
+
+        <option [value]="1">English</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>السعر</label>
+
+      <input type="number" formControlName="price" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>صورة الدورة</label>
+
+    <input type="file" accept="image/*" (change)="onThumbnailSelected($event)" />
+  </div>
+
+  <button class="save-btn" type="submit">إنشاء الدورة</button>
+</form>

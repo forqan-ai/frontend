@@ -14,6 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/api/auth`;
   public readonly userStorageKey = 'ForqanKey';
@@ -26,7 +27,10 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((res) => {
         localStorage.setItem(this.userStorageKey, res.data.token);
+        localStorage.setItem('userId', res.data.user.id)
         this.isLoggedIn.set(true);
+        console.log(this.getPayload());
+        
       })
     );
   }
@@ -38,6 +42,7 @@ export class AuthService {
       tap((res) => {
         console.log(res);
         localStorage.setItem(this.userStorageKey, res.data.token);
+        localStorage.setItem('userId', res.data.user.id)
         this.isLoggedIn.set(true);   // <-- Missing
       })
     );
@@ -53,6 +58,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           localStorage.setItem(this.userStorageKey, res.data.token);
+          localStorage.setItem('userId', res.data.user.id)
           this.isLoggedIn.set(true);
         })
       );
@@ -62,6 +68,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.userStorageKey);
+    localStorage.removeItem('userId');
     this.isLoggedIn.set(false);
   }
 
@@ -98,7 +105,16 @@ export class AuthService {
   }
 
   getRole(): string | null {
-    return this.getPayload()?.role ?? null;
+    const payload: any = this.getPayload();
+    if (!payload) return null;
+    return payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role || null;
+  }
+
+
+  getUserId(): string | null {
+    const payload: any = this.getPayload();
+    if (!payload) return null;
+    return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || payload.id || null;
   }
 
   hasRole(role: Role): boolean {
@@ -115,4 +131,8 @@ export class AuthService {
       return true;
     }
   }
+
+  // getUserId(){
+  //   return this.getPayload()?.id;
+  // }
 }

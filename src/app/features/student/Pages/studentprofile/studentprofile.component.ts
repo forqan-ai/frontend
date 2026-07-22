@@ -7,13 +7,17 @@ import { IStudentCourse } from '../../Models/student-course.interface';
 import { IStudentProfile } from '../../Models/student-profile.interface';
 
 import { StudentService } from '../../Services/student.service';
-import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 import { environment } from '../../../../../environments/environment.development';
+import { PointsService } from '../../../points/services/points.service';
+import { RouterLink } from '@angular/router';
+import { PointsBalanceComponent } from '../../../teacher/components/points-balance/points-balance.component';
 
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
-  imports: [CommonModule, DatePipe, SidebarComponent],
+
+  imports: [CommonModule, DatePipe, PointsBalanceComponent,RouterLink],
+
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
 })
@@ -28,9 +32,21 @@ export class StudentprofileComponent implements OnInit {
   courses = signal<IStudentCourse[]>([]);
   categories = signal<ICategoryProgress[]>([]);
   activities = signal<IRecentActivity[]>([]);
+  readonly currentPoints = signal(0);
+  private poService = inject(PointsService);
 
   ngOnInit(): void {
     this.loadData();
+    this.poService.getUserBalance().subscribe({
+      next: (res) => {
+        console.log(res);
+
+        this.currentPoints.set(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   loadData(): void {

@@ -1,173 +1,207 @@
 <div class="course-container" dir="rtl">
-    <div class="container py-3">
-        <nav class="custom-breadcrumb">
-            <span>الرئيسية</span> / <span>الدورات التدريبية</span> / <span class="active">{{ course()?.title }}</span>
-        </nav>
+  <div class="container py-3">
+    <nav class="custom-breadcrumb">
+      <span>الرئيسية</span> / <span>الدورات التدريبية</span> /
+      <span class="active">{{ course()?.title }}</span>
+    </nav>
+  </div>
+
+  <section class="container my-4">
+    <div class="row g-5">
+      <div class="col-lg-7 order-2 order-lg-1">
+        <h1 class="course-title">{{ course()?.title }}</h1>
+        <h2 class="course-subtitle mb-3">{{ course()?.subtitle }}</h2>
+
+        <div class="d-flex align-items-center gap-2 mb-4 flex-wrap">
+          <span class="custom-badge badge-level border-pill">{{ course()?.levelAr }}</span>
+          <span class="custom-badge badge-lang border-pill">{{ course()?.languageAr }}</span>
+          <span class="custom-badge badge-cert border-pill">
+            {{ true ? 'شهادة معتمدة' : 'بدون شهادة' }}
+          </span>
+          <div class="me-2 d-flex align-items-center">
+            <img style="width: 22px; gap: 4px" src="images/star.png" alt="star icon" />
+            <img style="width: 22px; gap: 4px" src="images/star.png" alt="star icon" />
+            <img style="width: 22px; gap: 4px" src="images/star.png" alt="star icon" />
+            <img style="width: 22px; gap: 4px" src="images/star.png" alt="star icon" />
+            <img style="width: 22px; gap: 4px" src="images/star.png" alt="star icon" />
+            <span class="rating-num me-1">{{ course()?.rating }}</span>
+          </div>
+        </div>
+
+        <h3 class="section-title">نبذة عن الدورة</h3>
+        <p class="course-description">{{ course()?.description }}</p>
+
+        <div class="d-flex gap-3 mt-4 flex-wrap">
+          <button class="btn-custom btn-primary-custom" (click)="handlePurchaseClick()">
+            {{ owned() ? 'ابدأ التعلم' : 'شراء الدورة الآن' }}
+          </button>
+          <button class="btn-custom btn-secondary-custom gap-2">
+            إضافة للمفضلة <i class="bi bi-heart"></i>
+          </button>
+          <button class="btn-custom btn-secondary-custom gap-2">
+            تحميل الخطة الدراسية <i class="bi bi-download"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-lg-5 order-1 order-lg-2">
+        <div class="video-preview-wrapper shadow-sm">
+          <iframe
+            *ngIf="isYouTube && safeVideoUrl"
+            [src]="safeVideoUrl"
+            class="w-100 course-video"
+            frameborder="0"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+            "
+            allowfullscreen
+          >
+          </iframe>
+          <video *ngIf="!isYouTube" controls class="w-100 course-video">
+            <source [src]="course()?.promoVideoURL" type="video/mp4" />
+            متصفحك لا يدعم تشغيل هذا الفيديو.
+          </video>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <section class="container my-4">
-        <div class="row g-5">
-            <div class="col-lg-7 order-2 order-lg-1">
-                <h1 class="course-title">{{ course()?.title }}</h1>
-                <h2 class="course-subtitle mb-3">{{ course()?.subtitle }}</h2>
-
-                <div class="d-flex align-items-center gap-2 mb-4 flex-wrap">
-                    <span class="custom-badge badge-level border-pill">{{ course()?.levelAr }}</span>
-                    <span class="custom-badge badge-lang border-pill">{{ course()?.languageAr }}</span>
-                    <span class="custom-badge badge-cert border-pill">
-                        {{ true ? 'شهادة معتمدة' : 'بدون شهادة'}}
-                    </span>
-                    <div class="me-2 d-flex align-items-center">
-                        <img style="width: 22px; gap: 4px;" src="images/star.png" alt="star icon">
-                        <img style="width: 22px; gap: 4px;" src="images/star.png" alt="star icon">
-                        <img style="width: 22px; gap: 4px;" src="images/star.png" alt="star icon">
-                        <img style="width: 22px; gap: 4px;" src="images/star.png" alt="star icon">
-                        <img style="width: 22px; gap: 4px;" src="images/star.png" alt="star icon">
-                        <span class="rating-num me-1">{{ course()?.rating }}</span>
-                    </div>
-                </div>
-
-                <h3 class="section-title">نبذة عن الدورة</h3>
-                <p class="course-description">{{ course()?.description }}</p>
-
-                <div class="d-flex gap-3 mt-4 flex-wrap">
-                    <button class="btn-custom btn-primary-custom">شراء الدورة الآن</button>
-                    <button class="btn-custom btn-secondary-custom gap-2">إضافة للمفضلة <i
-                            class="bi bi-heart"></i></button>
-                    <button class="btn-custom btn-secondary-custom gap-2">تحميل الخطة الدراسية <i
-                            class="bi bi-download"></i></button>
-                </div>
-            </div>
-
-            <div class="col-lg-5 order-1 order-lg-2">
-                <div class="video-preview-wrapper shadow-sm">
-                    <iframe *ngIf="isYouTube && safeVideoUrl" [src]="safeVideoUrl" class="w-100 course-video"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                    </iframe>
-                    <video *ngIf="!isYouTube" controls class="w-100 course-video">
-                        <source [src]="course()?.promoVideoURL" type="video/mp4">
-                        متصفحك لا يدعم تشغيل هذا الفيديو.
-                    </video>
-                </div>
-            </div>
+  <!-- Details Section -->
+  <section class="spec-panel-section my-5">
+    <div class="container">
+      <div class="row justify-content-center align-items-center py-4 text-center g-4">
+        <div
+          class="col-md-3 spec-item d-flex flex-column align-items-center justify-content-center"
+        >
+          <span class="spec-label">المدة الإجمالية</span>
+          <span class="spec-value">
+            {{ calculateTotalTime(course()?.durationInSeconds ?? 0) }}
+          </span>
         </div>
-    </section>
 
-    <!-- Details Section -->
-    <section class="spec-panel-section my-5">
-        <div class="container">
-            <div class="row justify-content-center align-items-center py-4 text-center g-4">
-
-                <div class="col-md-3 spec-item d-flex flex-column align-items-center justify-content-center">
-                    <span class="spec-label">المدة الإجمالية</span>
-                    <span class="spec-value">
-                        {{ calculateTotalTime(course()?.durationInSeconds ?? 0)}}
-                    </span>
-                </div>
-
-                <div class="col-md-3 spec-item d-flex flex-column align-items-center justify-content-center">
-                    <span class="spec-label">سعر الدورة</span>
-                    <span style="font-family: 'Arshid';" class="spec-value highlight-price">{{ course()?.price }}
-                        $</span>
-                </div>
-
-                <div class="col-md-3 spec-item d-flex flex-column align-items-center justify-content-center">
-                    <span class="spec-label">صلاحية الوصول</span>
-                    <span class="spec-value">وصول مدى الحياة</span>
-                </div>
-            </div>
+        <div
+          class="col-md-3 spec-item d-flex flex-column align-items-center justify-content-center"
+        >
+          <span class="spec-label">سعر الدورة</span>
+          <span style="font-family: 'Arshid'" class="spec-value highlight-price"
+            >{{ course()?.price }} $</span
+          >
         </div>
-    </section>
 
-    <section class="container my-5">
-        <div class="row g-4">
-            <div class="col-lg-8 col-md-12">
-                <h3 class="section-title mb-4 text-end">منهج الدورة الدراسية</h3>
-                <div class="curriculum-wrapper">
-                    <div class="module-card mb-3">
-                        @for (module of curriculum(); track $index) {
+        <div
+          class="col-md-3 spec-item d-flex flex-column align-items-center justify-content-center"
+        >
+          <span class="spec-label">صلاحية الوصول</span>
+          <span class="spec-value">وصول مدى الحياة</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                        <div class="module-header d-flex justify-content-between align-items-center"
-                            (click)="toggleModule(module)">
+  <section class="container my-5">
+    <div class="row g-4">
+      <div class="col-lg-8 col-md-12">
+        <h3 class="section-title mb-4 text-end">منهج الدورة الدراسية</h3>
+        <div class="curriculum-wrapper">
+          <div class="module-card mb-3">
+            @for (module of curriculum(); track $index) {
+              <div
+                class="module-header d-flex justify-content-between align-items-center"
+                (click)="toggleModule(module)"
+              >
+                <h4 class="module-title mb-0">{{ module.title }}</h4>
+                <span class="toggle-icon" [class.is-open]="module.isOpen">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                      fill-rule="evenodd"
+                      d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg>
+                </span>
+              </div>
 
-                            <h4 class="module-title mb-0">{{ module.title }}</h4>
-                            <span class="toggle-icon" [class.is-open]="module.isOpen">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            </span>
-                        </div>
+              <div class="module-content" [class.show]="module.isOpen">
+                <div class="lessons-list">
+                  @for (lesson of module.moduleLessons; track $index) {
+                    <div
+                      class="lesson-item d-flex justify-content-between align-items-center py-3 border-bottom"
+                    >
+                      <div class="d-flex align-items-center gap-3">
+                        <span class="content-type-icon">
+                          <i *ngIf="lesson.contentType === 'Reading'" class="bi bi-book"></i>
 
-                        <div class="module-content" [class.show]="module.isOpen">
-                            <div class="lessons-list">
-                                @for (lesson of module.moduleLessons; track $index){
-                                <div
-                                    class="lesson-item d-flex justify-content-between align-items-center py-3 border-bottom">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <span class="content-type-icon">
-                                            <i *ngIf="lesson.contentType === 'Reading'" class="bi bi-book"></i>
+                          <i *ngIf="lesson.contentType === 'Video'" class="bi bi-play-btn"></i>
 
-                                            <i *ngIf="lesson.contentType === 'Video'" class="bi bi-play-btn"></i>
-
-                                            <i *ngIf="lesson.contentType === 'Audio'" class="bi bi-headphones"></i>
-                                        </span>
-                                        <span class="lesson-title">{{ lesson.title }}</span>
-                                    </div>
-                                    <span class="lesson-duration">
-                                        {{ calculateLessonTime(lesson.durationSeconds ?? 0) }}</span>
-                                </div>
-                                }
-                            </div>
-                        </div>
-                        }
-
+                          <i *ngIf="lesson.contentType === 'Audio'" class="bi bi-headphones"></i>
+                        </span>
+                        <span class="lesson-title">{{ lesson.title }}</span>
+                      </div>
+                      <span class="lesson-duration">
+                        {{ calculateLessonTime(lesson.durationSeconds ?? 0) }}</span
+                      >
                     </div>
+                  }
                 </div>
-            </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
 
-            <div class="col-lg-4 col-md-12">
-                <h3 class="section-title mb-4 text-end">مُقدّم الدورة</h3>
-                <div class="instructor-card text-center p-4">
-                    <div class="instructor-avatar-frame mx-auto mb-3 shadow-sm">
-                        <!-- <img [src]="course()?.teacherImgUrl" [alt]="course()?.teacherName"
+      <div class="col-lg-4 col-md-12">
+        <h3 class="section-title mb-4 text-end">مُقدّم الدورة</h3>
+        <div class="instructor-card text-center p-4">
+          <div class="instructor-avatar-frame mx-auto mb-3 shadow-sm">
+            <!-- <img [src]="course()?.teacherImgUrl" [alt]="course()?.teacherName"
                             class="img-fluid rounded-circle"> -->
-                        <a [routerLink]="['/teachers', course()?.teacherID, 'details']" class="image-link">
-                            <img [src]="course()?.teacherImgUrl ?? 'images/avatar.webp'" [alt]="course()?.teacherName"
-                                class="instructor-image" />
-                        </a>
-                    </div>
-                    <a [routerLink]="['/teachers', course()?.teacherID, 'details']" class="name-link">
-                        <!-- {{ course()?.teacherName }} -->
-                          
-                        <h5 class="mb-1">{{course()?.teacherName }}</h5>
-                    </a>
-                    <!-- <h5 class="mb-1">{{course()?.teacherName }}</h5> -->
-                    <p class="instructor-title mb-3">{{ course()?.teacherTitle }}</p>
-                    <hr class="instructor-divider my-3">
-                    <p class="instructor-bio">{{ course()?.teacherBio }}</p>
-                </div>
-            </div>
+            <a [routerLink]="['/teachers', course()?.teacherID, 'details']" class="image-link">
+              <img
+                [src]="course()?.teacherImgUrl ?? 'images/avatar.webp'"
+                [alt]="course()?.teacherName"
+                class="instructor-image"
+              />
+            </a>
+          </div>
+          <a [routerLink]="['/teachers', course()?.teacherID, 'details']" class="name-link">
+            <!-- {{ course()?.teacherName }} -->
+
+            <h5 class="mb-1">{{ course()?.teacherName }}</h5>
+          </a>
+          <!-- <h5 class="mb-1">{{course()?.teacherName }}</h5> -->
+          <p class="instructor-title mb-3">{{ course()?.teacherTitle }}</p>
+          <hr class="instructor-divider my-3" />
+          <p class="instructor-bio">{{ course()?.teacherBio }}</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div class="container my-5" dir="rtl">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="section-main-title m-0" style="color: #63392b; font-weight: 700; font-size: 1.8rem;">دورات
-            تدريبية
-            مقترحة
-        </h2>
-        <a href="#" class="view-more-link"
-            style="color: #63392b; font-weight: 600; text-decoration: underline;">المزيد</a>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-main-title m-0" style="color: #63392b; font-weight: 700; font-size: 1.8rem">
+      دورات تدريبية مقترحة
+    </h2>
+    <a
+      href="#"
+      class="view-more-link"
+      style="color: #63392b; font-weight: 600; text-decoration: underline"
+      >المزيد</a
+    >
+  </div>
+  <div class="row g-4 justify-content-start">
+    <div class="col-xl-3 col-lg-4 col-6" *ngFor="let item of myCourses">
+      <app-course-card
+        [course]="item"
+        (toggleFavorite)="handleFavorite($event)"
+        (viewCourse)="goToCourseDetails($event)"
+      >
+      </app-course-card>
     </div>
-    <div class="row g-4 justify-content-start">
-        <div class="col-xl-3 col-lg-4 col-6" *ngFor="let item of myCourses">
-            <app-course-card [course]="item" (toggleFavorite)="handleFavorite($event)"
-                (viewCourse)="goToCourseDetails($event)">
-            </app-course-card>
-        </div>
-    </div>
+  </div>
 </div>

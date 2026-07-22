@@ -1,0 +1,212 @@
+@if (loading()) {
+  <div class="loader">جاري تحميل الكورس...</div>
+}
+
+@if (coursePlayer(); as course) {
+  <div class="player-page">
+
+
+    <header class="top-bar">
+      <div class="course-info">
+        <div class="course-name">
+          <i class="bi bi-mortarboard-fill"></i>
+
+          <h1>
+            {{ course.title }}
+          </h1>
+        </div>
+
+        <div class="lesson-tags">
+          <span>
+            <i class="bi" [class]="getLessonIcon(selectedLesson()?.contentType ?? '')"> </i>
+
+            {{ getLessonType(selectedLesson()?.contentType ?? '') }}
+          </span>
+
+          <span>
+            <i class="bi bi-clock"></i>
+
+            {{ (selectedLesson()?.durationSeconds ?? 0) / 60 | number: '1.0-0' }}
+
+            دقيقة
+          </span>
+        </div>
+
+        <div class="lesson-progress">
+          <div class="lesson-progress-head">
+            <span> تقدمك في الكورس </span>
+
+            <strong> {{ course.progressPercentage ?? 0 }}% </strong>
+          </div>
+
+          <div class="progress">
+            <div class="progress-fill" [style.width.%]="course.progressPercentage ?? 0"></div>
+          </div>
+        </div>
+
+        <h2>
+          {{ selectedLesson()?.title }}
+        </h2>
+      </div>
+
+      <div class="lesson-navigation">
+        <button class="nav-btn" (click)="goToPreviousLesson()" [disabled]="!hasPreviousLesson()">
+          <i class="bi bi-arrow-right"></i>
+
+          الدرس السابق
+        </button>
+
+        <button class="nav-btn primary" (click)="goToNextLesson()" [disabled]="!hasNextLesson()">
+          الدرس التالي
+
+          <i class="bi bi-arrow-left"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="course-layout">
+      <section class="main-content">
+        <div class="player-card">
+          @if (selectedLesson()?.contentType === 'Video') {
+            @if (!videoStarted()) {
+              <div class="video-preview">
+                <img [src]="getYoutubeThumbnail(selectedLesson()?.contentURL)" alt="thumbnail" />
+
+                <div class="overlay">
+                  <button class="play-button" (click)="startVideo()">
+                    <i class="bi bi-play-fill"></i>
+                  </button>
+                </div>
+              </div>
+            } @else {
+              <iframe
+                [src]="getVideoUrl(selectedLesson()?.contentURL) | safeUrl"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+              >
+              </iframe>
+            }
+          }
+
+          @if (selectedLesson()?.contentType === 'Audio') {
+            <div class="audio-player">
+              <div class="audio-icon">
+                <i class="bi bi-music-note-beamed"></i>
+              </div>
+
+              <h2>
+                {{ selectedLesson()?.title }}
+              </h2>
+
+              <audio controls>
+                <source [src]="selectedLesson()?.contentURL" />
+              </audio>
+            </div>
+          }
+
+          @if (selectedLesson()?.contentType === 'Reading') {
+            <div class="reading-player">
+              <div class="reading-title">
+                <div class="icon">
+                  <i class="bi bi-book-fill"></i>
+                </div>
+
+                <div>
+                  <h2>
+                    {{ selectedLesson()?.title }}
+                  </h2>
+
+                  <span>
+                    <i class="bi bi-clock"></i>
+
+                    {{ (selectedLesson()?.durationSeconds ?? 0) / 60 | number: '1.0-0' }}
+
+                    دقيقة
+                  </span>
+                </div>
+              </div>
+
+              <iframe [src]="selectedLesson()?.contentURL | safeUrl" frameborder="0"> </iframe>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="right-column">
+        <aside class="sidebar">
+          <h3>
+            <i class="bi bi-list-ul"></i>
+
+            محتوى الكورس
+          </h3>
+
+          @for (module of course.modules; track module.moduleID) {
+            <details class="module-card" open>
+              <summary>
+                <div>
+                  <i class="bi bi-folder-fill"></i>
+
+                  {{ module.title }}
+                </div>
+
+                <i class="bi bi-chevron-down"></i>
+              </summary>
+
+              <div class="lesson-list">
+                @for (lesson of module.lessons; track lesson.lessonID) {
+                  <div
+                    class="lesson-item"
+                    (click)="selectLesson(lesson)"
+                    [class.active]="selectedLesson()?.lessonID === lesson.lessonID"
+                  >
+                    <div class="lesson-content">
+                      <div class="lesson-thumb">
+                        @if (lesson.contentType === 'Video') {
+                          <img [src]="getYoutubeThumbnail(lesson.contentURL)" alt="video" />
+                        } @else if (lesson.contentType === 'Reading') {
+                          <iframe scrolling="no" [src]="lesson.contentURL | safeUrl"> </iframe>
+                        } @else {
+                          <div class="audio-thumb">
+                            <i class="bi bi-music-note-beamed"></i>
+                          </div>
+                        }
+                      </div>
+
+                      <div class="lesson-info">
+                        <div class="lesson-title">
+                          <i class="bi" [class]="getLessonIcon(lesson.contentType)"> </i>
+
+                          {{ lesson.title }}
+                        </div>
+
+                        <div class="lesson-meta">
+                          <span>
+                            <i class="bi bi-clock"></i>
+
+                            {{ lesson.durationSeconds / 60 | number: '1.0-0' }}
+
+                            د
+                          </span>
+
+                          <span>
+                            {{ getLessonType(lesson.contentType) }}
+                          </span>
+                        </div>
+                      </div>
+
+                      @if (lesson.isCompleted) {
+                        <div class="completed">
+                          <i class="bi bi-check"></i>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </details>
+          }
+        </aside>
+      </section>
+    </main>
+  </div>
+}

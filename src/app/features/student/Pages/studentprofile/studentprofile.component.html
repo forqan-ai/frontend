@@ -1,466 +1,282 @@
 <div class="page-layout">
-
-<app-sidebar></app-sidebar>
-<div class="dashboard">
-
-<section class="hero-card">
-
-<div class="profile-info">
-
-<div class="avatar">
-<img
-[src]="getStudentImage(student()?.profileImageURL)">
-</div>
-
-
-<div>
-<span>
-{{getGreeting()}}
-</span>
-
-<h1>
-{{student()?.fullName}}
-</h1>
-
-<p>
-رحلتك في تعلم القرآن والعلوم الشرعية
-</p>
-
-</div>
-
-
-</div>
-
-
-
-<div class="hero-progress">
-
-<div class="circle-progress down"
-[style.--progress]="knowledgeProgress()">
-
-<div>
-{{knowledgeProgress()}}%
-</div>
-
-</div>
-
-
-<span>
-مستوى الإنجاز
-</span>
-
-</div>
-
-
-
-</section>
-
-
-
-<section class="quick-stats">
-
-
-<div class="mini-card">
-
-<i class="bi bi-award"></i>
-
-<div>
-<strong>
-{{knowledgePoints()}}
-</strong>
-
-<span>
-نقاط المعرفة
-</span>
-
-</div>
-
-</div>
-
-
-
-<div class="mini-card">
-
-<i class="bi bi-fire"></i>
-
-<div>
-<strong>
-{{streak()}}
-</strong>
-
-<span>
-أيام متتالية
-</span>
-
-</div>
-
-</div>
-
-
-
-<div class="mini-card">
-
-<i class="bi bi-book"></i>
-
-<div>
-<strong>
-{{totalCourses()}}
-</strong>
-
-<span>
-الدورات
-</span>
-
-</div>
-
-</div>
-
-
-
-<div class="mini-card">
-
-<i class="bi bi-grid"></i>
-
-<div>
-<strong>
-{{totalCategories()}}
-</strong>
-
-<span>
-التصنيفات
-</span>
-
-</div>
-
-</div>
-
-
-</section>
-
-
-
-  @if(currentCourse(); as current){
-
-  <section class="current-course">
-
-    <div class="course-info">
-
-      <span class="badge">
-        الدورة الحالية
-      </span>
-
-      <h2>
-
-        {{ current.title }}
-
-      </h2>
-
-      <p>
-
-        استمر في التعلم وأكمل رحلتك داخل هذه الدورة.
-
-      </p>
-
-      <div class="progress-box">
-
-        <div class="progress">
-
-          <div
-            class="progress-bar"
-            [style.width.%]="current.progressPercent">
-          </div>
-
+  <!-- <app-sidebar></app-sidebar> -->
+  <div class="dashboard">
+    <section class="hero-card">
+      <div class="profile-info">
+        <div class="avatar">
+          <img [src]="getStudentImage(student()?.profileImageURL)" />
         </div>
 
-        <span>
-
-          {{ current.progressPercent }}%
-
-        </span>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="course-image">
-
-      <img
-        [src]="getCourseImage(current.thumbnailURL)"
-        alt="course">
-
-    </div>
-
-  </section>
-
-  }
-
-
-
-  <section class="section">
-
-    <div class="section-header">
-
-      <h3>
-
-        <i class="bi bi-book"></i>
-
-        دوراتي
-
-      </h3>
-
-      <span>
-
-        {{ totalCourses() }} دورة
-
-      </span>
-
-    </div>
-
-    <div class="courses-grid">
-
-      @for(course of courses(); track course.courseID){
-
-      <div class="course-card">
-
-        <div class="image">
-
-          <img
-            [src]="getCourseImage(course.thumbnailURL)"
-            alt="course">
-
-          @if(course.isCompleted){
-
-          <div class="completed">
-
-            <i class="bi bi-check-circle-fill"></i>
-
-          </div>
-
-          }
-
-        </div>
-
-        <div class="body">
-
-          <h4>
-
-            {{ course.title }}
-
-          </h4>
-
+        <div>
           <span>
-
-            {{ progressStatus(course.progressPercent) }}
-
+            {{ getGreeting() }}
           </span>
 
-          <div class="progress">
+          <h1>
+            {{ student()?.fullName }}
+          </h1>
 
-            <div
-              class="progress-bar"
-              [style.width.%]="course.progressPercent"
-              [style.background]="progressColor(course.progressPercent)">
-            </div>
+          <p>رحلتك في تعلم القرآن والعلوم الشرعية</p>
+        </div>
+      </div>
 
-          </div>
-
-          <div class="footer">
-
-            <strong>
-
-              {{ course.progressPercent }}%
-
-            </strong>
-
-          </div>
-
+      <div class="hero-progress">
+        <div class="circle-progress down" [style.--progress]="knowledgeProgress()">
+          <div>{{ knowledgeProgress() }}%</div>
         </div>
 
+        <span> مستوى الإنجاز </span>
       </div>
+    </section>
 
-      }
+    <section class="quick-stats">
+      <div class="mini-card">
+        <i class="bi bi-award"></i>
 
-    </div>
+        <div>
+          <strong>
+            {{ knowledgePoints() }}
+          </strong>
 
-  </section>
-
-  <section class="bottom-grid">
-
-    <div class="panel">
-
-      <div class="section-header">
-
-        <h3>
-          <i class="bi bi-clock-history"></i>
-          آخر الأنشطة
-        </h3>
-
-      </div>
-
-      @if(latestActivities().length){
-
-        @for(activity of latestActivities(); track $index){
-
-          <div class="activity-item">
-
-            <div class="activity-icon">
-              <i class="bi bi-lightning-charge-fill"></i>
-            </div>
-
-            <div class="activity-content">
-
-              <h5>
-                {{ activity.activityType }}
-              </h5>
-
-              <small>
-                {{ activity.createdAt | date:'dd MMM yyyy' }}
-              </small>
-
-            </div>
-
-            <div class="activity-points">
-
-              +{{ activity.pointsEarned }}
-
-            </div>
-
-          </div>
-
-        }
-
-      }@else{
-
-        <div class="empty">
-
-          لا يوجد نشاط حتى الآن.
-
+          <span> نقاط المعرفة </span>
         </div>
-
-      }
-
-    </div>
-
-
-
-    <div class="panel">
-
-      <div class="section-header">
-
-        <h3>
-
-          <i class="bi bi-bar-chart"></i>
-
-          تقدمك
-
-        </h3>
-
       </div>
 
-      <div class="circle-wrapper">
+      <div class="mini-card">
+        <i class="bi bi-fire"></i>
 
-        <div
-          class="circle-progress"
-          [style.--progress]="knowledgeProgress()">
+        <div>
+          <strong>
+            {{ streak() }}
+          </strong>
 
-          <div class="circle-value">
-
-            {{ knowledgeProgress() }}%
-
-          </div>
-
+          <span> أيام متتالية </span>
         </div>
-
       </div>
 
-      <div class="progress-text">
+      <div class="mini-card">
+        <i class="bi bi-book"></i>
 
-        <h4>
+        <div>
+          <strong>
+            {{ totalCourses() }}
+          </strong>
 
-          مستوى الإنجاز
-
-        </h4>
-
-        <p>
-
-          استمر في التعلم للوصول إلى 100٪.
-
-        </p>
-
+          <span> الدورات </span>
+        </div>
       </div>
 
-    </div>
-
-  </section>
-
-
-
-  <section class="section">
-
-    <div class="section-header">
-
-      <h3>
-
+      <div class="mini-card">
         <i class="bi bi-grid"></i>
 
-        التقدم حسب التصنيفات
+        <div>
+          <strong>
+            {{ totalCategories() }}
+          </strong>
 
-      </h3>
+          <span> التصنيفات </span>
+        </div>
+      </div>
+    </section>
 
+    <section class="section">
+      <app-points-balance></app-points-balance>
+    </section>
+
+    @if (currentCourse(); as current) {
+      <section class="current-course">
+        <div class="course-info">
+          <span class="badge"> الدورة الحالية </span>
+
+          <h2>
+            {{ current.title }}
+          </h2>
+
+          <p>استمر في التعلم وأكمل رحلتك داخل هذه الدورة.</p>
+
+          <div class="progress-box">
+            <div class="progress">
+              <div class="progress-bar" [style.width.%]="current.progressPercent"></div>
+            </div>
+
+            <span> {{ current.progressPercent }}% </span>
+          </div>
+
+          <p>رحلتك في تعلم القرآن والعلوم الشرعية</p>
+        </div>
+
+        <div class="course-image">
+          <img [src]="getCourseImage(current.thumbnailURL)" alt="course" />
+        </div>
+      </section>
+    }
+
+    <div>
+      <strong>
+        {{ knowledgePoints() }}
+      </strong>
+
+      <section class="section">
+        <div class="section-header">
+          <h3>
+            <i class="bi bi-book"></i>
+
+            دوراتي
+          </h3>
+
+          <span> {{ totalCourses() }} دورة </span>
+        </div>
+
+        <div class="courses-grid">
+          @for (course of courses(); track course.courseID) {
+            <div class="course-card"  [routerLink]="['/course-details', course.courseID]">
+              <div class="image">
+                <img [src]="getCourseImage(course.thumbnailURL)" alt="course" />
+
+                @if (course.isCompleted) {
+                  <div class="completed">
+                    <i class="bi bi-check-circle-fill"></i>
+                  </div>
+                }
+              </div>
+
+              <div class="body">
+                <h4>
+                  {{ course.title }}
+                </h4>
+
+                <span>
+                  {{ progressStatus(course.progressPercent) }}
+                </span>
+
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    [style.width.%]="course.progressPercent"
+                    [style.background]="progressColor(course.progressPercent)"
+                  ></div>
+                </div>
+
+                <div class="footer">
+                  <strong> {{ course.progressPercent }}% </strong>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <div class="panel">
+          <div class="section-header">
+            <h3>
+              <i class="bi bi-clock-history"></i>
+              آخر الأنشطة
+            </h3>
+          </div>
+
+          @if (latestActivities().length) {
+            @for (activity of latestActivities(); track $index) {
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+
+                <div class="activity-content">
+                  <h5>
+                    {{ activity.activityType }}
+                  </h5>
+
+                  <small>
+                    {{ activity.createdAt | date: 'dd MMM yyyy' }}
+                  </small>
+                </div>
+
+                <div class="activity-points">+{{ activity.pointsEarned }}</div>
+              </div>
+            }
+          } @else {
+            <div class="empty">لا يوجد نشاط حتى الآن.</div>
+          }
+        </div>
+
+       <div class="panel">
+  <div class="section-header">
+    <h3>
+      <i class="bi bi-bar-chart"></i>
+      تقدمك
+    </h3>
+  </div>
+
+  <div class="progress-summary">
+
+    <div class="circle-wrapper">
+      <div
+        class="circle-progress"
+        [style.--progress]="knowledgeProgress()"
+      >
+        <div class="circle-value">
+          {{ knowledgeProgress() }}%
+        </div>
+      </div>
     </div>
 
-    @if(categories().length){
+    <div class="progress-text">
+      <h4>مستوى الإنجاز</h4>
+      <p>استمر في التعلم للوصول إلى 100٪.</p>
+    </div>
 
+    <div class="points-box">
+      <span>النقاط المتاحة</span>
+
+      <h2>
+        {{ currentPoints() }}
+        <small>نقطة</small>
+      </h2>
+    </div>
+
+    <div class="points-message">
+      <i class="bi bi-stars"></i>
+      استخدم نقاطك لفتح المزيد من المحتوى التعليمي.
+    </div>
+
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <h3>
+        <i class="bi bi-grid"></i>
+        التقدم حسب التصنيفات
+      </h3>
+    </div>
+
+    @if (categories().length) {
       <div class="categories-grid">
-
-        @for(category of categories(); track category.categoryID){
-
+        @for (category of categories(); track category.categoryID) {
           <div class="category-card">
-
             <div class="category-header">
+              <h4>{{ category.categoryName }}</h4>
 
-              <h4>
-
-                {{ category.categoryName }}
-
-              </h4>
-
-              <span>
-
-                {{ category.averageScorePct }}%
-
-              </span>
-
+              <span>{{ category.averageScorePct }}%</span>
             </div>
 
             <div class="progress">
-
               <div
                 class="progress-bar"
-                [style.width.%]="category.averageScorePct">
-              </div>
-
+                [style.width.%]="category.averageScorePct"
+              ></div>
             </div>
-
           </div>
-
         }
-
       </div>
-
-    }@else{
-
+    } @else {
       <div class="empty">
-
         لا يوجد تقدم حتى الآن.
-
       </div>
-
     }
-
   </section>
-
 </div>
+      </section>
+    </div>
+  </div>
 </div>

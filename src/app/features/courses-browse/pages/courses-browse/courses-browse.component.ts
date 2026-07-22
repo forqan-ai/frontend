@@ -1,18 +1,27 @@
-import { Component, DestroyRef, effect, inject, Injector, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
-import { catchError, finalize, of, Subject, switchMap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  map,
+  of,
+  skip,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import { ICourseListItem } from '../../models/course-list-item.interface';
-import {debounce, form, FormField} from '@angular/forms/signals';
 import { ICategory } from '../../models/category.interface';
 import { CoursesBrowseService } from '../../services/courses-browse.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { IPaginatedResult } from '../../models/paginated-result.interface';
 import { CoursesBrowseCardComponent } from "../../components/courses-browse-card/courses-browse-card.component";
 
 @Component({
   selector: 'app-courses-browse',
-  imports: [FormField, RouterLink, CoursesBrowseCardComponent],
+  imports: [RouterLink, CoursesBrowseCardComponent],
   templateUrl: './courses-browse.component.html',
   styleUrl: './courses-browse.component.css',
 })
@@ -23,22 +32,15 @@ private readonly coursesBrowseService =
   private readonly destroyRef =
     inject(DestroyRef);
 
-  private readonly injector =
-    inject(Injector);
-
   private readonly refreshCourses$ =
     new Subject<void>();
 
-  readonly filtersModel = signal({
-    search: '',
-  });
+  readonly searchInput = signal('');
 
-  readonly filtersForm = form(
-    this.filtersModel,
-    (path) => {
-      debounce(path.search, 400);
-    },
-  );
+  private readonly searchQuery = signal('');
+
+  private readonly searchInput$ = toObservable(this.searchInput);
+
   readonly courses = signal<ICourseListItem[]>([]);
 
   readonly categories = signal<ICategory[]>([]);
@@ -66,6 +68,7 @@ private readonly coursesBrowseService =
     this.loadCategories();
     this.listenToCoursesRequests();
     this.listenToSearchChanges();
+    this.requestCourses();
   }
 
   private loadCategories(): void {
@@ -104,7 +107,7 @@ private readonly coursesBrowseService =
               pageSize:
                 this.pageSize,
               search:
-                this.filtersModel().search,
+                this.searchQuery(),
               categoryId:
                 this.selectedCategoryId()
                 ?? undefined,
@@ -140,17 +143,23 @@ private readonly coursesBrowseService =
   }
 
   private listenToSearchChanges(): void {
-    effect(
-      () => {
-        this.filtersModel().search;
+    this.searchInput$
+      .pipe(
+        skip(1),
+        debounceTime(400),
+        map((value) => value.trim()),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((search) => {
+        if (search === this.searchQuery()) {
+          return;
+        }
 
+        this.searchQuery.set(search);
         this.pageNumber.set(1);
         this.requestCourses();
-      },
-      {
-        injector: this.injector,
-      },
-    );
+      });
   }
 
   private applyCoursesResult(
@@ -185,20 +194,11 @@ private readonly coursesBrowseService =
   }
 
   clearFilters(): void {
-    const searchWasAlreadyEmpty =
-      this.filtersModel().search === '';
-
+    this.searchInput.set('');
+    this.searchQuery.set('');
     this.selectedCategoryId.set(null);
     this.pageNumber.set(1);
-
-    this.filtersModel.update((model) => ({
-      ...model,
-      search: '',
-    }));
-
-    if (searchWasAlreadyEmpty) {
-      this.requestCourses();
-    }
+    this.requestCourses();
   }
 
   goToPage(page: number): void {

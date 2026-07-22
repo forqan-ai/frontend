@@ -6,6 +6,7 @@ import { IRecentActivity } from '../Models/recent-activity.interface';
 import { IStudentCourse } from '../Models/student-course.interface';
 import { IStudentProfile } from '../Models/student-profile.interface';
 import { environment } from '../../../../environments/environment.development';
+import { RequestStatus, TeachingRequestStatusDto } from '../Models/TeachingRequestStatusDto';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,20 @@ export class StudentService {
     );
 
   }
+
+
+  sendTeachingRequest(formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/teaching-request`,
+      formData
+    );
+  }
+
+
+  getTeachingRequestStatus(): Observable<TeachingRequestStatusDto> {
+    return this.http.get<TeachingRequestStatusDto>(`${this.apiUrl}/teaching-request-status`);
+  }
+
+
 
 }
