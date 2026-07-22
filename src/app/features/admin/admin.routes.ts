@@ -20,7 +20,6 @@ export const ADMIN_ROUTES: Routes = [
     },
     {
         path: 'bookings',
-        loadComponent: () => import('../../live-sessions/Pages/admin-bookings/admin-bookings.component').then((m) => m.AdminBookingsComponent),
-        title: 'إدارة الحجوزات'
+        loadComponent: () => import('../live-sessions/Pages/admin-bookings/admin-bookings.component').then((m) => m.AdminBookingsComponent),        title: 'إدارة الحجوزات'
     }
 ]
