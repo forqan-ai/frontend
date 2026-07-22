@@ -1,88 +1,111 @@
+<div class="d-flex">
+  <!-- Sidebar -->
+  <app-student-sidebar></app-student-sidebar>
 
-<div class="payment-page container-fluid py-5">
-  <div class="bg-pattern-dots"></div>
+  <!-- Main Content -->
+  <main class="flex-grow-1 payment-content">
+    <div class="container py-5">
+      <!-- Background -->
+      <div class="bg-pattern-dots"></div>
 
-  <div class="text-center mb-5 header-section position-relative">
-    <h2 class="theme-title">إتمام عملية الدفع</h2>
-    <div class="title-divider">
-      <span class="dot"></span>
-      <span class="line"></span>
-      <span class="dot"></span>
-    </div>
-    <p class="theme-subtitle">جميع عمليات الدفع تتم بشكل آمن ومُشفر بالكامل عبر Paymob</p>
-  </div>
-
-  <div class="row g-4 justify-content-center position-relative" style="z-index: 2;">
-    <div class="col-lg-7 col-xl-6">
-      <div class="custom-card iframe-card">
-        <div class="card-header-custom">
-          <div class="d-flex align-items-center">
-            <i class="bi bi-shield-lock-fill me-2-custom fs-4"></i>
-            <div>
-              <span class="d-block fw-bold fs-6">بوابة الدفع الآمنة</span>
-              <small class="text-white-50 fs-xs">يرجى إدخال بيانات البطاقة أدناه</small>
-            </div>
-          </div>
-          <span class="badge bg-success-soft"><i class="bi bi-lock-fill"></i> SSL</span>
+      <!-- Header -->
+      <div class="text-center mb-5 position-relative">
+        <div class="page-icon mb-3">
+          <i class="bi bi-credit-card-2-front-fill"></i>
         </div>
-        <div class="iframe-container">
-          <iframe [src]="paymentUrl()" frameborder="0" allowfullscreen></iframe>
-        </div> 
+
+        <h2 class="theme-title">إتمام عملية الدفع</h2>
+
+        <div class="title-divider">
+          <span class="dot"></span>
+          <span class="line"></span>
+          <span class="dot"></span>
+        </div>
+
+        <p class="theme-subtitle col-lg-6 mx-auto">
+          أكمل عملية الدفع بأمان عبر Paymob لإضافة النقاط إلى حسابك، جميع بيانات الدفع مشفرة بالكامل
+          لضمان أعلى مستويات الحماية.
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div class="row g-4">
+        <!-- Payment -->
+        <div class="col-lg-8">
+          <div class="custom-card iframe-card">
+            <div class="card-header-custom">
+              <div class="payment-title">
+                <h5>بوابة الدفع الآمنة</h5>
+
+                <small>أدخل بيانات البطاقة لإتمام عملية الدفع</small>
+              </div>
+
+              <div class="secure-status">
+                <i class="bi bi-shield-lock-fill"></i>
+
+                SSL
+              </div>
+            </div>
+
+            <div id="paymob-elements" class="p-4"></div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="col-lg-4">
+          <div class="custom-card summary-card">
+            <div class="d-flex align-items-center mb-4">
+              <div class="summary-icon">
+                <i class="bi bi-receipt-cutoff"></i>
+              </div>
+
+              <div class="ms-3">
+                <h5 class="summary-title mb-1">ملخص الطلب</h5>
+
+                <small class="text-muted"> راجع تفاصيل عملية الشراء </small>
+              </div>
+            </div>
+
+            <div class="summary-row">
+              <span>الباقة</span>
+              <strong>{{ package()?.name }}</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>عدد النقاط</span>
+              <strong>{{ package()?.points }} نقطة</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>السعر</span>
+              <strong>{{ package()?.price }} ج.م</strong>
+            </div>
+
+            <hr />
+
+            <div class="summary-row total-row">
+              <span>الإجمالي</span>
+              <strong>{{ package()?.price }} ج.م</strong>
+            </div>
+
+            <div class="secure-badge mt-4">
+              <i class="bi bi-patch-check-fill"></i>
+
+              <div>
+                <h6 class="mb-1">دفع آمن 100%</h6>
+
+                <p class="mb-0">تتم معالجة المدفوعات بواسطة Paymob</p>
+              </div>
+            </div>
+
+            <button class="btn btn-theme-outline w-100 mt-4" routerLink="/pointPackages">
+              <i class="bi bi-arrow-right-circle me-2"></i>
+
+              العودة إلى الباقات
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="col-lg-4 col-xl-4">
-      <div class="custom-card summary-card d-flex flex-column h-100">
-        <h5 class="summary-title mb-4">
-          <i class="bi bi-receipt me-2"></i>
-          ملخص الطلب
-        </h5>
-
-        <div class="summary-list grow">
-          <div class="summary-row">
-            <span class="label">اسم الباقة</span>
-            <strong class="value theme-text-brown">{{ package()?.name }}</strong>
-          </div>
-
-          <div class="summary-row">
-            <span class="label">النقاط المكتسبة</span>
-            <strong class="value badge-points">
-              <i class="bi bi-gem me-1"></i>
-              {{ package()?.points }} نقطة
-            </strong>
-          </div>
-
-          <div class="summary-row">
-            <span class="label">السعر الأصلي</span>
-           <div class="summary-row">
-  <span class="label">السعر الأصلي</span>
-  <strong class="value price-text">{{ package()?.price }} ج.م</strong>
+  </main>
 </div>
-            <strong class="value price-text">{{ package()?.price }} ج.م</strong>
-          </div>
-
-          <div class="total-box mt-4">
-            <div class="summary-row total-row m-0">
-              <span class="label-total">إجمالي المبلغ المطلوب</span>
-              <strong class="value-total">{{ package()?.price }} ج.م</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="secure-badge mt-4">
-          <i class="bi bi-shield-check-fill"></i>
-          <div>
-            <h6>حماية مشفرة 100%</h6>
-            <p>تتم معالجة المدفوعات بواسطة الخوادم الآمنة لـ Paymob</p>
-          </div>
-        </div>
-
-        <button class="btn btn-theme-outline w-100 mt-4" routerLink="/pointPackages">
-          <i class="bi bi-arrow-right me-2"></i>
-          الرجوع لصفحة الباقات
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-

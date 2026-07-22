@@ -1,81 +1,73 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../Services/course.service';
 import { ICourseDetailsDto } from '../../Models/course-details-dto.interface';
 import { PaymentService } from '../../../../core/services/payment.service';
+import { StudentSidebarComponent } from '../../../student/Components/student-sidebar/student-sidebar.component';
+
+declare const Pixel: any;
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StudentSidebarComponent],
   templateUrl: './course-checkout.component.html',
   styleUrl: './course-checkout.component.css',
 })
 export class CourseCheckoutComponent {
+
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private courseService = inject(CourseService);
   private paymentService = inject(PaymentService);
 
   course = signal<ICourseDetailsDto | null>(null);
-  loading = signal<boolean>(false);
-  error = signal<string | null>(null);
 
-  courseId!: string;
+  ngOnInit(): void {
 
- ngOnInit(): void {
-  const id = this.route.snapshot.paramMap.get('id');
+    this.route.paramMap.subscribe(params => {
 
-  if (!id) {
-    this.error.set('لم يتم تحديد الدورة المطلوبة.');
-    return;
-  }
+      const id = params.get('id');
 
-  this.courseId = id;
-  this.loadCourse();
-}
+      if (!id) return;
 
-  loadCourse() {
-    this.loading.set(true);
-    this.error.set(null);
+      this.courseService.getCourseDetails(id).subscribe({
+        next: res => this.course.set(res),
+        error: console.error
+      });
 
-    this.courseService.getCourseDetails(this.courseId).subscribe({
-      next: (res) => {
-        this.course.set(res);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.log('COURSE ERROR:', err);
-        this.error.set('حدث خطأ أثناء تحميل بيانات الدورة.');
-        this.loading.set(false);
-      },
+      this.paymentService.createPayment('Course', id).subscribe({
+
+        next: res => {
+
+          new Pixel({
+
+            publicKey: res.data.publicKey,
+
+            clientSecret: res.data.clientSecret,
+
+            paymentMethods: ['card'],
+
+            elementId: 'paymob-elements',
+
+            showSaveCard: true,
+
+            forceSaveCard: false,
+
+            afterPaymentComplete: (response: any) => {
+              console.log(response);
+            }
+
+          });
+
+        },
+
+        error: console.error
+
+      });
+
     });
+
   }
 
-  pay() {
-    this.loading.set(true);
-    this.error.set(null);
-
-    this.paymentService.createPayment('Course', this.courseId).subscribe({
-      next: (res) => {
-        if (res.succeeded && res.data.checkoutUrl) {
-          // Redirect كامل لصفحة الدفع بدل Iframe
-          // Paymob بيمنع التحميل جوه Iframe غالبًا لأسباب أمنية (3D Secure)
-          window.location.href = res.data.checkoutUrl;
-        } else {
-          this.error.set('تعذر بدء عملية الدفع.');
-          this.loading.set(false);
-        }
-      },
-      error: (err) => {
-        console.log('PAYMENT ERROR:', err);
-        this.error.set(
-          err?.error?.message ?? 'حدث خطأ أثناء بدء عملية الدفع.'
-        );
-        this.loading.set(false);
-      },
-    });
-  }
 }

@@ -1,87 +1,146 @@
-<div class="checkout-page" dir="rtl">
-  <div class="container py-5">
+<div class="d-flex">
 
-    @if (loading()) {
-      <div class="state-box text-center py-5">
-        <div class="spinner"></div>
-        <p class="state-text">جارٍ التحميل...</p>
-      </div>
-    }
+    <app-student-sidebar></app-student-sidebar>
 
-    @if (error()) {
-      <div class="state-box error-box text-center py-5">
-        <i class="bi bi-exclamation-circle error-icon"></i>
-        <p class="state-text">{{ error() }}</p>
-      </div>
-    }
+    <main class="flex-grow-1 payment-content" dir="rtl">
 
-    @if (!loading() && !error() && course()) {
-      <div class="checkout-wrapper">
-        <h1 class="checkout-title">إتمام عملية الشراء</h1>
-        <p class="checkout-subtitle">راجعي تفاصيل الدورة قبل الدفع</p>
+        <div class="bg-pattern-dots"></div>
 
-        <div class="checkout-card">
+        <div class="container-fluid py-5">
 
-          <div class="course-summary">
-            <img
-              [src]="course()?.thumbnailURL ?? 'images/course-placeholder.jpg'"
-              [alt]="course()?.title"
-              class="course-thumb"
-            />
+            <div class="header-section text-center mb-5">
 
-            <div class="course-info">
-              <span class="badge-owned-check">دورة تدريبية</span>
-              <h3 class="course-name">{{ course()?.title }}</h3>
-              <p class="course-teacher">
-                <i class="bi bi-person"></i>
-                {{ course()?.teacherName }}
-              </p>
+                <h2 class="theme-title">إتمام شراء الدورة</h2>
+
+                <div class="title-divider">
+                    <span class="dot"></span>
+                    <span class="line"></span>
+                    <span class="dot"></span>
+                </div>
+
+                <p class="theme-subtitle">
+                    جميع عمليات الدفع تتم بشكل آمن ومشفّر عبر Paymob
+                </p>
+
             </div>
-          </div>
 
-          <div class="divider"></div>
+            <div class="row g-4 align-items-start">
 
-          <div class="price-row">
-            <span class="price-label">سعر الدورة</span>
-            <span class="price-value">{{ course()?.price }} $</span>
-          </div>
+                <!-- Payment -->
 
-          <div class="price-row total-row">
-            <span class="price-label">الإجمالي</span>
-            <span class="price-value total-value">{{ course()?.price }} $</span>
-          </div>
+                <div class="col-lg-7">
 
-          <div class="perks-list">
-            <div class="perk-item">
-              <i class="bi bi-infinity"></i>
-              <span>وصول مدى الحياة للمحتوى</span>
+                    <div class="custom-card iframe-card">
+
+                        <div class="card-header-custom">
+
+                            <div class="d-flex align-items-center">
+
+                                <i class="bi bi-shield-lock-fill fs-3 ms-3"></i>
+
+                                <div>
+
+                                    <div class="fw-bold">
+                                        بوابة الدفع الآمنة
+                                    </div>
+
+                                    <small class="text-white-50">
+                                        أدخل بيانات البطاقة لإتمام عملية الشراء
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <span class="badge bg-success-soft">
+                                <i class="bi bi-lock-fill"></i>
+                                SSL
+                            </span>
+
+                        </div>
+
+                        <div id="paymob-elements"></div>
+
+                    </div>
+
+                </div>
+
+                <!-- Summary -->
+
+                <div class="col-lg-5">
+
+                    <div class="custom-card summary-card">
+
+                        <h5 class="summary-title">
+                            <i class="bi bi-journal-bookmark-fill ms-2"></i>
+                            ملخص الطلب
+                        </h5>
+
+                        <div class="summary-row">
+                            <span>اسم الدورة</span>
+                            <strong>{{course()?.title}}</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>المعلم</span>
+                            <strong>{{course()?.teacherName}}</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>السعر</span>
+                            <strong>{{course()?.price}} ج.م</strong>
+                        </div>
+
+                        <hr>
+
+                        <div class="summary-row fs-5 fw-bold">
+                            <span>الإجمالي</span>
+                            <strong>{{course()?.price}} ج.م</strong>
+                        </div>
+
+                        <div class="secure-badge mt-4">
+
+                            <i class="bi bi-shield-check-fill"></i>
+
+                            <div>
+
+                                <h6>شراء آمن 100%</h6>
+
+                                <p class="mb-0">
+                                    تتم معالجة جميع المدفوعات بواسطة Paymob
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <i class="bi bi-infinity text-success"></i>
+                                <span>وصول دائم للدورة</span>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <i class="bi bi-patch-check text-success"></i>
+                                <span>شهادة إتمام معتمدة</span>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-play-circle text-success"></i>
+                                <span>بدء الدراسة فور نجاح الدفع</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-            <div class="perk-item">
-              <i class="bi bi-patch-check"></i>
-              <span>شهادة إتمام معتمدة</span>
-            </div>
-            <div class="perk-item">
-              <i class="bi bi-shield-lock"></i>
-              <span>دفع آمن ومشفّر بالكامل</span>
-            </div>
-          </div>
 
-          <button
-            class="pay-btn"
-            [disabled]="loading()"
-            (click)="pay()"
-          >
-            <i class="bi bi-lock-fill"></i>
-            الدفع الآن
-          </button>
-
-          <p class="secure-note">
-            <i class="bi bi-shield-check"></i>
-            جميع المعاملات مؤمّنة عبر بوابة دفع معتمدة
-          </p>
         </div>
-      </div>
-    }
 
-  </div>
+    </main>
+
 </div>

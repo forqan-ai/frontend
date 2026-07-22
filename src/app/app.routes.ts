@@ -15,6 +15,7 @@ import { DashboardLayoutComponent } from './Layout/dashboard_layout/dashboard-la
 import { StudentprofileComponent } from './features/student/Pages/studentprofile/studentprofile.component';
 import { StudentSettingsComponent } from './features/student/Pages/student-settings/student-settings.component';
 import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
+import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 
 export const routes: Routes = [
   {
@@ -31,7 +32,7 @@ export const routes: Routes = [
         title: 'تسجيل الدخول',
       },
       {
-        path: 'signup',
+        path: 'register',
         component: RegisterComponent,
         title: 'إنشاء حساب',
       },
@@ -181,4 +182,5 @@ export const routes: Routes = [
         .then((m) => m.PaymentFailedComponent),
     title: 'فشلت عملية الدفع',
   },
+  {path:'checkout/:id',component:CheckoutComponent}
 ];
