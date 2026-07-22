@@ -8,6 +8,7 @@ import {
   UpdateProfileRequest,
   ChangePasswordRequest
 } from '../Models/settings.interface';
+import { environment } from '../../../../environments/environment.development';
 
 
 interface UserResponse {
@@ -28,7 +29,7 @@ export class SettingsService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'https://localhost:7054/api/users/me';
+  private apiUrl = environment.apiUrl+'/api/users/me';
 
 
   user = signal<IUserSettings | null>(null);

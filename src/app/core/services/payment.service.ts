@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, CheckoutUrl } from '../Models/APIResponse';
+import { ApiResponse } from '../Models/APIResponse';
 import { environment } from '../../../environments/environment.development';
+import { CreatePaymentResponse } from '../../features/payment/models/PaymentResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ createPayment(
 
   console.log('Payment Body:', body);
 
-  return this.http.post<ApiResponse<CheckoutUrl>>(
+  return this.http.post<ApiResponse<CreatePaymentResponse>>(
     this.apiUrl,
     body
   );

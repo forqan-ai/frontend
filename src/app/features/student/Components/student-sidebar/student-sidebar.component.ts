@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, computed, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router, NavigationEnd } from '@angular/router';
+import { RouterLink, Router, NavigationEnd, RouterLinkActive } from '@angular/router';
 import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
@@ -8,7 +8,7 @@ import { AvatarComponent } from "../../../../shared/components/avatar/avatar.com
 @Component({
   selector: 'app-student-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvatarComponent],
+  imports: [CommonModule, RouterLink, AvatarComponent, RouterLinkActive],
   templateUrl: './student-sidebar.component.html',
   styleUrl: './student-sidebar.component.css',
 })
