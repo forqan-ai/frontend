@@ -1,0 +1,112 @@
+<div class="chat-card">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <h3>محادثة الحلقة</h3>
+      <span class="connection-badge" [class]="'connection-badge ' + connectionState">
+        {{
+        connectionState === 'connected' ? 'متصل' :
+        connectionState === 'connecting' ? 'جارٍ الاتصال...' :
+        connectionState === 'reconnecting' ? 'إعادة الاتصال...' : 'غير متصل'
+        }}
+      </span>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+  <div class="chat-error">
+    <span>{{ errorMessage }}</span>
+    <button type="button" class="error-dismiss" (click)="dismissError()">×</button>
+  </div>
+  }
+
+  <div class="chat-messages" #messagesContainer>
+    @if (isLoading) {
+    <div class="chat-state">جارٍ تحميل الرسائل...</div>
+    } @else {
+    @if (hasMore) {
+    <button type="button" class="load-more-btn" [disabled]="isLoadingMore" (click)="loadOlderMessages()">
+      {{ isLoadingMore ? 'جارٍ التحميل...' : 'تحميل رسائل أقدم' }}
+    </button>
+    }
+
+    @if (messages.length === 0) {
+    <div class="empty-chat-state">
+      <p>لا توجد رسائل بعد. كن أول من يبدأ المحادثة!</p>
+    </div>
+    }
+
+    @for (message of messages; track message.id) {
+    <div class="message-row" [class.mine]="message.isMine">
+      @if (!message.isMine) {
+      <div class="message-avatar">
+        @if (message.senderImageUrl) {
+        <app-avatar [src]="message.senderImageUrl" [size]="44" [border]="false"></app-avatar>
+        } @else {
+        <app-avatar src="images/avatar-1.png" [size]="44" [border]="false"></app-avatar>
+        }
+        @if (userStatusMap.get(message.senderId)?.isOnline) {
+        <div class="online-badge"></div>
+        }
+      </div>
+      }
+
+      <div class="message-bubble" [class.mine]="message.isMine">
+        @if (!message.isMine) {
+        <div class="sender-info">
+          <span class="message-sender">{{ message.senderName }}</span>
+          @if (userStatusMap.get(message.senderId)?.isOnline) {
+          <span class="status-text online">متصل الآن</span>
+          } @else if (userStatusMap.get(message.senderId)?.lastSeen) {
+          <span class="status-text offline">آخر ظهور {{ userStatusMap.get(message.senderId)?.lastSeen | date:'shortTime'
+            }}</span>
+          }
+        </div>
+        }
+
+        @if (editingMessageId === message.id) {
+        <textarea class="edit-textarea" [(ngModel)]="editContent" rows="2"></textarea>
+        <div class="edit-actions">
+          <button type="button" class="btn-save" (click)="saveEdit(message.id)">حفظ</button>
+          <button type="button" class="btn-cancel" (click)="cancelEditing()">إلغاء</button>
+        </div>
+        } @else {
+        <p class="message-content" [class.deleted-msg]="message.isDeleted">
+          @if (message.isDeleted) {
+          <i class="fa fa-ban"></i>
+          }
+          {{ message.content }}
+        </p>
+        <div class="message-meta">
+          <span class="message-time">
+            {{ message.createdAt | date: 'shortTime' }}
+            @if (message.updatedAt && !message.isDeleted) {
+            <em>(معدلة)</em>
+            }
+          </span>
+
+          @if (message.isMine && !message.isDeleted) {
+          <div class="message-actions">
+            <button type="button" class="action-btn" (click)="startEditing(message)">تعديل</button>
+            <button type="button" class="action-btn delete" (click)="deleteMessage(message.id)">حذف</button>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+    }
+    }
+  </div>
+
+  @if (typingUserName) {
+  <div class="typing-indicator">{{ typingUserName }} يكتب الآن...</div>
+  }
+
+  <form class="chat-input-area" (ngSubmit)="sendMessage()">
+    <textarea class="chat-input" [(ngModel)]="newMessageContent" name="newMessage" rows="1"
+      placeholder="اكتب رسالتك هنا..." (input)="onInputTyping()" (keydown.enter)="onEnterPress($event)"></textarea>
+    <button type="submit" class="send-btn" [disabled]="isSending || !newMessageContent.trim()">
+      {{ isSending ? '...' : 'إرسال' }}
+    </button>
+  </form>
+</div>
