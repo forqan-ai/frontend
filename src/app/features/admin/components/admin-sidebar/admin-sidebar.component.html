@@ -50,6 +50,12 @@
         <i class="bi bi-book"></i> مراجعة الدورات
       </a>
 
+      <a routerLink="admin/bookings" (click)="setActiveRoute('bookings')"
+        [class.green-anchor]="isActive('bookings')" [class.grey-anchor]="!isActive('bookings')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
+        <i class="bi bi-calendar-check"></i> إدارة الحجوزات
+      </a>
+
       <!-- <a routerLink="student/learning-circles" (click)="setActiveRoute('learning-circles')"
         [class.green-anchor]="isActive('learning-circles')" [class.grey-anchor]="!isActive('learning-circles')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">

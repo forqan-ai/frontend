@@ -36,11 +36,5 @@ export const LIVE_SESSIONS_ROUTES: Routes = [
         (m) => m.MyBookingsComponent
       ),
   },
-  {
-    path: 'admin/bookings',
-    loadComponent: () =>
-      import('./Pages/admin-bookings/admin-bookings.component').then(
-        (m) => m.AdminBookingsComponent
-      ),
-  },
+
 ];
