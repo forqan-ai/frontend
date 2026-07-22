@@ -88,7 +88,7 @@ export class LoginComponent implements AfterViewInit {
             if (this.authService.hasRole(Role.Teacher)) {
               this.router.navigate(['/teacher']);
             } else {
-              this.router.navigate(['/studentprofile']);
+              this.router.navigate(['/dashboard/student/home']);
             }
           } else {
             const apiError = res.errors as ApiError[];
