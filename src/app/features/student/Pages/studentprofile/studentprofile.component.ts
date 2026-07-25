@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
 import { ICategoryProgress } from '../../Models/category-progress.interface';
@@ -11,25 +11,30 @@ import { environment } from '../../../../../environments/environment.development
 import { PointsService } from '../../../points/services/points.service';
 import { RouterLink } from '@angular/router';
 import { PointsBalanceComponent } from '../../../teacher/components/points-balance/points-balance.component';
+import { CourseService } from '../../../Course/Services/course.service';
+import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
+import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
 
 const streakImages = {
-  sad: 'images/avatars/sad.png',       
-  thumbsUp: 'images/avatars/perfect.png',    
-  clapping: 'images/avatars/clap.png',   
-  okay: 'images/avatars/good.png',        
-  strong: 'images/avatars/achieve.png',      
-  grandMaster: 'images/avatars/certificate.png'  
+  sad: 'images/avatars/sad.png',
+  thumbsUp: 'images/avatars/perfect.png',
+  clapping: 'images/avatars/clap.png',
+  okay: 'images/avatars/good.png',
+  strong: 'images/avatars/achieve.png',
+  grandMaster: 'images/avatars/certificate.png'
 };
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
 
-  imports: [CommonModule, DatePipe, PointsBalanceComponent,RouterLink],
+  imports: [CommonModule, DatePipe, PointsBalanceComponent, RouterLink, CoursesBrowseCardComponent],
 
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
 })
 export class StudentprofileComponent implements OnInit {
+  @ViewChild('coursesSlider') coursesSlider!: ElementRef;
+
   private studentService = inject(StudentService);
 
   apiUrl = `${environment.apiUrl}`;
@@ -42,6 +47,9 @@ export class StudentprofileComponent implements OnInit {
   activities = signal<IRecentActivity[]>([]);
   readonly currentPoints = signal(0);
   private poService = inject(PointsService);
+  private courseService = inject(CourseService);
+
+  recommendedCourses = signal<ICourseListItem[]>([]);
 
   ngOnInit(): void {
     this.loadData();
@@ -61,7 +69,7 @@ export class StudentprofileComponent implements OnInit {
     this.loading.set(true);
 
     this.studentService.getStudentProfile().subscribe({
-      next: (res) => {console.log(res);this.student.set(res)},
+      next: (res) => { console.log(res); this.student.set(res) },
       error: (err) => console.error(err),
     });
 
@@ -84,6 +92,11 @@ export class StudentprofileComponent implements OnInit {
         console.error(err);
         this.loading.set(false);
       },
+    });
+
+    this.courseService.getRecommendedCourses().subscribe({
+      next: (res) => this.recommendedCourses.set(res),
+      error: (err) => console.error(err),
     });
   }
 
@@ -153,24 +166,24 @@ export class StudentprofileComponent implements OnInit {
 
 
 
-/**
- * Returns the appropriate avatar image path based on the streak count.
- * @param streakCount The current number of consecutive days.
- * @returns A string representing the image file path.
- */
-getStreakAvatar(streakCount: number): string {
-  if (streakCount <= 0) {
-    return streakImages.sad;          // No streak (0 days)
-  } else if (streakCount <= 2) {
-    return streakImages.thumbsUp;     // Just started (1-2 days)
-  } else if (streakCount <= 5) {
-    return streakImages.clapping;     // Good job! (3-5 days)
-  } else if (streakCount <= 10) {
-    return streakImages.okay;         // Perfect streak (6-10 days)
-  } else if (streakCount <= 19) {
-    return streakImages.strong;       // Very consistent (11-19 days)
-  } else {
-    return streakImages.grandMaster;  // Achievement Unlocked (20+ days)
+  getStreakAvatar(streakCount: number): string {
+    if (streakCount <= 0) {
+      return streakImages.sad;
+    } else if (streakCount <= 2) {
+      return streakImages.thumbsUp;
+    } else if (streakCount <= 5) {
+      return streakImages.clapping;
+    } else if (streakCount <= 10) {
+      return streakImages.okay;
+    } else if (streakCount <= 19) {
+      return streakImages.strong;
+    } else {
+      return streakImages.grandMaster;
+    }
   }
-}
+  scrollSlider(direction: 'next' | 'prev') {
+    const slider = this.coursesSlider?.nativeElement;
+    if (!slider) return;
+    slider.scrollBy({ left: direction === 'next' ? -316 : 316, behavior: 'smooth' });
+  }
 }
