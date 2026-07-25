@@ -79,6 +79,7 @@
           <div class="hero-center">
             <span class="hero-badge">لكل الأعمار</span>
 
+
             <h1>
               تعلم أينما كنت
               <br />
@@ -118,3 +119,22 @@
     </button>
   </div>
 </section>
+
+@if (recommendedCourses.length > 0) {
+  <section class="recommended-section py-5">
+    <div class="container">
+      <div class="section-header d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title m-0">نقترح لك خصيصاً</h2>
+        <a routerLink="/courses" class="browse-all-btn">تصفح كل الدورات</a>
+      </div>
+      
+      <div class="row g-4">
+        @for (course of recommendedCourses; track course.courseID) {
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <app-courses-browse-card [course]="course"></app-courses-browse-card>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}

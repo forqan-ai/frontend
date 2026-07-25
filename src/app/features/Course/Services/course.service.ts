@@ -6,6 +6,7 @@ import { ICourseModuleDto } from '../Models/course-module-dto.interface';
 import { environment } from '../../../../environments/environment.development';
 import { ICourseOwnership } from '../Models/course-ownership.interface';
 import { ICoursePlayer } from '../Models/course-player.interface';
+import { ICourseListItem } from '../../courses-browse/models/course-list-item.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,10 @@ export class CourseService {
   }
   checkOwnership(courseId: string): Observable<ICourseOwnership> {
     return this.http.get<ICourseOwnership>(`${this.baseUrl}/${courseId}/ownership`);
+  }
+
+  getRecommendedCourses(): Observable<ICourseListItem[]> {
+    return this.http.get<ICourseListItem[]>(`${this.baseUrl}/recommended`);
   }
 
   getCoursePlayer(courseId: string): Observable<ICoursePlayer> {
