@@ -12,6 +12,14 @@ import { PointsService } from '../../../points/services/points.service';
 import { RouterLink } from '@angular/router';
 import { PointsBalanceComponent } from '../../../teacher/components/points-balance/points-balance.component';
 
+const streakImages = {
+  sad: 'images/avatars/sad.png',       
+  thumbsUp: 'images/avatars/perfect.png',    
+  clapping: 'images/avatars/clap.png',   
+  okay: 'images/avatars/good.png',        
+  strong: 'images/avatars/achieve.png',      
+  grandMaster: 'images/avatars/certificate.png'  
+};
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
@@ -53,7 +61,7 @@ export class StudentprofileComponent implements OnInit {
     this.loading.set(true);
 
     this.studentService.getStudentProfile().subscribe({
-      next: (res) => this.student.set(res),
+      next: (res) => {console.log(res);this.student.set(res)},
       error: (err) => console.error(err),
     });
 
@@ -142,4 +150,27 @@ export class StudentprofileComponent implements OnInit {
 
     return 'أهلاً بك';
   }
+
+
+
+/**
+ * Returns the appropriate avatar image path based on the streak count.
+ * @param streakCount The current number of consecutive days.
+ * @returns A string representing the image file path.
+ */
+getStreakAvatar(streakCount: number): string {
+  if (streakCount <= 0) {
+    return streakImages.sad;          // No streak (0 days)
+  } else if (streakCount <= 2) {
+    return streakImages.thumbsUp;     // Just started (1-2 days)
+  } else if (streakCount <= 5) {
+    return streakImages.clapping;     // Good job! (3-5 days)
+  } else if (streakCount <= 10) {
+    return streakImages.okay;         // Perfect streak (6-10 days)
+  } else if (streakCount <= 19) {
+    return streakImages.strong;       // Very consistent (11-19 days)
+  } else {
+    return streakImages.grandMaster;  // Achievement Unlocked (20+ days)
+  }
+}
 }
