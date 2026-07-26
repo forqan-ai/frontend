@@ -323,51 +323,30 @@ export class CourseDetailsComponent {
 
   }
 
+handlePurchaseClick() {
 
+  const courseId = this.route.snapshot.paramMap.get('id');
 
+  if (!courseId) return;
 
+  if (this.owned()) {
 
+    this.router.navigate([
+      '/dashboard',
+      'student',
+      'course-player',
+      courseId
+    ]);
 
+  } else {
 
-  handlePurchaseClick() {
-
-
-    const courseId =
-      this.route.snapshot.paramMap.get('id');
-
-
-
-    if (!courseId) return;
-
-
-
-    if (this.owned()) {
-
-
-      this.router.navigate([
-        '/course-player',
-        courseId
-      ]);
-
-
-    }
-
-    else {
-
-
-      this.router.navigate(
-        ['/checkout'],
-        {
-          queryParams: {
-            courseId
-          }
-        }
-      );
-
-
-    }
+    this.router.navigate([
+      '/course-checkout',
+      courseId
+    ]);
 
   }
 
+}
 
 }

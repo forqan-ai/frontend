@@ -121,6 +121,48 @@
   opacity: .35;
 }
 
+.recommended-section {
+  background-color: #fcfcfc;
+  border-bottom: 1px solid var(--border, #eee);
+}
+
+.section-title {
+  color: var(--text, #333);
+  font-weight: 700;
+  font-size: 24px;
+  position: relative;
+  padding-right: 15px;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 5px;
+  background-color: var(--primary, #0d6efd);
+  border-radius: 4px;
+}
+
+.browse-all-btn {
+  padding: 8px 20px;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.browse-all-btn:hover {
+  background-color: var(--primary);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
 .carousel-indicators .active {
   opacity: 1;
   transform: scale(1.3);

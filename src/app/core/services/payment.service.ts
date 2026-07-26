@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { ApiResponse, CheckoutUrl } from '../models/APIResponse';
+import { Observable } from 'rxjs';
+import { ApiResponse } from '../Models/APIResponse';
+import { environment } from '../../../environments/environment.development';
+import { CreatePaymentResponse } from '../../features/payment/models/PaymentResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +11,35 @@ import { ApiResponse, CheckoutUrl } from '../models/APIResponse';
 export class PaymentService {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/payment`;
 
-  createPayment(
-    purchaseType: 'Course' | 'PointPackage',
-    courseId?: string,
-    pointPackageId?: string
-  ) {
-    let params = new HttpParams()
-      .set('PurchaseType', purchaseType);
 
-    if (courseId) {
-      params = params.set('CourseId', courseId);
-    }
+createPayment(
+  purchaseType: 'Course' | 'PointPackage',
+  courseId?: string,
+  pointPackageId?: string
+) {
 
-    if (pointPackageId) {
-      params = params.set('PointPackageId', pointPackageId);
-    }
+  const body = {
+    purchaseType: purchaseType,
+    courseId: courseId,
+    pointPackageId: pointPackageId
+  };
 
-    return this.http.post<ApiResponse<CheckoutUrl>>(this.apiUrl, {}, { params });
+  console.log('Payment Body:', body);
+
+  return this.http.post<ApiResponse<CreatePaymentResponse>>(
+    this.apiUrl,
+    body
+  );
+}
+  getPaymentStatus(paymentId: string): Observable<{ status: string }> {
+    return this.http.get<{ status: string }>(`${this.apiUrl}/${paymentId}/status`);
   }
+
+  getPaymentDetails(paymentId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${paymentId}`);
+  }
+
 }

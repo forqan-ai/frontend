@@ -5,13 +5,15 @@
     <app-header [teacherName]="dashboard()?.fullName ?? ''" [image]="profile()?.profileImageURL ?? ''"
       (menuClick)="toggleSidebar()">
     </app-header>
+
     <div style="padding: 20px 20px 0;">
-      <a class="btn-primary" [routerLink]="['/circles', '11111111-1111-1111-1111-111111111111', 'sessions']"
+      <a class="btn-primary" [routerLink]="['/courses', 'circles', '11111111-1111-1111-1111-111111111111', 'sessions']"
         style="display: inline-block;">
         <i class="bi bi-camera-video"></i>
         إدارة جلسات البث المباشر
       </a>
     </div>
+
 
     <div class="dashboard-grid">
       <app-profile-card [teacher]="profile()"> </app-profile-card>

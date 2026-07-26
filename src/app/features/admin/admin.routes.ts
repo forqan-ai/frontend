@@ -24,5 +24,9 @@ export const ADMIN_ROUTES: Routes = [
         path: 'courses-review',
         component: AdminCoursesReviewComponent,
         title: 'مراجعة الدورات'
+    },
+    {
+        path: 'bookings',
+        loadComponent: () => import('../live-sessions/Pages/admin-bookings/admin-bookings.component').then((m) => m.AdminBookingsComponent),        title: 'إدارة الحجوزات'
     }
 ]
