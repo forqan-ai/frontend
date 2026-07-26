@@ -97,6 +97,28 @@
     background: rgba(52, 27, 22, .06);
 }
 
+
+/* ==========================
+   REJECT
+========================== */
+
+.reject {
+    background: var(--surface);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.reject:hover:not(:disabled) {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    box-shadow: 0 8px 18px rgba(220, 53, 69, 0.28);
+}
+
+.reject:active:not(:disabled) {
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.18);
+}
+
 /* ==========================
    SIZES
 ========================== */

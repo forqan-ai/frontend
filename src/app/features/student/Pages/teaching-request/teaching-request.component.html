@@ -5,7 +5,8 @@
         <!-- <app-teaching-request-result-pending></app-teaching-request-result-pending> -->
         <!-- <app-teaching-request-result-accepted></app-teaching-request-result-accepted> -->
 
-        @if(requestStatus() == 'not registered'){
+        @if(isLoading() === false){
+        @if(requestStatus() == 'notRegistered'){
         <app-teaching-request-form (requestSubmitted)="loadRequestStatus()"></app-teaching-request-form>
         }
         @else if(requestStatus() == 'Pending'){
@@ -15,7 +16,9 @@
         <app-teaching-request-result-accepted></app-teaching-request-result-accepted>
         }
         @else if (requestStatus() == 'Refused') {
-        <app-teaching-request-result-rejected></app-teaching-request-result-rejected>
+        <app-teaching-request-result-rejected [rejectionReason]="rejectionReason()">
+            ></app-teaching-request-result-rejected>
+        }
         }
     </div>
 </div>
