@@ -94,12 +94,12 @@ export class RegisterComponent {
     }
 
     this.isSubmitting.set(true);
-    const { fullName, email, password, confirmPassword,gender } = this.form.getRawValue();
+    const { fullName, email, password, confirmPassword, gender } = this.form.getRawValue();
 
     this.authService.register({ fullName, email, password, confirmPassword, gender }).subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        this.router.navigate(['/check-email']);
+        this.router.navigate(['check-email']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);

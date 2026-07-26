@@ -23,11 +23,13 @@ import { AdminSidebarComponent } from "../../../features/admin/components/admin-
 export class DashboardLayoutComponent {
   authService = inject(AuthService);
 
+  protected readonly Role = Role;
 
-  userRole = signal<string>('Student'); //initial value
+  userRole = signal<Role>(Role.Student); //initial value
 
   ngOnInit() {
     this.userRole.set(this.authService.getRole()!)
+    console.log(this.authService.getRole())
   }
 
 
