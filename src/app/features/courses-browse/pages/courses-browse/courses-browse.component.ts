@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal, ElementRef, ViewChild } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
 import {
@@ -18,6 +18,8 @@ import { CoursesBrowseService } from '../../services/courses-browse.service';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { IPaginatedResult } from '../../models/paginated-result.interface';
 import { CoursesBrowseCardComponent } from "../../components/courses-browse-card/courses-browse-card.component";
+import { CourseService } from '../../../Course/Services/course.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-courses-browse',
@@ -29,8 +31,13 @@ export class CoursesBrowseComponent implements OnInit {
 private readonly coursesBrowseService =
     inject(CoursesBrowseService);
 
+  private readonly courseService = inject(CourseService);
+  private readonly authService = inject(AuthService);
+
   private readonly destroyRef =
     inject(DestroyRef);
+
+  @ViewChild('recommendedSlider') recommendedSliderRef!: ElementRef<HTMLDivElement>;
 
   private readonly refreshCourses$ =
     new Subject<void>();
@@ -64,11 +71,33 @@ private readonly coursesBrowseService =
   readonly categoriesError =
     signal('');
 
+  readonly recommendedCourses = signal<ICourseListItem[]>([]);
+  readonly isLoggedIn = signal(false);
+
   ngOnInit(): void {
+    this.isLoggedIn.set(this.authService.IsAuthenticated());
     this.loadCategories();
     this.listenToCoursesRequests();
     this.listenToSearchChanges();
     this.requestCourses();
+    if (this.isLoggedIn()) {
+      this.loadRecommendedCourses();
+    }
+  }
+
+  private loadRecommendedCourses(): void {
+    this.courseService.getRecommendedCourses()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => this.recommendedCourses.set(res),
+        error: () => {}
+      });
+  }
+
+  scrollRecommended(dir: 'prev' | 'next'): void {
+    const el = this.recommendedSliderRef?.nativeElement;
+    if (!el) return;
+    el.scrollBy({ left: dir === 'next' ? -320 : 320, behavior: 'smooth' });
   }
 
   private loadCategories(): void {
