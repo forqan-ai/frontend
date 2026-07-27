@@ -1067,3 +1067,64 @@
   flex: 0 0 300px;
   min-width: 300px;
 }
+
+.current-course-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+
+  h3 {
+    font-size: 1.6rem;
+  }
+
+  .course-desc {
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 32rem;
+  }
+
+  .course-progress {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+
+    .progress-bar {
+      background: var(--primary-light);
+    }
+  }
+
+  .course-icon-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  .btn-continue {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: none;
+    font-weight: 700;
+    padding: 0.6rem 1.6rem;
+    border-radius: 10px;
+
+    &:hover {
+      background: #e6f0dc;
+    }
+  }
+}
