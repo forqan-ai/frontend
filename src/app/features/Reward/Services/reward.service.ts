@@ -3,6 +3,7 @@ import { Reward } from '../models/Reward';
 import { environment } from '../../../../environments/environment.development';
 import { ClaimRewardResponse } from '../models/ClaimRewardResponse';
 import { HttpClient } from '@angular/common/http';
+import { RewardProgress } from '../models/RewardProgress';
 
 @Service()
 export class RewardService {
@@ -20,4 +21,10 @@ export class RewardService {
       {}
     );
   }
+
+  getRewardProgress() {
+  return this.http.get<RewardProgress>(
+    `${environment.apiUrl}/api/Rewards/progress`
+  );
+}
 }

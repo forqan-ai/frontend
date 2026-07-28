@@ -1,56 +1,33 @@
 <div class="reward-overlay">
+  <div class="reward-card">
+    <div class="reward-icon">🏆</div>
 
-    <div class="reward-card">
+    <h2>🎉 مبروك!</h2>
 
-        <div class="reward-icon">
-            🏆
-        </div>
+    <p class="reward-title">
+      {{ reward.title }}
+    </p>
 
-        <h2>Congratulations!</h2>
+    <p class="reward-description">
+      {{ reward.description }}
+    </p>
 
-        <p class="reward-title">
-            {{ reward.title }}
-        </p>
+    <div class="reward-points">
+      +{{ reward.points }}
 
-        <p class="reward-description">
-            {{ reward.description }}
-        </p>
-
-        <div class="reward-points">
-
-            +{{ reward.points }}
-
-            <span>Knowledge Points</span>
-
-        </div>
-
-        <button
-            class="btn btn-warning btn-lg w-100 mt-4"
-            (click)="onClaim()"
-            [disabled]="loading">
-
-            @if(loading){
-
-                <span class="spinner-border spinner-border-sm me-2"></span>
-
-                Claiming...
-
-            } @else {
-
-                Claim Reward
-
-            }
-
-        </button>
-
-        <button
-            class="btn btn-link text-secondary w-100 mt-2"
-            (click)="onClose()">
-
-            Later
-
-        </button>
-
+      <span>نقطة معرفة</span>
     </div>
 
+    <button class="btn btn-warning btn-lg w-100 mt-4" (click)="onClaim()" [disabled]="loading">
+      @if (loading) {
+        <span class="spinner-border spinner-border-sm ms-2"></span>
+
+        جاري استلام المكافأة...
+      } @else {
+        استلام المكافأة
+      }
+    </button>
+
+    <button class="btn btn-link text-secondary w-100 mt-2" (click)="onClose()">لاحقًا</button>
+  </div>
 </div>
