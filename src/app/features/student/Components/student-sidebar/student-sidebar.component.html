@@ -92,6 +92,18 @@
         الدورات
       </a>
 
+      <a
+      routerLink="/dashboard/student/wishlist"
+      (click)="setActiveRoute('wishlist')"
+      [class.green-anchor]="isActive('wishlist')"
+      [class.grey-anchor]="!isActive('wishlist')"
+      class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+    >
+      <i class="bi bi-heart"></i>
+      مفضلتي
+    </a>
+
+
       <!-- <a routerLink="my-certificates" (click)="setActiveRoute('my-certificates')"
         [class.green-anchor]="isActive('my-certificates')" [class.grey-anchor]="!isActive('my-certificates')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
