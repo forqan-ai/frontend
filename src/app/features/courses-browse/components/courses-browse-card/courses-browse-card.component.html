@@ -10,6 +10,15 @@
       [alt]="course.title"
       (error)="onImageError($event)"
     />
+    <button
+      class="wishlist-btn"
+      [class.active]="isInWishlist()"
+      (click)="toggleWishlist($event)"
+      [disabled]="isToggling()"
+      aria-label="أضف للمفضلة"
+    >
+      <i class="bi" [class.bi-heart-fill]="isInWishlist()" [class.bi-heart]="!isInWishlist()"></i>
+    </button>
   </div>
 
   <div class="course-content">
