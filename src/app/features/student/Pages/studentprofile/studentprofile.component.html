@@ -316,3 +316,14 @@
   </div>
   }
 </div>
+
+@if (reward()) {
+
+    <app-reward-popup
+        [reward]="reward()!"
+        [loading]="claimLoading"
+        (claim)="claimReward()"
+        (close)="reward.set(null)">
+    </app-reward-popup>
+
+}

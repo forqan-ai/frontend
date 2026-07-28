@@ -14,6 +14,10 @@ import { PointsBalanceComponent } from '../../../teacher/components/points-balan
 import { CourseService } from '../../../Course/Services/course.service';
 import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
 import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
+import { Reward } from '../../../Reward/models/Reward';
+import { RewardService } from '../../../Reward/Services/reward.service';
+import { RewardPopupComponent } from "../../../Reward/Components/reward-popup/reward-popup.component";
+import { AuthService } from '../../../../core/services/auth.service';
 
 const streakImages = {
   sad: 'images/avatars/sad.png',
@@ -27,7 +31,7 @@ const streakImages = {
   selector: 'app-studentprofile',
   standalone: true,
 
-  imports: [CommonModule, DatePipe, PointsBalanceComponent, RouterLink, CoursesBrowseCardComponent],
+  imports: [CommonModule, DatePipe, PointsBalanceComponent, RouterLink, CoursesBrowseCardComponent, RewardPopupComponent],
 
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
@@ -51,6 +55,11 @@ export class StudentprofileComponent implements OnInit {
 
   recommendedCourses = signal<ICourseListItem[]>([]);
 
+  reward = signal<Reward | null>(null);
+  rewardService = inject(RewardService);
+  claimLoading = false;
+  authService = inject(AuthService);
+
   ngOnInit(): void {
     this.loadData();
     this.poService.getUserBalance().subscribe({
@@ -63,7 +72,60 @@ export class StudentprofileComponent implements OnInit {
         console.log(err);
       },
     });
+    this.rewardService.getAvailableReward().subscribe({
+      next:(reward) =>{
+        if(reward){
+          this.reward.set(reward);
+        }
+        else{
+          console.log("No Rewards");
+          
+        }
+        
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    });
   }
+
+  claimReward() {
+
+  if (!this.reward()) return;
+
+  this.claimLoading = true;
+
+  this.rewardService
+      .claimReward(this.reward()?.rewardId ?? "")
+      .subscribe({
+
+        next: (response) => {
+          var userId = this.authService.getUserId();
+          this.claimLoading = false;
+          this.poService.AddPointsToUser(response.pointsAdded,userId).subscribe({
+            next:(TotalPoints)=>{
+              this.currentPoints.set(TotalPoints);
+            },
+            error:(err)=>{
+              console.log(err);
+              
+            }
+          })
+
+          this.reward.set(null);
+
+        },
+
+        error: () => {
+
+          this.claimLoading = false;
+
+        }
+
+      });
+
+}
 
   loadData(): void {
     this.loading.set(true);
