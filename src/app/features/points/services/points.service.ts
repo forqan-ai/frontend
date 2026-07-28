@@ -24,4 +24,8 @@ export class PointsService {
   getPointPackage(id:string):Observable<pointResponse>{
     return this.http.get<pointResponse>(`${this.Url}/api/PointPackages/GetPackageById/${id}`)
   }
+
+  AddPointsToUser(points:number,userId:string | null) :Observable<number>{
+    return this.http.post<number>(`${this.Url}/api/PointBalance?points=${points}&userId=${userId}`,{});
+  }
 }
