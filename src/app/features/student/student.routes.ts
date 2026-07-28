@@ -59,5 +59,11 @@ export const STUDENT_ROUTES: Routes = [
         loadComponent: () =>
             import('../../features/Course/Pages/course-player/course-player.component')
                 .then(m => m.CoursePlayerComponent)
+    },
+    {
+    path: 'wishlist',
+    loadComponent: () =>import('./Pages/wishlist/wishlist.component').then(m => m.WishlistComponent),
+    title: 'مفضلتي'
     }
+
 ];
