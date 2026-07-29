@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DecimalPipe } from '@angular/common';
 
+import { DecimalPipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../Services/course.service';
 import { ICoursePlayer, ILesson } from '../../Models/course-player.interface';
 import { SafeUrlPipe } from '../../../../shared/pipes/safe-url-pipe';
@@ -29,6 +29,7 @@ export class CoursePlayerComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private courseService: CourseService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -97,38 +98,47 @@ export class CoursePlayerComponent implements OnInit {
     }
   }
 
-  goToNextLesson() {
-    const current = this.selectedLesson();
+ goToNextLesson() {
+  const current = this.selectedLesson();
 
-    if (current && !current.isCompleted) {
-      this.completeLesson(current);
-    }
-
-    const index = this.getCurrentLessonIndex();
-
-    const nextLesson = this.allLessons()[index + 1];
-
-    if (nextLesson) {
-      this.selectLesson(nextLesson);
-    }
+  if (!current) {
+    return;
   }
 
-  completeLesson(lesson: ILesson) {
-    this.courseService.markLessonCompleted(lesson.lessonID).subscribe({
+  const index = this.getCurrentLessonIndex();
+  const nextLesson = this.allLessons()[index + 1];
+
+  if (!current.isCompleted) {
+    this.courseService.markLessonCompleted(current.lessonID).subscribe({
       next: () => {
-        lesson.isCompleted = true;
+        current.isCompleted = true;
 
         const total = this.allLessons().length;
-        const completed = this.allLessons().filter((l) => l.isCompleted).length;
-        const newPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+        const completed = this.allLessons().filter(
+          (l) => l.isCompleted
+        ).length;
 
-        const current = this.coursePlayer();
+        const progress =
+          total > 0 ? Math.round((completed / total) * 100) : 0;
 
-        if (current) {
+        const course = this.coursePlayer();
+
+        if (course) {
           this.coursePlayer.set({
-            ...current,
-            progressPercentage: newPercentage,
+            ...course,
+            progressPercentage: progress,
           });
+        }
+
+        if (nextLesson) {
+          this.selectLesson(nextLesson);
+        } else {
+          this.router.navigate([
+            '/dashboard',
+            'student',
+            'certificate',
+            this.courseId,
+          ]);
         }
       },
 
@@ -136,7 +146,19 @@ export class CoursePlayerComponent implements OnInit {
         console.error('Mark lesson completed error', err);
       },
     });
+  } else {
+    if (nextLesson) {
+      this.selectLesson(nextLesson);
+    } else {
+      this.router.navigate([
+        '/dashboard',
+        'student',
+        'certificate',
+        this.courseId,
+      ]);
+    }
   }
+}
 
   getVideoUrl(url?: string): string | null {
     if (!url) {

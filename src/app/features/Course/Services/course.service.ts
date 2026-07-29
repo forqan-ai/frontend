@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment.development';
 import { ICourseOwnership } from '../Models/course-ownership.interface';
 import { ICoursePlayer } from '../Models/course-player.interface';
 import { ICourseListItem } from '../../courses-browse/models/course-list-item.interface';
+import { ICertificate } from '../Models/certificate.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -43,4 +44,10 @@ export class CourseService {
     {}
   );
 }
+getCertificate(courseId: string): Observable<ICertificate> {
+  return this.http.get<ICertificate>(
+    `${this.baseUrl}/${courseId}/certificate`
+  );
+}
+
 }

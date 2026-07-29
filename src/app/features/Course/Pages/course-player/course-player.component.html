@@ -56,11 +56,23 @@
           الدرس السابق
         </button>
 
-        <button class="nav-btn primary" (click)="goToNextLesson()" [disabled]="!hasNextLesson()">
-          الدرس التالي
-
-          <i class="bi bi-arrow-left"></i>
-        </button>
+        @if (hasNextLesson()) {
+  <button
+    class="nav-btn primary"
+    (click)="goToNextLesson()"
+  >
+    الدرس التالي
+    <i class="bi bi-arrow-left"></i>
+  </button>
+} @else {
+  <button
+    class="nav-btn primary"
+    (click)="goToNextLesson()"
+  >
+    <i class="bi bi-award-fill"></i>
+    استلام الشهادة
+  </button>
+}
       </div>
     </header>
 
