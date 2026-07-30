@@ -1,0 +1,101 @@
+@let item = member();
+
+<article class="member-card">
+  <div class="member-identity">
+    @if (item.profileImageUrl) {
+      <img
+        [src]="item.profileImageUrl"
+        [alt]="'صورة ' + item.fullName"
+      />
+    } @else {
+      <span class="avatar-placeholder" aria-hidden="true">
+        <i class="bi bi-person-fill"></i>
+      </span>
+    }
+
+    <div class="identity-copy">
+      <div class="name-line">
+        <h3>{{ item.fullName }}</h3>
+        <span
+          class="role-badge"
+          [class.owner-role]="item.role === 'Owner'"
+          [class.moderator-role]="item.role === 'Moderator'"
+        >
+          {{ roleLabel(item.role) }}
+        </span>
+      </div>
+
+      @if (item.email) {
+        <a [href]="'mailto:' + item.email">
+          <i class="bi bi-envelope" aria-hidden="true"></i>
+          {{ item.email }}
+        </a>
+      } @else {
+        <span class="email-unavailable">
+          البريد الإلكتروني غير متاح
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="member-meta">
+    <span>
+      <i class="bi bi-calendar-check" aria-hidden="true"></i>
+      انضم في
+      <time [attr.datetime]="item.joinedAt">
+        {{ item.joinedAt | date: 'dd/MM/yyyy' }}
+      </time>
+    </span>
+  </div>
+
+  @if (
+    (canManageMembers() && item.canRemove) ||
+    (canChangeRoles() && item.canChangeRole)
+  ) {
+    <footer class="member-actions">
+      @if (canChangeRoles() && item.canChangeRole) {
+        <label>
+          <span>تغيير الدور</span>
+          <select
+            [value]="item.role"
+            [disabled]="actionsDisabled()"
+            (change)="requestRoleChange($event)"
+          >
+            <option value="Member">عضو</option>
+            <option value="Moderator">مشرف</option>
+          </select>
+        </label>
+      }
+
+      @if (canManageMembers() && item.canRemove) {
+        <button
+          type="button"
+          class="remove-button"
+          [disabled]="actionsDisabled()"
+          (click)="removeRequested.emit()"
+        >
+          @if (removing()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            جارٍ الإزالة...
+          } @else {
+            <i class="bi bi-person-dash" aria-hidden="true"></i>
+            إزالة من الحلقة
+          }
+        </button>
+      }
+
+      @if (changingRole()) {
+        <span class="role-progress" role="status">
+          <span
+            class="spinner-border spinner-border-sm"
+            aria-hidden="true"
+          ></span>
+          جارٍ تحديث الدور...
+        </span>
+      }
+    </footer>
+  }
+</article>

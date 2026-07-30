@@ -1,0 +1,178 @@
+@let item = post();
+
+<article
+  class="post-card"
+  [class.pinned-post]="item.isPinned"
+>
+  @if (item.isPinned) {
+    <div class="pin-banner">
+      <i class="bi bi-pin-angle-fill" aria-hidden="true"></i>
+      <div>
+        <strong>منشور مثبت</strong>
+
+        @if (item.pinnedByUserName) {
+          <span>
+            بواسطة {{ item.pinnedByUserName }}
+            @if (item.pinnedAt) {
+              ·
+              <time [attr.datetime]="item.pinnedAt">
+                {{ item.pinnedAt | date: 'dd/MM/yyyy' }}
+              </time>
+            }
+          </span>
+        }
+      </div>
+    </div>
+  }
+
+  <header class="post-header">
+    <div class="author">
+      @if (item.author.profileImageUrl) {
+        <img
+          [src]="item.author.profileImageUrl"
+          [alt]="'صورة ' + item.author.fullName"
+        />
+      } @else {
+        <span class="author-placeholder" aria-hidden="true">
+          <i class="bi bi-person-fill"></i>
+        </span>
+      }
+
+      <div>
+        <strong>{{ item.author.fullName }}</strong>
+        <span>
+          <time [attr.datetime]="item.createdAt">
+            {{ item.createdAt | date: 'dd/MM/yyyy - h:mm a' }}
+          </time>
+
+          @if (item.updatedAt) {
+            · تم التعديل
+          }
+        </span>
+      </div>
+    </div>
+
+    @if (
+      allowMutations() &&
+      (item.canEdit || item.canDelete || item.canPin)
+    ) {
+      <div class="post-actions">
+        @if (item.canPin) {
+          <button
+            type="button"
+            [attr.aria-label]="
+              item.isPinned
+                ? 'إلغاء تثبيت المنشور'
+                : 'تثبيت المنشور'
+            "
+            [title]="
+              item.isPinned
+                ? 'إلغاء التثبيت'
+                : 'تثبيت المنشور'
+            "
+            [disabled]="actionsDisabled()"
+            (click)="pinRequested.emit()"
+          >
+            @if (pinning()) {
+              <span
+                class="spinner-border spinner-border-sm"
+                aria-hidden="true"
+              ></span>
+            } @else {
+              <i
+                class="bi"
+                [class.bi-pin-angle-fill]="!item.isPinned"
+                [class.bi-pin-angle]="item.isPinned"
+                aria-hidden="true"
+              ></i>
+            }
+          </button>
+        }
+
+        @if (item.canEdit) {
+          <button
+            type="button"
+            aria-label="تعديل المنشور"
+            title="تعديل المنشور"
+            [disabled]="actionsDisabled()"
+            (click)="editRequested.emit()"
+          >
+            <i class="bi bi-pencil-square" aria-hidden="true"></i>
+          </button>
+        }
+
+        @if (item.canDelete) {
+          <button
+            type="button"
+            class="delete-action"
+            aria-label="حذف المنشور"
+            title="حذف المنشور"
+            [disabled]="actionsDisabled()"
+            (click)="deleteRequested.emit()"
+          >
+            @if (deleting()) {
+              <span
+                class="spinner-border spinner-border-sm"
+                aria-hidden="true"
+              ></span>
+            } @else {
+              <i class="bi bi-trash3" aria-hidden="true"></i>
+            }
+          </button>
+        }
+      </div>
+    }
+  </header>
+
+  @if (item.imageUrl) {
+    <img
+      class="post-image"
+      [src]="item.imageUrl"
+      [alt]="'صورة المنشور بواسطة ' + item.author.fullName"
+      loading="lazy"
+    />
+  }
+
+  @if (editing()) {
+    <div class="edit-panel">
+      <app-circle-post-form
+        [initialContent]="item.content"
+        [fieldId]="'edit-circle-post-' + item.postId"
+        [submitting]="updating()"
+        submitLabel="حفظ التعديل"
+        submittingLabel="جارٍ الحفظ..."
+        placeholder="عدّل محتوى المنشور..."
+        [showCancel]="true"
+        [preventUnchanged]="true"
+        (formSubmitted)="updateRequested.emit($event)"
+        (cancelled)="editCancelled.emit()"
+      />
+    </div>
+  } @else {
+    <div
+      class="post-content"
+      [class.collapsed]="hasLongContent() && !expanded()"
+    >
+      {{ item.content }}
+    </div>
+
+    @if (hasLongContent()) {
+      <button
+        type="button"
+        class="expand-button"
+        (click)="toggleExpanded()"
+      >
+        {{ expanded() ? 'عرض أقل' : 'عرض المزيد' }}
+      </button>
+    }
+  }
+
+  @if (item.updatedAt && !editing()) {
+    <footer class="updated-time">
+      آخر تعديل:
+      <time [attr.datetime]="item.updatedAt">
+        {{ item.updatedAt | date: 'dd/MM/yyyy - h:mm a' }}
+      </time>
+    </footer>
+  }
+</article>

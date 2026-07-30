@@ -1,0 +1,35 @@
+@if (totalPages() > 1) {
+  <nav class="pagination" [attr.aria-label]="ariaLabel()">
+    <button
+      type="button"
+      [disabled]="currentPage() === 1 || disabled()"
+      (click)="changePage(currentPage() - 1)"
+    >
+      السابق
+    </button>
+
+    @for (page of pageNumbers(); track page) {
+      <button
+        type="button"
+        [class.active]="currentPage() === page"
+        [disabled]="disabled()"
+        [attr.aria-current]="
+          currentPage() === page ? 'page' : null
+        "
+        (click)="changePage(page)"
+      >
+        {{ page }}
+      </button>
+    }
+
+    <button
+      type="button"
+      [disabled]="
+        currentPage() === totalPages() || disabled()
+      "
+      (click)="changePage(currentPage() + 1)"
+    >
+      التالي
+    </button>
+  </nav>
+}

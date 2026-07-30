@@ -1,0 +1,190 @@
+@if (isTeacher) {
+  <app-toast />
+}
+
+<main class="details-page" dir="rtl">
+  <nav class="breadcrumb" aria-label="مسار الصفحة">
+    <ol>
+      <li>حلقات التعلم</li>
+      <li aria-current="page">تفاصيل الحلقة</li>
+    </ol>
+  </nav>
+
+  <div class="page-toolbar">
+    <button
+      type="button"
+      class="back-button"
+      (click)="backToCircles()"
+    >
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      العودة إلى حلقات التعلم
+    </button>
+  </div>
+
+  @if (loading()) {
+    <section
+      class="details-skeleton"
+      aria-label="جارٍ تحميل تفاصيل الحلقة"
+    >
+      <div class="skeleton-header">
+        <div class="skeleton-visual"></div>
+
+        <div class="skeleton-copy">
+          <div class="skeleton-line width-30"></div>
+          <div class="skeleton-line width-65"></div>
+          <div class="skeleton-line width-100"></div>
+          <div class="skeleton-line width-85"></div>
+        </div>
+      </div>
+
+      <div class="skeleton-teacher">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-line width-30"></div>
+      </div>
+
+      <div class="skeleton-stats">
+        <div></div>
+        <div></div>
+      </div>
+
+      <div class="skeleton-dates">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </section>
+  } @else if (loadError(); as error) {
+    <section class="state-panel" role="alert">
+      <div class="state-icon">
+        <i
+          class="bi"
+          [class.bi-search]="error.title === 'الحلقة غير موجودة'"
+          [class.bi-shield-lock]="error.title === 'لا يمكنك الوصول إلى هذه الحلقة'"
+          [class.bi-wifi-off]="error.retryable"
+          [class.bi-exclamation-circle]="
+            !error.retryable &&
+            error.title !== 'الحلقة غير موجودة' &&
+            error.title !== 'لا يمكنك الوصول إلى هذه الحلقة'
+          "
+          aria-hidden="true"
+        ></i>
+      </div>
+
+      <h1>{{ error.title }}</h1>
+      <p>{{ error.message }}</p>
+
+      <div class="state-actions">
+        @if (error.retryable) {
+          <button type="button" (click)="retry()">
+            إعادة المحاولة
+          </button>
+        }
+
+        <button
+          type="button"
+          class="secondary-state-button"
+          (click)="backToCircles()"
+        >
+          العودة إلى حلقات التعلم
+        </button>
+      </div>
+    </section>
+  } @else if (details(); as circle) {
+    <app-learning-circle-details-summary
+      [details]="circle"
+      [actionPending]="actionPending() !== null"
+      (joinRequested)="openJoinConfirmation()"
+      (leaveRequested)="openLeaveConfirmation()"
+      (editRequested)="editCircle()"
+      (archiveRequested)="openArchiveConfirmation()"
+    />
+
+    @if (
+      circle.permissions.canViewPosts ||
+      circle.permissions.canViewMembers
+    ) {
+      <app-circle-content-navigation
+        [activeSection]="activeContentSection()"
+        [canViewPosts]="circle.permissions.canViewPosts"
+        [canViewMembers]="circle.permissions.canViewMembers"
+        [postsCount]="circle.postsCount"
+        [membersCount]="circle.membersCount"
+        (sectionChanged)="selectContentSection($event)"
+      />
+
+      @if (
+        postsMounted() &&
+        circle.permissions.canViewPosts
+      ) {
+        <div
+          id="circle-posts-panel"
+          role="tabpanel"
+          aria-labelledby="circle-posts-tab"
+          [hidden]="activeContentSection() !== 'posts'"
+        >
+          <app-circle-posts-section
+            [details]="circle"
+            [active]="activeContentSection() === 'posts'"
+            (detailsRefreshRequested)="
+              refreshDetailsFromContent()
+            "
+          />
+        </div>
+      }
+
+      @if (
+        membersMounted() &&
+        circle.permissions.canViewMembers
+      ) {
+        <div
+          id="circle-members-panel"
+          role="tabpanel"
+          aria-labelledby="circle-members-tab"
+          [hidden]="activeContentSection() !== 'members'"
+        >
+          <app-circle-members-section
+            [details]="circle"
+            [active]="activeContentSection() === 'members'"
+            (detailsRefreshRequested)="
+              refreshDetailsFromContent()
+            "
+          />
+        </div>
+      }
+    } @else {
+      <section class="content-boundary">
+        <div class="boundary-icon" aria-hidden="true">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+
+        <div>
+          <h2>محتوى الحلقة خاص بالأعضاء</h2>
+          <p>
+            انضم إلى الحلقة للوصول إلى قائمة الأعضاء والمحتوى المتاح
+            حسب صلاحيات دورك.
+          </p>
+        </div>
+      </section>
+    }
+
+    <app-membership-confirmation-modal
+      [action]="membershipAction() ?? 'join'"
+      [open]="membershipAction() !== null"
+      [circleName]="circle.name"
+      [loading]="
+        membershipAction() !== null &&
+        actionPending() === membershipAction()
+      "
+      (closed)="closeMembershipConfirmation()"
+      (confirmed)="confirmMembershipAction()"
+    />
+
+    <app-archive-circle-confirmation-modal
+      [open]="archiveConfirmationOpen()"
+      [circleName]="circle.name"
+      [loading]="actionPending() === 'archive'"
+      (closed)="closeArchiveConfirmation()"
+      (confirmed)="confirmArchive()"
+    />
+  }
+</main>

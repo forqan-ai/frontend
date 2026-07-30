@@ -1,0 +1,112 @@
+<form
+  class="post-form"
+  novalidate
+  (submit)="onSubmit($event)"
+>
+  <div class="field-heading">
+    <label [for]="fieldId()">
+      {{ showCancel() ? 'تعديل المنشور' : 'منشور جديد' }}
+    </label>
+    <span>{{ postForm.content().value().length }}/5000</span>
+  </div>
+
+  <textarea
+    [id]="fieldId()"
+    [rows]="showCancel() ? 5 : 4"
+    [placeholder]="placeholder()"
+    [formField]="postForm.content"
+    [attr.aria-busy]="submitting()"
+    [attr.aria-invalid]="showError(postForm.content)"
+    [attr.aria-describedby]="
+      showError(postForm.content)
+        ? fieldId() + '-error'
+        : fieldId() + '-hint'
+    "
+  ></textarea>
+
+  @if (showError(postForm.content)) {
+    <p [id]="fieldId() + '-error'" class="field-error">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      {{ validationMessage(postForm.content) }}
+    </p>
+  } @else {
+    <p [id]="fieldId() + '-hint'" class="field-hint">
+      @if (allowImage()) {
+        نص بحد أقصى 5000 حرف، ويمكن إرفاق صورة اختيارية.
+      } @else {
+        محتوى نصي بحد أقصى 5000 حرف.
+      }
+    </p>
+  }
+
+  @if (allowImage()) {
+    <div class="image-upload">
+      <label class="image-upload-button" for="circle-post-image">
+        <i class="bi bi-image" aria-hidden="true"></i>
+        {{ selectedImage() ? 'تغيير الصورة' : 'إضافة صورة' }}
+      </label>
+      <input
+        #imageInput
+        id="circle-post-image"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        [disabled]="submitting() || disabled()"
+        (change)="onImageSelected($event)"
+      />
+      <span>JPEG أو PNG أو WebP، بحد أقصى 5 MB.</span>
+    </div>
+
+    @if (imageError(); as error) {
+      <p class="field-error" role="alert">
+        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+        {{ error }}
+      </p>
+    }
+
+    @if (imagePreviewUrl(); as previewUrl) {
+      <div class="image-preview">
+        <img [src]="previewUrl" alt="معاينة صورة المنشور" />
+        <div>
+          <span>{{ selectedImage()?.name }}</span>
+          <button
+            type="button"
+            [disabled]="submitting() || disabled()"
+            (click)="removeImage()"
+          >
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+            إزالة الصورة
+          </button>
+        </div>
+      </div>
+    }
+  }
+
+  <div class="form-actions">
+    @if (showCancel()) {
+      <button
+        type="button"
+        class="secondary-button"
+        [disabled]="submitting() || disabled()"
+        (click)="cancelled.emit()"
+      >
+        إلغاء
+      </button>
+    }
+
+    <button
+      type="submit"
+      class="primary-button"
+      [disabled]="submitting() || disabled()"
+    >
+      @if (submitting()) {
+        <span
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
+        {{ submittingLabel() }}
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

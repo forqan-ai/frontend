@@ -1,0 +1,147 @@
+:host {
+  display: contents;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  background:
+    color-mix(in srgb, var(--primary) 45%, transparent);
+  padding: 1rem;
+}
+
+.confirmation-modal {
+  position: relative;
+  width: min(100%, 30rem);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  padding: 1.4rem;
+  text-align: center;
+  box-shadow:
+    0 1rem 3rem
+    color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.close-button {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: var(--text);
+}
+
+.modal-icon {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 0.8rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 1.3rem;
+}
+
+.confirmation-modal h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.confirmation-modal > p {
+  margin: 0.45rem 0 0.8rem;
+  font-size: 0.86rem;
+}
+
+.confirmation-modal > p strong {
+  color: var(--text);
+}
+
+blockquote {
+  max-height: 7rem;
+  overflow: hidden;
+  border-inline-start: 3px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--secondary);
+  color: var(--text-light);
+  padding: 0.7rem;
+  text-align: start;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+  border-inline-start: 3px solid var(--primary);
+  border-radius: 0.6rem;
+  background: var(--secondary);
+  padding: 0.75rem;
+  text-align: start;
+}
+
+.notice i {
+  margin-top: 0.15rem;
+  color: var(--primary);
+}
+
+.notice p {
+  margin: 0;
+  font-size: 0.76rem;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  border-radius: 0.65rem;
+  padding: 0.7rem 0.85rem;
+  font-weight: 700;
+}
+
+.cancel-button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.confirm-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--primary);
+  color: var(--surface);
+}
+
+.confirm-button:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.modal-actions button:disabled,
+.close-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 480px) {
+  .modal-actions {
+    grid-template-columns: 1fr;
+  }
+}

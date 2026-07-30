@@ -1,0 +1,89 @@
+@if (open()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="requestClose()"
+  >
+    <section
+      class="confirmation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="change-role-modal-title"
+      aria-describedby="change-role-modal-description"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-button"
+        aria-label="إغلاق"
+        [disabled]="loading()"
+        (click)="requestClose()"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-icon" aria-hidden="true">
+        <i class="bi bi-person-gear"></i>
+      </div>
+
+      <h2 id="change-role-modal-title">
+        تأكيد تغيير الدور
+      </h2>
+
+      <p id="change-role-modal-description">
+        سيتم تغيير دور
+        <strong>«{{ memberName() }}»</strong>
+        من
+        <strong>{{ roleLabel(currentRole()) }}</strong>
+        إلى
+        <strong>{{ roleLabel(requestedRole()) }}</strong>.
+      </p>
+
+      @if (requestedRole() === 'Moderator') {
+        <div class="notice">
+          <i class="bi bi-shield-check" aria-hidden="true"></i>
+          <p>
+            سيتمكن المشرف من إدارة الأعضاء العاديين وتثبيت المنشورات
+            حسب صلاحيات الحلقة.
+          </p>
+        </div>
+      } @else {
+        <div class="notice">
+          <i class="bi bi-shield-minus" aria-hidden="true"></i>
+          <p>
+            سيفقد العضو صلاحيات الإشراف، وسيظل عضوًا عاديًا في
+            الحلقة.
+          </p>
+        </div>
+      }
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="loading()"
+          (click)="requestClose()"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          [disabled]="loading()"
+          (click)="confirm()"
+        >
+          @if (loading()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            جارٍ التحديث...
+          } @else {
+            تأكيد تغيير الدور
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

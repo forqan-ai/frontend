@@ -4,7 +4,9 @@ import { StudentSettingsComponent } from './Pages/student-settings/student-setti
 import { StudentCertificatesComponent } from './Pages/student-certificates/student-certificates.component';
 import { CoursesBrowseComponent } from '../courses-browse/pages/courses-browse/courses-browse.component';
 import { TeachersBrowseComponent } from '../teacher/pages/teachers-browse/teachers-browse.component';
-import { StudentLearningCirclesComponent } from './Pages/student-learning-circles/student-learning-circles.component';
+import { ExploreLearningCirclesComponent } from '../learning-circles/pages/explore-learning-circles/explore-learning-circles.component';
+import { LearningCircleDetailsComponent } from '../learning-circles/pages/learning-circle-details/learning-circle-details.component';
+import { MyLearningCirclesComponent } from '../learning-circles/pages/my-learning-circles/my-learning-circles.component';
 import { StudentCoursesComponent } from './Pages/student-courses/student-courses.component';
 import { TeachingRequestComponent } from './Pages/teaching-request/teaching-request.component';
 
@@ -40,9 +42,19 @@ export const STUDENT_ROUTES: Routes = [
     title: 'تصفح المعلمون المسجلون علي من منصة الفرقان',
   },
   {
+    path: 'learning-circles/mine',
+    component: MyLearningCirclesComponent,
+    title: 'حلقاتي',
+  },
+  {
+    path: 'learning-circles/:circleId',
+    component: LearningCircleDetailsComponent,
+    title: 'تفاصيل حلقة التعلم',
+  },
+  {
     path: 'learning-circles',
-    component: StudentLearningCirclesComponent,
-    title: 'حلقات العلم الخاصة بي',
+    component: ExploreLearningCirclesComponent,
+    title: 'استكشف حلقات التعلم',
   },
   {
     path: 'my-courses',
