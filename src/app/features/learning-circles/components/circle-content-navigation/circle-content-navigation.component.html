@@ -1,0 +1,37 @@
+<nav
+  class="content-navigation"
+  role="tablist"
+  aria-label="محتوى حلقة التعلم"
+>
+  @if (canViewPosts()) {
+    <button
+      id="circle-posts-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-posts-panel"
+      [attr.aria-selected]="activeSection() === 'posts'"
+      [class.active]="activeSection() === 'posts'"
+      (click)="selectSection('posts')"
+    >
+      <i class="bi bi-file-post" aria-hidden="true"></i>
+      المنشورات
+      <span>{{ postsCount() }}</span>
+    </button>
+  }
+
+  @if (canViewMembers()) {
+    <button
+      id="circle-members-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-members-panel"
+      [attr.aria-selected]="activeSection() === 'members'"
+      [class.active]="activeSection() === 'members'"
+      (click)="selectSection('members')"
+    >
+      <i class="bi bi-people" aria-hidden="true"></i>
+      الأعضاء
+      <span>{{ membersCount() }}</span>
+    </button>
+  }
+</nav>

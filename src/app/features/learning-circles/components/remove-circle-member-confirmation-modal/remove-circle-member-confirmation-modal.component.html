@@ -1,0 +1,76 @@
+@if (open()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="requestClose()"
+  >
+    <section
+      class="confirmation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="remove-member-modal-title"
+      aria-describedby="remove-member-modal-description"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-button"
+        aria-label="إغلاق"
+        [disabled]="loading()"
+        (click)="requestClose()"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-icon" aria-hidden="true">
+        <i class="bi bi-person-dash-fill"></i>
+      </div>
+
+      <h2 id="remove-member-modal-title">
+        تأكيد إزالة العضو
+      </h2>
+
+      <p id="remove-member-modal-description">
+        هل تريد إزالة
+        <strong>«{{ memberName() }}»</strong>
+        من حلقة التعلم؟
+      </p>
+
+      <div class="notice">
+        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+        <p>
+          سيفقد العضو الوصول إلى محتوى الحلقة، لكن حسابه على المنصة
+          لن يتأثر.
+        </p>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="loading()"
+          (click)="requestClose()"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          [disabled]="loading()"
+          (click)="confirm()"
+        >
+          @if (loading()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            جارٍ الإزالة...
+          } @else {
+            تأكيد الإزالة
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

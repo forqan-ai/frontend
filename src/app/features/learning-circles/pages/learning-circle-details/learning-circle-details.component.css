@@ -1,0 +1,270 @@
+:host {
+  display: block;
+}
+
+.details-page {
+  width: min(100%, 1040px);
+  margin-inline: auto;
+  padding: 1.25rem;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: '/';
+  margin-inline-start: 0.45rem;
+  color: var(--border);
+}
+
+.breadcrumb li[aria-current='page'] {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.page-toolbar {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.62rem 0.82rem;
+  font-weight: 700;
+}
+
+.back-button:hover {
+  background: var(--secondary);
+}
+
+.details-skeleton,
+.state-panel,
+.content-boundary {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.details-skeleton {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.skeleton-header {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.skeleton-copy {
+  display: grid;
+  align-content: center;
+  gap: 0.7rem;
+}
+
+.skeleton-visual,
+.skeleton-line,
+.skeleton-avatar,
+.skeleton-stats > div,
+.skeleton-dates > div {
+  border-radius: 0.65rem;
+  background: var(--secondary);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-visual {
+  min-height: 8rem;
+}
+
+.skeleton-line {
+  height: 0.9rem;
+}
+
+.skeleton-teacher {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.skeleton-avatar {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+}
+
+.skeleton-stats,
+.skeleton-dates {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skeleton-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.skeleton-dates {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.skeleton-stats > div {
+  height: 4rem;
+}
+
+.skeleton-dates > div {
+  height: 2.7rem;
+}
+
+.width-30 {
+  width: 30%;
+}
+
+.width-65 {
+  width: 65%;
+}
+
+.width-85 {
+  width: 85%;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.state-panel {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  padding-block: 2.5rem;
+  text-align: center;
+}
+
+.state-icon {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 1.35rem;
+}
+
+.state-panel h1,
+.state-panel p {
+  margin: 0;
+}
+
+.state-panel h1 {
+  font-size: 1.3rem;
+}
+
+.state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+
+.state-actions button {
+  border-radius: 0.65rem;
+  background: var(--primary);
+  color: var(--surface);
+  padding: 0.68rem 0.95rem;
+  font-weight: 700;
+}
+
+.state-actions .secondary-state-button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.content-boundary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  box-shadow:
+    0 0.35rem 1.2rem
+    color-mix(in srgb, var(--primary) 4%, transparent);
+}
+
+.boundary-icon {
+  display: grid;
+  flex: 0 0 2.7rem;
+  width: 2.7rem;
+  height: 2.7rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.content-boundary h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.content-boundary p {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-visual,
+  .skeleton-line,
+  .skeleton-avatar,
+  .skeleton-stats > div,
+  .skeleton-dates > div {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .details-page {
+    padding: 1rem;
+  }
+
+  .skeleton-header {
+    grid-template-columns: 1fr;
+  }
+
+  .skeleton-visual {
+    min-height: 6.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .skeleton-stats,
+  .skeleton-dates {
+    grid-template-columns: 1fr;
+  }
+
+  .content-boundary {
+    display: grid;
+  }
+}

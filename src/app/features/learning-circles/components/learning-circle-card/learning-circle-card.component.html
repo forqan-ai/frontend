@@ -1,0 +1,138 @@
+@let item = circle();
+
+<article class="circle-card" [attr.aria-busy]="actionPending()">
+  <div class="circle-visual" aria-hidden="true">
+    <span class="subject-initial">
+      {{ subjectInitial(item.subject) }}
+    </span>
+
+    <div class="visual-content">
+      <i class="bi bi-journal-bookmark-fill"></i>
+      <span>{{ item.subject }}</span>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <div class="status-row">
+      @if (item.isMember) {
+        <span class="status-badge member-status">
+          <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+          منضم بالفعل
+        </span>
+      } @else if (item.isOpenForJoin) {
+        <span class="status-badge open-status">
+          متاحة للانضمام
+        </span>
+      } @else {
+        <span class="status-badge invitation-status">
+          <i class="bi bi-envelope-lock" aria-hidden="true"></i>
+          الانضمام بدعوة فقط
+        </span>
+      }
+
+      @if (showRole() && roleLabel(item.currentUserRole); as role) {
+        <span class="role-badge">{{ role }}</span>
+      }
+    </div>
+
+    <h2>{{ item.name }}</h2>
+
+    <p class="description">{{ item.description }}</p>
+
+    <div class="teacher">
+      @if (item.teacher.profileImageUrl) {
+        <img
+          [src]="item.teacher.profileImageUrl"
+          [alt]="'صورة المعلم ' + item.teacher.fullName"
+        />
+      } @else {
+        <span class="teacher-placeholder" aria-hidden="true">
+          <i class="bi bi-person-fill"></i>
+        </span>
+      }
+
+      <div>
+        <span>المعلم</span>
+        <strong>{{ item.teacher.fullName }}</strong>
+      </div>
+    </div>
+
+    <dl
+      class="statistics"
+      [class.single-statistic]="!showPostsCount()"
+    >
+      <div>
+        <dt>
+          <i class="bi bi-person-check" aria-hidden="true"></i>
+          الأعضاء
+        </dt>
+        <dd>{{ item.membersCount }}</dd>
+      </div>
+
+      @if (showPostsCount()) {
+        <div>
+          <dt>
+            <i class="bi bi-file-post" aria-hidden="true"></i>
+            المنشورات
+          </dt>
+          <dd>{{ item.postsCount }}</dd>
+        </div>
+      }
+    </dl>
+
+    <p class="last-activity">
+      <i class="bi bi-clock" aria-hidden="true"></i>
+      <span>آخر نشاط</span>
+
+      <time [attr.datetime]="item.lastActivityAt">
+        {{ item.lastActivityAt | date: 'dd/MM/yyyy' }}
+      </time>
+    </p>
+  </div>
+
+  <footer class="card-actions">
+    <button
+      type="button"
+      class="secondary-button"
+      [disabled]="actionPending()"
+      (click)="detailsRequested.emit(item)"
+    >
+      عرض التفاصيل
+    </button>
+
+    @if (showManageAction()) {
+      <button
+        type="button"
+        class="primary-button"
+        [disabled]="actionPending()"
+        (click)="manageRequested.emit(item)"
+      >
+        <i class="bi bi-sliders" aria-hidden="true"></i>
+        إدارة الحلقة
+      </button>
+    }
+
+    @if (showJoinAction()) {
+      <button
+        type="button"
+        class="primary-button"
+        [disabled]="actionPending()"
+        (click)="joinRequested.emit(item)"
+      >
+        <i class="bi bi-person-plus" aria-hidden="true"></i>
+        انضم مجانًا
+      </button>
+    }
+
+    @if (showLeaveAction()) {
+      <button
+        type="button"
+        class="danger-button"
+        [disabled]="actionPending()"
+        (click)="leaveRequested.emit(item)"
+      >
+        مغادرة الحلقة
+      </button>
+    }
+  </footer>
+</article>

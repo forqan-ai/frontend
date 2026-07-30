@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.form-page {
+  width: min(100%, 960px);
+  margin-inline: auto;
+  padding: 1.25rem;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: '/';
+  margin-inline-start: 0.45rem;
+  color: var(--border);
+}
+
+.breadcrumb li[aria-current='page'] {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.2rem;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+}
+
+.page-header p:not(.eyebrow) {
+  max-width: 38rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.65rem 0.85rem;
+  font-weight: 700;
+}
+
+.back-button:hover {
+  background: var(--secondary);
+}
+
+.form-panel {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  padding: clamp(1rem, 3vw, 1.6rem);
+  box-shadow:
+    0 0.45rem 1.5rem
+    color-mix(in srgb, var(--primary) 6%, transparent);
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-icon {
+  display: grid;
+  flex: 0 0 2.8rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.panel-heading p {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 720px) {
+  .form-page {
+    padding: 1rem;
+  }
+
+  .page-header {
+    display: grid;
+  }
+
+  .back-button {
+    width: fit-content;
+  }
+}

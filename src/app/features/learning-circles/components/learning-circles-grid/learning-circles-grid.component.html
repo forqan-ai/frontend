@@ -1,0 +1,42 @@
+@if (loading()) {
+  <div class="skeleton-grid" aria-label="جارٍ تحميل حلقات التعلم">
+    @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+      <div class="skeleton-card">
+        <div class="skeleton-visual"></div>
+
+        <div class="skeleton-content">
+          <div class="skeleton-line width-30"></div>
+          <div class="skeleton-line width-70"></div>
+          <div class="skeleton-line width-100"></div>
+          <div class="skeleton-line width-85"></div>
+
+          <div class="skeleton-teacher">
+            <div class="skeleton-avatar"></div>
+            <div class="skeleton-line width-40"></div>
+          </div>
+
+          <div class="skeleton-line width-100"></div>
+          <div class="skeleton-line width-60"></div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="circles-grid">
+    @for (circle of circles(); track circle.circleId) {
+      <app-learning-circle-card
+        [circle]="circle"
+        [actionPending]="isActionPending(circle.circleId)"
+        [showPostsCount]="showMemberMetadata()"
+        [showRole]="showMemberMetadata()"
+        [showJoinAction]="canJoin(circle)"
+        [showLeaveAction]="canLeave(circle)"
+        [showManageAction]="canManage(circle)"
+        (joinRequested)="joinRequested.emit($event)"
+        (leaveRequested)="leaveRequested.emit($event)"
+        (detailsRequested)="detailsRequested.emit($event)"
+        (manageRequested)="manageRequested.emit($event)"
+      />
+    }
+  </div>
+}

@@ -1,0 +1,378 @@
+@if (open()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="requestClose()"
+  >
+    <section
+      class="members-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="add-members-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="modal-header">
+        <div>
+          <span class="eyebrow">إدارة أعضاء الحلقة</span>
+          <h2 id="add-members-modal-title">
+            إضافة طلاب إلى «{{ circleName() }}»
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          aria-label="إغلاق"
+          [disabled]="adding()"
+          (click)="requestClose()"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      @if (additionResult(); as result) {
+        <section class="addition-summary" aria-live="polite">
+          <div class="summary-heading">
+            <div class="summary-icon" aria-hidden="true">
+              <i class="bi bi-person-check-fill"></i>
+            </div>
+
+            <div>
+              <h3>نتيجة إضافة الطلاب</h3>
+              <p>
+                تمت معالجة جميع عناوين البريد المرسلة.
+              </p>
+            </div>
+          </div>
+
+          <dl class="summary-counts">
+            <div>
+              <dt>المطلوب</dt>
+              <dd>{{ result.requestedCount }}</dd>
+            </div>
+            <div>
+              <dt>تمت إضافتهم</dt>
+              <dd>{{ result.addedCount }}</dd>
+            </div>
+            <div>
+              <dt>لم تتم إضافتهم</dt>
+              <dd>{{ result.failedCount }}</dd>
+            </div>
+          </dl>
+
+          <div class="addition-results">
+            @for (
+              item of result.results;
+              track $index
+            ) {
+              <article
+                class="result-item"
+                [class.added-result]="isAdded(item.status)"
+              >
+                <div>
+                  <strong>
+                    {{ item.fullName || item.email || 'بريد غير صالح' }}
+                  </strong>
+
+                  @if (item.fullName && item.email) {
+                    <span>{{ item.email }}</span>
+                  }
+                </div>
+
+                <span class="result-status">
+                  <i
+                    class="bi"
+                    [class.bi-check-circle-fill]="
+                      isAdded(item.status)
+                    "
+                    [class.bi-info-circle-fill]="
+                      !isAdded(item.status)
+                    "
+                    aria-hidden="true"
+                  ></i>
+                  {{ statusLabel(item.status) }}
+                </span>
+              </article>
+            }
+          </div>
+
+          <div class="result-actions">
+            <button
+              type="button"
+              class="secondary-button"
+              (click)="requestClose()"
+            >
+              إغلاق
+            </button>
+
+            <button
+              type="button"
+              class="primary-button"
+              (click)="startAnotherAddition()"
+            >
+              إضافة طلاب آخرين
+            </button>
+          </div>
+        </section>
+      } @else {
+        <div class="modal-content">
+          <section
+            class="candidate-section"
+            aria-labelledby="candidate-search-title"
+          >
+            <div class="section-heading">
+              <div>
+                <h3 id="candidate-search-title">
+                  ابحث عن طالب مسجل
+                </h3>
+                <p>
+                  تظهر النتائج للحسابات النشطة غير الموجودة في الحلقة.
+                </p>
+              </div>
+
+              @if (candidateTotalCount() > 0) {
+                <span class="result-count">
+                  {{ candidateTotalCount() }} طالب
+                </span>
+              }
+            </div>
+
+            <div class="candidate-search-field">
+              <i class="bi bi-search" aria-hidden="true"></i>
+              <input
+                type="search"
+                autocomplete="off"
+                placeholder="اكتب اسم الطالب أو بريده الإلكتروني"
+                [value]="candidateSearch()"
+                [attr.aria-invalid]="
+                  candidateSearchValidation() !== null
+                "
+                (input)="updateCandidateSearch($event)"
+              />
+            </div>
+
+            @if (candidateSearchValidation(); as validation) {
+              <p class="field-error">
+                <i
+                  class="bi bi-exclamation-circle"
+                  aria-hidden="true"
+                ></i>
+                {{ validation }}
+              </p>
+            }
+
+            @if (candidatesLoading()) {
+              <div
+                class="candidate-skeletons"
+                aria-label="جارٍ البحث عن الطلاب"
+              >
+                @for (item of [1, 2, 3]; track item) {
+                  <div class="candidate-skeleton">
+                    <span></span>
+                    <div>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else if (candidatesLoadFailed()) {
+              <div class="candidate-state" role="alert">
+                <i class="bi bi-wifi-off" aria-hidden="true"></i>
+                <p>تعذر البحث عن الطلاب.</p>
+                <button type="button" (click)="retryCandidates()">
+                  إعادة المحاولة
+                </button>
+              </div>
+            } @else if (candidateSearch().length < 2) {
+              <div class="candidate-state">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <p>اكتب حرفين على الأقل لبدء البحث.</p>
+              </div>
+            } @else if (candidates().length === 0) {
+              <div class="candidate-state">
+                <i
+                  class="bi bi-person-x"
+                  aria-hidden="true"
+                ></i>
+                <p>
+                  لا يوجد طلاب متاحون يطابقون البحث.
+                </p>
+              </div>
+            } @else {
+              <div class="candidate-list">
+                @for (
+                  candidate of candidates();
+                  track candidate.userId
+                ) {
+                  <article class="candidate-item">
+                    @if (candidate.profileImageUrl) {
+                      <img
+                        [src]="candidate.profileImageUrl"
+                        [alt]="'صورة ' + candidate.fullName"
+                      />
+                    } @else {
+                      <span
+                        class="candidate-avatar"
+                        aria-hidden="true"
+                      >
+                        <i class="bi bi-person-fill"></i>
+                      </span>
+                    }
+
+                    <div>
+                      <strong>{{ candidate.fullName }}</strong>
+                      <span>{{ candidate.email }}</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      [disabled]="
+                        isEmailSelected(candidate.email) ||
+                        emailsToAdd().length >= 50 ||
+                        adding()
+                      "
+                      (click)="addCandidate(candidate)"
+                    >
+                      @if (isEmailSelected(candidate.email)) {
+                        <i
+                          class="bi bi-check-lg"
+                          aria-hidden="true"
+                        ></i>
+                        تم الاختيار
+                      } @else {
+                        <i
+                          class="bi bi-plus-lg"
+                          aria-hidden="true"
+                        ></i>
+                        اختيار
+                      }
+                    </button>
+                  </article>
+                }
+              </div>
+
+              <app-learning-circles-pagination
+                [currentPage]="candidatePage()"
+                [totalPages]="candidateTotalPages()"
+                [disabled]="candidatesLoading()"
+                ariaLabel="صفحات نتائج البحث عن الطلاب"
+                (pageChanged)="goToCandidatePage($event)"
+              />
+            }
+          </section>
+
+          <div class="section-divider" aria-hidden="true">
+            <span>أو</span>
+          </div>
+
+          <form
+            class="emails-form"
+            novalidate
+            (submit)="onSubmit($event)"
+          >
+            <div class="section-heading">
+              <div>
+                <h3>إضافة عدة طلاب بالبريد</h3>
+                <p>
+                  افصل بين العناوين بسطر جديد أو فاصلة، وبحد أقصى
+                  50 بريدًا.
+                </p>
+              </div>
+
+              <span class="result-count">
+                {{ emailsToAdd().length }}/50
+              </span>
+            </div>
+
+            @if (selectedEmails().length > 0) {
+              <div
+                class="selected-emails"
+                aria-label="الطلاب المختارون"
+              >
+                @for (
+                  email of selectedEmails();
+                  track email
+                ) {
+                  <span>
+                    {{ email }}
+                    <button
+                      type="button"
+                      [attr.aria-label]="'إزالة ' + email"
+                      [disabled]="adding()"
+                      (click)="removeSelectedEmail(email)"
+                    >
+                      <i class="bi bi-x" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                }
+              </div>
+            }
+
+            <textarea
+              rows="5"
+              placeholder="student1@example.com&#10;student2@example.com"
+              [formField]="addMembersForm.emailsText"
+              [attr.aria-invalid]="
+                showFormError(addMembersForm.emailsText)
+              "
+              [attr.aria-describedby]="
+                showFormError(addMembersForm.emailsText)
+                  ? 'add-members-emails-error'
+                  : 'add-members-emails-hint'
+              "
+            ></textarea>
+
+            <p id="add-members-emails-hint" class="field-hint">
+              العناوين المكررة تُحتسب مرة واحدة قبل الإرسال.
+            </p>
+
+            @if (showFormError(addMembersForm.emailsText)) {
+              <p
+                id="add-members-emails-error"
+                class="field-error"
+              >
+                <i
+                  class="bi bi-exclamation-circle"
+                  aria-hidden="true"
+                ></i>
+                {{
+                  formErrorMessage(
+                    addMembersForm.emailsText
+                  )
+                }}
+              </p>
+            }
+
+            <div class="modal-actions">
+              <button
+                type="button"
+                class="secondary-button"
+                [disabled]="adding()"
+                (click)="requestClose()"
+              >
+                إلغاء
+              </button>
+
+              <button
+                type="submit"
+                class="primary-button"
+                [disabled]="adding()"
+              >
+                @if (adding()) {
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    aria-hidden="true"
+                  ></span>
+                  جارٍ الإضافة...
+                } @else {
+                  إضافة إلى الحلقة
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      }
+    </section>
+  </div>
+}

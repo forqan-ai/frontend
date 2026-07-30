@@ -1,0 +1,165 @@
+<form
+  class="circle-form"
+  novalidate
+  (submit)="onSubmit($event)"
+>
+  <div class="form-field">
+    <div class="field-heading">
+      <label for="circle-name">اسم الحلقة</label>
+      <span>{{ circleForm.name().value().length }}/150</span>
+    </div>
+
+    <input
+      id="circle-name"
+      type="text"
+      autocomplete="off"
+      placeholder="مثال: حلقة تدبر سورة البقرة"
+      [formField]="circleForm.name"
+      [attr.aria-invalid]="showError(circleForm.name)"
+      [attr.aria-describedby]="
+        showError(circleForm.name)
+          ? 'circle-name-error'
+          : 'circle-name-hint'
+      "
+      (blur)="trimField('name')"
+    />
+
+    <p id="circle-name-hint" class="field-hint">
+      اختر اسمًا واضحًا يعبّر عن هدف الحلقة.
+    </p>
+
+    @if (showError(circleForm.name)) {
+      <p id="circle-name-error" class="field-error">
+        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+        {{ validationMessage(circleForm.name) }}
+      </p>
+    }
+  </div>
+
+  <div class="form-field">
+    <div class="field-heading">
+      <label for="circle-subject">موضوع الحلقة</label>
+      <span>{{ circleForm.subject().value().length }}/200</span>
+    </div>
+
+    <input
+      id="circle-subject"
+      type="text"
+      autocomplete="off"
+      placeholder="مثال: التفسير والتدبر"
+      [formField]="circleForm.subject"
+      [attr.aria-invalid]="showError(circleForm.subject)"
+      [attr.aria-describedby]="
+        showError(circleForm.subject)
+          ? 'circle-subject-error'
+          : 'circle-subject-hint'
+      "
+      (blur)="trimField('subject')"
+    />
+
+    <p id="circle-subject-hint" class="field-hint">
+      الموضوع نص مختصر يساعد الطلاب على معرفة مجال الحلقة.
+    </p>
+
+    @if (showError(circleForm.subject)) {
+      <p id="circle-subject-error" class="field-error">
+        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+        {{ validationMessage(circleForm.subject) }}
+      </p>
+    }
+  </div>
+
+  <div class="form-field">
+    <div class="field-heading">
+      <label for="circle-description">وصف الحلقة</label>
+      <span>{{ circleForm.description().value().length }}/2000</span>
+    </div>
+
+    <textarea
+      id="circle-description"
+      rows="7"
+      placeholder="اكتب وصفًا يوضح محتوى الحلقة وما سيتعلمه المشاركون..."
+      [formField]="circleForm.description"
+      [attr.aria-invalid]="showError(circleForm.description)"
+      [attr.aria-describedby]="
+        showError(circleForm.description)
+          ? 'circle-description-error'
+          : 'circle-description-hint'
+      "
+      (blur)="trimField('description')"
+    ></textarea>
+
+    <p id="circle-description-hint" class="field-hint">
+      اكتب وصفًا تفصيليًا لا يقل عن 10 أحرف.
+    </p>
+
+    @if (showError(circleForm.description)) {
+      <p id="circle-description-error" class="field-error">
+        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+        {{ validationMessage(circleForm.description) }}
+      </p>
+    }
+  </div>
+
+  <section class="join-settings" aria-labelledby="join-settings-title">
+    <div class="setting-copy">
+      <div class="setting-icon" aria-hidden="true">
+        <i class="bi bi-person-check"></i>
+      </div>
+
+      <div>
+        <h2 id="join-settings-title">الانضمام المباشر</h2>
+        <p>
+          عند تفعيله يستطيع الطالب الانضمام إلى الحلقة مجانًا مباشرة.
+          وعند إيقافه يصبح الانضمام عن طريق الدعوة فقط.
+        </p>
+      </div>
+    </div>
+
+    <label class="switch">
+      <input
+        type="checkbox"
+        [formField]="circleForm.isOpenForJoin"
+        aria-label="السماح بالانضمام المباشر إلى الحلقة"
+      />
+      <span class="switch-track" aria-hidden="true">
+        <span class="switch-thumb"></span>
+      </span>
+    </label>
+  </section>
+
+  <div class="free-notice">
+    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+    <p>
+      إنشاء الحلقة والانضمام إليها مجانيان، ولا تُستخدم النقاط إلا
+      عند حجز جلسة مباشرة مدفوعة داخل الحلقة.
+    </p>
+  </div>
+
+  <div class="form-actions">
+    <button
+      type="button"
+      class="secondary-button"
+      [disabled]="submitting()"
+      (click)="cancelled.emit()"
+    >
+      إلغاء
+    </button>
+
+    <button
+      type="submit"
+      class="primary-button"
+      [disabled]="submitting()"
+    >
+      @if (submitting()) {
+        <span
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
+        جارٍ الحفظ...
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>
