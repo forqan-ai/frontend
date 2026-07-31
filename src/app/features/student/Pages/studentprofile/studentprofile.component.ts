@@ -32,14 +32,7 @@ const streakImages = {
   selector: 'app-studentprofile',
   standalone: true,
 
-  imports: [
-    CommonModule,
-    DatePipe,
-    PointsBalanceComponent,
-    RouterLink,
-    CoursesBrowseCardComponent,
-    RewardPopupComponent,
-  ],
+  imports: [CommonModule, DatePipe, RouterLink, CoursesBrowseCardComponent, RewardPopupComponent],
 
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
@@ -119,7 +112,7 @@ export class StudentprofileComponent implements OnInit {
 
     this.rewardService.claimReward(this.reward()?.rewardId ?? '').subscribe({
       next: (response) => {
-        var userId = this.authService.getUserId();
+        const userId = this.authService.getUserId();
         this.claimLoading = false;
         this.poService.AddPointsToUser(response.pointsAdded, userId).subscribe({
           next: (TotalPoints) => {
@@ -162,6 +155,7 @@ export class StudentprofileComponent implements OnInit {
 
     this.studentService.getActivities().subscribe({
       next: (res) => {
+        console.log('Activities =>', res);
         this.activities.set(res);
         this.loading.set(false);
       },
@@ -249,7 +243,7 @@ export class StudentprofileComponent implements OnInit {
   }
 
   getGreeting(): string {
-    const hour = new Date().getUTCHours();
+    const hour = new Date().getHours();
 
     if (hour < 12) return 'صباح الخير';
     if (hour < 17) return 'مساء الخير';

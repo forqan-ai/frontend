@@ -13,7 +13,7 @@
             <img
               [src]="getStudentImage(student()?.profileImageURL)"
               alt="Student Profile Picture"
-              class="rounded-circle  border-2 shadow-sm"
+              class="rounded-circle border-2 shadow-sm"
               style="border-color: var(--primary) !important"
               width="68"
               height="68"
@@ -369,16 +369,18 @@
                     </div>
                     <div>
                       <p class="fw-semibold small mb-0" style="color: var(--text)">
-                        {{ activity.activityType }}
+                        {{ activity.activityType }} 
                       </p>
                       <small style="color: var(--text-muted); font-size: 0.75rem">{{
                         activity.createdAt | date: 'dd MMM yyyy'
                       }}</small>
                     </div>
                   </div>
-                  <span class="fw-bold small" style="color: #55733d"
-                    >+{{ activity.pointsEarned }}</span
-                  >
+                  @if (activity.pointsEarned > 0) {
+                    <span class="fw-bold small" style="color: #55733d"
+                      >+{{ activity.pointsEarned }}</span
+                    >
+                  }
                 </div>
               }
             </div>
