@@ -52,7 +52,7 @@ export class StudentprofileComponent implements OnInit {
   apiUrl = `${environment.apiUrl}`;
 
   loading = signal(true);
-
+  certificatesCount = signal(0);
   student = signal<IStudentProfile | null>(null);
   courses = signal<IStudentCourse[]>([]);
   categories = signal<ICategoryProgress[]>([]);
@@ -97,6 +97,14 @@ export class StudentprofileComponent implements OnInit {
     this.rewardService.getRewardProgress().subscribe({
       next: (response) => {
         this.rewardProgress.set(response);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+    this.studentService.getCertificatesCount().subscribe({
+      next: (count) => {
+        this.certificatesCount.set(count);
       },
       error: (err) => {
         console.error(err);

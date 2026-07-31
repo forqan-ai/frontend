@@ -69,5 +69,9 @@ export class StudentService {
   getTeachingRequestStatus(): Observable<TeachingRequestStatusDto> {
     return this.http.get<TeachingRequestStatusDto>(`${this.apiUrl}/teaching-request-status`);
   }
-
+getCertificatesCount() {
+  return this.http.get<number>(
+    `${environment.apiUrl}/api/courses/certificates/count`
+  );
+}
 }
