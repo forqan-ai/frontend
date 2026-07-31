@@ -17,6 +17,7 @@ import { StudentSettingsComponent } from './features/student/Pages/student-setti
 import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
 import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 
+import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
 export const routes: Routes = [
   {
     path: '',
@@ -103,7 +104,6 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
       },
-
       {
         path: 'admin',
         loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
@@ -112,7 +112,26 @@ export const routes: Routes = [
   },
   {
     path: 'teacher',
-    loadChildren: () => import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+    component: TeacherLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+      },
+    ],
+  },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'course-details/:id',
+    loadComponent: () =>
+      import('./features/Course/Pages/course-details/course-details.component').then(
+        (m) => m.CourseDetailsComponent,
+      ),
   },
   {
     path: 'studentprofile',

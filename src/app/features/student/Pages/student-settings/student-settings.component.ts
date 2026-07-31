@@ -16,8 +16,9 @@ import {
 } from '../../Models/settings.interface';
 import { SettingsService } from '../../Services/settings.service';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { ToastComponent } from "../../../../shared/components/toast/toast.component";
-import { RouterLink } from "@angular/router";
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { RouterLink } from '@angular/router';
+
 function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value ?? '';
   const hasUpperCase = /[A-Z]/.test(value);
@@ -61,12 +62,9 @@ export class StudentSettingsComponent implements OnInit {
   passwordForm = this.fb.nonNullable.group(
     {
       currentPassword: ['', Validators.required],
-      newPassword: [
-        '',
-        [Validators.required, Validators.minLength(6), strongPasswordValidator],
-      ],
+      newPassword: ['', [Validators.required, Validators.minLength(6), strongPasswordValidator]],
     },
-    { validators: samePasswordValidator }
+    { validators: samePasswordValidator },
   );
 
   ngOnInit(): void {
@@ -142,10 +140,7 @@ export class StudentSettingsComponent implements OnInit {
           return;
         }
 
-        this.toast.show(
-          error?.description || 'حدث خطأ أثناء تغيير كلمة المرور',
-          'error'
-        );
+        this.toast.show(error?.description || 'حدث خطأ أثناء تغيير كلمة المرور', 'error');
       },
     });
   }

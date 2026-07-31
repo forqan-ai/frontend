@@ -1,14 +1,5 @@
 <div class="dashboard">
-  <app-sidebar [opened]="sidebarOpen()" (close)="closeSidebar()"> </app-sidebar>
-
   <div class="content">
-    <app-header
-      [teacherName]="profile()?.fullName ?? ''"
-      [image]="profile()?.profileImageURL ?? ''"
-      (menuClick)="toggleSidebar()"
-    >
-    </app-header>
-
     <div class="profile-grid">
       <app-profile-summary [teacher]="profile()" (imageSelected)="onImageSelected($event)">
       </app-profile-summary>
@@ -24,6 +15,5 @@
     >
     </app-specialties-card>
     <app-profile-statistics [dashboard]="dashboard()"> </app-profile-statistics>
-    <app-quick-actions></app-quick-actions>
   </div>
 </div>

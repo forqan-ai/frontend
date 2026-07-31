@@ -23,7 +23,7 @@ import { PointsBalanceComponent } from '../../components/points-balance/points-b
     StatisticsComponent,
     QuickActionsComponent,
     PointsBalanceComponent,
-    RouterLink
+    RouterLink,
     // RecentCoursesComponent
   ],
   templateUrl: './dashboard.component.html',

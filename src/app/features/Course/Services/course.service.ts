@@ -8,6 +8,7 @@ import { ICourseOwnership } from '../Models/course-ownership.interface';
 import { ICoursePlayer } from '../Models/course-player.interface';
 import { ICourseListItem } from '../../courses-browse/models/course-list-item.interface';
 import { ICertificate } from '../Models/certificate.interface';
+import { TeacherCourse } from '../../teacher/models/teacher-course.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,11 @@ export class CourseService {
   createCourse(data: FormData): Observable<any> {
     return this.http.post(this.baseUrl, data);
   }
+  getMyCourses() {
+  return this.http.get<TeacherCourse[]>(
+    `${this.baseUrl}/me`
+  );
+}
   markLessonCompleted(lessonId: string): Observable<boolean> {
   return this.http.post<boolean>(
     `${this.baseUrl}/lessons/${lessonId}/complete`,

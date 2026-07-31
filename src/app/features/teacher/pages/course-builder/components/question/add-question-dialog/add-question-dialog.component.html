@@ -1,0 +1,37 @@
+<div class="card shadow-sm p-3">
+  <h5 class="mb-3">Add Question</h5>
+
+  <div class="mb-3">
+    <label class="form-label"> Question </label>
+
+    <textarea rows="4" class="form-control" [(ngModel)]="text"> </textarea>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>Type</label>
+
+      <select class="form-select" [(ngModel)]="questionType">
+        <option [ngValue]="0">MCQ</option>
+
+        <option [ngValue]="1">True / False</option>
+
+        <option [ngValue]="2">Short Answer</option>
+      </select>
+    </div>
+
+    <div class="col">
+      <label>Order</label>
+
+      <input type="number" class="form-control" [(ngModel)]="orderIndex" />
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <label>Feedback</label>
+
+    <textarea rows="3" class="form-control" [(ngModel)]="feedback"> </textarea>
+  </div>
+
+  <button class="btn btn-primary w-100 mt-4" (click)="save()">Save Question</button>
+</div>

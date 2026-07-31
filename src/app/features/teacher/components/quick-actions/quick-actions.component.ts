@@ -11,8 +11,8 @@ export class QuickActionsComponent {
 
   private router = inject(Router);
 
-  goToCourses() {
-    this.router.navigate(['/teacher/courses']);
+  goToMyCourses() {
+    this.router.navigate(['/teacher/my-courses']);
   }
 
   goToCreateCourse() {
