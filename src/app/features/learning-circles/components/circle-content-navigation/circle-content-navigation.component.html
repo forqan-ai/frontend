@@ -34,4 +34,34 @@
       <span>{{ membersCount() }}</span>
     </button>
   }
+
+  @if (canViewChat()) {
+    <button
+      id="circle-chat-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-chat-panel"
+      [attr.aria-selected]="activeSection() === 'chat'"
+      [class.active]="activeSection() === 'chat'"
+      (click)="selectSection('chat')"
+    >
+      <i class="bi bi-chat-dots" aria-hidden="true"></i>
+      المحادثة
+    </button>
+  }
+
+  @if (canViewSessions()) {
+    <button
+      id="circle-sessions-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-sessions-panel"
+      [attr.aria-selected]="activeSection() === 'sessions'"
+      [class.active]="activeSection() === 'sessions'"
+      (click)="selectSection('sessions')"
+    >
+      <i class="bi bi-camera-video" aria-hidden="true"></i>
+      الجلسات
+    </button>
+  }
 </nav>

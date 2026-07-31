@@ -268,3 +268,27 @@
     display: grid;
   }
 }
+
+.chat-panel-wrapper,
+.sessions-panel-wrapper {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.chat-panel-wrapper app-circle-chat {
+  display: block;
+}
+
+.sessions-panel-wrapper app-circle-sessions {
+  display: block;
+}
+
+.sessions-panel-wrapper :host ::ng-deep .sessions-page {
+  width: 100%;
+  padding-block: 1.25rem;
+  padding-inline: 1.25rem;
+  margin: 0;
+}

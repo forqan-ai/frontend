@@ -138,7 +138,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'courses',
+    path: '',
     loadChildren: () =>
       import('./features/live-sessions/live-sessions.routes').then((m) => m.LIVE_SESSIONS_ROUTES),
   },
@@ -146,28 +146,6 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'check-email', component: CheckEmailComponent },
-
-  {
-    path: 'circle-chat',
-    loadChildren: () =>
-      import('./features/circle-chat/circle-chat.routes').then((m) => m.CIRCLE_CHAT_ROUTES),
-  },
-  {
-    path: 'confirm-email',
-    component: ConfirmEmailComponent,
-  },
-  {
-    path: 'forgot-password',
-    component: ResetPasswordComponent,
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent,
-  },
-  {
-    path: 'check-email',
-    component: CheckEmailComponent,
-  },
   {
     path: 'pointPackages',
     component: PointPackagesComponent,

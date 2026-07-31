@@ -19,6 +19,8 @@ import { Role } from '../../../../core/models/auth.models';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { CircleChatComponent } from '../../../circle-chat/Components/circle-chat/circle-chat.component';
+import { CircleSessionsComponent } from '../../../live-sessions/Pages/circle-sessions/circle-sessions.component';
 import { ArchiveCircleConfirmationModalComponent } from '../../components/archive-circle-confirmation-modal/archive-circle-confirmation-modal.component';
 import {
   CircleContentNavigationComponent,
@@ -49,6 +51,8 @@ type DetailsAction =
     CircleContentNavigationComponent,
     CirclePostsSectionComponent,
     CircleMembersSectionComponent,
+    CircleChatComponent,
+    CircleSessionsComponent,
     MembershipConfirmationModalComponent,
     ArchiveCircleConfirmationModalComponent,
   ],
@@ -86,6 +90,8 @@ export class LearningCircleDetailsComponent implements OnInit {
     signal<CircleContentSection>('posts');
   readonly postsMounted = signal(false);
   readonly membersMounted = signal(false);
+  readonly chatMounted = signal(false);
+  readonly sessionsMounted = signal(false);
 
   private circleId = '';
   private contentCircleId = '';
@@ -119,10 +125,15 @@ export class LearningCircleDetailsComponent implements OnInit {
       return;
     }
 
+    const isParticipant = details.isMember || details.currentUserRole !== null;
     const allowed =
       section === 'posts'
         ? details.permissions.canViewPosts
-        : details.permissions.canViewMembers;
+        : section === 'members'
+        ? details.permissions.canViewMembers
+        : section === 'chat' || section === 'sessions'
+        ? isParticipant
+        : false;
 
     if (!allowed) {
       return;
@@ -132,8 +143,12 @@ export class LearningCircleDetailsComponent implements OnInit {
 
     if (section === 'posts') {
       this.postsMounted.set(true);
-    } else {
+    } else if (section === 'members') {
       this.membersMounted.set(true);
+    } else if (section === 'chat') {
+      this.chatMounted.set(true);
+    } else if (section === 'sessions') {
+      this.sessionsMounted.set(true);
     }
   }
 
@@ -394,12 +409,15 @@ export class LearningCircleDetailsComponent implements OnInit {
       this.contentCircleId = details.circleId;
       this.postsMounted.set(false);
       this.membersMounted.set(false);
+      this.chatMounted.set(false);
+      this.sessionsMounted.set(false);
     }
 
     const canViewPosts =
       details.permissions.canViewPosts;
     const canViewMembers =
       details.permissions.canViewMembers;
+    const isParticipant = details.isMember || details.currentUserRole !== null;
 
     if (!canViewPosts) {
       this.postsMounted.set(false);
@@ -409,30 +427,46 @@ export class LearningCircleDetailsComponent implements OnInit {
       this.membersMounted.set(false);
     }
 
-    if (!canViewPosts && !canViewMembers) {
-      this.activeContentSection.set('posts');
-      return;
+    if (!isParticipant) {
+      this.chatMounted.set(false);
+      this.sessionsMounted.set(false);
     }
 
     const currentSection = this.activeContentSection();
-    const currentAllowed =
-      currentSection === 'posts'
-        ? canViewPosts
-        : canViewMembers;
+
+    const currentAllowed = (() => {
+      if (currentSection === 'posts') return canViewPosts;
+      if (currentSection === 'members') return canViewMembers;
+      if (currentSection === 'chat' || currentSection === 'sessions') return isParticipant;
+      return false;
+    })();
+
+    const hasAnyContent = canViewPosts || canViewMembers || isParticipant;
+
+    if (!hasAnyContent) {
+      this.activeContentSection.set('posts');
+      return;
+    }
 
     const nextSection =
       circleChanged || !currentAllowed
         ? canViewPosts
           ? 'posts'
-          : 'members'
+          : canViewMembers
+          ? 'members'
+          : 'chat'
         : currentSection;
 
     this.activeContentSection.set(nextSection);
 
     if (nextSection === 'posts') {
       this.postsMounted.set(true);
-    } else {
+    } else if (nextSection === 'members') {
       this.membersMounted.set(true);
+    } else if (nextSection === 'chat') {
+      this.chatMounted.set(true);
+    } else if (nextSection === 'sessions') {
+      this.sessionsMounted.set(true);
     }
   }
 }
