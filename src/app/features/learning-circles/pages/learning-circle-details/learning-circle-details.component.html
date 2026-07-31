@@ -101,12 +101,16 @@
 
     @if (
       circle.permissions.canViewPosts ||
-      circle.permissions.canViewMembers
+      circle.permissions.canViewMembers ||
+      circle.isMember ||
+      circle.currentUserRole !== null
     ) {
       <app-circle-content-navigation
         [activeSection]="activeContentSection()"
         [canViewPosts]="circle.permissions.canViewPosts"
         [canViewMembers]="circle.permissions.canViewMembers"
+        [canViewChat]="circle.isMember || circle.currentUserRole !== null"
+        [canViewSessions]="circle.isMember || circle.currentUserRole !== null"
         [postsCount]="circle.postsCount"
         [membersCount]="circle.membersCount"
         (sectionChanged)="selectContentSection($event)"
@@ -149,6 +153,32 @@
               refreshDetailsFromContent()
             "
           />
+        </div>
+      }
+
+      @if (chatMounted() && (circle.isMember || circle.currentUserRole !== null)) {
+        <div
+          id="circle-chat-panel"
+          role="tabpanel"
+          aria-labelledby="circle-chat-tab"
+          class="chat-panel-wrapper"
+          [hidden]="activeContentSection() !== 'chat'"
+        >
+          <app-circle-chat [circleId]="circle.circleId" />
+        </div>
+      }
+
+      @if (sessionsMounted() && (circle.isMember || circle.currentUserRole !== null)) {
+        <div
+          id="circle-sessions-panel"
+          role="tabpanel"
+          aria-labelledby="circle-sessions-tab"
+          class="sessions-panel-wrapper"
+          [hidden]="activeContentSection() !== 'sessions'"
+        >
+          <app-circle-sessions
+            [circleId]="circle.circleId"
+            [canManageSessions]="circle.permissions.canCreateLiveSession" />
         </div>
       }
     } @else {

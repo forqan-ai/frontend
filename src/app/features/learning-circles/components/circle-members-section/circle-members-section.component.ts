@@ -38,6 +38,7 @@ import {
   CircleMembersLoadError,
 } from '../../services/circle-members-error.service';
 import { CircleMembersService } from '../../services/circle-members.service';
+import { CircleChatSignalrService } from '../../../circle-chat/Services/circle-chat-signalr.service';
 
 type PendingMemberAction = {
   type: 'remove' | 'role';
@@ -70,6 +71,7 @@ export class CircleMembersSectionComponent implements OnInit {
   private readonly errorService =
     inject(CircleMembersErrorService);
 
+  private readonly signalrService = inject(CircleChatSignalrService);
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -95,6 +97,7 @@ export class CircleMembersSectionComponent implements OnInit {
     signal<RoleChangeSelection | null>(null);
   readonly pendingAction =
     signal<PendingMemberAction | null>(null);
+  readonly onlineUserIds = signal<Set<string>>(new Set());
 
   readonly canManageMembers = computed(() => {
     const circle = this.details();
@@ -133,6 +136,26 @@ export class CircleMembersSectionComponent implements OnInit {
         }
 
         this.loadMembers();
+      });
+
+    this.signalrService.userOnline$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((userId) => {
+        this.onlineUserIds.update((set) => {
+          const next = new Set(set);
+          next.add(userId);
+          return next;
+        });
+      });
+
+    this.signalrService.userOffline$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ userId }) => {
+        this.onlineUserIds.update((set) => {
+          const next = new Set(set);
+          next.delete(userId);
+          return next;
+        });
       });
 
     effect(() => {
@@ -398,6 +421,10 @@ export class CircleMembersSectionComponent implements OnInit {
       action?.type === 'role' &&
       action.memberUserId === member.userId
     );
+  }
+
+  isMemberOnline(member: CircleMember): boolean {
+    return this.onlineUserIds().has(member.userId);
   }
 
   private loadMembers(): void {

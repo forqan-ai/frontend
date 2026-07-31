@@ -9,6 +9,7 @@ import { StatusBadgeComponent } from '../../Components/status-badge/status-badge
 import { BookingModalComponent } from '../../Components/booking-modal/booking-modal.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Role } from '../../../../core/models/auth.models';
+import { LearningCirclesService } from '../../../learning-circles/services/learning-circles.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class SessionDetailsComponent implements OnInit {
   private sessionsService = inject(SessionsService);
   private bookingsService = inject(BookingsService);
   private authService = inject(AuthService);
+  private learningCirclesService = inject(LearningCirclesService);
 
   sessionId = '';
 
@@ -34,10 +36,19 @@ export class SessionDetailsComponent implements OnInit {
 
   showBookingModal = signal(false);
 
+  confirmDialog = signal<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText: string;
+    type: 'danger' | 'primary' | 'success';
+    action: () => void;
+  } | null>(null);
+
   SessionStatus = SessionStatus;
   BookingStatus = BookingStatus;
 
-  isTeacherOwner = signal(false);
+  canManageSessions = signal(false);
 
   ngOnInit(): void {
     this.sessionId = this.route.snapshot.paramMap.get('sessionId') ?? '';
@@ -51,16 +62,26 @@ export class SessionDetailsComponent implements OnInit {
     this.sessionsService.getSession(this.sessionId).subscribe({
       next: (res) => {
         this.session.set(res);
-        this.isTeacherOwner.set(this.authService.getRole() === Role.Teacher && this.authService.getUserId() === res.teacherId);
 
-        if (this.isTeacherOwner()) {
-          this.bookingsService.getSessionBookings(this.sessionId).subscribe({
-            next: (bookings) => this.attendees.set(bookings),
-            error: console.error
-          });
-        }
+        this.learningCirclesService.getDetails(res.circleId).subscribe({
+          next: (circle) => {
+            this.canManageSessions.set(circle.permissions.canCreateLiveSession);
 
-        this.loading.set(false);
+            if (this.canManageSessions()) {
+              this.bookingsService.getSessionBookings(this.sessionId).subscribe({
+                next: (bookings) => this.attendees.set(bookings),
+                error: console.error
+              });
+            }
+
+            this.loading.set(false);
+          },
+          error: (err) => {
+            console.error(err);
+            this.canManageSessions.set(this.authService.getRole() === Role.Teacher && this.authService.getUserId() === res.teacherId);
+            this.loading.set(false);
+          }
+        });
       },
 
       error: (err) => {
@@ -87,20 +108,42 @@ export class SessionDetailsComponent implements OnInit {
 
   cancelBooking(): void {
     const b = this.myBooking();
-    if (!b || !confirm('هل تريد إلغاء حجزك؟')) return;
+    if (!b) return;
 
-    this.bookingsService.cancelBooking(b.bookingId).subscribe({
-      next: () => this.loadData(),
-      error: (err) => console.error(err),
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'إلغاء الحجز',
+      message: 'هل أنت متأكد من رغبتك في إلغاء حجزك لهذه الجلسة؟',
+      confirmText: 'نعم، إلغاء الحجز',
+      type: 'danger',
+      action: () => {
+        this.bookingsService.cancelBooking(b.bookingId).subscribe({
+          next: () => {
+            this.loadData();
+            this.closeConfirmDialog();
+          },
+          error: (err) => console.error(err),
+        });
+      }
     });
   }
 
   cancelSession(): void {
-    if (!confirm('هل أنت متأكد من إلغاء هذه الجلسة؟')) return;
-
-    this.sessionsService.cancelSession(this.sessionId).subscribe({
-      next: () => this.loadData(),
-      error: (err) => console.error(err),
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'إلغاء الجلسة',
+      message: 'هل أنت متأكد من إلغاء هذه الجلسة؟ لا يمكن التراجع عن هذا الإجراء.',
+      confirmText: 'نعم، إلغاء الجلسة',
+      type: 'danger',
+      action: () => {
+        this.sessionsService.cancelSession(this.sessionId).subscribe({
+          next: () => {
+            this.loadData();
+            this.closeConfirmDialog();
+          },
+          error: (err) => console.error(err),
+        });
+      }
     });
   }
 
@@ -110,19 +153,45 @@ export class SessionDetailsComponent implements OnInit {
   }
 
   confirmAttendee(bookingId: string): void {
-    if (!confirm('تأكيد حضور الطالب؟')) return;
-    this.bookingsService.confirmBooking(bookingId).subscribe({
-      next: () => this.loadData(),
-      error: console.error
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'تأكيد الحضور',
+      message: 'هل أنت متأكد من حضور هذا الطالب للجلسة؟',
+      confirmText: 'تأكيد الحضور',
+      type: 'primary',
+      action: () => {
+        this.bookingsService.confirmBooking(bookingId).subscribe({
+          next: () => {
+            this.loadData();
+            this.closeConfirmDialog();
+          },
+          error: console.error
+        });
+      }
     });
   }
 
   completeAttendee(bookingId: string): void {
-    if (!confirm('إكمال الجلسة وإضافة النقاط؟')) return;
-    this.bookingsService.completeBooking(bookingId).subscribe({
-      next: () => this.loadData(),
-      error: console.error
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'إكمال الجلسة للطالب',
+      message: 'هل تريد إكمال الجلسة لهذا الطالب وإضافة النقاط له؟',
+      confirmText: 'إكمال الجلسة',
+      type: 'success',
+      action: () => {
+        this.bookingsService.completeBooking(bookingId).subscribe({
+          next: () => {
+            this.loadData();
+            this.closeConfirmDialog();
+          },
+          error: console.error
+        });
+      }
     });
+  }
+
+  closeConfirmDialog(): void {
+    this.confirmDialog.set(null);
   }
 
 }

@@ -25,6 +25,7 @@ export class CircleMemberCardComponent {
   readonly actionsDisabled = input(false);
   readonly removing = input(false);
   readonly changingRole = input(false);
+  readonly isOnline = input(false);
 
   readonly removeRequested = output<void>();
   readonly roleChangeRequested =

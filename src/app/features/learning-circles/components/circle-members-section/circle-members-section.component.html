@@ -152,6 +152,7 @@
           [actionsDisabled]="pendingAction() !== null"
           [removing]="isRemoving(member)"
           [changingRole]="isChangingRole(member)"
+          [isOnline]="isMemberOnline(member)"
           (removeRequested)="openRemoveConfirmation(member)"
           (roleChangeRequested)="
             openRoleConfirmation(member, $event)
