@@ -31,4 +31,28 @@ export const TEACHER_ROUTES: Routes = [
     loadComponent: () =>
       import('./pages/my-courses/my-courses.component').then((c) => c.MyCoursesComponent),
   },
+
+  {
+    path: 'quiz-builder/:quizId',
+    loadComponent: () =>
+      import('./pages/question-builder/question-builder.component').then(
+        (c) => c.QuestionBuilderComponent,
+      ),
+  },
+
+  {
+    path: 'question-builder/:quizId/question/:questionId/options',
+    loadComponent: () =>
+      import('./pages/option-builder/option-builder.component').then(
+        (c) => c.OptionBuilderComponent,
+      ),
+  },
+
+  {
+    path: 'lesson-content/:moduleId/:lessonId',
+    loadComponent: () =>
+      import('./pages/lesson-content/lesson-content.component').then(
+        (c) => c.LessonContentComponent,
+      ),
+  },
 ];

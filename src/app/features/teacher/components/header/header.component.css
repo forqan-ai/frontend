@@ -1,137 +1,109 @@
-.header{
+.header {
+  display: flex;
 
-display:flex;
+  justify-content: space-between;
 
-justify-content:space-between;
+  align-items: center;
+  margin: 10px 30px;
+  padding: 25px 50px;
 
-align-items:center;
+  background: white;
 
-padding:20px 30px;
+  border-radius: 18px;
 
-background:white;
-
-border-radius:18px;
-
-gap:20px;
-
+  gap: 20px;
 }
 
-.header-left{
+.header-left {
+  display: flex;
 
-display:flex;
+  align-items: center;
 
-align-items:center;
-
-gap:18px;
-
+  gap: 18px;
 }
 
-.menu-btn{
+.menu-btn {
+  display: none;
 
-display:none;
+  width: 45px;
 
-width:45px;
+  height: 45px;
 
-height:45px;
+  border: none;
 
-border:none;
+  background: #f3f6ff;
 
-background:#F3F6FF;
+  border-radius: 12px;
 
-border-radius:12px;
-
-cursor:pointer;
-
+  cursor: pointer;
 }
 
-.menu-btn span{
-
-font-size:28px;
-
+.menu-btn span {
+  font-size: 28px;
 }
 
-.header-actions{
+.header-actions {
+  display: flex;
 
-display:flex;
+  align-items: center;
 
-align-items:center;
-
-gap:20px;
-
+  gap: 20px;
 }
 
-.notification{
+.notification {
+  width: 46px;
 
-width:46px;
+  height: 46px;
 
-height:46px;
+  border: none;
 
-border:none;
+  border-radius: 50%;
 
-border-radius:50%;
+  background: #f4f5f9;
 
-background:#F4F5F9;
-
-cursor:pointer;
-
+  cursor: pointer;
 }
 
-.teacher-info{
+.teacher-info {
+  display: flex;
 
-display:flex;
+  align-items: center;
 
-align-items:center;
-
-gap:12px;
-
+  gap: 12px;
 }
 
-.teacher-info img{
+.teacher-info img {
+  width: 48px;
 
-width:48px;
+  height: 48px;
 
-height:48px;
+  border-radius: 50%;
 
-border-radius:50%;
-
-object-fit:cover;
-
+  object-fit: cover;
 }
 
-@media(max-width:992px){
+@media (max-width: 992px) {
+  .menu-btn {
+    display: flex;
 
-.menu-btn{
+    justify-content: center;
 
-display:flex;
+    align-items: center;
+  }
 
-justify-content:center;
-
-align-items:center;
-
+  .header {
+    padding: 16px;
+  }
 }
 
-.header{
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+  }
 
-padding:16px;
+  .header-actions {
+    width: 100%;
 
-}
-
-}
-
-@media(max-width:768px){
-
-.header{
-
-flex-wrap:wrap;
-
-}
-
-.header-actions{
-
-width:100%;
-
-justify-content:space-between;
-
-}
-
+    justify-content: space-between;
+  }
 }

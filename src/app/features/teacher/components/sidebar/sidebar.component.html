@@ -1,5 +1,5 @@
 @if (opened()) {
-<div class="overlay" (click)="closeSidebar()"></div>
+  <div class="overlay" (click)="closeSidebar()"></div>
 }
 
 <div class="sidebar" [class.open]="opened()">
@@ -9,22 +9,27 @@
 
   <nav>
     @for (item of menu(); track item.route) {
-    @if (item.route === '/teacher') {
-    <a [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true}">
-      <span class="material-symbols-outlined">
-        {{ item.icon }}
-      </span>
+      @if (item.route === '/teacher') {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeSidebar()"
+        >
+          <span class="material-symbols-outlined">
+            {{ item.icon }}
+          </span>
 
-      {{ item.title }}
-    </a>
-    } @else {
-    <a [routerLink]="item.route" routerLinkActive="active">
-      <span class="material-symbols-outlined">
-        {{ item.icon }}
-      </span>
-      {{ item.title }}
-    </a>
-    }
+          {{ item.title }}
+        </a>
+      } @else {
+        <a [routerLink]="item.route" routerLinkActive="active"  [routerLinkActiveOptions]="{ exact: true }" (click)="closeSidebar()">
+          <span class="material-symbols-outlined">
+            {{ item.icon }}
+          </span>
+          {{ item.title }}
+        </a>
+      }
     }
   </nav>
 

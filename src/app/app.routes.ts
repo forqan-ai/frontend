@@ -21,6 +21,7 @@ import { StudentLearningCirclesComponent } from './features/student/Pages/studen
 import { StudentCoursesComponent } from './features/student/Pages/student-courses/student-courses.component';
 import { StudentSettingsComponent } from './features/student/Pages/student-settings/student-settings.component';
 import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
+import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
 export const routes: Routes = [
   {
     path: '',
@@ -100,8 +101,14 @@ export const routes: Routes = [
   },
   {
     path: 'teacher',
-
-    loadChildren: () => import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+    component: TeacherLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+      },
+    ],
   },
   {
     path: '',
