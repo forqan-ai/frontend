@@ -22,7 +22,7 @@
     <div class="panel-header">
       <app-status-badge [status]="s.status" />
 
-      @if (isTeacherOwner()) {
+      @if (canManageSessions()) {
       <div class="actions">
         <a class="btn-ghost" [routerLink]="['/sessions', s.sessionId, 'edit']">
           <i class="bi bi-pencil"></i>
@@ -67,7 +67,7 @@
           </strong>
         </div>
       </div>
-      @if (s.meetingLink) {
+      @if (s.meetingLink && (canManageSessions() || myBooking()?.status === BookingStatus.Confirmed || myBooking()?.status === BookingStatus.Completed)) {
       <div class="meta-item">
         <i class="bi bi-link-45deg"></i>
         <div>
@@ -88,7 +88,7 @@
       }
     </div>
 
-    @if (!isTeacherOwner()) {
+    @if (!canManageSessions()) {
     <div class="booking-area">
       @if (myBooking(); as booking) {
       <div class="my-booking">
@@ -110,7 +110,7 @@
 
   </div>
 
-  @if (isTeacherOwner()) {
+  @if (canManageSessions()) {
   <div class="panel">
     <h3>
       <i class="bi bi-people"></i>
@@ -161,6 +161,39 @@
 
   @if (showBookingModal() && session(); ) {
   <app-booking-modal [session]="session()!" (closed)="showBookingModal.set(false)" (booked)="onBooked()" />
+  }
+
+  @if (confirmDialog(); as dialog) {
+  <div class="modal-overlay" (click)="closeConfirmDialog()">
+    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 [class]="'text-' + dialog.type">
+          @if (dialog.type === 'danger') {
+            <i class="bi bi-exclamation-triangle"></i>
+          } @else if (dialog.type === 'success') {
+            <i class="bi bi-check-circle"></i>
+          } @else {
+            <i class="bi bi-info-circle"></i>
+          }
+          {{ dialog.title }}
+        </h3>
+        <button class="btn-close" (click)="closeConfirmDialog()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>{{ dialog.message }}</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="closeConfirmDialog()">إلغاء</button>
+        <button [class]="'btn-' + dialog.type" (click)="dialog.action()">
+          {{ dialog.confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
   }
 
 </div>

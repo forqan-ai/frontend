@@ -2,16 +2,19 @@
 
 <article class="member-card">
   <div class="member-identity">
-    @if (item.profileImageUrl) {
-      <img
-        [src]="item.profileImageUrl"
-        [alt]="'صورة ' + item.fullName"
-      />
-    } @else {
-      <span class="avatar-placeholder" aria-hidden="true">
-        <i class="bi bi-person-fill"></i>
-      </span>
-    }
+    <div class="member-avatar-wrap">
+      @if (item.profileImageUrl) {
+        <img
+          [src]="item.profileImageUrl"
+          [alt]="'صورة ' + item.fullName"
+        />
+      } @else {
+        <span class="avatar-placeholder" aria-hidden="true">
+          <i class="bi bi-person-fill"></i>
+        </span>
+      }
+      <span class="online-dot" [class.is-online]="isOnline()" [title]="isOnline() ? 'متصل' : 'غير متصل'"></span>
+    </div>
 
     <div class="identity-copy">
       <div class="name-line">
@@ -37,6 +40,7 @@
       }
     </div>
   </div>
+
 
   <div class="member-meta">
     <span>

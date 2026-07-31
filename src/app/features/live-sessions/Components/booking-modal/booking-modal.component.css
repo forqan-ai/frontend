@@ -1,7 +1,8 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: #341b1673;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,25 +12,25 @@
 
 .modal-card {
   background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   width: min(100%, 420px);
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 16px 32px -12px #341b1673;
-  animation: modal-in 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modal-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes modal-in {
+@keyframes modal-pop {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: scale(0.9);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
@@ -40,13 +41,30 @@
 }
 
 .modal-header h3 {
-  font-size: 17px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
 }
 
 .close-btn {
-  background: none;
+  background: transparent;
+  border: none;
   color: var(--text-light);
-  font-size: 14px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.close-btn:hover {
+  background-color: var(--secondary);
+  color: var(--text);
 }
 
 .modal-body {
@@ -120,11 +138,17 @@
 .btn-ghost {
   background-color: var(--secondary);
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border) !important;
   border-radius: 999px;
   padding: 9px 22px;
   font-size: 13px;
   font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-ghost:hover {
+  background-color: var(--border);
 }
 
 .success-state {
