@@ -21,34 +21,34 @@ export const TEACHER_ROUTES: Routes = [
   },
   {
     path: 'create-course',
-    component: CreateCourseComponent
+    component: CreateCourseComponent,
   },
   {
     path: 'circles/mine',
     component: MyLearningCirclesComponent,
-    title: 'حلقاتي'
+    title: 'حلقاتي',
   },
   {
     path: 'circles/create',
     component: CreateLearningCircleComponent,
-    title: 'إنشاء حلقة تعلم'
+    title: 'إنشاء حلقة تعلم',
   },
   {
     path: 'circles/:circleId/edit',
     component: EditLearningCircleComponent,
-    title: 'تعديل حلقة التعلم'
+    title: 'تعديل حلقة التعلم',
   },
   {
     path: 'circles/:circleId',
     component: LearningCircleDetailsComponent,
-    title: 'تفاصيل حلقة التعلم'
+    title: 'تفاصيل حلقة التعلم',
   },
   {
     path: 'circles',
     component: ExploreLearningCirclesComponent,
-    title: 'استكشف حلقات التعلم'
-  }
-   {
+    title: 'استكشف حلقات التعلم',
+  },
+  {
     path: 'course-builder/:courseId',
     loadComponent: () =>
       import('./pages/course-builder/course-builder.component').then(
