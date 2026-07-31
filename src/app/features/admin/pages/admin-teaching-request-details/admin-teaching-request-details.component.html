@@ -1,0 +1,381 @@
+<div class="tr-review-page d-flex flex-column gap-4 mt-5">
+
+    <!-- Header -->
+    <div class="tr-section">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+                <h2 class="tr-section-title mb-2">
+                    طلب الانضمام كمعلم
+                </h2>
+
+                <span class="tr-status pending">
+                    قيد المراجعة
+                </span>
+            </div>
+
+            <div class="text-end">
+                <div class="tr-meta">
+                    <span>تاريخ التقديم</span>
+                    <strong>{{request()!.createdAt | date}}</strong>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Personal -->
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            المعلومات الشخصية
+        </h3>
+
+        <div class="row g-4">
+
+            <div class="col-6">
+                <div class="tr-info-card">
+                    <label>الاسم</label>
+                    <span>{{request()!.studentName}}</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="tr-info-card">
+                    <label>رقم الهاتف</label>
+                    <span class="tr-phone-number">
+                        {{ request()!.phoneNumber }}
+                    </span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="tr-info-card">
+                    <label>اللقب العلمي</label>
+                    <span>{{request()!.academicTitle}}</span>
+                </div>
+            </div>
+
+
+
+            <div class="col-4">
+                <div class="tr-info-card">
+                    <label>الدولة</label>
+                    <span>{{request()!.country}}</span>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="tr-info-card">
+                    <label>سنوات الخبرة</label>
+                    <span>{{request()!.experienceYears}}</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bio -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            نبذة تعريفية
+        </h3>
+
+        <div class="tr-text-block">
+            {{request()!.bio}}
+        </div>
+
+    </div>
+
+    <!-- Qualifications -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            التخصصات المختارة
+        </h3>
+
+        <div class="tr-tags">
+
+            <div class="row">
+                @for(spec of request()!.specializations;track spec){
+                <div class="col-2">
+                    <div class="tr-info-card ">
+                        <span> {{spec}}</span>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            أعلى مؤهل
+        </h3>
+        <div class="tr-text-block">
+            {{request()!.highestQualification}}
+        </div>
+    </div>
+
+    <!-- Previous -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+
+            الخبرة السابقة
+
+        </h3>
+
+        <div class="tr-info-card">
+            <label>جهات التدريس</label>
+            <span style="font-weight: 400;"> {{request()!.previousInstitutions}}
+            </span>
+        </div>
+
+        <div class="tr-info-card mt-3">
+            <label>دورات قام بتدريسها</label>
+            <span style="font-weight: 400;"> {{request()!.previouslyTaughtCourses}}
+            </span>
+        </div>
+    </div>
+
+    <!-- Attachments -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            المرفقات
+        </h3>
+
+        <!-- CV -->
+
+        <div class="tr-subsection">
+
+            <h5 class="tr-subtitle">
+                السيرة الذاتية
+            </h5>
+
+            @if(request()!.cvPath){
+
+            <div class="tr-document-card">
+
+                <div class="tr-document-info">
+
+                    <i class="bi bi-file-earmark-pdf fs-2"></i>
+
+                    <div>
+
+                        <h6>السيرة الذاتية</h6>
+
+                        <span>ملف PDF</span>
+
+                    </div>
+
+                </div>
+
+                <a class="tr-view-btn" [href]="request()!.cvPath" target="_blank">
+
+                    عرض الملف
+
+                </a>
+
+            </div>
+
+            }
+
+            @else {
+
+            <div class="tr-empty">
+
+                <i class="bi bi-file-earmark-x"></i>
+
+                <span>
+                    لم يقم المتقدم بإرفاق سيرة ذاتية.
+                </span>
+
+            </div>
+
+            }
+
+        </div>
+
+
+        <!-- Certificates -->
+
+        <div class="tr-subsection mt-5">
+
+            <h5 class="tr-subtitle">
+                الشهادات والإجازات
+            </h5>
+
+            @if(request()!.certificates.length){
+
+            <div class="row g-3">
+
+                @for(cert of request()!.certificates; track cert; let i = $index){
+
+                <div class="col-xl-3 col-lg-4 col-md-6">
+
+                    <div class="tr-certificate-card">
+
+                        <i class="bi bi-patch-check-fill"></i>
+
+                        <h6>
+                            شهادة {{i + 1}}
+                        </h6>
+
+                        <a [href]="cert" target="_blank" class="tr-view-btn w-100 text-center">
+
+                            عرض الشهادة
+
+                        </a>
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+            }
+
+            @else{
+
+            <div class="tr-empty">
+
+                <i class="bi bi-folder-x"></i>
+
+                <span>
+
+                    لا توجد شهادات مرفقة.
+
+                </span>
+
+            </div>
+
+            }
+
+        </div>
+
+
+        <!-- Video -->
+
+        @if(request()!.teachingVideoUrl){
+
+        <div class="tr-subsection mt-5">
+
+            <h5 class="tr-subtitle">
+
+                فيديو تدريسي
+
+            </h5>
+
+            <a [href]="request()!.teachingVideoUrl" target="_blank" class="tr-view-btn">
+
+                مشاهدة الفيديو
+
+            </a>
+
+        </div>
+
+        }
+
+    </div>
+
+
+    @if(request()?.status == RequestState.Pending){
+    <div class="tr-section">
+        <h3 class="tr-section-title">
+            مراجعة الطلب
+        </h3>
+
+        <div class="d-flex justify-content-end gap-3">
+
+            <app-button size="large" variant="reject" customClass="reject-button"
+                (click)="disableRejectReason.set(false)">
+                رفض الطلب
+            </app-button>
+            <app-button size="large" variant="outline" (btnClick)="acceptRequest()">
+                قبول الطلب
+            </app-button>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <label class="tr-label fw-bold mb-2">
+                    سبب الرفض <span class="text-danger">*</span>
+                </label>
+                <textarea [disabled]="disableRejectReason()" class="tr-input tr-textarea w-100" rows="6"
+                    placeholder="اكتب سبب رفض الطلب حتى يتمكن المتقدم من تعديله وإعادة التقديم..."
+                    [(ngModel)]="rejectionReason">
+            </textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-3 mt-4">
+                <app-button [disabled]="disableRejectReason()" (click)="disableRejectReason.set(true)"
+                    variant="outline">
+
+                    إلغاء
+                </app-button>
+                <app-button [disabled]="disableRejectReason()" variant="reject" /*
+                    [className]="disableRejectReason() ? 'tr-reject-desabled' : ''" */ (btnClick)="rejectRequest()!">
+                    تأكيد الرفض
+                </app-button>
+            </div>
+        </div>
+    </div>
+    }
+    @else if (request()?.status == RequestState.Accepted) {
+
+    <div class="tr-section">
+        <h3 class="tr-section-title">
+            حالة الطلب
+        </h3>
+
+        <div class="alert alert-success d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle-fill"></i>
+            <div>
+                <strong>تم قبول الطلب</strong>
+                <p class="mb-0 mt-1">
+                    تمت مراجعة هذا الطلب والموافقة عليه. أصبح المتقدم الآن معلماً معتمداً على المنصة.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    }
+    @else if (request()?.status == RequestState.Refused) {
+
+    <div class="tr-section">
+        <h3 class="tr-section-title">
+            حالة الطلب
+        </h3>
+
+        <div class="alert alert-danger d-flex align-items-start gap-2">
+            <i class="bi bi-x-circle-fill mt-1"></i>
+            <div class="w-100">
+                <strong>تم رفض الطلب</strong>
+
+                <p class="mb-2 mt-1">
+                    تمت مراجعة الطلب وتعذر قبوله في الوقت الحالي.
+                </p>
+
+                <div class="p-3 rounded bg-light border">
+                    <div class="fw-bold mb-2">سبب الرفض</div>
+                    <div>
+                        {{rejectionReason() ||request()?.rejectionReason || 'لم يتم إدخال سبب.' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    }
+</div>

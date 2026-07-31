@@ -1,0 +1,50 @@
+<app-toast />
+
+<main class="form-page" dir="rtl">
+  <nav class="breadcrumb" aria-label="مسار الصفحة">
+    <ol>
+      <li>حلقات التعلم</li>
+      <li>حلقاتي</li>
+      <li aria-current="page">إنشاء حلقة</li>
+    </ol>
+  </nav>
+
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">إدارة حلقات التعلم</p>
+      <h1>إنشاء حلقة تعلم</h1>
+      <p>
+        أضف المعلومات الأساسية للحلقة وحدد طريقة انضمام الطلاب إليها.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="back-button"
+      (click)="cancel()"
+    >
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      العودة إلى حلقاتي
+    </button>
+  </header>
+
+  <section class="form-panel" aria-labelledby="circle-form-title">
+    <div class="panel-heading">
+      <div class="panel-icon" aria-hidden="true">
+        <i class="bi bi-journal-plus"></i>
+      </div>
+
+      <div>
+        <h2 id="circle-form-title">بيانات الحلقة</h2>
+        <p>جميع الحقول التالية مطلوبة.</p>
+      </div>
+    </div>
+
+    <app-learning-circle-form
+      submitLabel="إنشاء الحلقة"
+      [submitting]="submitting()"
+      (formSubmitted)="createCircle($event)"
+      (cancelled)="cancel()"
+    />
+  </section>
+</main>

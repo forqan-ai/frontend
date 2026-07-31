@@ -70,6 +70,4 @@ export class StudentService {
     return this.http.get<TeachingRequestStatusDto>(`${this.apiUrl}/teaching-request-status`);
   }
 
-
-
 }

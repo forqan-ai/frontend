@@ -10,7 +10,7 @@ import { RequestStatus } from '../../Models/TeachingRequestStatusDto';
   standalone: true
 })
 export class TeachignRequestStatusBarComponent implements OnInit, OnChanges {
-  @Input() status: RequestStatus = 'not registered';
+  @Input() status: RequestStatus = 'notRegistered';
 
   currentStep: number = 1;
 
@@ -27,7 +27,7 @@ export class TeachignRequestStatusBarComponent implements OnInit, OnChanges {
 
   private updateStep(): void {
     switch (this.status) {
-      case 'not registered':
+      case 'notRegistered':
         // First step - Form submission
         this.currentStep = 1;
         break;
@@ -60,7 +60,7 @@ export class TeachignRequestStatusBarComponent implements OnInit, OnChanges {
   // Helper method to get status text
   getStatusText(): string {
     switch (this.status) {
-      case 'not registered':
+      case 'notRegistered':
         return 'جاري إرسال الطلب';
       case 'Pending':
         return 'قيد المراجعة';

@@ -1,0 +1,205 @@
+@let circle = details();
+
+<section class="members-section" aria-labelledby="members-title">
+  <header class="members-header">
+    <div>
+      <span class="section-eyebrow">مجتمع الحلقة</span>
+      <div class="title-line">
+        <h2 id="members-title">أعضاء الحلقة</h2>
+        <span class="members-count">
+          {{ circle.membersCount }}
+        </span>
+      </div>
+      <p>
+        تعرّف على أعضاء الحلقة والأدوار المسندة إليهم.
+      </p>
+    </div>
+
+    @if (canManageMembers()) {
+      <button
+        type="button"
+        class="add-button"
+        [disabled]="pendingAction() !== null"
+        (click)="openAddModal()"
+      >
+        <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
+        إضافة أعضاء
+      </button>
+    }
+  </header>
+
+  @if (circle.isArchived) {
+    <div class="read-only-notice" role="status">
+      <i class="bi bi-archive-fill" aria-hidden="true"></i>
+      <div>
+        <strong>قائمة الأعضاء للقراءة فقط</strong>
+        <p>
+          لا يمكن إضافة الأعضاء أو إزالتهم أو تغيير أدوارهم بعد أرشفة
+          الحلقة.
+        </p>
+      </div>
+    </div>
+  }
+
+  <div class="members-toolbar">
+    <div class="search-field">
+      <i class="bi bi-search" aria-hidden="true"></i>
+      <input
+        type="search"
+        autocomplete="off"
+        placeholder="ابحث بالاسم أو البريد الإلكتروني"
+        [value]="searchInput()"
+        [attr.aria-invalid]="searchValidation() !== null"
+        (input)="updateSearch($event)"
+      />
+
+      @if (searchInput()) {
+        <button
+          type="button"
+          aria-label="مسح البحث"
+          (click)="clearSearch()"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      }
+    </div>
+
+    @if (searchTerm().length >= 2 && !loading()) {
+      <span class="search-result-count">
+        {{ totalCount() }} نتيجة
+      </span>
+    }
+  </div>
+
+  @if (searchValidation(); as validation) {
+    <p class="search-error">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      {{ validation }}
+    </p>
+  }
+
+  @if (loading()) {
+    <div
+      class="members-grid"
+      aria-label="جارٍ تحميل أعضاء الحلقة"
+    >
+      @for (item of [1, 2, 3, 4]; track item) {
+        <article class="member-skeleton">
+          <div class="skeleton-identity">
+            <span class="skeleton-avatar"></span>
+            <div>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <span class="skeleton-line"></span>
+          <span class="skeleton-action"></span>
+        </article>
+      }
+    </div>
+  } @else if (loadError(); as error) {
+    <div class="members-state" role="alert">
+      <div class="state-icon">
+        <i
+          class="bi"
+          [class.bi-wifi-off]="error.retryable"
+          [class.bi-shield-lock]="!error.retryable"
+          aria-hidden="true"
+        ></i>
+      </div>
+      <h3>{{ error.title }}</h3>
+      <p>{{ error.message }}</p>
+
+      @if (error.retryable) {
+        <button type="button" (click)="retry()">
+          إعادة المحاولة
+        </button>
+      }
+    </div>
+  } @else if (members().length === 0) {
+    <div class="members-state">
+      <div class="state-icon">
+        <i
+          class="bi"
+          [class.bi-search]="searchTerm().length >= 2"
+          [class.bi-people]="searchTerm().length < 2"
+          aria-hidden="true"
+        ></i>
+      </div>
+
+      @if (searchTerm().length >= 2) {
+        <h3>لا توجد نتائج مطابقة</h3>
+        <p>
+          جرّب البحث باسم آخر أو امسح عبارة البحث.
+        </p>
+        <button type="button" (click)="clearSearch()">
+          مسح البحث
+        </button>
+      } @else {
+        <h3>لا يوجد أعضاء لعرضهم</h3>
+        <p>
+          ستظهر قائمة أعضاء الحلقة هنا عند توفرها.
+        </p>
+      }
+    </div>
+  } @else {
+    <div class="members-grid">
+      @for (member of members(); track member.userId) {
+        <app-circle-member-card
+          [member]="member"
+          [canManageMembers]="canManageMembers()"
+          [canChangeRoles]="canChangeRoles()"
+          [actionsDisabled]="pendingAction() !== null"
+          [removing]="isRemoving(member)"
+          [changingRole]="isChangingRole(member)"
+          [isOnline]="isMemberOnline(member)"
+          (removeRequested)="openRemoveConfirmation(member)"
+          (roleChangeRequested)="
+            openRoleConfirmation(member, $event)
+          "
+        />
+      }
+    </div>
+
+    <app-learning-circles-pagination
+      [currentPage]="pageNumber()"
+      [totalPages]="totalPages()"
+      [disabled]="loading() || pendingAction() !== null"
+      ariaLabel="صفحات أعضاء الحلقة"
+      (pageChanged)="goToPage($event)"
+    />
+  }
+
+  <app-add-circle-members-modal
+    [open]="addModalOpen()"
+    [circleId]="circle.circleId"
+    [circleName]="circle.name"
+    (closed)="closeAddModal()"
+    (membersAdded)="handleMembersAdded()"
+    (stateRefreshRequested)="
+      handleMemberStateInvalidated()
+    "
+  />
+
+  @if (memberToRemove(); as member) {
+    <app-remove-circle-member-confirmation-modal
+      [open]="true"
+      [memberName]="member.fullName"
+      [loading]="isRemoving(member)"
+      (closed)="closeRemoveConfirmation()"
+      (confirmed)="confirmRemove()"
+    />
+  }
+
+  @if (roleChange(); as change) {
+    <app-change-circle-member-role-modal
+      [open]="true"
+      [memberName]="change.member.fullName"
+      [currentRole]="change.currentRole"
+      [requestedRole]="change.requestedRole"
+      [loading]="isChangingRole(change.member)"
+      (closed)="closeRoleConfirmation()"
+      (confirmed)="confirmRoleChange()"
+    />
+  }
+</section>

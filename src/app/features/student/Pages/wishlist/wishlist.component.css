@@ -1,0 +1,212 @@
+.wishlist-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wishlist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border, #e5e7eb);
+}
+
+.wishlist-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text, #111827);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wishlist-title i {
+  color: #e11d48;
+}
+
+.wishlist-count {
+  background: var(--primary, #16a34a);
+  color: white;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.loading-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 5rem 2rem;
+  text-align: center;
+  color: var(--text-muted, #6b7280);
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #d1d5db;
+}
+
+.empty-state h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text, #111827);
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+}
+
+.browse-btn {
+  background: var(--primary, #16a34a);
+  color: white;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.browse-btn:hover {
+  background: var(--primary-hover, #15803d);
+  color: white;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: var(--primary, #16a34a);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.wishlist-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border, #e5e7eb);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.wishlist-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card-image-wrapper {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #e11d48;
+  font-size: 1rem;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.remove-btn:hover {
+  transform: scale(1.15);
+  background: #fff1f2;
+}
+
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.card-title a {
+  color: var(--text, #111827);
+  text-decoration: none;
+}
+
+.card-title a:hover {
+  color: var(--primary, #16a34a);
+}
+
+.teacher-name {
+  font-size: 0.85rem;
+  color: var(--text-muted, #6b7280);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border, #e5e7eb);
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary, #16a34a);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #f59e0b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}

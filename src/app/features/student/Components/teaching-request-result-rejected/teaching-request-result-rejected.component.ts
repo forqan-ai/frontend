@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonComponent } from "../../../../shared/components/button/button.component";
 
 @Component({
@@ -8,5 +8,7 @@ import { ButtonComponent } from "../../../../shared/components/button/button.com
   styleUrl: './teaching-request-result-rejected.component.css',
 })
 export class TeachingRequestResultRejectedComponent {
+
+  @Input() rejectionReason: string = '';
 
 }

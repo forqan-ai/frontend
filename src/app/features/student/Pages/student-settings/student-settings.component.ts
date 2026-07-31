@@ -46,7 +46,6 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    SidebarComponent,
     ButtonComponent,
     ToastComponent,
     RouterLink,

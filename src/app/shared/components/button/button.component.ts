@@ -1,9 +1,9 @@
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-button',
-  imports: [NgClass],
+  imports: [NgClass, CommonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css',
 })
@@ -15,7 +15,7 @@ export class ButtonComponent {
 
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
 
-  @Input() variant: 'primary' | 'secondary' | 'outline' | 'ghost' = 'primary';
+  @Input() variant: 'primary' | 'secondary' | 'outline' | 'ghost' | 'reject' = 'primary';
 
   @Input() disabled: boolean = false;
 

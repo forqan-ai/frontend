@@ -1,0 +1,135 @@
+@if(initialLoading()){
+
+<div class="tr-loading">
+
+    <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+
+</div>
+
+}
+@else{
+
+<div class="tr-list-page mt-4 mb-5  px-4">
+
+    <h2 class="tr-page-title">
+        طلبات الانضمام
+    </h2>
+
+    <!-- @for(group of groupedRequests(); track group.date){
+
+    <section class="mb-5">
+
+        <h3 class="tr-date">
+            {{ group.date }}
+        </h3>
+
+        @for(request of group.requests; track request.id){
+
+        <div class="tr-card">
+
+            <div class="tr-user">
+
+                <img [src]="request.studentImage" class="tr-avatar" alt="Student Image">
+
+                <div>
+
+                    <h5>
+                        {{ request.studentName }}
+                    </h5>
+
+                    <span>
+                        {{ request.studentEmail }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div>
+                <app-button>
+                    مراجعة الطلب
+                </app-button>
+            </div>
+
+        </div>
+
+        }
+
+    </section>
+
+    } -->
+
+
+    @for (request of requests(); track request.id; let i = $index) {
+    @if(i > 0){
+
+    @if(request.createdAt !== requests()[i - 1].createdAt){
+    <h3 class="tr-date mt-5">
+        {{ request.createdAt }}
+    </h3>
+    }
+
+    }
+    @else {
+    <h3 class="tr-date mt-5">
+        {{ request.createdAt }}
+    </h3>
+    }
+    <div class="tr-card">
+
+        <div class="tr-user">
+
+            <img [src]="request.studentImage" class="tr-avatar" alt="Student Image">
+
+            <div>
+
+                <h5>
+                    {{ request.studentName }}
+                </h5>
+
+                <span>
+                    {{ request.studentEmail }}
+                </span>
+
+            </div>
+
+        </div>
+
+        <div>
+            <app-button pageLink="/dashboard/admin/teaching-requests/{{request.id}}">
+                مراجعة الطلب
+            </app-button>
+        </div>
+
+    </div>
+
+
+    }
+    @if(hasNextPage()){
+
+    <div class="text-center">
+
+        <app-button variant="outline" size="large" customClass="mb-3" (btnClick)="loadMore()">
+
+            تحميل المزيد
+
+        </app-button>
+
+    </div>
+
+    }
+    @else if(requests().length){
+
+    <div class="text-center text-muted mb-3">
+
+        لا توجد طلبات أخرى
+
+    </div>
+
+    }
+
+</div>
+
+}

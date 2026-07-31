@@ -8,7 +8,3 @@ export interface ApiError {
   code: string;
   description: string;
 }
-
-export interface CheckoutUrl{
-    checkoutUrl:string;
-}

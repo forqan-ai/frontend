@@ -1,0 +1,62 @@
+<div class="wishlist-page" dir="rtl">
+  <div class="wishlist-header">
+    <h1 class="wishlist-title">
+      <i class="bi bi-heart-fill"></i>
+      مفضلتي
+    </h1>
+    <span class="wishlist-count">{{ wishlistItems().length }} دورة</span>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>جارِ التحميل...</p>
+    </div>
+  } @else if (wishlistItems().length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-heart"></i>
+      <h2>قائمة المفضلة فارغة</h2>
+      <p>أضف دورات تعجبك لتجدها هنا بسهولة</p>
+      <a routerLink="/dashboard/student/courses" class="browse-btn">تصفح الدورات</a>
+    </div>
+  } @else {
+    <div class="wishlist-grid">
+      @for (item of wishlistItems(); track item.courseID) {
+        <div class="wishlist-card">
+          <div class="card-image-wrapper">
+            <img
+              [src]="item.thumbnailURL || 'images/card1.jfif'"
+              [alt]="item.title"
+              class="card-image"
+              (error)="$any($event.target).src = 'images/card1.jfif'"
+            />
+            <button
+              class="remove-btn"
+              (click)="removeFromWishlist(item.courseID)"
+              aria-label="إزالة من المفضلة"
+            >
+              <i class="bi bi-heart-fill"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <span class="category-badge">{{ item.categoryName }}</span>
+            <h3 class="card-title">
+              <a [routerLink]="['/course-details', item.courseID]">{{ item.title }}</a>
+            </h3>
+            <p class="teacher-name">
+              <i class="bi bi-person"></i>
+              {{ item.teacherName }}
+            </p>
+            <div class="card-footer">
+              <span class="price">{{ formatPrice(item.price) }}</span>
+              <div class="rating">
+                <i class="bi bi-star-fill"></i>
+                <span>{{ item.rating | number:'1.1-1' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

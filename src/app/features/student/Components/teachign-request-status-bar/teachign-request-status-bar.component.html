@@ -10,7 +10,7 @@
             <div class="tr-step-dot" [class.tr-step-dot--filled]="currentStep >= 1"></div>
             <span class="tr-step-label" [class.tr-step-label--active]="currentStep >= 1">إرسال الطلب</span>
             <span class="tr-step-status">
-                @if (currentStep === 1 && status === 'not registered') {
+                @if (currentStep === 1 && status === 'notRegistered') {
                 (جاري)
                 } @else if (currentStep > 1) {
                 (تم)

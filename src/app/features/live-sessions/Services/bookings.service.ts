@@ -38,7 +38,7 @@ export class BookingsService {
   }
 
   getMyPointsBalance(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/PointPackcages/balance`);
+    return this.http.get<number>(`${this.apiUrl}/PointPackages/balance`);
   }
   getSessionBookings(sessionId: string): Observable<IBooking[]> {
     return this.http.get<IBooking[]>(`${this.apiUrl}/sessions/${sessionId}/bookings`);

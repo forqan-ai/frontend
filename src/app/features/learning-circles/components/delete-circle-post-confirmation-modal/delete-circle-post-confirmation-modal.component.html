@@ -1,0 +1,79 @@
+@if (open()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="requestClose()"
+  >
+    <section
+      class="confirmation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="delete-post-modal-title"
+      aria-describedby="delete-post-modal-description"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-button"
+        aria-label="إغلاق"
+        [disabled]="loading()"
+        (click)="requestClose()"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-icon" aria-hidden="true">
+        <i class="bi bi-trash3-fill"></i>
+      </div>
+
+      <h2 id="delete-post-modal-title">
+        تأكيد حذف المنشور
+      </h2>
+
+      <p id="delete-post-modal-description">
+        هل تريد حذف منشور
+        <strong>«{{ authorName() }}»</strong>؟
+      </p>
+
+      <blockquote>{{ contentPreview() }}</blockquote>
+
+      <div class="notice">
+        <i
+          class="bi bi-exclamation-circle-fill"
+          aria-hidden="true"
+        ></i>
+        <p>
+          سيُحذف المنشور من الحلقة ولن يظهر للأعضاء مرة أخرى.
+        </p>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="loading()"
+          (click)="requestClose()"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          [disabled]="loading()"
+          (click)="confirm()"
+        >
+          @if (loading()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            جارٍ الحذف...
+          } @else {
+            تأكيد الحذف
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

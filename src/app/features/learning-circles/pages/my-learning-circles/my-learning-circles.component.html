@@ -1,0 +1,191 @@
+@if (isTeacher) {
+  <app-toast />
+}
+
+<main class="list-page" dir="rtl">
+  <nav class="breadcrumb" aria-label="مسار الصفحة">
+    <ol>
+      <li>لوحة التحكم</li>
+      <li>حلقات التعلم</li>
+      <li aria-current="page">حلقاتي</li>
+    </ol>
+  </nav>
+
+  <nav class="circles-navigation" aria-label="التنقل بين صفحات حلقات التعلم">
+    <a
+      routerLink=".."
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      استكشف حلقات التعلم
+    </a>
+
+    <a
+      routerLink="."
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      حلقاتي
+    </a>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-heading">
+      <h1>حلقاتي</h1>
+      <p>{{ pageDescription() }}</p>
+    </div>
+
+    @if (isTeacher) {
+      <a
+        class="create-button"
+        routerLink="../create"
+      >
+        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+        إنشاء حلقة
+      </a>
+    }
+  </header>
+
+  <div class="member-context">
+    <i class="bi bi-person-badge" aria-hidden="true"></i>
+    <span>
+      الإجراءات المتاحة في كل بطاقة تعتمد على دورك داخل الحلقة:
+      مالك، مشرف، أو عضو.
+    </span>
+  </div>
+
+  <section class="toolbar" aria-label="البحث في حلقاتي">
+    <label class="search-box">
+      <i class="bi bi-search" aria-hidden="true"></i>
+
+      <input
+        type="search"
+        [formControl]="searchControl"
+        placeholder="ابحث داخل حلقاتك..."
+        aria-label="البحث داخل حلقاتي"
+      />
+
+      @if (searchControl.value) {
+        <button
+          type="button"
+          class="clear-search"
+          aria-label="مسح البحث"
+          (click)="clearSearch()"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      }
+    </label>
+
+    @if (searchValidation()) {
+      <p class="search-validation">
+        {{ searchValidation() }}
+      </p>
+    }
+  </section>
+
+  <div class="results-header">
+    <div>
+      <h2>حلقات التعلم المنضم إليها</h2>
+
+      @if (!loading() && !searchValidation()) {
+        <p>
+          عدد النتائج:
+          <strong>{{ totalCount() }}</strong>
+        </p>
+      }
+    </div>
+
+    @if (searchTerm().length >= 2) {
+      <button
+        type="button"
+        class="reset-search"
+        (click)="clearSearch()"
+      >
+        مسح البحث
+      </button>
+    }
+  </div>
+
+  @if (searchValidation()) {
+    <section class="state-box">
+      <i class="bi bi-search" aria-hidden="true"></i>
+      <h2>أكمل كلمة البحث</h2>
+      <p>{{ searchValidation() }}</p>
+    </section>
+  } @else if (loadFailed() && !loading()) {
+    <section class="state-box" role="alert">
+      <i class="bi bi-wifi-off" aria-hidden="true"></i>
+      <h2>تعذر تحميل حلقاتك</h2>
+      <p>تحقق من الاتصال ثم حاول مرة أخرى.</p>
+      <button type="button" (click)="retry()">
+        إعادة المحاولة
+      </button>
+    </section>
+  } @else if (!loading() && circles().length === 0) {
+    <section class="state-box">
+      <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+
+      @if (searchTerm()) {
+        <h2>لا توجد حلقات مطابقة</h2>
+        <p>جرّب استخدام كلمة بحث مختلفة.</p>
+
+        <button type="button" (click)="clearSearch()">
+          عرض جميع حلقاتي
+        </button>
+      } @else if (isTeacher) {
+        <h2>لم تنشئ أي حلقة تعلم بعد</h2>
+        <p>
+          أنشئ حلقة جديدة لبدء مشاركة المحتوى مع الطلاب.
+        </p>
+
+        <a
+          class="state-action"
+          routerLink="../create"
+        >
+          إنشاء حلقة
+        </a>
+      } @else {
+        <h2>لم تنضم إلى أي حلقة تعلم بعد</h2>
+        <p>
+          استكشف الحلقات المتاحة واختر الحلقة المناسبة لك.
+        </p>
+
+        <a
+          class="state-action"
+          routerLink=".."
+        >
+          استكشف حلقات التعلم
+        </a>
+      }
+    </section>
+  } @else {
+    <app-learning-circles-grid
+      [circles]="circles()"
+      [loading]="loading()"
+      [actionCircleId]="actionCircleId()"
+      [allowJoin]="false"
+      [showMemberMetadata]="true"
+      [allowMemberActions]="true"
+      (leaveRequested)="openLeaveConfirmation($event)"
+      (detailsRequested)="showDetails($event)"
+      (manageRequested)="manageCircle($event)"
+    />
+
+    <app-learning-circles-pagination
+      [currentPage]="pageNumber()"
+      [totalPages]="totalPages()"
+      [disabled]="loading()"
+      (pageChanged)="goToPage($event)"
+    />
+  }
+
+  <app-membership-confirmation-modal
+    action="leave"
+    [open]="selectedCircle() !== null"
+    [circleName]="selectedCircle()?.name ?? ''"
+    [loading]="actionCircleId() !== null"
+    (closed)="closeLeaveConfirmation()"
+    (confirmed)="confirmLeave()"
+  />
+</main>

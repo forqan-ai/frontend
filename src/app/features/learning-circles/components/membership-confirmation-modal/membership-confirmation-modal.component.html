@@ -1,0 +1,99 @@
+@if (open()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="requestClose()"
+  >
+    <section
+      class="confirmation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="membership-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-button"
+        aria-label="إغلاق"
+        [disabled]="loading()"
+        (click)="requestClose()"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-icon" aria-hidden="true">
+        <i
+          class="bi"
+          [class.bi-person-plus-fill]="action() === 'join'"
+          [class.bi-box-arrow-left]="action() === 'leave'"
+        ></i>
+      </div>
+
+      @if (action() === 'join') {
+        <h2 id="membership-modal-title">
+          تأكيد الانضمام
+        </h2>
+
+        <p>
+          هل تريد الانضمام إلى
+          <strong>«{{ circleName() }}»</strong>؟
+        </p>
+
+        <div class="information-box">
+          <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+          <span>
+            الانضمام إلى حلقة التعلم مجاني تمامًا ولا يتم خصم أي نقاط.
+          </span>
+        </div>
+      } @else {
+        <h2 id="membership-modal-title">
+          تأكيد مغادرة الحلقة
+        </h2>
+
+        <p>
+          هل تريد مغادرة
+          <strong>«{{ circleName() }}»</strong>؟
+        </p>
+
+        <div class="information-box">
+          <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+          <span>
+            بعد المغادرة ستفقد الوصول إلى محتوى الأعضاء حتى تنضم مرة أخرى.
+          </span>
+        </div>
+      }
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="loading()"
+          (click)="requestClose()"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          [disabled]="loading()"
+          (click)="confirm()"
+        >
+          @if (loading()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            جارٍ التنفيذ
+          } @else {
+            {{
+              action() === 'join'
+                ? 'تأكيد الانضمام'
+                : 'تأكيد المغادرة'
+            }}
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

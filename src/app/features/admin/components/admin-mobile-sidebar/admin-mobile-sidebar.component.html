@@ -1,0 +1,101 @@
+<!-- <div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="mobileSidebar">
+    <div class="offcanvas-header border-bottom border-success border-opacity-25">
+        <h5 class="offcanvas-title text-white">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <div class="p-3 border-bottom border-success border-opacity-25">
+            <div class="d-flex align-items-center gap-3">
+                <img src="https://ui-avatars.com/api/?name=Ahmed+Hassan&background=89e900&color=222222&size=128"
+                    class="rounded-circle border border-success border-2" width="48" height="48">
+                <div>
+                    <div class="text-white fw-semibold">Ahmed Hassan</div>
+                    <div class="text-white-50 small">@ahmed_hassan</div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column p-3 gap-2">
+            <a href="#"
+                class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 bg-success bg-opacity-25 text-success text-decoration-none">
+                Dashboard
+            </a>
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white-50 text-decoration-none">
+                Tournaments
+            </a>
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white-50 text-decoration-none">
+                Teams
+            </a>
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white-50 text-decoration-none">
+                Matches
+            </a>
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white-50 text-decoration-none">
+                Settings
+            </a>
+            <hr class="border-success border-opacity-25">
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white-50 text-decoration-none">
+                Help & Support
+            </a>
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white-50 text-decoration-none">
+                Logout
+            </a>
+        </div>
+    </div>
+</div> -->
+
+
+<div class="offcanvas offcanvas-start bg-grey-dark" tabindex="-1" id="adminMobileSidebar"
+    style="width: 260px; background-color: var(--primary-hover);">
+    <a data-bs-dismiss="offcanvas"> <i class="bi bi-x-lg exit" style=" color: var(--primary-light);"></i>
+    </a>
+    <div class="p-3 border-bottom-side text-center">
+
+        <div class="d-flex flex-column align-items-center gap-2">
+            <app-avatar [border]=true [size]=70 src="{{studentImage()}}">
+            </app-avatar>
+            <div>
+                <div class="text-white fw-semibold">{{user()?.fullName}}</div>
+                <span class="text-white-50">Admin Account</span>
+                <div class="text-white-50" style="font-size: 12px;">{{user()?.email}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas-body p-0 d-flex flex-column bg-grey-dark">
+        <nav class="flex-grow-1 p-3">
+            <div class="d-flex flex-column gap-2">
+                <a routerLink="admin/teaching-requests" (click)="setActiveRoute('teaching-requests')"
+                    [class.green-anchor]="isActive('teaching-requests')"
+                    [class.grey-anchor]="!isActive('teaching-requests')"
+                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-grid-1x2-fill"></i> طلبات التدريس
+                </a>
+
+                <a routerLink="admin/courses-review" (click)="setActiveRoute('courses-review')"
+                    [class.green-anchor]="isActive('courses-review')" [class.grey-anchor]="!isActive('courses-review')"
+                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-book"></i> مراجعة الدورات
+                </a>
+
+                <a routerLink="admin/bookings" (click)="setActiveRoute('bookings')"
+                    [class.green-anchor]="isActive('bookings')" [class.grey-anchor]="!isActive('bookings')"
+                    class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-calendar-check"></i> إدارة الحجوزات
+                </a>
+
+            </div>
+        </nav>
+
+        <div class="p-3 border-top-side">
+            <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none">
+                Help & Support
+            </a>
+            <a (click)="logout()"
+                class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none">
+                <i class="bi bi-box-arrow-left"></i> تسجيل خروج
+            </a>
+        </div>
+    </div>
+</div>

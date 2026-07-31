@@ -6,11 +6,9 @@
 .courses-hero {
   padding: 56px 0 38px;
   text-align: center;
-  background: linear-gradient(
-    180deg,
-    #eadbc8 0%,
-    #f0e4d3 100%
-  );
+  background: linear-gradient(180deg,
+      #eadbc8 0%,
+      #f0e4d3 100%);
 }
 
 .hero-content h1 {
@@ -164,7 +162,7 @@
   border-radius: 16px;
 }
 
-.page-state > i {
+.page-state>i {
   color: var(--primary);
   font-size: 38px;
 }
@@ -186,7 +184,7 @@
   border-radius: 8px;
 }
 
-.error-state > i {
+.error-state>i {
   color: #a84444;
 }
 
@@ -220,6 +218,76 @@
   cursor: not-allowed;
 }
 
+.recommended-section {
+  margin-top: 36px;
+  padding: 28px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.recommended-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.recommended-title {
+  margin: 0;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.recommended-title i {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.recommended-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.slider-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--primary) !important;
+  border-radius: 50%;
+  color: var(--primary);
+  background: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.slider-btn:hover {
+  background: var(--primary);
+  color: var(--secondary);
+}
+
+.recommended-slider {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: visible;
+  padding-bottom: 4px;
+}
+
+.recommended-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.recommended-slide {
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 300px;
+}
+
 .challenge-banner {
   margin-top: 44px;
   min-height: 220px;
@@ -229,11 +297,9 @@
   justify-content: space-between;
   align-items: center;
   gap: 28px;
-  background: linear-gradient(
-    135deg,
-    #f0dfcc 0%,
-    #f9f2e9 100%
-  );
+  background: linear-gradient(135deg,
+      #f0dfcc 0%,
+      #f9f2e9 100%);
   border: 1px solid var(--border);
   border-radius: 20px;
 }

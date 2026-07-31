@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DecimalPipe } from '@angular/common';
 
+import { DecimalPipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../Services/course.service';
 import { ICoursePlayer, ILesson } from '../../Models/course-player.interface';
 import { SafeUrlPipe } from '../../../../shared/pipes/safe-url-pipe';
@@ -18,6 +18,8 @@ export class CoursePlayerComponent implements OnInit {
 
   coursePlayer = signal<ICoursePlayer | null>(null);
 
+  allLessons = signal<ILesson[]>([]);
+
   selectedLesson = signal<ILesson | null>(null);
 
   loading = signal(true);
@@ -27,6 +29,7 @@ export class CoursePlayerComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private courseService: CourseService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -37,12 +40,14 @@ export class CoursePlayerComponent implements OnInit {
 
   loadCoursePlayer() {
     this.courseService.getCoursePlayer(this.courseId).subscribe({
-      next: (res) => {
+      next: (res: ICoursePlayer) => {
         this.coursePlayer.set(res);
 
-        const firstLesson = res.modules?.flatMap((module) => module.lessons)[0];
+        const lessons = res.modules.flatMap((module) => module.lessons);
 
-        this.selectLesson(firstLesson);
+        this.allLessons.set(lessons);
+
+        this.selectLesson(lessons[0]);
 
         this.loading.set(false);
       },
@@ -55,7 +60,7 @@ export class CoursePlayerComponent implements OnInit {
     });
   }
 
-  selectLesson(lesson: ILesson | undefined) {
+  selectLesson(lesson?: ILesson) {
     if (!lesson) {
       return;
     }
@@ -68,6 +73,92 @@ export class CoursePlayerComponent implements OnInit {
   startVideo() {
     this.videoStarted.set(true);
   }
+
+  getCurrentLessonIndex(): number {
+    return this.allLessons().findIndex(
+      (lesson) => lesson.lessonID === this.selectedLesson()?.lessonID,
+    );
+  }
+
+  hasPreviousLesson(): boolean {
+    return this.getCurrentLessonIndex() > 0;
+  }
+
+  hasNextLesson(): boolean {
+    return this.getCurrentLessonIndex() < this.allLessons().length - 1;
+  }
+
+  goToPreviousLesson() {
+    const index = this.getCurrentLessonIndex();
+
+    const previousLesson = this.allLessons()[index - 1];
+
+    if (previousLesson) {
+      this.selectLesson(previousLesson);
+    }
+  }
+
+ goToNextLesson() {
+  const current = this.selectedLesson();
+
+  if (!current) {
+    return;
+  }
+
+  const index = this.getCurrentLessonIndex();
+  const nextLesson = this.allLessons()[index + 1];
+
+  if (!current.isCompleted) {
+    this.courseService.markLessonCompleted(current.lessonID).subscribe({
+      next: () => {
+        current.isCompleted = true;
+
+        const total = this.allLessons().length;
+        const completed = this.allLessons().filter(
+          (l) => l.isCompleted
+        ).length;
+
+        const progress =
+          total > 0 ? Math.round((completed / total) * 100) : 0;
+
+        const course = this.coursePlayer();
+
+        if (course) {
+          this.coursePlayer.set({
+            ...course,
+            progressPercentage: progress,
+          });
+        }
+
+        if (nextLesson) {
+          this.selectLesson(nextLesson);
+        } else {
+          this.router.navigate([
+            '/dashboard',
+            'student',
+            'certificate',
+            this.courseId,
+          ]);
+        }
+      },
+
+      error: (err) => {
+        console.error('Mark lesson completed error', err);
+      },
+    });
+  } else {
+    if (nextLesson) {
+      this.selectLesson(nextLesson);
+    } else {
+      this.router.navigate([
+        '/dashboard',
+        'student',
+        'certificate',
+        this.courseId,
+      ]);
+    }
+  }
+}
 
   getVideoUrl(url?: string): string | null {
     if (!url) {
@@ -94,6 +185,7 @@ export class CoursePlayerComponent implements OnInit {
       return null;
     }
   }
+
   getYoutubeThumbnail(url?: string): string {
     if (!url) {
       return this.coursePlayer()?.thumbnailURL ?? '';

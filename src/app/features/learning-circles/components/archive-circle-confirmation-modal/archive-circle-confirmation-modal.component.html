@@ -1,0 +1,77 @@
+@if (open()) {
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    (click)="requestClose()"
+  >
+    <section
+      class="confirmation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="archive-modal-title"
+      aria-describedby="archive-modal-description"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-button"
+        aria-label="إغلاق"
+        [disabled]="loading()"
+        (click)="requestClose()"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-icon" aria-hidden="true">
+        <i class="bi bi-archive-fill"></i>
+      </div>
+
+      <h2 id="archive-modal-title">تأكيد أرشفة الحلقة</h2>
+
+      <p id="archive-modal-description">
+        هل تريد أرشفة
+        <strong>«{{ circleName() }}»</strong>؟
+      </p>
+
+      <div class="warning-box">
+        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+        <div>
+          <strong>الأرشفة غير قابلة للتراجع حاليًا</strong>
+          <ul>
+            <li>ستختفي الحلقة من الاستكشاف ومن صفحة حلقاتي.</li>
+            <li>ستتوقف عمليات الانضمام والتعديل والإدارة.</li>
+            <li>سيظل المحتوى القديم متاحًا للقراءة حسب الصلاحيات.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="loading()"
+          (click)="requestClose()"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          [disabled]="loading()"
+          (click)="confirm()"
+        >
+          @if (loading()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            جارٍ الأرشفة...
+          } @else {
+            تأكيد الأرشفة
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

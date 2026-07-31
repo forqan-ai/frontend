@@ -88,7 +88,7 @@ export class LoginComponent implements AfterViewInit {
             if (this.authService.hasRole(Role.Teacher)) {
               this.router.navigate(['/teacher']);
             } else {
-              this.router.navigate(['/studentprofile']);
+              this.router.navigate(['/dashboard/student/home']);
             }
           } else {
             const apiError = res.errors as ApiError[];
@@ -142,8 +142,10 @@ export class LoginComponent implements AfterViewInit {
         if (res.succeeded) {
           if (this.authService.hasRole(Role.Teacher)) {
             this.router.navigate(['/teacher']);
-          } else {
+          } else if (this.authService.hasRole(Role.Student)) {
             this.router.navigate(['/dashboard/student/home']);
+          } else if (this.authService.hasRole(Role.Admin)) {
+            this.router.navigate(['/dashboard/admin/teaching-requests']);
           }
         } else {
           const apiError = res.errors as ApiError[];
