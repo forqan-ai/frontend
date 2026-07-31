@@ -1,15 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { HeaderComponent } from '../../components/header/header.component';
-import { QuickActionsComponent } from '../../components/quick-actions/quick-actions.component';
+import { Component, inject, signal } from '@angular/core';
+
 import { CourseService } from '../../../Course/Services/course.service';
 import { TeacherCourse } from '../../models/teacher-course.model';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-courses',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, QuickActionsComponent],
+  imports: [DatePipe],
   templateUrl: './my-courses.component.html',
   styleUrls: ['./my-courses.component.css'],
 })
@@ -17,17 +16,25 @@ export class MyCoursesComponent {
   private courseService = inject(CourseService);
 
   private router = inject(Router);
-
-  courses: TeacherCourse[] = [];
+  courses = signal<TeacherCourse[]>([]);
 
   ngOnInit() {
     this.loadCourses();
   }
 
   loadCourses() {
+    console.log('Loading Courses');
+
     this.courseService.getMyCourses().subscribe({
       next: (res) => {
-        this.courses = res;
+        console.log('Response:', res);
+        this.courses.set(res);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      },
+      complete: () => {
+        console.log('Completed');
       },
     });
   }

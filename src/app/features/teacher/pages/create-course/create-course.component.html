@@ -1,15 +1,5 @@
 <div class="dashboard">
-  <app-sidebar [opened]="sidebarOpen()" (close)="closeSidebar()"> </app-sidebar>
-
   <div class="content">
-    <app-header
-      teacherName="إنشاء دورة"
-      [teacherName]="dashboard()?.fullName ?? ''"
-      [image]="profile()?.profileImageURL ?? ''"
-      (menuClick)="toggleSidebar()"
-    >
-    </app-header>
-
     <div class="page">
       <app-create-course-form (save)="saveCourse($event)"> </app-create-course-form>
     </div>

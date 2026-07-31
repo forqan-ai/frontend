@@ -1,0 +1,17 @@
+<div class="card shadow-sm p-3 mt-3">
+  <h5>Edit Module</h5>
+
+  <div class="mb-3">
+    <label>Title</label>
+
+    <input class="form-control" [(ngModel)]="title" />
+  </div>
+
+  <div class="mb-3">
+    <label>Order</label>
+
+    <input type="number" class="form-control" [(ngModel)]="orderIndex" />
+  </div>
+
+  <button class="btn btn-success w-100" (click)="save()">Save Changes</button>
+</div>

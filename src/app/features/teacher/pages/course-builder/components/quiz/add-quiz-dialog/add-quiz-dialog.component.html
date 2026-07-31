@@ -1,0 +1,35 @@
+<div class="card shadow-sm p-3 mb-3">
+  <h5 class="mb-3">Create Quiz</h5>
+
+  <div class="mb-3">
+    <label class="form-label"> Title </label>
+
+    <input class="form-control" [(ngModel)]="title" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label"> Quiz Type </label>
+
+    <select class="form-select" [(ngModel)]="type">
+      <option [value]="0">Practice</option>
+
+      <option [value]="1">Final</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <label class="form-label"> Time (Minutes) </label>
+
+      <input type="number" class="form-control" [(ngModel)]="timeLimitMin" />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label"> Passing Score </label>
+
+      <input type="number" class="form-control" [(ngModel)]="passingScore" />
+    </div>
+  </div>
+
+  <button class="btn btn-primary mt-3 w-100" (click)="save()">Create Quiz</button>
+</div>

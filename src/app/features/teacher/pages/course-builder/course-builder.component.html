@@ -1,17 +1,17 @@
-<div class="layout">
-  <app-sidebar />
-
-  <main class="content">
-    <app-header />
-
-    <section class="builder">
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Course Builder</h2>
 
-      <p>
-        Course Id :
-        {{ courseId }}
-      </p>
-    </section>
-    <app-quick-actions />
-  </main>
-</div>
+      <button class="btn btn-primary" (click)="toggleAddModule()">Add Module</button>
+    </div>
+
+    @if (showAddModule()) {
+      <app-add-module-dialog [courseId]="courseId" (saved)="loadModules(); toggleAddModule()">
+      </app-add-module-dialog>
+    }
+
+    @for (module of modules(); track module.moduleID) {
+      <app-module-card [module]="module" [courseId]="courseId" (refresh)="loadModules()">
+      </app-module-card>
+    }
+  </div>

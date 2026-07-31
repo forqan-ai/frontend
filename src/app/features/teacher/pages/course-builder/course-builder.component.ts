@@ -1,24 +1,39 @@
-import { Component, inject } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { HeaderComponent } from '../../components/header/header.component';
-import { QuickActionsComponent } from '../../components/quick-actions/quick-actions.component';
+import { ModuleService } from '../../services/module.service';
+import { ModuleModel } from '../../models/module.model';
+import { ModuleCardComponent } from './components/module/module-card/module-card.component';
+import { AddModuleDialogComponent } from './components/module/add-module-dialog/add-module-dialog.component';
 
 @Component({
   selector: 'app-course-builder',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, QuickActionsComponent],
+  imports: [ModuleCardComponent, AddModuleDialogComponent],
   templateUrl: './course-builder.component.html',
   styleUrls: ['./course-builder.component.css'],
 })
 export class CourseBuilderComponent {
   private route = inject(ActivatedRoute);
 
+  private moduleService = inject(ModuleService);
+  showAddModule = signal(false);
   courseId = '';
+
+  modules = signal<ModuleModel[]>([]);
 
   ngOnInit() {
     this.courseId = this.route.snapshot.paramMap.get('courseId')!;
 
-    console.log(this.courseId);
+    this.loadModules();
+  }
+
+  loadModules() {
+    this.moduleService.getModules(this.courseId).subscribe({
+      next: (res) => this.modules.set(res),
+    });
+  }
+
+  toggleAddModule() {
+    this.showAddModule.update((v) => !v);
   }
 }
