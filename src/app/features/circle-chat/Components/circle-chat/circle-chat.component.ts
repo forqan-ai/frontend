@@ -53,6 +53,14 @@ export class CircleChatComponent implements OnInit, OnDestroy, AfterViewChecked 
   editingMessageId: string | null = null;
   editContent = '';
 
+  confirmDialog: {
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText: string;
+    action: () => void;
+  } | null = null;
+
   typingUserName = '';
   private typingTimeout: ReturnType<typeof setTimeout> | null = null;
   private lastTypingSentAt = 0;
@@ -291,19 +299,32 @@ export class CircleChatComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   deleteMessage(messageId: string): void {
-    if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟')) return;
+    this.confirmDialog = {
+      isOpen: true,
+      title: 'حذف الرسالة',
+      message: 'هل أنت متأكد من حذف هذه الرسالة؟ لا يمكن التراجع عن هذا الإجراء.',
+      confirmText: 'نعم، احذف الرسالة',
+      action: () => {
+        this.messageService
+          .deleteMessage(this.circleId, messageId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (result) => {
+              if (result.succeeded) {
+                this.messages = this.messages.filter((m) => m.id !== messageId);
+                this.cdr.detectChanges();
+              }
+              this.closeConfirmDialog();
+            },
+          });
+      }
+    };
+    this.cdr.detectChanges();
+  }
 
-    this.messageService
-      .deleteMessage(this.circleId, messageId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (result) => {
-          if (result.succeeded) {
-            this.messages = this.messages.filter((m) => m.id !== messageId);
-            this.cdr.detectChanges();
-          }
-        },
-      });
+  closeConfirmDialog(): void {
+    this.confirmDialog = null;
+    this.cdr.detectChanges();
   }
 
   dismissError(): void {

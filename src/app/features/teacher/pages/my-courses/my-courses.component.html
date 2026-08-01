@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>دوراتي</h2>
+      <p>إدارة جميع الدورات الخاصة بك</p>
+    </div>
+  </div>
+
+  <div class="courses-grid">
+    @for (course of courses(); track course.courseID) {
+      <div class="course-card">
+        <div class="course-image">
+          <img
+            [src]="course.thumbnailURL || 'assets/images/course-placeholder.jpg'"
+            [alt]="course.title"
+          />
+
+          <span
+            class="status"
+            [class.published]="course.status === 'Published'"
+            [class.draft]="course.status === 'Draft'"
+          >
+            {{ course.status }}
+          </span>
+        </div>
+
+        <div class="course-content">
+          <h3>{{ course.title }}</h3>
+
+          <p class="subtitle">
+            {{ course.subtitle }}
+          </p>
+
+          <span class="category">
+            {{ course.categoryName }}
+          </span>
+
+          <div class="footer">
+            <small>
+              {{ course.createdAt | date: 'dd MMM yyyy' }}
+            </small>
+
+            <button (click)="buildCourse(course.courseID)">إدارة المحتوى</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

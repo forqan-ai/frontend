@@ -1,0 +1,67 @@
+<nav
+  class="content-navigation"
+  role="tablist"
+  aria-label="محتوى حلقة التعلم"
+>
+  @if (canViewPosts()) {
+    <button
+      id="circle-posts-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-posts-panel"
+      [attr.aria-selected]="activeSection() === 'posts'"
+      [class.active]="activeSection() === 'posts'"
+      (click)="selectSection('posts')"
+    >
+      <i class="bi bi-file-post" aria-hidden="true"></i>
+      المنشورات
+      <span>{{ postsCount() }}</span>
+    </button>
+  }
+
+  @if (canViewMembers()) {
+    <button
+      id="circle-members-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-members-panel"
+      [attr.aria-selected]="activeSection() === 'members'"
+      [class.active]="activeSection() === 'members'"
+      (click)="selectSection('members')"
+    >
+      <i class="bi bi-people" aria-hidden="true"></i>
+      الأعضاء
+      <span>{{ membersCount() }}</span>
+    </button>
+  }
+
+  @if (canViewChat()) {
+    <button
+      id="circle-chat-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-chat-panel"
+      [attr.aria-selected]="activeSection() === 'chat'"
+      [class.active]="activeSection() === 'chat'"
+      (click)="selectSection('chat')"
+    >
+      <i class="bi bi-chat-dots" aria-hidden="true"></i>
+      المحادثة
+    </button>
+  }
+
+  @if (canViewSessions()) {
+    <button
+      id="circle-sessions-tab"
+      type="button"
+      role="tab"
+      aria-controls="circle-sessions-panel"
+      [attr.aria-selected]="activeSection() === 'sessions'"
+      [class.active]="activeSection() === 'sessions'"
+      (click)="selectSection('sessions')"
+    >
+      <i class="bi bi-camera-video" aria-hidden="true"></i>
+      الجلسات
+    </button>
+  }
+</nav>

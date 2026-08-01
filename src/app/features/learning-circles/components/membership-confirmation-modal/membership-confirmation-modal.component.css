@@ -1,0 +1,125 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  padding: 18px;
+  display: grid;
+  place-items: center;
+  background-color:
+    color-mix(
+      in srgb,
+      var(--primary) 45%,
+      transparent
+    );
+}
+
+.confirmation-modal {
+  width: min(100%, 460px);
+  padding: 27px;
+  position: relative;
+  text-align: center;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow:
+    0 20px 55px
+    color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.close-button {
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  inset-block-start: 13px;
+  inset-inline-end: 13px;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  background-color: transparent;
+  border-radius: 50%;
+}
+
+.close-button:hover:not(:disabled) {
+  background-color: var(--secondary);
+}
+
+.modal-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+.confirmation-modal h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.confirmation-modal > p {
+  margin: 0;
+  color: var(--text-light);
+}
+
+.confirmation-modal > p strong {
+  color: var(--text);
+}
+
+.information-box {
+  margin-top: 17px;
+  padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: start;
+  color: var(--text-light);
+  background-color: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.information-box i {
+  margin-top: 3px;
+  color: var(--primary);
+}
+
+.modal-actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 9px;
+}
+
+.modal-actions button {
+  min-height: 42px;
+  padding: 9px 17px;
+  flex: 1;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.modal-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  color: var(--primary);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.confirm-button {
+  color: var(--surface);
+  background-color: var(--primary);
+}
+
+.confirm-button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}

@@ -10,11 +10,7 @@ import { environment } from '../../../../environments/environment';
 import { CircleMessage, UserTypingEvent } from '../Models/circle-message.model';
 import { AuthService } from '../../../core/services/auth.service';
 
-export type ChatConnectionState =
-  | 'disconnected'
-  | 'connecting'
-  | 'connected'
-  | 'reconnecting';
+export type ChatConnectionState = 'disconnected' | 'connecting' | 'connected' | 'reconnecting';
 
 @Injectable({ providedIn: 'root' })
 export class CircleChatSignalrService {
@@ -30,7 +26,7 @@ export class CircleChatSignalrService {
   messageDeleted$ = new Subject<{ circleId: string; messageId: string }>();
   userTyping$ = new Subject<UserTypingEvent>();
   userOnline$ = new Subject<string>();
-  userOffline$ = new Subject<{userId: string, lastSeen: string}>();
+  userOffline$ = new Subject<{ userId: string; lastSeen: string }>();
 
   async connect(circleId: string): Promise<void> {
     if (
@@ -70,15 +66,12 @@ export class CircleChatSignalrService {
     if (!this.connection) return;
 
     try {
-      if (
-        this.connection.state === HubConnectionState.Connected &&
-        this.currentCircleId
-      ) {
+      if (this.connection.state === HubConnectionState.Connected && this.currentCircleId) {
         await this.connection.invoke('LeaveCircleChat', this.currentCircleId);
       }
       await this.connection.stop();
-    } catch {}
-    finally {
+    } catch {
+    } finally {
       this.connection = null;
       this.currentCircleId = null;
       this.connectionState$.next('disconnected');
@@ -109,12 +102,9 @@ export class CircleChatSignalrService {
       this.zone.run(() => this.messageEdited$.next(message));
     });
 
-    this.connection.on(
-      'MessageDeleted',
-      (payload: { circleId: string; messageId: string }) => {
-        this.zone.run(() => this.messageDeleted$.next(payload));
-      }
-    );
+    this.connection.on('MessageDeleted', (payload: { circleId: string; messageId: string }) => {
+      this.zone.run(() => this.messageDeleted$.next(payload));
+    });
 
     this.connection.on('UserTyping', (payload: UserTypingEvent) => {
       this.zone.run(() => this.userTyping$.next(payload));
@@ -124,7 +114,7 @@ export class CircleChatSignalrService {
       this.zone.run(() => this.userOnline$.next(userId));
     });
 
-    this.connection.on('UserOffline', (data: {userId: string, lastSeen: string}) => {
+    this.connection.on('UserOffline', (data: { userId: string; lastSeen: string }) => {
       this.zone.run(() => this.userOffline$.next(data));
     });
 

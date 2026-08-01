@@ -25,6 +25,7 @@ export class CreateCourseComponent {
 
   profile = signal<TeacherProfile | null>(null);
   private toast = inject(ToastService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.loadDashboard();
@@ -45,8 +46,10 @@ export class CreateCourseComponent {
   }
   saveCourse(data: FormData) {
     this.courseService.createCourse(data).subscribe({
-      next: () => {
+      next: (courseId: string) => {
         this.toast.show('تم إنشاء الدورة بنجاح');
+
+        this.router.navigate(['/teacher/course-builder', courseId]);
       },
 
       error: () => {

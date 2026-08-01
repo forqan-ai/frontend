@@ -3,7 +3,7 @@
 
   min-width: 270px;
 
-  height: 100vh;
+  min-height: 100vh;
 
   background: white;
 
@@ -62,7 +62,7 @@ nav a {
 
 nav a:hover {
   background: #341b1698;
-  color: #fff
+  color: #fff;
 }
 
 nav a.active {

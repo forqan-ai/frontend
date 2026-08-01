@@ -1,0 +1,251 @@
+:host {
+  display: block;
+}
+
+.circle-form {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.field-heading label {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.field-heading span {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.82rem 0.95rem;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.form-field textarea {
+  min-height: 10rem;
+  resize: vertical;
+  line-height: 1.8;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.form-field input[aria-invalid='true'],
+.form-field textarea[aria-invalid='true'] {
+  border-color: var(--primary);
+}
+
+.field-hint,
+.field-error {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.field-hint {
+  color: var(--text-muted);
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.join-settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--secondary);
+  padding: 1rem;
+}
+
+.setting-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.setting-icon {
+  display: grid;
+  flex: 0 0 2.4rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.setting-copy h2 {
+  margin: 0 0 0.25rem;
+  font-size: 0.98rem;
+}
+
+.setting-copy p,
+.free-notice p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.switch-track {
+  position: relative;
+  display: block;
+  width: 3rem;
+  height: 1.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  transition: background 160ms ease;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 0.19rem;
+  right: 0.2rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition:
+    right 160ms ease,
+    background 160ms ease;
+}
+
+.switch input:checked + .switch-track {
+  background: var(--primary);
+}
+
+.switch input:checked + .switch-track .switch-thumb {
+  right: 1.55rem;
+  background: var(--surface);
+}
+
+.switch input:focus-visible + .switch-track {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+.free-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  border-inline-start: 3px solid var(--primary);
+  border-radius: 0.55rem;
+  background: var(--secondary);
+  padding: 0.8rem 0.9rem;
+}
+
+.free-notice i {
+  margin-top: 0.18rem;
+  color: var(--primary);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding-top: 0.25rem;
+}
+
+.primary-button,
+.secondary-button {
+  min-width: 8rem;
+  border-radius: 0.65rem;
+  padding: 0.72rem 1rem;
+  font-weight: 700;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--primary);
+  color: var(--surface);
+}
+
+.primary-button:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.secondary-button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: var(--secondary);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 640px) {
+  .join-settings {
+    align-items: flex-start;
+  }
+
+  .form-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .primary-button,
+  .secondary-button {
+    min-width: 0;
+  }
+}

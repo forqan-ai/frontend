@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '../Models/APIResponse';
+import { ApiResponse } from '../models/APIResponse';
 import { environment } from '../../../environments/environment.development';
 import { CreatePaymentResponse } from '../../features/payment/models/PaymentResponse';
 

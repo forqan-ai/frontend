@@ -17,6 +17,7 @@ import { StudentSettingsComponent } from './features/student/Pages/student-setti
 import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
 import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 
+import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
 export const routes: Routes = [
   {
     path: '',
@@ -44,9 +45,18 @@ export const routes: Routes = [
       {
         path: 'course-details/:id',
         loadComponent: () =>
-          import('./features/Course/Pages/course-details/course-details.component')
-            .then((m) => m.CourseDetailsComponent),
+          import('./features/Course/Pages/course-details/course-details.component').then(
+            (m) => m.CourseDetailsComponent,
+          ),
         title: 'تفاصيل الدورة',
+      },
+      {
+        path: 'course-details/:courseId/certificate',
+        loadComponent: () =>
+          import('./features/Course/Pages/certificate/certificate.component').then(
+            (m) => m.CertificateComponent,
+          ),
+        title: 'شهادة إتمام الدورة',
       },
       {
         path: 'teachers',
@@ -94,74 +104,67 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
       },
-
       {
         path: 'admin',
         loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
       },
-
-
     ],
   },
   {
     path: 'teacher',
-    loadChildren: () =>
-      import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+    component: TeacherLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+      },
+    ],
+  },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'course-details/:id',
+    loadComponent: () =>
+      import('./features/Course/Pages/course-details/course-details.component').then(
+        (m) => m.CourseDetailsComponent,
+      ),
   },
   {
     path: 'studentprofile',
     loadComponent: () =>
-      import('./features/student/Pages/studentprofile/studentprofile.component')
-        .then((m) => m.StudentprofileComponent),
+      import('./features/student/Pages/studentprofile/studentprofile.component').then(
+        (m) => m.StudentprofileComponent,
+      ),
     title: 'الملف الشخصي للطالب',
   },
   {
     path: 'settings',
     loadComponent: () =>
-      import('./features/student/Pages/student-settings/student-settings.component')
-        .then((m) => m.StudentSettingsComponent),
+      import('./features/student/Pages/student-settings/student-settings.component').then(
+        (m) => m.StudentSettingsComponent,
+      ),
     title: 'الإعدادات',
   },
   {
     path: 'studentprofile/teaching-request',
     loadComponent: () =>
-      import('./features/student/Pages/teaching-request/teaching-request.component')
-        .then((m) => m.TeachingRequestComponent),
+      import('./features/student/Pages/teaching-request/teaching-request.component').then(
+        (m) => m.TeachingRequestComponent,
+      ),
   },
   {
-    path: 'courses',
+    path: '',
     loadChildren: () =>
-      import('./features/live-sessions/live-sessions.routes')
-        .then((m) => m.LIVE_SESSIONS_ROUTES),
+      import('./features/live-sessions/live-sessions.routes').then((m) => m.LIVE_SESSIONS_ROUTES),
   },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'check-email', component: CheckEmailComponent },
-
-  {
-    path: 'circle-chat',
-    loadChildren: () =>
-      import('./features/circle-chat/circle-chat.routes').then(
-        (m) => m.CIRCLE_CHAT_ROUTES
-      ),
-  },
-  {
-    path: 'confirm-email',
-    component: ConfirmEmailComponent,
-  },
-  {
-    path: 'forgot-password',
-    component: ResetPasswordComponent,
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent,
-  },
-  {
-    path: 'check-email',
-    component: CheckEmailComponent,
-  },
   {
     path: 'pointPackages',
     component: PointPackagesComponent,
@@ -169,30 +172,34 @@ export const routes: Routes = [
   {
     path: 'course-checkout/:id',
     loadComponent: () =>
-      import('./features/Course/Pages/checkout/course-checkout.component')
-        .then((m) => m.CourseCheckoutComponent),
+      import('./features/Course/Pages/checkout/course-checkout.component').then(
+        (m) => m.CourseCheckoutComponent,
+      ),
     title: 'إتمام شراء الدورة',
   },
   {
     path: 'payment-processing/:paymentId',
     loadComponent: () =>
-      import('./features/payment/pages/payment-processing/payment-processing.component')
-        .then((m) => m.PaymentProcessingComponent),
+      import('./features/payment/pages/payment-processing/payment-processing.component').then(
+        (m) => m.PaymentProcessingComponent,
+      ),
     title: 'جارِ معالجة الدفع',
   },
   {
     path: 'payment-success/:paymentId',
     loadComponent: () =>
-      import('./features/payment/pages/payment-success/payment-success.component')
-        .then((m) => m.PaymentSuccessComponent),
+      import('./features/payment/pages/payment-success/payment-success.component').then(
+        (m) => m.PaymentSuccessComponent,
+      ),
     title: 'تم الدفع بنجاح',
   },
   {
     path: 'payment-failed/:paymentId',
     loadComponent: () =>
-      import('./features/payment/pages/payment-failed/payment-failed.component')
-        .then((m) => m.PaymentFailedComponent),
+      import('./features/payment/pages/payment-failed/payment-failed.component').then(
+        (m) => m.PaymentFailedComponent,
+      ),
     title: 'فشلت عملية الدفع',
   },
-  {path:'checkout/:id',component:CheckoutComponent}
+  { path: 'checkout/:id', component: CheckoutComponent },
 ];

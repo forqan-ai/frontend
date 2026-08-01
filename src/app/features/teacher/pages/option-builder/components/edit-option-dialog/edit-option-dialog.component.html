@@ -1,0 +1,17 @@
+<div class="card shadow-sm p-3">
+  <h5>Edit Option</h5>
+
+  <div class="mb-3">
+    <label class="form-label"> Option </label>
+
+    <input class="form-control" [(ngModel)]="optionText" />
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="isCorrect" />
+
+    <label class="form-check-label"> Correct Answer </label>
+  </div>
+
+  <button class="btn btn-success w-100" (click)="save()">Save Changes</button>
+</div>

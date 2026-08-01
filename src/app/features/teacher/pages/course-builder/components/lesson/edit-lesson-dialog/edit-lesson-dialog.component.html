@@ -1,0 +1,35 @@
+<div class="card shadow-sm p-3">
+  <h5>Edit Lesson</h5>
+
+  <div class="mb-3">
+    <label>Title</label>
+
+    <input class="form-control" [(ngModel)]="title" />
+  </div>
+
+  <div class="mb-3">
+    <label>Order</label>
+
+    <input type="number" class="form-control" [(ngModel)]="orderIndex" />
+  </div>
+
+  <div class="mb-3">
+    <label>Duration (Seconds)</label>
+
+    <input type="number" class="form-control" [(ngModel)]="durationSeconds" />
+  </div>
+
+  <div class="mb-3">
+    <label>Content Type</label>
+
+    <select class="form-select" [(ngModel)]="contentType">
+      <option [ngValue]="0">Video</option>
+
+      <option [ngValue]="1">PDF</option>
+
+      <option [ngValue]="2">Audio</option>
+    </select>
+  </div>
+
+  <button class="btn btn-success w-100" (click)="save()">Save Changes</button>
+</div>

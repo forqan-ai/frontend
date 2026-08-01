@@ -1,0 +1,16 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Option Builder</h2>
+
+    <button class="btn btn-primary" (click)="toggleAddOption()">Add Option</button>
+  </div>
+
+  @if (showAddOption()) {
+    <app-add-option-dialog [questionId]="questionId" (saved)="loadOptions(); toggleAddOption()">
+    </app-add-option-dialog>
+  }
+
+  @for (option of options(); track option.optionID) {
+    <app-option-card [option]="option" (refresh)="loadOptions()"> </app-option-card>
+  }
+</div>

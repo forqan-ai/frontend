@@ -1,0 +1,163 @@
+@if (canCreateCircle) {
+  <app-toast />
+}
+
+<main class="list-page" dir="rtl">
+  <nav class="breadcrumb" aria-label="مسار الصفحة">
+    <ol>
+      <li>لوحة التحكم</li>
+      <li>حلقات التعلم</li>
+      <li aria-current="page">استكشف حلقات التعلم</li>
+    </ol>
+  </nav>
+
+  <nav class="circles-navigation" aria-label="التنقل بين صفحات حلقات التعلم">
+    <a
+      routerLink="."
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      استكشف حلقات التعلم
+    </a>
+
+    <a
+      routerLink="mine"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      حلقاتي
+    </a>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-heading">
+      <h1>استكشف حلقات التعلم</h1>
+      <p>
+        اكتشف حلقات التعلم المتاحة وانضم مجانًا إلى الحلقة المناسبة لاهتماماتك.
+      </p>
+    </div>
+
+    @if (canCreateCircle) {
+      <a
+        class="create-button"
+        routerLink="create"
+      >
+        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+        إنشاء حلقة
+      </a>
+    }
+  </header>
+
+  <section class="toolbar" aria-label="البحث في حلقات التعلم">
+    <label class="search-box">
+      <i class="bi bi-search" aria-hidden="true"></i>
+
+      <input
+        type="search"
+        [formControl]="searchControl"
+        placeholder="ابحث باسم الحلقة أو الموضوع..."
+        aria-label="البحث في حلقات التعلم"
+      />
+
+      @if (searchControl.value) {
+        <button
+          type="button"
+          class="clear-search"
+          aria-label="مسح البحث"
+          (click)="clearSearch()"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      }
+    </label>
+
+    @if (searchValidation()) {
+      <p class="search-validation">
+        {{ searchValidation() }}
+      </p>
+    }
+  </section>
+
+  <div class="results-header">
+    <div>
+      <h2>حلقات التعلم المتاحة</h2>
+
+      @if (!loading() && !searchValidation()) {
+        <p>
+          عدد النتائج:
+          <strong>{{ totalCount() }}</strong>
+        </p>
+      }
+    </div>
+
+    @if (searchTerm().length >= 2) {
+      <button
+        type="button"
+        class="reset-search"
+        (click)="clearSearch()"
+      >
+        مسح البحث
+      </button>
+    }
+  </div>
+
+  @if (searchValidation()) {
+    <section class="state-box">
+      <i class="bi bi-search" aria-hidden="true"></i>
+      <h2>أكمل كلمة البحث</h2>
+      <p>{{ searchValidation() }}</p>
+    </section>
+  } @else if (loadFailed() && !loading()) {
+    <section class="state-box" role="alert">
+      <i class="bi bi-wifi-off" aria-hidden="true"></i>
+      <h2>تعذر تحميل حلقات التعلم</h2>
+      <p>تحقق من الاتصال ثم حاول مرة أخرى.</p>
+      <button type="button" (click)="retry()">
+        إعادة المحاولة
+      </button>
+    </section>
+  } @else if (!loading() && circles().length === 0) {
+    <section class="state-box">
+      <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+
+      @if (searchTerm()) {
+        <h2>لا توجد حلقات مطابقة</h2>
+        <p>جرّب استخدام كلمة بحث مختلفة.</p>
+
+        <button type="button" (click)="clearSearch()">
+          عرض جميع الحلقات
+        </button>
+      } @else {
+        <h2>لا توجد حلقات تعلم متاحة حاليًا</h2>
+        <p>ستظهر الحلقات الجديدة هنا عند إضافتها.</p>
+      }
+    </section>
+  } @else {
+    <app-learning-circles-grid
+      [circles]="circles()"
+      [loading]="loading()"
+      [actionCircleId]="actionCircleId()"
+      [allowJoin]="canJoinCircles"
+      [showMemberMetadata]="false"
+      [allowMemberActions]="false"
+      (joinRequested)="openJoinConfirmation($event)"
+      (detailsRequested)="showDetails($event)"
+    />
+
+    <app-learning-circles-pagination
+      [currentPage]="pageNumber()"
+      [totalPages]="totalPages()"
+      [disabled]="loading()"
+      (pageChanged)="goToPage($event)"
+    />
+  }
+
+  <app-membership-confirmation-modal
+    action="join"
+    [open]="selectedCircle() !== null"
+    [circleName]="selectedCircle()?.name ?? ''"
+    [loading]="actionCircleId() !== null"
+    (closed)="closeJoinConfirmation()"
+    (confirmed)="confirmJoin()"
+  />
+</main>

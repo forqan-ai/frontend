@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, OnInit, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ILiveSession } from '../../Models/live-session.interface';
@@ -6,8 +6,6 @@ import { SessionsService } from '../../Services/sessions.service';
 import { BookingsService } from '../../Services/bookings.service';
 import { SessionCardComponent } from '../../Components/session-card/session-card.component';
 import { BookingModalComponent } from '../../Components/booking-modal/booking-modal.component';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Role } from '../../../../core/models/auth.models';
 
 @Component({
   selector: 'app-circle-sessions',
@@ -16,13 +14,13 @@ import { Role } from '../../../../core/models/auth.models';
   templateUrl: './circle-sessions.component.html',
   styleUrl: './circle-sessions.component.css',
 })
-export class CircleSessionsComponent implements OnInit {
+export class CircleSessionsComponent implements OnInit, OnChanges {
+  @Input() circleId = '';
+  @Input() canManageSessions = false;
+
   private route = inject(ActivatedRoute);
   private sessionsService = inject(SessionsService);
   private bookingsService = inject(BookingsService);
-  private authService = inject(AuthService);
-
-  circleId = '';
 
   loading = signal(true);
   error = signal(false);
@@ -30,13 +28,28 @@ export class CircleSessionsComponent implements OnInit {
   bookedSessionIds = signal<Set<string>>(new Set());
   selectedSession = signal<ILiveSession | null>(null);
 
-isTeacherOwner = computed(() => {
-    return this.authService.hasRole(Role.Teacher);
-});
+  confirmDialog = signal<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText: string;
+    type: 'danger' | 'primary' | 'success';
+    action: () => void;
+  } | null>(null);
+
+isTeacherOwner = computed(() => this.canManageSessions);
 
   ngOnInit(): void {
-    this.circleId = this.route.snapshot.paramMap.get('circleId') ?? '';
+    if (!this.circleId) {
+      this.circleId = this.route.snapshot.paramMap.get('circleId') ?? '';
+    }
     this.loadData();
+  }
+
+  ngOnChanges(): void {
+    if (this.circleId) {
+      this.loadData();
+    }
   }
 
   loadData(): void {
@@ -75,11 +88,25 @@ isTeacherOwner = computed(() => {
   }
 
   cancelSession(session: ILiveSession): void {
-    if (!confirm('هل أنت متأكد من إلغاء هذه الجلسة؟')) return;
-
-    this.sessionsService.cancelSession(session.sessionId).subscribe({
-      next: () => this.loadData(),
-      error: (err) => console.error(err),
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'إلغاء الجلسة',
+      message: 'هل أنت متأكد من إلغاء هذه الجلسة؟ لا يمكن التراجع عن هذا الإجراء.',
+      confirmText: 'نعم، إلغاء الجلسة',
+      type: 'danger',
+      action: () => {
+        this.sessionsService.cancelSession(session.sessionId).subscribe({
+          next: () => {
+            this.loadData();
+            this.closeConfirmDialog();
+          },
+          error: (err) => console.error(err),
+        });
+      }
     });
+  }
+
+  closeConfirmDialog(): void {
+    this.confirmDialog.set(null);
   }
 }

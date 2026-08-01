@@ -1,0 +1,27 @@
+<div class="card border-start border-4 border-success mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div>
+      <strong>
+        {{ lesson.orderIndex }} -
+        {{ lesson.title }}
+      </strong>
+    </div>
+
+    <div>
+      <button class="btn btn-outline-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
+      <button class="btn btn-outline-danger btn-sm me-2" (click)="deleteLesson()">Delete</button>
+      <button class="btn btn-info btn-sm me-2" (click)="manageContent()">Manage Content</button>
+    </div>
+  </div>
+
+  @if (showEdit()) {
+    <div class="card-body border-bottom">
+      <app-edit-lesson-dialog
+        [lesson]="lesson"
+        [moduleId]="moduleId"
+        (saved)="refresh.emit(); toggleEdit()"
+      >
+      </app-edit-lesson-dialog>
+    </div>
+  }
+</div>

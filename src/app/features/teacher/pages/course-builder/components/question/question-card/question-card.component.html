@@ -1,0 +1,34 @@
+<div class="card shadow-sm mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div>
+      <strong> Q{{ question.orderIndex }} </strong>
+    </div>
+
+    <div>
+      <button class="btn btn-outline-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
+
+      <button class="btn btn-danger btn-sm me-2" (click)="deleteQuestion()">Delete</button>
+
+      <button class="btn btn-sm btn-outline-primary me-2" (click)="manageOptions()">
+        Manage Options
+      </button>
+    </div>
+  </div>
+
+  @if (showEdit()) {
+    <div class="card-body border-bottom">
+      <app-edit-question-dialog [question]="question" (saved)="refresh.emit(); toggleEdit()">
+      </app-edit-question-dialog>
+    </div>
+  }
+
+  <div class="card-body">
+    <h6>
+      {{ question.text }}
+    </h6>
+
+    <small class="text-muted">
+      {{ question.feedback }}
+    </small>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Question Builder</h2>
+
+    <button class="btn btn-primary" (click)="toggleAddQuestion()">Add Question</button>
+  </div>
+
+  @if (showAddQuestion()) {
+    <app-add-question-dialog [quizId]="quizId" (saved)="loadQuestions(); toggleAddQuestion()">
+    </app-add-question-dialog>
+  }
+
+  @for (question of questions(); track question.questionID) {
+    <app-question-card [question]="question" [quizId]="quizId" (refresh)="loadQuestions()">
+    </app-question-card>
+  }
+</div>

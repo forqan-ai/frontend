@@ -14,6 +14,11 @@ import { PointsBalanceComponent } from '../../../teacher/components/points-balan
 import { CourseService } from '../../../Course/Services/course.service';
 import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
 import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
+import { Reward } from '../../../Reward/models/Reward';
+import { RewardService } from '../../../Reward/Services/reward.service';
+import { RewardPopupComponent } from '../../../Reward/Components/reward-popup/reward-popup.component';
+import { AuthService } from '../../../../core/services/auth.service';
+import { RewardProgress } from '../../../Reward/models/RewardProgress';
 
 const streakImages = {
   sad: 'images/avatars/sad.png',
@@ -21,13 +26,13 @@ const streakImages = {
   clapping: 'images/avatars/clap.png',
   okay: 'images/avatars/good.png',
   strong: 'images/avatars/achieve.png',
-  grandMaster: 'images/avatars/certificate.png'
+  grandMaster: 'images/avatars/certificate.png',
 };
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
 
-  imports: [CommonModule, DatePipe, PointsBalanceComponent, RouterLink, CoursesBrowseCardComponent],
+  imports: [CommonModule, DatePipe, RouterLink, CoursesBrowseCardComponent, RewardPopupComponent],
 
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',
@@ -40,7 +45,7 @@ export class StudentprofileComponent implements OnInit {
   apiUrl = `${environment.apiUrl}`;
 
   loading = signal(true);
-
+  certificatesCount = signal(0);
   student = signal<IStudentProfile | null>(null);
   courses = signal<IStudentCourse[]>([]);
   categories = signal<ICategoryProgress[]>([]);
@@ -50,6 +55,12 @@ export class StudentprofileComponent implements OnInit {
   private courseService = inject(CourseService);
 
   recommendedCourses = signal<ICourseListItem[]>([]);
+  rewardProgress = signal<RewardProgress | null>(null);
+
+  reward = signal<Reward | null>(null);
+  rewardService = inject(RewardService);
+  claimLoading = false;
+  authService = inject(AuthService);
 
   ngOnInit(): void {
     this.loadData();
@@ -63,13 +74,72 @@ export class StudentprofileComponent implements OnInit {
         console.log(err);
       },
     });
+    this.rewardService.getAvailableReward().subscribe({
+      next: (reward) => {
+        if (reward) {
+          this.reward.set(reward);
+        } else {
+          console.log('No Rewards');
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+
+    this.rewardService.getRewardProgress().subscribe({
+      next: (response) => {
+        this.rewardProgress.set(response);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+    this.studentService.getCertificatesCount().subscribe({
+      next: (count) => {
+        this.certificatesCount.set(count);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  claimReward() {
+    if (!this.reward()) return;
+
+    this.claimLoading = true;
+
+    this.rewardService.claimReward(this.reward()?.rewardId ?? '').subscribe({
+      next: (response) => {
+        const userId = this.authService.getUserId();
+        this.claimLoading = false;
+        this.poService.AddPointsToUser(response.pointsAdded, userId).subscribe({
+          next: (TotalPoints) => {
+            this.currentPoints.set(TotalPoints);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+
+        this.reward.set(null);
+      },
+
+      error: () => {
+        this.claimLoading = false;
+      },
+    });
   }
 
   loadData(): void {
     this.loading.set(true);
 
     this.studentService.getStudentProfile().subscribe({
-      next: (res) => { console.log(res); this.student.set(res) },
+      next: (res) => {
+        console.log(res);
+        this.student.set(res);
+      },
       error: (err) => console.error(err),
     });
 
@@ -85,6 +155,7 @@ export class StudentprofileComponent implements OnInit {
 
     this.studentService.getActivities().subscribe({
       next: (res) => {
+        console.log('Activities =>', res);
         this.activities.set(res);
         this.loading.set(false);
       },
@@ -126,6 +197,22 @@ export class StudentprofileComponent implements OnInit {
 
   latestActivities = computed(() => this.activities().slice(0, 5));
 
+  progressPercentage = computed(() => {
+    const progress = this.rewardProgress();
+
+    if (!progress || progress.nextRewardStreak === 0) return 100;
+
+    return Math.min((progress.currentStreak / progress.nextRewardStreak) * 100, 100);
+  });
+
+  remainingDays = computed(() => {
+    const progress = this.rewardProgress();
+
+    if (!progress) return 0;
+
+    return Math.max(progress.nextRewardStreak - progress.currentStreak, 0);
+  });
+
   getStudentImage(imageUrl?: string | null): string {
     if (!imageUrl || imageUrl.toLowerCase() === 'null') return 'images/avatar.webp';
 
@@ -156,15 +243,13 @@ export class StudentprofileComponent implements OnInit {
   }
 
   getGreeting(): string {
-    const hour = new Date().getUTCHours();
+    const hour = new Date().getHours();
 
     if (hour < 12) return 'صباح الخير';
     if (hour < 17) return 'مساء الخير';
 
     return 'أهلاً بك';
   }
-
-
 
   getStreakAvatar(streakCount: number): string {
     if (streakCount <= 0) {
