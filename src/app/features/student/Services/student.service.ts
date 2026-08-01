@@ -18,7 +18,6 @@ export class StudentService {
   private apiUrl = `${environment.apiUrl}/api/users/student`;
 
 
-
   getStudentProfile(): Observable<IStudentProfile> {
 
     return this.http.get<IStudentProfile>(
@@ -70,4 +69,5 @@ export class StudentService {
     return this.http.get<TeachingRequestStatusDto>(`${this.apiUrl}/teaching-request-status`);
   }
 
+  
 }

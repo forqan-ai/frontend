@@ -1,0 +1,258 @@
+
+/* ===========================
+   Rating Stars
+=========================== */
+.feedback-hero {
+    background: linear-gradient(135deg, #341b16, #5b342a);
+    border-radius: 28px;
+    padding: 35px 40px;
+    margin-bottom: 35px;
+    color: white;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.feedback-hero::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    top: -80px;
+    left: -70px;
+}
+
+.feedback-hero-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.feedback-icon {
+    width: 160px;
+    min-width: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback-badge {
+    display: inline-block;
+    color: #d9b18e;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+
+.feedback-title {
+    margin: 8px 0px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-light);
+}
+
+.feedback-description {
+    margin: 0;
+    color: #d9b18e;
+    opacity: 0.85;
+    line-height: 1.8;
+    max-width: 650px;
+}
+
+.tr-stars {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.tr-star {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: #d8c9b7;
+  cursor: pointer;
+  transition: transform .2s, color .2s;
+  line-height: 1;
+}
+
+
+.tr-star.active {
+  color: #f4b400;
+}
+
+/* ===========================
+   Checkbox Options
+=========================== */
+
+.tr-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0d5c8;
+  border-radius: .75rem;
+  background: #fff;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.tr-checkbox-item:hover {
+  border-color: #5c3d1e;
+  background: #faf8f5;
+}
+
+.tr-checkbox-item span {
+  color: #2c1a0e;
+  font-weight: 500;
+}
+
+/* ===========================
+   Radio Groups
+=========================== */
+
+.tr-radio-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: .75rem;
+}
+
+.tr-radio-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .9rem 1.25rem;
+  border: 1px solid #e0d5c8;
+  border-radius: .75rem;
+  cursor: pointer;
+  background: white;
+  transition: .2s;
+  min-width: 120px;
+}
+
+.tr-radio-item:hover {
+  border-color: #5c3d1e;
+  background: #faf8f5;
+}
+
+.tr-radio-item input {
+  accent-color: #5c3d1e;
+  cursor: pointer;
+}
+
+/* ===========================
+   Character Counter
+=========================== */
+
+.text-muted.small {
+  margin-top: .5rem;
+}
+
+/* ===========================
+   Section Animation
+=========================== */
+
+.tr-section {
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+.tr-review-box {
+    background: #ffffff;
+    border: 1px solid #e3d8cb;
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: all .25s ease;
+    box-shadow: 0 2px 8px rgba(52, 27, 22, 0.04);
+}
+
+.tr-review-box:focus-within {
+    border-color: var(--primary);
+    box-shadow:
+        0 0 0 4px rgba(52, 27, 22, .08),
+        0 8px 20px rgba(52, 27, 22, .08);
+}
+
+.tr-review-textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: vertical;
+    min-height: 180px;
+    background: transparent;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.9;
+    font-family: inherit;
+}
+
+.tr-review-textarea::placeholder {
+    color: #9d8b7c;
+    line-height: 1.9;
+}
+
+.tr-review-textarea--small {
+    min-height: 110px;
+}
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width:768px) {
+
+  .tr-stars {
+    justify-content: center;
+  }
+
+  .tr-star {
+    font-size: 2rem;
+  }
+
+  .tr-radio-group {
+    flex-direction: column;
+  }
+
+  .tr-radio-item {
+    width: 100%;
+  }
+  
+    .feedback-hero {
+        padding: 28px 24px;
+    }
+    
+    .feedback-icon{
+      margin-top: -19px;
+    }
+    .feedback-hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .feedback-title {
+        margin-top: -18px;
+        font-size: 1.4rem;
+    }
+
+    .feedback-description{
+      font-size: 0.8rem
+    }
+
+}

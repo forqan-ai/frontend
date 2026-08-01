@@ -1,0 +1,246 @@
+<form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-4 mx-4 my-3">
+
+    <!-- Error Message -->
+    @if(errorMsg()){
+    <div class="tr-toast-error">
+        {{ errorMsg() }}
+    </div>
+    }
+
+    <section class="feedback-hero">
+
+        <div class="feedback-hero-content">
+
+            <div class="feedback-icon">
+                <img src="images/avatars/feedback.webp" alt="Forqan">
+            </div>
+
+            <div>
+
+                <h1 class="feedback-title">
+                    شاركنا تجربتك
+                </h1>
+
+                <p class="feedback-description">
+                    لقد أنهيت هذه الدورة بنجاح <br>
+                    أخبرنا برأيك في المحتوى وأداء المعلم، فملاحظاتك تساعدنا على تطوير
+                    المنصة وتقديم تجربة تعليمية أفضل لجميع الطلاب.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- Course Rating -->
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            تقييم الدورة
+        </h3>
+
+        <label class="tr-label fw-bold">
+            كيف تقيّم الدورة بشكل عام؟
+        </label>
+
+        <div class="tr-stars">
+
+            @for(star of [1,2,3,4,5];track star){
+
+            <button type="button" class="tr-star"
+                [class.active]="(hoveredCourseStar() || feedbackForm.controls.courseRating.value) >= star"
+                (mouseenter)="sethoveredCourseStar(star)" (mouseleave)="clearhoveredCourseStar()"
+                (click)="setCourseRating(star)">
+
+                ★
+
+            </button>
+
+
+            }
+
+        </div>
+
+        @if(getValidationMessage(feedbackForm.controls.courseRating)){
+        <span class="tr-error">
+            {{ getValidationMessage(feedbackForm.controls.courseRating) }}
+        </span>
+        }
+
+    </div>
+
+    <!-- Instructor Rating -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            تقييم المعلم
+        </h3>
+
+        <label class="tr-label fw-bold">
+            كيف تقيّم أداء المعلم؟
+        </label>
+
+        <div class="tr-stars">
+
+            @for(star of [1,2,3,4,5];track star){
+
+            <button type="button" class="tr-star"
+                [class.active]="(hoveredInstructorStar() || feedbackForm.controls.teacherRating.value) >= star"
+                (mouseenter)="setHoveredInstructorStar(star)" (mouseleave)="clearHoveredInstructorStar()"
+                (click)="setInstructorRating(star)">
+
+                ★
+
+            </button>
+
+            }
+
+        </div>
+
+        @if(getValidationMessage(feedbackForm.controls.teacherRating)){
+        <span class="tr-error">
+            {{ getValidationMessage(feedbackForm.controls.teacherRating) }}
+        </span>
+        }
+
+    </div>
+
+    <!-- Written Review -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            اكتب رأيك
+        </h3>
+
+
+        <div class="tr-review-box">
+
+            <textarea rows="6" maxlength="500" class="tr-review-textarea" formControlName="review"
+                placeholder="اكتب تجربتك مع الدورة... ما الذي أعجبك؟ وما الذي يمكن تحسينه؟">
+    </textarea>
+
+        </div>
+
+        <div class="text-end text-muted small">
+
+            {{ feedbackForm.value.review?.length || 0 }}/500
+
+        </div>
+
+        @if(getValidationMessage(feedbackForm.controls.review)){
+        <span class="tr-error">
+            {{ getValidationMessage(feedbackForm.controls.review) }}
+        </span>
+        }
+
+    </div>
+
+    <!-- Recommend -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            هل تنصح بهذه الدورة؟
+        </h3>
+
+        <div class="tr-radio-group">
+
+            <label class="tr-radio-item">
+
+                <input type="radio" [value]="CourseRecommendation.Yes" formControlName="recommend">
+
+                نعم
+
+            </label>
+
+            <label class="tr-radio-item">
+
+                <input type="radio" [value]="CourseRecommendation.Maybe" formControlName="recommend">
+
+                ربما
+
+            </label>
+
+            <label class="tr-radio-item">
+
+                <input type="radio" [value]="CourseRecommendation.No" formControlName="recommend">
+
+                لا
+
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- Difficulty -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            مستوى صعوبة الدورة
+        </h3>
+
+        <div class="tr-radio-group">
+
+            <label class="tr-radio-item">
+
+                <input type="radio" [value]="CourseDifficulty.Easy" formControlName="difficulty">
+
+                سهلة
+
+            </label>
+
+            <label class="tr-radio-item">
+
+                <input type="radio" [value]="CourseDifficulty.Medium"  formControlName="difficulty">
+
+                متوسطة
+
+            </label>
+
+            <label class="tr-radio-item">
+
+                <input type="radio" [value]="CourseDifficulty.Hard"  formControlName="difficulty">
+
+                صعبة
+
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- Suggestions -->
+
+    <div class="tr-section">
+
+        <h3 class="tr-section-title">
+            اقتراحات إضافية
+        </h3>
+
+        <div class="tr-review-box">
+
+            <textarea rows="4" formControlName="additionalRecommendations" class="tr-review-textarea tr-review-textarea--small"
+                placeholder="هل لديك أي اقتراحات لتحسين هذه الدورة؟">
+            </textarea>
+
+        </div>
+
+    </div>
+
+    <!-- Submit -->
+
+    <div class="row">
+
+        <app-button customClass="w-100" size="large" type="submit" [disabled]="feedbackForm.invalid || isLoading()">
+
+            {{ isLoading() ? 'يتم الإرسال...' : 'إرسال التقييم' }}
+
+        </app-button>
+
+    </div>
+
+</form>
