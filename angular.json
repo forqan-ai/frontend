@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "DeeniHayati": {
+    "Forqan": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -95,10 +95,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "DeeniHayati:build:production"
+              "buildTarget": "Forqan:build:production"
             },
             "development": {
-              "buildTarget": "DeeniHayati:build:development"
+              "buildTarget": "Forqan:build:development"
             }
           },
           "options": {
