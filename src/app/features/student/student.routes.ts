@@ -9,6 +9,7 @@ import { LearningCircleDetailsComponent } from '../learning-circles/pages/learni
 import { MyLearningCirclesComponent } from '../learning-circles/pages/my-learning-circles/my-learning-circles.component';
 import { StudentCoursesComponent } from './Pages/student-courses/student-courses.component';
 import { TeachingRequestComponent } from './Pages/teaching-request/teaching-request.component';
+import { StudentFeedbackComponent } from "../Rating/pages/student-feedback/student-feedback.component";
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -87,4 +88,9 @@ export const STUDENT_ROUTES: Routes = [
       import('./Pages/wishlist/wishlist.component').then((m) => m.WishlistComponent),
     title: 'مفضلتي',
   },
+  {
+        path : 'my-courses/course-feedback',
+        component:StudentFeedbackComponent,
+        title : 'تقييم الدورة'
+    }
 ];

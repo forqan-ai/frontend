@@ -18,7 +18,6 @@ export class StudentService {
   private apiUrl = `${environment.apiUrl}/api/users/student`;
 
 
-
   getStudentProfile(): Observable<IStudentProfile> {
 
     return this.http.get<IStudentProfile>(
