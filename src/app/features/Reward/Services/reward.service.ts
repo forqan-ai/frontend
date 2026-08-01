@@ -1,6 +1,6 @@
 import { inject, Service } from '@angular/core';
 import { Reward } from '../models/Reward';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { ClaimRewardResponse } from '../models/ClaimRewardResponse';
 import { HttpClient } from '@angular/common/http';
 import { RewardProgress } from '../models/RewardProgress';

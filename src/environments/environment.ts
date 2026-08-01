@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:5193',
+  apiUrl: 'http://forqan-api.runasp.net',
   auth: {
-    googleLoginUrl: 'https://localhost:7001/api/auth/external/google',
-    facebookLoginUrl: 'https://localhost:7001/api/auth/external/facebook',
+    googleLoginUrl: 'http://forqan-api.runasp.net/api/auth/external/google',
+    facebookLoginUrl: 'http://forqan-api.runasp.net/api/auth/external/facebook',
   },
 };

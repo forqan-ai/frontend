@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, Service, ɵɵresolveBody } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatedTeachingRequestDto } from '../models/PaginatedTeachingRequestDto';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { RequestState } from '../models/RequestState';
 import { TeachingRequestDto } from '../models/TeachingRequestDto';
 import { RequestResponseDto } from '../models/RequestResponseDto';

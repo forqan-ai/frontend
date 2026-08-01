@@ -3,7 +3,7 @@ import { inject, Injectable, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICourseDetailsDto } from '../Models/course-details-dto.interface';
 import { ICourseModuleDto } from '../Models/course-module-dto.interface';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { ICourseOwnership } from '../Models/course-ownership.interface';
 import { ICoursePlayer } from '../Models/course-player.interface';
 import { ICourseListItem } from '../../courses-browse/models/course-list-item.interface';

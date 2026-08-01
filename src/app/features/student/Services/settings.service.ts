@@ -8,7 +8,7 @@ import {
   UpdateProfileRequest,
   ChangePasswordRequest
 } from '../Models/settings.interface';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 
 interface UserResponse {

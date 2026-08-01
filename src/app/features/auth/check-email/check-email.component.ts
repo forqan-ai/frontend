@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-check-email',
   standalone: true,

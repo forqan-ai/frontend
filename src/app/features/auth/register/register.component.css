@@ -1,7 +1,7 @@
 /* Color Palette Profiles */
 .register {
   background-size: contain;
-  background-image: url('/images/background_registration.webp');
+  background-image: url('images/background_registration.webp');
 
 
 
@@ -59,7 +59,7 @@ input {
 }
 .library-bg {
   background-size: cover;
-  background-image: url('/images/register2.jpg');
+  background-image: url('images/login.png');
 }
 input[type="checkbox"]{
   cursor: pointer;
