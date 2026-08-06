@@ -168,6 +168,7 @@ export const routes: Routes = [
   {
     path: 'pointPackages',
     component: PointPackagesComponent,
+    title : 'شراء نقاط'
   },
   {
     path: 'course-checkout/:id',

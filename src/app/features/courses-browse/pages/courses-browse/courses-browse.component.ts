@@ -28,14 +28,12 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './courses-browse.component.css',
 })
 export class CoursesBrowseComponent implements OnInit {
-private readonly coursesBrowseService =
-    inject(CoursesBrowseService);
+  private readonly coursesBrowseService = inject(CoursesBrowseService);
 
   private readonly courseService = inject(CourseService);
   private readonly authService = inject(AuthService);
 
-  private readonly destroyRef =
-    inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('recommendedSlider') recommendedSliderRef!: ElementRef<HTMLDivElement>;
 
@@ -90,7 +88,7 @@ private readonly coursesBrowseService =
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => this.recommendedCourses.set(res),
-        error: () => {}
+        error: () => { }
       });
   }
 
@@ -125,40 +123,40 @@ private readonly coursesBrowseService =
 
   private listenToCoursesRequests(): void {
     this.refreshCourses$.pipe(
-        switchMap(() => {
-          this.isLoadingCourses.set(true);
-          this.coursesError.set('');
+      switchMap(() => {
+        this.isLoadingCourses.set(true);
+        this.coursesError.set('');
 
-          return this.coursesBrowseService
-            .getCourses({
-              pageNumber:
-                this.pageNumber(),
-              pageSize:
-                this.pageSize,
-              search:
-                this.searchQuery(),
-              categoryId:
-                this.selectedCategoryId()
-                ?? undefined,
-            })
-            .pipe(
-              catchError(() => {
-                this.coursesError.set(
-                  'حدث خطأ أثناء تحميل الدورات. حاول مرة أخرى.',
-                );
+        return this.coursesBrowseService
+          .getCourses({
+            pageNumber:
+              this.pageNumber(),
+            pageSize:
+              this.pageSize,
+            search:
+              this.searchQuery(),
+            categoryId:
+              this.selectedCategoryId()
+              ?? undefined,
+          })
+          .pipe(
+            catchError(() => {
+              this.coursesError.set(
+                'حدث خطأ أثناء تحميل الدورات. حاول مرة أخرى.',
+              );
 
-                return of(null);
-              }),
-              finalize(() => {
-                this.isLoadingCourses
-                  .set(false);
-              }),
-            );
-        }),
-        takeUntilDestroyed(
-          this.destroyRef,
-        ),
-      )
+              return of(null);
+            }),
+            finalize(() => {
+              this.isLoadingCourses
+                .set(false);
+            }),
+          );
+      }),
+      takeUntilDestroyed(
+        this.destroyRef,
+      ),
+    )
       .subscribe((result) => {
         if (result === null) {
           this.courses.set([]);

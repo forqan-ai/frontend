@@ -1,5 +1,5 @@
 import { Component, Input, inject, signal, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CourseLevel, ICourseListItem } from '../../models/course-list-item.interface';
 import { WishlistService } from '../../../student/Services/wishlist.service';
@@ -67,5 +67,20 @@ export class CoursesBrowseCardComponent implements OnInit {
     const image = event.target as HTMLImageElement;
     image.onerror = null;
     image.src = 'images/card1.jfif';
+  }
+
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  navigateToCourse() {
+    if (this.authService.IsAuthenticated()) {
+      this.router.navigate(['../courses', this.course.courseID], {
+        relativeTo: this.route
+      });
+    }
+    else {
+      this.router.navigateByUrl(`/course-details/${this.course.courseID}`);
+    }
+
   }
 }

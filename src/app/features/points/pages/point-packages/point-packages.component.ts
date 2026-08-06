@@ -20,7 +20,7 @@ export class PointPackagesComponent {
   readonly activeCard = signal(false);
   readonly router = inject(Router);
   private poService = inject(PointsService);
-
+  isLoading = signal<boolean>(true);
   ngOnInit(): void {
     this.poService.getUserBalance().subscribe({
       next: (res) => {
@@ -42,11 +42,11 @@ export class PointPackagesComponent {
       error: (err) => {
         console.log(err);
 
+      },
+      complete: () => {
+        this.isLoading.set(false);
       }
     })
-
-
-
   }
 
   buyClick(pointPackageID: string) {

@@ -66,28 +66,6 @@
   font-size: 17px;
 }
 
-.btn-custom {
-  font-weight: 500;
-  font-size: 0.95rem;
-  padding: 10px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-primary-custom {
-  background-color: var(--color-accent);
-  color: #ffffff;
-  border: 1px solid var(--color-accent);
-}
-.btn-primary-custom:hover {
-  background-color: #4c2b21;
-  border-color: #4c2b21;
-}
-
 .btn-secondary-custom {
   background-color: transparent;
   color: var(--color-accent);
@@ -299,6 +277,77 @@
 
 .design1{
   display: none;
+}
+
+.recommended-section {
+  margin-top: 36px;
+  padding: 28px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.recommended-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.recommended-title {
+  margin: 0;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.recommended-title i {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.recommended-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.slider-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--primary) !important;
+  border-radius: 50%;
+  color: var(--primary);
+  background: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.slider-btn:hover {
+  background: var(--primary);
+  color: var(--secondary);
+}
+
+.recommended-slider {
+  display: flex;
+  
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: visible;
+  padding-bottom: 4px;
+}
+
+.recommended-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.recommended-slide {
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 300px;
 }
 
 @media (min-width: 1490px) {
