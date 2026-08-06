@@ -1,1 +1,225 @@
-<p>about-us works!</p>
+<section class="about-hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center g-4 g-lg-5">
+      <div class="col-12 col-lg-6 about-hero-content text-center text-lg-start">
+        <span class="about-hero-badge mb-3">من نحن</span>
+        <h1 class="about-hero-title mb-3">
+          نبني تجربة أسهل لتعلّم القرآن والعلوم الشرعية
+        </h1>
+        <p class="about-hero-description mb-0">
+          الفرقان منصة تعليمية رقمية تجمع بين المحتوى المنظم، والمعلمين المتخصصين، وأدوات المتابعة والتفاعل، لتساعد المتعلم على بناء معرفته الشرعية بخطوات واضحة وفي الوقت الذي يناسبه.
+        </p>
+      </div>
+
+      <div class="col-12 col-lg-6 about-hero-media text-center">
+        <div class="about-hero-image-wrapper mx-auto">
+          <img
+            src="images/hero2.png"
+            alt="رسم توضيحي يعبر عن التعلم الرقمي للقرآن والعلوم الشرعية"
+            class="about-hero-image img-fluid"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-story-section py-5">
+  <div class="container">
+    <div class="row g-4 g-lg-5 align-items-start">
+      <div class="col-12 col-lg-6 about-story-copy">
+        <span class="about-section-eyebrow mb-2">قصتنا</span>
+        <h2 class="about-section-heading mb-4">بدأت الفكرة من احتياج بسيط</h2>
+        <div class="about-story-paragraphs d-flex flex-column gap-3">
+          <p class="about-story-paragraph mb-0">
+            مع كثرة المصادر التعليمية على الإنترنت، أصبح الوصول إلى محتوى شرعي منظم ومناسب لمستوى المتعلم أمرًا يحتاج إلى وقت وجهد. قد يجد المتعلم مقاطع ودروسًا كثيرة، لكنه لا يعرف من أين يبدأ، وما الترتيب الصحيح، وكيف يتابع تقدمه.
+          </p>
+          <p class="about-story-paragraph mb-0">
+            من هنا جاءت فكرة الفرقان، منصة تجمع مجالات العلوم الشرعية في تجربة تعليمية واحدة، وتساعد المستخدم على اختيار الدورة أو المسار المناسب، والتعلّم من خلال دروس مرتبة، والتفاعل داخل حلقات التعلم والجلسات المباشرة.
+          </p>
+          <p class="about-story-paragraph mb-0">
+            نريد أن يكون التعلّم أكثر وضوحًا ومرونة، بحيث يستطيع كل متعلم أن يبدأ من مستواه الحالي ويتقدم خطوة بخطوة وفقًا لوقته وهدفه.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6 about-story-challenges">
+        <div class="d-flex flex-column gap-3">
+          @for (card of challengeCards; track card.title) {
+            <article class="about-challenge-card p-4 d-flex align-items-start gap-3">
+              <div class="about-challenge-icon-wrapper flex-shrink-0">
+                <i [class]="'bi ' + card.iconClass + ' about-challenge-icon'" aria-hidden="true"></i>
+              </div>
+              <div class="about-challenge-body">
+                <h3 class="about-challenge-title mb-2">{{ card.title }}</h3>
+                <p class="about-challenge-description mb-0">{{ card.description }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-pillars-section py-5">
+  <div class="container">
+    <div class="about-section-header text-center mb-5">
+      <span class="about-section-eyebrow mb-2">ما الذي نسعى إليه؟</span>
+      <h2 class="about-section-heading mb-0">رؤية واضحة ورسالة تعليمية</h2>
+    </div>
+
+    <div class="row g-4">
+      @for (pillar of visionMissionPillars; track pillar.title; let index = $index) {
+        <div class="col-12 col-md-6">
+          <article
+            class="about-pillar-card h-100 p-4 d-flex flex-column"
+            [class.about-pillar-vision]="index === 0"
+            [class.about-pillar-mission]="index === 1"
+          >
+            <div class="about-pillar-icon-wrapper mb-3">
+              <i [class]="'bi ' + pillar.iconClass + ' about-pillar-icon'" aria-hidden="true"></i>
+            </div>
+            <h3 class="about-pillar-title mb-3">{{ pillar.title }}</h3>
+            <p class="about-pillar-description mb-0 flex-grow-1">{{ pillar.description }}</p>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="about-offerings-section py-5">
+  <div class="container">
+    <div class="about-section-header text-center mb-5">
+      <span class="about-section-eyebrow mb-2">تجربة متكاملة</span>
+      <h2 class="about-section-heading mb-2">كل ما تحتاجه في رحلتك التعليمية</h2>
+      <p class="about-section-lead mx-auto mb-0">
+        تجمع المنصة عددًا من الأدوات والخصائص التي تساعد المتعلم على الوصول إلى المحتوى المناسب والاستمرار في التعلّم.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      @for (offering of platformOfferings; track offering.title) {
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="about-offering-card h-100 p-4 d-flex flex-column">
+            <div class="about-offering-icon-wrapper mb-3">
+              <i [class]="'bi ' + offering.iconClass + ' about-offering-icon'" aria-hidden="true"></i>
+            </div>
+            <h3 class="about-offering-title mb-2">{{ offering.title }}</h3>
+            <p class="about-offering-description mb-0 flex-grow-1">{{ offering.description }}</p>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="about-methodology-section py-5">
+  <div class="container">
+    <div class="about-section-header text-center mb-5">
+      <span class="about-section-eyebrow mb-2">كيف نبني تجربة التعلم؟</span>
+      <h2 class="about-section-heading mb-2">منهجية تساعدك على التقدم والاستمرار</h2>
+      <p class="about-section-lead mx-auto mb-0">
+        تعتمد تجربة الفرقان على تبسيط رحلة التعلّم، بداية من اختيار المحتوى وحتى إتمام الدورة ومتابعة النتائج.
+      </p>
+    </div>
+
+    <div class="row g-4 about-methodology-grid">
+
+      @for (step of methodologySteps; track step.stepNumber) {
+        <div class="col-12 col-md-6 col-lg-3">
+          <article class="about-step-card h-100 p-4 d-flex flex-column">
+            <div class="about-step-top mb-3">
+              <span class="about-step-number" dir="ltr">{{ step.stepNumber }}</span>
+            </div>
+            <h3 class="about-step-title mb-2">{{ step.title }}</h3>
+            <p class="about-step-description mb-0 flex-grow-1">{{ step.description }}</p>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="about-values-section py-5">
+  <div class="container">
+    <div class="about-section-header text-center mb-5">
+      <span class="about-section-eyebrow mb-2">قيمنا</span>
+      <h2 class="about-section-heading mb-2">المبادئ التي نبني عليها الفرقان</h2>
+      <p class="about-section-lead mx-auto mb-0">
+        نعتمد على مجموعة من القيم التي توجه قراراتنا وطريقة تصميم تجربة التعلّم.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      @for (value of platformValues; track value.title) {
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="about-value-card h-100 p-4 d-flex flex-column">
+            <div class="about-value-icon-wrapper mb-3">
+              <i [class]="'bi ' + value.iconClass + ' about-value-icon'" aria-hidden="true"></i>
+            </div>
+            <h3 class="about-value-title mb-2">{{ value.title }}</h3>
+            <p class="about-value-description mb-0 flex-grow-1">{{ value.description }}</p>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="about-quality-section py-5">
+  <div class="container">
+    <div class="about-quality-panel p-4 p-md-5">
+      <div class="row g-4 g-lg-5 align-items-center">
+        <div class="col-12 col-lg-5 about-quality-intro text-center text-lg-start">
+          <span class="about-quality-badge mb-3">الجودة والثقة</span>
+          <h2 class="about-quality-heading mb-3">نهتم بكل خطوة في رحلة المتعلم</h2>
+          <p class="about-quality-description mb-0">
+            لا تعتمد جودة المنصة على المحتوى فقط، بل على وضوح تجربة الاستخدام، وتنظيم رحلة التعلّم، واختيار المعلمين، ومتابعة أداء الخصائص المختلفة.
+          </p>
+        </div>
+
+        <div class="col-12 col-lg-7 about-quality-points">
+          <div class="row g-3 g-md-4">
+            @for (point of qualityPoints; track point.title) {
+              <div class="col-12 col-md-6">
+                <article class="about-quality-point-card h-100 p-4 d-flex flex-column">
+                  <div class="about-quality-point-icon-wrapper mb-3">
+                    <i [class]="'bi ' + point.iconClass + ' about-quality-point-icon'" aria-hidden="true"></i>
+                  </div>
+                  <h3 class="about-quality-point-title mb-2">{{ point.title }}</h3>
+                  <p class="about-quality-point-description mb-0 flex-grow-1">{{ point.description }}</p>
+                </article>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-final-cta-section py-5">
+  <div class="container">
+    <div class="about-final-cta-panel p-4 p-md-5 text-center">
+      <h2 class="about-final-cta-heading mb-3">
+        ابدأ رحلتك التعليمية مع الفرقان
+      </h2>
+
+      <p class="about-final-cta-description mx-auto mb-4">
+        استكشف الدورات، تعرّف على مجالات التعلم المتاحة، واختر البداية التي تناسب مستواك وهدفك.
+      </p>
+
+      <div class="about-final-cta-actions d-flex flex-wrap justify-content-center gap-3">
+        <a routerLink="/courses" class="about-primary-action">
+          استكشف الدورات
+        </a>
+
+        <a routerLink="/register" class="about-secondary-action">
+          إنشاء حساب
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
