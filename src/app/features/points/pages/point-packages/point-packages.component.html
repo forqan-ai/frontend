@@ -1,12 +1,12 @@
 <div class="container-fluid px-0 recharge-page" dir="rtl">
-  <div class="row g-0">
+  <div class="row">
     <!-- Sidebar -->
-    <aside class="col-lg-2 d-none d-lg-block">
+    <!-- <aside class="col-lg-2 d-none d-lg-block">
       <app-student-sidebar></app-student-sidebar>
-    </aside>
+    </aside> -->
 
     <!-- Main Content -->
-    <main class="col-lg-10 col-12">
+    <main class="col-12">
       <div class="container p-5">
         <!-- ========================= -->
         <!-- Header -->
@@ -81,6 +81,7 @@
         <!-- Benefits -->
         <!-- ========================= -->
 
+        @if(!isLoading()){
         <section class="benefits-section mt-5">
           <div class="row align-items-center">
             <div class="col-lg-5 mb-4 mb-lg-0">
@@ -128,7 +129,9 @@
             </div>
           </div>
         </section>
+        }
       </div>
+
     </main>
   </div>
 </div>

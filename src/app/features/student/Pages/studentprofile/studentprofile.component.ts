@@ -19,6 +19,7 @@ import { RewardService } from '../../../Reward/Services/reward.service';
 import { RewardPopupComponent } from '../../../Reward/Components/reward-popup/reward-popup.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { RewardProgress } from '../../../Reward/models/RewardProgress';
+import { ButtonComponent } from "../../../../shared/components/button/button.component";
 
 const streakImages = {
   sad: 'images/avatars/sad.png',
@@ -32,7 +33,7 @@ const streakImages = {
   selector: 'app-studentprofile',
   standalone: true,
 
-  imports: [CommonModule, DatePipe, RouterLink, CoursesBrowseCardComponent, RewardPopupComponent],
+  imports: [CommonModule, DatePipe, RouterLink, CoursesBrowseCardComponent, RewardPopupComponent, ButtonComponent],
 
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.css',

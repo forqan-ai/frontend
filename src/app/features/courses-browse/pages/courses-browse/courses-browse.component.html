@@ -57,17 +57,11 @@
               الكل
             </button>
 
-            @for (
-              category of categories();
-              track category.categoryID
-            ) {
-              <button
-                type="button"
-                [class.active]="
-                  selectedCategoryId() === category.categoryID
-                "
-                (click)="selectCategory(category.categoryID)"
-              >
+            @for (category of categories(); track category.categoryID) 
+            {
+              <button type="button"
+                [class.active]="selectedCategoryId() === category.categoryID"
+                (click)="selectCategory(category.categoryID)">
                 {{ category.name }}
               </button>
             }
@@ -123,10 +117,7 @@
           </div>
         } @else {
           <div class="courses-grid">
-            @for (
-              course of courses();
-              track course.courseID
-            ) {
+            @for (course of courses(); track course.courseID) {
               <app-courses-browse-card [course]="course" />
             }
           </div>
