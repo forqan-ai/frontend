@@ -2,21 +2,33 @@
   <div class="skeleton-grid" aria-label="جارٍ تحميل حلقات التعلم">
     @for (item of [1, 2, 3, 4, 5, 6]; track item) {
       <div class="skeleton-card">
-        <div class="skeleton-visual"></div>
-
         <div class="skeleton-content">
-          <div class="skeleton-line width-30"></div>
-          <div class="skeleton-line width-70"></div>
-          <div class="skeleton-line width-100"></div>
-          <div class="skeleton-line width-85"></div>
+          <div class="skeleton-badges">
+            <div class="skeleton-badge width-30"></div>
+            <div class="skeleton-badge width-25"></div>
+          </div>
+
+          <div class="skeleton-title width-80"></div>
+          <div class="skeleton-description width-100"></div>
+          <div class="skeleton-description width-60"></div>
 
           <div class="skeleton-teacher">
             <div class="skeleton-avatar"></div>
-            <div class="skeleton-line width-40"></div>
+            <div class="skeleton-teacher-info">
+              <div class="skeleton-line width-40"></div>
+              <div class="skeleton-line width-70"></div>
+            </div>
           </div>
 
-          <div class="skeleton-line width-100"></div>
-          <div class="skeleton-line width-60"></div>
+          <div class="skeleton-meta">
+            <div class="skeleton-line width-30"></div>
+            <div class="skeleton-line width-30"></div>
+          </div>
+        </div>
+
+        <div class="skeleton-actions">
+          <div class="skeleton-button"></div>
+          <div class="skeleton-button"></div>
         </div>
       </div>
     }

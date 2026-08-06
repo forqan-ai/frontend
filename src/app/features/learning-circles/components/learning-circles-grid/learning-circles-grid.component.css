@@ -5,67 +5,150 @@
 .circles-grid,
 .skeleton-grid {
   display: grid;
-  grid-template-columns:
-    repeat(auto-fill, minmax(270px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .skeleton-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-}
-
-.skeleton-visual {
-  height: 112px;
-  background:
-    linear-gradient(
-      90deg,
-      var(--border) 25%,
-      var(--secondary) 50%,
-      var(--border) 75%
-    );
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
+  border-radius: 18px;
 }
 
 .skeleton-content {
-  padding: 17px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  flex: 1;
 }
 
-.skeleton-line,
-.skeleton-avatar {
-  background:
-    linear-gradient(
-      90deg,
-      var(--border) 25%,
-      var(--secondary) 50%,
-      var(--border) 75%
-    );
+.skeleton-badges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.skeleton-badge {
+  height: 24px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
+}
+
+.skeleton-title {
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 4px;
+}
+
+.skeleton-description {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-teacher {
+  margin-top: 4px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--secondary);
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  border-radius: 14px;
+}
+
+.skeleton-avatar {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-teacher-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-meta {
+  margin-top: auto;
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px dashed var(--border);
 }
 
 .skeleton-line {
   height: 13px;
   border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
 }
 
-.skeleton-teacher {
+.skeleton-actions {
+  padding: 14px 20px 20px;
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 
-.skeleton-avatar {
-  width: 40px;
+.skeleton-button {
   height: 40px;
-  flex: 0 0 40px;
-  border-radius: 50%;
+  flex: 1;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.width-25 {
+  width: 25%;
 }
 
 .width-30 {
@@ -84,8 +167,8 @@
   width: 70%;
 }
 
-.width-85 {
-  width: 85%;
+.width-80 {
+  width: 80%;
 }
 
 .width-100 {
@@ -103,9 +186,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skeleton-visual,
+  .skeleton-badge,
+  .skeleton-title,
+  .skeleton-description,
+  .skeleton-avatar,
   .skeleton-line,
-  .skeleton-avatar {
+  .skeleton-button {
     animation: none;
   }
 }
