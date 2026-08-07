@@ -1,0 +1,557 @@
+/* Hero Section */
+.about-hero-section {
+  background-color: var(--primary-light);
+  overflow: hidden;
+}
+
+.about-hero-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 40px;
+  background: rgba(52, 27, 22, 0.12);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.about-hero-title {
+  color: var(--primary);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.about-hero-description {
+  color: var(--text-light);
+  font-size: 17px;
+  line-height: 1.9;
+  max-width: 580px;
+}
+
+.about-hero-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-hero-image {
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Shared Typography */
+.about-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.about-section-eyebrow::before {
+  content: "";
+  width: 16px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.about-section-heading {
+  color: var(--text);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+/* Platform Story Section */
+.about-story-section {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-story-paragraph {
+  color: var(--text-light);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.about-challenge-card {
+  background-color: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.about-challenge-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-challenge-icon {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.about-challenge-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.about-challenge-description {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Vision and Mission Section */
+.about-pillars-section {
+  background-color: var(--secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-pillar-card {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+
+.about-pillar-vision {
+  background-color: var(--surface);
+  border-inline-start: 4px solid var(--primary);
+}
+
+.about-pillar-mission {
+  background: linear-gradient(135deg, var(--surface) 0%, #fcf7f1 100%);
+  border-inline-start: 4px solid var(--primary-light);
+}
+
+.about-pillar-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background-color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-pillar-icon {
+  font-size: 26px;
+  color: var(--primary);
+}
+
+.about-pillar-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.about-pillar-description {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+/* Section Lead Typography */
+.about-section-lead {
+  color: var(--text-light);
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 620px;
+}
+
+/* Offerings Section */
+.about-offerings-section {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-offering-card {
+  background-color: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.about-offering-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-offering-icon {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.about-offering-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.about-offering-description {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* Learning Methodology Section */
+.about-methodology-section {
+  background-color: var(--secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-step-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.about-step-number {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+  opacity: 0.85;
+}
+
+.about-step-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.about-step-description {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* Values Section */
+.about-values-section {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-value-card {
+  background-color: var(--secondary);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  border-radius: 16px;
+}
+
+.about-value-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-value-icon {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.about-value-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.about-value-description {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* Quality and Trust Section */
+.about-quality-section {
+  background-color: var(--secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-quality-panel {
+  background-color: var(--primary);
+  border-radius: 24px;
+  box-shadow: 0 12px 36px rgba(52, 27, 22, 0.18);
+}
+
+.about-quality-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 30px;
+  background: rgba(233, 212, 191, 0.18);
+  color: var(--primary-light);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.about-quality-heading {
+  color: var(--primary-light);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.about-quality-description {
+  color: rgba(233, 212, 191, 0.85);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.about-quality-point-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(233, 212, 191, 0.15);
+  border-radius: 16px;
+}
+
+.about-quality-point-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(233, 212, 191, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-quality-point-icon {
+  font-size: 20px;
+  color: var(--primary-light);
+}
+
+.about-quality-point-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary-light);
+}
+
+.about-quality-point-description {
+  font-size: 14px;
+  color: rgba(233, 212, 191, 0.92);
+  line-height: 1.7;
+}
+
+/* Final CTA Section */
+.about-final-cta-section {
+  background: var(--surface);
+}
+
+.about-final-cta-panel {
+  background: linear-gradient(135deg, var(--secondary) 0%, #f3e7d9 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(52, 27, 22, 0.06);
+}
+
+.about-final-cta-heading {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.about-final-cta-description {
+  color: var(--text-light);
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 620px;
+}
+
+.about-primary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 38px;
+  border-radius: 50px;
+  background: var(--primary);
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.about-primary-action:hover {
+  background: var(--primary-hover);
+  color: var(--surface);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(52, 27, 22, 0.25);
+}
+
+.about-primary-action:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.about-secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 38px;
+  border-radius: 50px;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  text-align: center;
+}
+
+.about-secondary-action:hover {
+  background: var(--primary);
+  color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.about-secondary-action:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Responsive & Desktop Layout Adjustments */
+@media (min-width: 992px) {
+  .about-hero-image {
+    max-width: min(100%, 530px);
+    height: auto;
+  }
+
+  .about-methodology-grid {
+    position: relative;
+  }
+
+  .about-methodology-grid::before {
+    content: "";
+    position: absolute;
+    top: 46px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 2px;
+    border-top: 2px dashed rgba(52, 27, 22, 0.22);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .about-step-card .about-step-top {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .about-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--primary-light);
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
+    position: relative;
+    z-index: 2;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .about-hero-title {
+    font-size: 32px;
+  }
+
+  .about-hero-description {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .about-section-heading {
+    font-size: 26px;
+  }
+
+  .about-quality-heading {
+    font-size: 26px;
+  }
+
+  .about-final-cta-heading {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .about-hero-title {
+    font-size: 26px;
+  }
+
+  .about-hero-image {
+    max-width: 280px;
+  }
+
+  .about-section-heading {
+    font-size: 22px;
+  }
+
+  .about-quality-heading {
+    font-size: 22px;
+  }
+
+  .about-final-cta-heading {
+    font-size: 22px;
+  }
+
+  .about-final-cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .about-primary-action,
+  .about-secondary-action {
+    width: 100%;
+  }
+
+  .about-challenge-card,
+  .about-pillar-card,
+  .about-offering-card,
+  .about-step-card,
+  .about-value-card,
+  .about-quality-point-card {
+    padding: 20px !important;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .about-primary-action,
+  .about-secondary-action {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+
+
+

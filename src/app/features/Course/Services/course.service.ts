@@ -25,6 +25,7 @@ export class CourseService {
   getCourseCurriculum(courseId: string): Observable<ICourseModuleDto[]> {
     return this.http.get<ICourseModuleDto[]>(`${this.baseUrl}/${courseId}/curriculum`);
   }
+  
   checkOwnership(courseId: string): Observable<ICourseOwnership> {
     return this.http.get<ICourseOwnership>(`${this.baseUrl}/${courseId}/ownership`);
   }

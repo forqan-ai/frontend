@@ -78,10 +78,10 @@
     border: 1px solid var(--primary);
 }
 
-.outline:hover:not(:disabled) {
+/* .outline:hover:not(:disabled) {
     background: var(--primary);
     color: white;
-}
+} */
 
 /* ==========================
    GHOST

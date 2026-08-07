@@ -1,23 +1,17 @@
 @let item = circle();
 
 <article class="circle-card" [attr.aria-busy]="actionPending()">
-  <div class="circle-visual" aria-hidden="true">
-    <span class="subject-initial">
-      {{ subjectInitial(item.subject) }}
-    </span>
-
-    <div class="visual-content">
-      <i class="bi bi-journal-bookmark-fill"></i>
-      <span>{{ item.subject }}</span>
-    </div>
-  </div>
-
   <div class="card-content">
     <div class="status-row">
+      <span class="status-badge subject-badge">
+        <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+        {{ item.subject }}
+      </span>
+
       @if (item.isMember) {
         <span class="status-badge member-status">
           <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
-          منضم بالفعل
+          منضم
         </span>
       } @else if (item.isOpenForJoin) {
         <span class="status-badge open-status">
@@ -26,7 +20,7 @@
       } @else {
         <span class="status-badge invitation-status">
           <i class="bi bi-envelope-lock" aria-hidden="true"></i>
-          الانضمام بدعوة فقط
+          دعوة فقط
         </span>
       }
 
@@ -51,43 +45,33 @@
         </span>
       }
 
-      <div>
-        <span>المعلم</span>
+      <div class="teacher-info">
+        <span class="teacher-label">المعلم المشرف</span>
         <strong>{{ item.teacher.fullName }}</strong>
       </div>
     </div>
 
-    <dl
-      class="statistics"
-      [class.single-statistic]="!showPostsCount()"
-    >
-      <div>
-        <dt>
-          <i class="bi bi-person-check" aria-hidden="true"></i>
-          الأعضاء
-        </dt>
-        <dd>{{ item.membersCount }}</dd>
-      </div>
+    <div class="card-meta">
+      <span class="meta-item">
+        <i class="bi bi-people" aria-hidden="true"></i>
+        <span>{{ item.membersCount }} عضو</span>
+      </span>
 
       @if (showPostsCount()) {
-        <div>
-          <dt>
-            <i class="bi bi-file-post" aria-hidden="true"></i>
-            المنشورات
-          </dt>
-          <dd>{{ item.postsCount }}</dd>
-        </div>
+        <span class="meta-item">
+          <i class="bi bi-file-post" aria-hidden="true"></i>
+          <span>{{ item.postsCount }} منشور</span>
+        </span>
       }
-    </dl>
 
-    <p class="last-activity">
-      <i class="bi bi-clock" aria-hidden="true"></i>
-      <span>آخر نشاط</span>
-
-      <time [attr.datetime]="item.lastActivityAt">
-        {{ item.lastActivityAt | date: 'dd/MM/yyyy' }}
-      </time>
-    </p>
+      <span class="meta-item last-activity">
+        <i class="bi bi-clock" aria-hidden="true"></i>
+        <time [attr.datetime]="item.lastActivityAt">
+          {{ item.lastActivityAt | date: 'dd/MM/yyyy' }}
+        </time>
+        <span class="visually-hidden">آخر نشاط</span>
+      </span>
+    </div>
   </div>
 
   <footer class="card-actions">
@@ -98,6 +82,7 @@
       (click)="detailsRequested.emit(item)"
     >
       عرض التفاصيل
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
     </button>
 
     @if (showManageAction()) {
@@ -115,7 +100,7 @@
     @if (showJoinAction()) {
       <button
         type="button"
-        class="primary-button"
+        class="primary-button join-button"
         [disabled]="actionPending()"
         (click)="joinRequested.emit(item)"
       >

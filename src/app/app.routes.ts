@@ -74,6 +74,38 @@ export const routes: Routes = [
         title: 'من نحن | تعرف علي فريق الفرقان',
       },
       {
+        path: 'privacy-policy',
+        loadComponent: () =>
+          import('./features/support/pages/privacy-policy/privacy-policy.component').then(
+            (m) => m.PrivacyPolicyComponent,
+          ),
+        title: 'سياسة الخصوصية | الفرقان',
+      },
+      {
+        path: 'terms-and-conditions',
+        loadComponent: () =>
+          import(
+            './features/support/pages/terms-and-conditions/terms-and-conditions.component'
+          ).then((m) => m.TermsAndConditionsComponent),
+        title: 'الشروط والأحكام | الفرقان',
+      },
+      {
+        path: 'contact-us',
+        loadComponent: () =>
+          import('./features/support/pages/contact-us/contact-us.component').then(
+            (m) => m.ContactUsComponent,
+          ),
+        title: 'اتصل بنا | الفرقان',
+      },
+      {
+        path: 'help-center',
+        loadComponent: () =>
+          import('./features/support/pages/help-center/help-center.component').then(
+            (m) => m.HelpCenterComponent,
+          ),
+        title: 'مركز المساعدة | الفرقان',
+      },
+      {
         path: 'confirm-email',
         component: ConfirmEmailComponent,
         title: 'تأكيد البريد الإلكتروني',
@@ -110,6 +142,12 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+  path: 'chat',
+  loadComponent: () =>
+    import('./features/ai/pages/chat/chat.component').then(m => m.ChatComponent),
+  title: 'المساعد الذكي'
+},
   {
     path: 'teacher',
     component: TeacherLayoutComponent,
@@ -168,6 +206,7 @@ export const routes: Routes = [
   {
     path: 'pointPackages',
     component: PointPackagesComponent,
+    title : 'شراء نقاط'
   },
   {
     path: 'course-checkout/:id',
@@ -202,4 +241,5 @@ export const routes: Routes = [
     title: 'فشلت عملية الدفع',
   },
   { path: 'checkout/:id', component: CheckoutComponent },
+  
 ];

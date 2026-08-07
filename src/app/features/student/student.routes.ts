@@ -10,6 +10,9 @@ import { MyLearningCirclesComponent } from '../learning-circles/pages/my-learnin
 import { StudentCoursesComponent } from './Pages/student-courses/student-courses.component';
 import { TeachingRequestComponent } from './Pages/teaching-request/teaching-request.component';
 import { StudentFeedbackComponent } from "../Rating/pages/student-feedback/student-feedback.component";
+import { PointPackagesComponent } from '../points/pages/point-packages/point-packages.component';
+import { CourseDetailsComponent } from '../Course/Pages/course-details/course-details.component';
+import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teacher-details.component';
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -23,6 +26,12 @@ export const STUDENT_ROUTES: Routes = [
     title: 'الصفحة الرئيسية',
   },
   {
+    path: 'pointPackages',
+    component: PointPackagesComponent,
+    title: 'الطالب نقاط'
+  }
+  ,
+  {
     path: 'settings',
     component: StudentSettingsComponent,
     title: 'الإعدادات',
@@ -33,9 +42,19 @@ export const STUDENT_ROUTES: Routes = [
     title: 'شهاداتي',
   },
   {
+    path: 'courses/:id',
+    component: CourseDetailsComponent,
+    title: 'تفاصيل الدورة',
+  },
+  {
     path: 'courses',
     component: CoursesBrowseComponent,
     title: 'تصفح الدورات المقدمة من منصة الفرقان',
+  },
+  {
+    path: 'teachers/:id/details',
+    component: TeacherDetailsComponent,
+    title: 'تفاصيل عن المعلم',
   },
   {
     path: 'teachers',
@@ -89,8 +108,8 @@ export const STUDENT_ROUTES: Routes = [
     title: 'مفضلتي',
   },
   {
-        path : 'my-courses/course-feedback',
-        component:StudentFeedbackComponent,
-        title : 'تقييم الدورة'
-    }
+    path: 'my-courses/course-feedback',
+    component: StudentFeedbackComponent,
+    title: 'تقييم الدورة'
+  }
 ];

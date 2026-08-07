@@ -1,140 +1,799 @@
-<section class="hero">
-  <div
-  id="heroCarousel"
-  class="carousel slide"
-  data-bs-ride="carousel"
-  data-bs-interval="2500"
-  data-bs-pause="false"
-  data-bs-wrap="true">
-    <div class="carousel-indicators">
-      <button
-        type="button"
-        data-bs-target="#heroCarousel"
-        data-bs-slide-to="0"
-        class="active"
-        aria-current="true"
-      ></button>
+<section class="home-hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-12 col-lg-6 home-hero-content">
+        <span class="home-hero-badge">منصة الفرقان للتعلم</span>
 
-      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <h1 class="home-hero-title">
+          تعلّم القرآن والعلوم الشرعية بطريقة سهلة ومنظمة
+        </h1>
 
-      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-    </div>
+        <p class="home-hero-description">
+          منصة تعليمية تجمع بين الدورات المنظمة، والجلسات المباشرة، والمعلمين المتخصصين، لتساعدك على التعلم بطريقة مرنة تناسب مستواك ووقتك.
+        </p>
 
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="container hero-content">
-          <div class="hero-center">
-            <span class="hero-badge">منصة فرقان</span>
-
-            <h1>
-              تعلّم العلوم الشرعية
-              <br />
-              بطريقة سهلة ومنظمة
-            </h1>
-
-            <p>
-              ابدأ رحلتك في تعلم القرآن الكريم والحديث الشريف والعقيدة والفقه والسيرة النبوية مع
-              نخبة من المعلمين، في منصة واحدة توفر لك تجربة تعليمية مميزة لجميع الأعمار.
-            </p>
-
-            <div class="hero-buttons">
-              <a routerLink="/courses" class="primary-btn"> ابدأ التعلم </a>
-
-              <a routerLink="/about" class="secondary-btn"> اعرف أكثر </a>
-            </div>
-          </div>
-
-          <div class="hero-image">
-            <img src="images/hero.png" alt="تعلم القرآن" />
-          </div>
+        <div class="home-hero-actions d-flex flex-wrap gap-3">
+          <a routerLink="/courses" class="home-primary-action">
+            تصفح الدورات
+          </a>
+          <a routerLink="/teachers" class="home-secondary-action">
+            استعرض المعلمين
+          </a>
         </div>
+
+        <ul class="home-trust-list d-flex flex-wrap gap-2 mt-4 mb-0" role="list">
+          <li class="home-trust-chip">
+            <i class="bi bi-person-check-fill home-trust-icon" aria-hidden="true"></i>
+            <span>معلمون متخصصون</span>
+          </li>
+          <li class="home-trust-chip">
+            <i class="bi bi-clock-history home-trust-icon" aria-hidden="true"></i>
+            <span>تعلم في أي وقت</span>
+          </li>
+          <li class="home-trust-chip">
+            <i class="bi bi-book-half home-trust-icon" aria-hidden="true"></i>
+            <span>محتوى لجميع المستويات</span>
+          </li>
+        </ul>
       </div>
 
-      <div class="carousel-item">
-        <div class="container hero-content">
-          <div class="hero-center">
-            <span class="hero-badge">القرآن الكريم</span>
-
-            <h1>
-              احفظ كتاب الله
-              <br />
-              بخطوات بسيطة
-            </h1>
-
-            <p>برامج تعليمية تساعدك على الحفظ والمراجعة مع متابعة مستمرة من معلمين متخصصين.</p>
-
-            <div class="hero-buttons">
-              <a routerLink="/courses" class="primary-btn"> ابدأ الآن </a>
-            </div>
-          </div>
-
-          <div class="hero-image">
-            <img src="images/hero3.png" alt="القرآن الكريم" />
-          </div>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <div class="container hero-content">
-          <div class="hero-center">
-            <span class="hero-badge">لكل الأعمار</span>
-
-
-            <h1>
-              تعلم أينما كنت
-              <br />
-              وفي أي وقت
-            </h1>
-
-            <p>منصة واحدة تجمع العلوم الشرعية بطريقة حديثة وسهلة لجميع أفراد الأسرة.</p>
-
-            <div class="hero-buttons">
-              <a routerLink="/register" class="primary-btn"> سجل الآن </a>
-            </div>
-          </div>
-
-          <div class="hero-image">
-            <img src="images/hero2.png" alt="التعلم" />
-          </div>
+      <div class="col-12 col-lg-6 home-hero-media">
+        <div class="home-hero-image-wrapper">
+          <img
+            src="images/hero.png"
+            alt="عائلة تتعلم وتتدارس القرآن الكريم والعلوم الشرعية"
+            class="home-hero-image img-fluid"
+          />
         </div>
       </div>
     </div>
-
-    <button
-      class="carousel-control-prev"
-      type="button"
-      data-bs-target="#heroCarousel"
-      data-bs-slide="prev"
-    >
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-
-    <button
-      class="carousel-control-next"
-      type="button"
-      data-bs-target="#heroCarousel"
-      data-bs-slide="next"
-    >
-      <span class="carousel-control-next-icon"></span>
-    </button>
   </div>
 </section>
 
-@if (recommendedCourses.length > 0) {
-  <section class="recommended-section py-5">
-    <div class="container">
-      <div class="section-header d-flex justify-content-between align-items-center mb-4">
-        <h2 class="section-title m-0">نقترح لك خصيصاً</h2>
-        <a routerLink="/courses" class="browse-all-btn">تصفح كل الدورات</a>
+<section class="home-intro-section py-5">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-12 col-lg-6 home-intro-content">
+        <span class="home-section-eyebrow">عن منصة الفرقان</span>
+
+        <h2 class="home-section-heading">
+          تعليم نافع، بأسلوب يناسب حياتك
+        </h2>
+
+        <p class="home-section-lead">
+          الفرقان منصة تعليمية تهدف إلى تسهيل تعلم القرآن الكريم والعلوم الشرعية من خلال تجربة رقمية مرنة، تجمع الطلاب بمعلمين متخصصين، وتوفر محتوى منظمًا يناسب المبتدئين والمتقدمين.
+        </p>
+
+        <div class="home-benefits-list mb-4">
+          <div class="home-benefit-item d-flex align-items-start gap-3 mb-3">
+            <div class="home-benefit-icon-wrapper flex-shrink-0">
+              <i class="bi bi-journal-bookmark-fill home-benefit-icon" aria-hidden="true"></i>
+            </div>
+            <div>
+              <h3 class="home-benefit-title">محتوى منظم</h3>
+              <p class="home-benefit-text">دورات مرتبة تساعدك على التعلم خطوة بخطوة.</p>
+            </div>
+          </div>
+
+          <div class="home-benefit-item d-flex align-items-start gap-3 mb-3">
+            <div class="home-benefit-icon-wrapper flex-shrink-0">
+              <i class="bi bi-patch-check-fill home-benefit-icon" aria-hidden="true"></i>
+            </div>
+            <div>
+              <h3 class="home-benefit-title">معلمون متخصصون</h3>
+              <p class="home-benefit-text">تعلم مع معلمين أصحاب خبرة في القرآن والعلوم الشرعية.</p>
+            </div>
+          </div>
+
+          <div class="home-benefit-item d-flex align-items-start gap-3 mb-3">
+            <div class="home-benefit-icon-wrapper flex-shrink-0">
+              <i class="bi bi-sliders home-benefit-icon" aria-hidden="true"></i>
+            </div>
+            <div>
+              <h3 class="home-benefit-title">تعلم مرن</h3>
+              <p class="home-benefit-text">اختر الوقت والطريقة التي تناسب ظروفك وأهدافك.</p>
+            </div>
+          </div>
+        </div>
+
+        <a routerLink="/about" class="home-primary-action">
+          تعرف على الفرقان
+        </a>
       </div>
-      
+
+      <div class="col-12 col-lg-6 home-intro-media">
+        <div class="home-decorative-panel p-4">
+          <div class="home-panel-header text-center">
+            <div class="home-panel-icon-wrapper mx-auto">
+              <i class="bi bi-book-half home-panel-icon" aria-hidden="true"></i>
+            </div>
+
+            <span class="home-panel-badge">نموذج مسار تعليمي</span>
+
+            <h3 class="home-panel-title">تعلّم بخطوات واضحة</h3>
+          </div>
+
+          <div class="home-panel-progress">
+            <div class="home-panel-progress-header">
+              <span class="home-panel-progress-label">تقدمك في المسار</span>
+              <span class="home-panel-progress-value" dir="ltr">65%</span>
+            </div>
+
+            <div
+              class="home-panel-progress-bar"
+              role="progressbar"
+              aria-valuenow="65"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuetext="مثال توضيحي بنسبة إنجاز 65 بالمئة"
+              aria-label="نسبة الإنجاز الإيضاحية في نموذج المسار التعليمي"
+            >
+              <span class="home-panel-progress-fill"></span>
+            </div>
+          </div>
+
+          <ul class="home-panel-steps" role="list">
+            <li class="home-panel-step is-completed">
+              <span class="home-panel-step-icon">
+                <i class="bi bi-check-lg" aria-hidden="true"></i>
+              </span>
+              <span class="home-panel-step-content">
+                <strong>أساسيات التلاوة والتجويد</strong>
+                <small>مكتمل</small>
+              </span>
+            </li>
+
+            <li class="home-panel-step is-current">
+              <span class="home-panel-step-icon">
+                <i class="bi bi-play-fill" aria-hidden="true"></i>
+              </span>
+              <span class="home-panel-step-content">
+                <strong>حفظ ودراسة جزء عم</strong>
+                <small>قيد التعلم</small>
+              </span>
+            </li>
+
+            <li class="home-panel-step is-upcoming">
+              <span class="home-panel-step-icon">
+                <i class="bi bi-circle" aria-hidden="true"></i>
+              </span>
+              <span class="home-panel-step-content">
+                <strong>مدخل إلى العلوم الشرعية</strong>
+                <small>الخطوة القادمة</small>
+              </span>
+            </li>
+          </ul>
+
+          <p class="home-panel-footer mb-0">
+            <i class="bi bi-shield-check" aria-hidden="true"></i>
+            <span>مسار منظم ومتابعة مستمرة تساعدك على الاستمرار</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-methods-section py-5">
+  <div class="container">
+    <div class="home-section-header text-center mb-5">
+      <span class="home-section-eyebrow">طرق التعلم</span>
+      <h2 class="home-section-heading">اختر طريقة التعلم المناسبة لك</h2>
+      <p class="home-section-lead home-methods-lead mx-auto">
+        سواء كنت تفضل التعلم الذاتي أو المتابعة المباشرة مع معلم، ستجد في الفرقان ما يناسب احتياجاتك.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-sm-6 col-lg-3">
+        <article class="method-card h-100">
+          <div class="method-card-icon-wrapper">
+            <i class="bi bi-play-circle-fill method-card-icon" aria-hidden="true"></i>
+          </div>
+          <h3 class="method-card-title">دورات تعليمية</h3>
+          <p class="method-card-text">
+            تعلم من خلال دورات منظمة تحتوي على دروس مرتبة تناسب المستويات المختلفة.
+          </p>
+          <div class="method-card-footer mt-auto">
+            <a routerLink="/courses" class="method-action-link">
+              <span>تصفح الدورات</span>
+              <i class="bi bi-arrow-left" aria-hidden="true"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <article class="method-card h-100">
+          <div class="method-card-icon-wrapper">
+            <i class="bi bi-camera-video-fill method-card-icon" aria-hidden="true"></i>
+          </div>
+          <h3 class="method-card-title">جلسات مباشرة</h3>
+          <p class="method-card-text">
+            احجز جلسة تعليمية مباشرة وتواصل مع معلمك في الموعد الذي يناسبك.
+          </p>
+          <div class="method-card-footer mt-auto">
+            <span class="method-status-badge">
+              <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+              <span>متاحة للمستخدمين المسجلين</span>
+            </span>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <article class="method-card h-100">
+          <div class="method-card-icon-wrapper">
+            <i class="bi bi-person-badge-fill method-card-icon" aria-hidden="true"></i>
+          </div>
+          <h3 class="method-card-title">معلمون متخصصون</h3>
+          <p class="method-card-text">
+            تعرف على تخصصات المعلمين وخبراتهم واختر المعلم الأنسب لهدفك.
+          </p>
+          <div class="method-card-footer mt-auto">
+            <a routerLink="/teachers" class="method-action-link">
+              <span>استعرض المعلمين</span>
+              <i class="bi bi-arrow-left" aria-hidden="true"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <article class="method-card h-100">
+          <div class="method-card-icon-wrapper">
+            <i class="bi bi-people-fill method-card-icon" aria-hidden="true"></i>
+          </div>
+          <h3 class="method-card-title">حلقات العلم</h3>
+          <p class="method-card-text">
+            شارك في بيئة تعليمية جماعية تساعد على المراجعة والاستمرار والتفاعل.
+          </p>
+          <div class="method-card-footer mt-auto">
+            <span class="method-status-badge">
+              <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+              <span>متاحة للمستخدمين المسجلين</span>
+            </span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-featured-courses-section py-5">
+  <div class="container">
+    <div class="home-section-header d-flex flex-wrap justify-content-between align-items-end mb-4">
+      <div>
+        <span class="home-section-eyebrow">ابدأ التعلم</span>
+        <h2 class="home-section-heading mb-1">دورات مميزة لتبدأ بها</h2>
+        <p class="home-section-lead mb-0">دورات مختارة تساعدك على بناء أساس قوي والتقدم بخطوات واضحة.</p>
+      </div>
+      <a routerLink="/courses" class="home-primary-action">عرض جميع الدورات</a>
+    </div>
+
+    @if (recommendedCoursesLoading()) {
+      <div class="home-courses-loading-wrapper text-center py-5" role="status">
+        <div class="spinner-border home-courses-loading-spinner mb-3" aria-hidden="true"></div>
+        <p class="home-courses-loading-text mb-0">جارٍ تحميل الدورات المقترحة...</p>
+      </div>
+    } @else if (displayRecommendedCourses().length > 0) {
       <div class="row g-4">
-        @for (course of recommendedCourses; track course.courseID) {
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        @for (course of displayRecommendedCourses(); track course.courseID) {
+          <div class="col-12 col-sm-6 col-lg-3">
             <app-courses-browse-card [course]="course"></app-courses-browse-card>
           </div>
         }
       </div>
+    } @else {
+      @if (recommendedCoursesLoadFailed()) {
+        <div class="home-courses-failure-note text-center py-3 mb-4" role="status">
+          <p class="mb-0">تعذر تحميل الدورات المقترحة حاليًا، يمكنك الاطلاع على هذه النماذج التعليمية.</p>
+        </div>
+      }
+      <div class="row g-4">
+        @for (course of fallbackCourses; track course.title) {
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="home-course-preview-card h-100">
+              <div class="home-course-preview-image-wrapper">
+                <img
+                  [src]="course.imagePath"
+                  [alt]="course.imageAlt"
+                  class="home-course-preview-image"
+                />
+              </div>
+              <div class="home-course-preview-body d-flex flex-column h-100 p-4">
+                <h3 class="home-course-preview-title">{{ course.title }}</h3>
+                <p class="home-course-preview-description">{{ course.description }}</p>
+
+                <div class="home-course-preview-teacher d-flex align-items-center gap-2 mb-3">
+                  <i class="bi bi-person-fill" aria-hidden="true"></i>
+                  <span>{{ course.teacher }}</span>
+                </div>
+
+                <div class="home-course-preview-meta d-flex flex-wrap gap-3 mb-4">
+                  <span class="home-course-preview-meta-item">
+                    <i class="bi bi-bar-chart-fill" aria-hidden="true"></i>
+                    {{ course.level }}
+                  </span>
+                  <span class="home-course-preview-meta-item">
+                    <i class="bi bi-collection-play-fill" aria-hidden="true"></i>
+                    {{ course.lessons }}
+                  </span>
+                  <span class="home-course-preview-meta-item">
+                    <i class="bi bi-clock-fill" aria-hidden="true"></i>
+                    {{ course.duration }}
+                  </span>
+                </div>
+
+                <div
+                  class="home-rating-display mt-auto"
+                  [attr.aria-label]="'التقييم ' + course.rating + ' من 5'"
+                >
+                  <i class="bi bi-star-fill home-rating-star" aria-hidden="true"></i>
+                  <span class="home-rating-number">{{ course.rating }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<section class="home-featured-teachers-section py-5">
+  <div class="container">
+    <div class="home-section-header d-flex flex-wrap justify-content-between align-items-end mb-4">
+      <div>
+        <span class="home-section-eyebrow">معلمونا</span>
+        <h2 class="home-section-heading mb-1">تعلّم على يد معلمين متخصصين</h2>
+        <p class="home-section-lead mb-0">تعرّف على مجموعة من المعلمين المتخصصين واختر من يناسب مستواك وأهدافك التعليمية.</p>
+      </div>
+      <a routerLink="/teachers" class="home-secondary-action">استعرض جميع المعلمين</a>
     </div>
-  </section>
-}
+
+    <div class="row g-4">
+      @for (teacher of featuredTeachers; track teacher.name) {
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="home-teacher-preview-card">
+            <div class="home-teacher-avatar-wrapper">
+              <img
+                [src]="teacher.imagePath"
+                [alt]="teacher.imageAlt"
+                class="home-teacher-avatar"
+              />
+            </div>
+            <h3 class="home-teacher-preview-name">{{ teacher.name }}</h3>
+            <span class="home-teacher-preview-specialization mb-2">{{ teacher.specialization }}</span>
+            <div class="home-teacher-preview-experience d-flex align-items-center gap-2 mb-3">
+              <i class="bi bi-briefcase-fill" aria-hidden="true"></i>
+              <span>{{ teacher.experience }}</span>
+            </div>
+            <p class="home-teacher-preview-bio">{{ teacher.bio }}</p>
+
+            <div
+              class="home-rating-display"
+              [attr.aria-label]="'التقييم ' + teacher.rating + ' من 5'"
+            >
+              <i class="bi bi-star-fill home-rating-star" aria-hidden="true"></i>
+              <span class="home-rating-number">{{ teacher.rating }}</span>
+            </div>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="home-getting-started-section py-5">
+  <div class="container">
+    <div class="home-section-header text-center mb-5">
+      <span class="home-section-eyebrow">خطوات بسيطة</span>
+      <h2 class="home-section-heading">ابدأ رحلتك التعليمية في ثلاث خطوات</h2>
+      <p class="home-section-lead home-steps-section-lead mx-auto mb-0">
+        الوصول إلى المحتوى أو المعلم المناسب لا يحتاج إلى خطوات معقدة.
+      </p>
+    </div>
+
+    <div class="home-steps-track">
+      <div class="row g-4 home-steps-row">
+        <div class="col-12 col-lg-4 home-step-column">
+          <article class="home-step-item">
+            <div class="home-step-marker-wrapper">
+              <span class="home-step-marker" dir="ltr">01</span>
+            </div>
+            <div class="home-step-copy">
+              <h3 class="home-step-title">
+                <i class="bi bi-person-plus-fill home-step-title-icon" aria-hidden="true"></i>
+                <span>أنشئ حسابك</span>
+              </h3>
+              <p class="home-step-description">
+                سجل بياناتك الأساسية وأنشئ حسابًا مجانيًا على منصة الفرقان.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-lg-4 home-step-column">
+          <article class="home-step-item">
+            <div class="home-step-marker-wrapper">
+              <span class="home-step-marker" dir="ltr">02</span>
+            </div>
+            <div class="home-step-copy">
+              <h3 class="home-step-title">
+                <i class="bi bi-compass-fill home-step-title-icon" aria-hidden="true"></i>
+                <span>اختر طريقة التعلم</span>
+              </h3>
+              <p class="home-step-description">
+                تصفح الدورات أو المعلمين واختر ما يناسب مستواك وهدفك.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-lg-4 home-step-column">
+          <article class="home-step-item">
+            <div class="home-step-marker-wrapper">
+              <span class="home-step-marker" dir="ltr">03</span>
+            </div>
+            <div class="home-step-copy">
+              <h3 class="home-step-title">
+                <i class="bi bi-graph-up-arrow home-step-title-icon" aria-hidden="true"></i>
+                <span>ابدأ وتابع تقدمك</span>
+              </h3>
+              <p class="home-step-description">
+                ابدأ التعلم وأكمل دروسك وتابع تقدمك من خلال حسابك الشخصي.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-steps-action-wrapper text-center">
+      <a routerLink="/register" class="home-primary-action">أنشئ حسابًا الآن</a>
+    </div>
+  </div>
+</section>
+
+<section class="home-platform-benefits-section py-5">
+  <div class="container">
+    <div class="home-section-header text-center mb-5">
+      <span class="home-section-eyebrow">مميزات المنصة</span>
+      <h2 class="home-section-heading">لماذا تختار منصة الفرقان؟</h2>
+      <p class="home-section-lead home-benefits-section-lead mx-auto mb-0">
+        صممنا تجربة التعلم لتكون سهلة وموثوقة ومناسبة لاحتياجات الطلاب المختلفة.
+      </p>
+    </div>
+
+    <div class="home-benefits-panel">
+      <article class="home-benefit-item">
+        <div class="home-benefit-icon-wrapper">
+          <i class="bi bi-shield-check home-benefit-icon" aria-hidden="true"></i>
+        </div>
+        <div class="home-benefit-content">
+          <h3 class="home-benefit-title">معلمون تتم مراجعتهم</h3>
+          <p class="home-benefit-description">
+            تتم مراجعة طلبات المعلمين ومؤهلاتهم قبل اعتمادهم على المنصة.
+          </p>
+        </div>
+      </article>
+
+      <article class="home-benefit-item">
+        <div class="home-benefit-icon-wrapper">
+          <i class="bi bi-layers-fill home-benefit-icon" aria-hidden="true"></i>
+        </div>
+        <div class="home-benefit-content">
+          <h3 class="home-benefit-title">محتوى لجميع المستويات</h3>
+          <p class="home-benefit-description">
+            دورات تناسب المبتدئين ومن لديهم خبرة سابقة.
+          </p>
+        </div>
+      </article>
+
+      <article class="home-benefit-item">
+        <div class="home-benefit-icon-wrapper">
+          <i class="bi bi-clock-history home-benefit-icon" aria-hidden="true"></i>
+        </div>
+        <div class="home-benefit-content">
+          <h3 class="home-benefit-title">مرونة في التعلم</h3>
+          <p class="home-benefit-description">
+            تعلم بالسرعة والوقت المناسبين لك من أي مكان.
+          </p>
+        </div>
+      </article>
+
+      <article class="home-benefit-item">
+        <div class="home-benefit-icon-wrapper">
+          <i class="bi bi-camera-video-fill home-benefit-icon" aria-hidden="true"></i>
+        </div>
+        <div class="home-benefit-content">
+          <h3 class="home-benefit-title">جلسات تعليمية مباشرة</h3>
+          <p class="home-benefit-description">
+            تواصل مع المعلمين واحصل على متابعة أكثر تخصيصًا.
+          </p>
+        </div>
+      </article>
+
+      <article class="home-benefit-item">
+        <div class="home-benefit-icon-wrapper">
+          <i class="bi bi-graph-up-arrow home-benefit-icon" aria-hidden="true"></i>
+        </div>
+        <div class="home-benefit-content">
+          <h3 class="home-benefit-title">متابعة تقدمك</h3>
+          <p class="home-benefit-description">
+            تابع الدورات والدروس التي أكملتها من خلال حسابك الشخصي.
+          </p>
+        </div>
+      </article>
+
+      <article class="home-benefit-item">
+        <div class="home-benefit-icon-wrapper">
+          <i class="bi bi-award-fill home-benefit-icon" aria-hidden="true"></i>
+        </div>
+        <div class="home-benefit-content">
+          <h3 class="home-benefit-title">شهادات إتمام</h3>
+          <p class="home-benefit-description">
+            احصل على شهادة عند إتمام الدورات التي تدعم إصدار الشهادات.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="home-platform-stats-section py-5">
+  <div class="container">
+    <div class="home-stats-header text-center mb-4">
+      <h2 class="home-stats-heading mb-1">الفرقان في أرقام</h2>
+      <p class="home-stats-description home-stats-section-lead mx-auto mb-0">
+        نطمح إلى بناء تجربة تعليمية تجمع بين جودة المحتوى وسهولة الوصول.
+      </p>
+    </div>
+
+    <ul class="home-stats-list row g-4 justify-content-center text-center list-unstyled mb-0">
+      <li class="col-12 col-sm-6 col-lg-3">
+        <div class="home-stat-item p-3">
+          <span class="home-stat-value" dir="ltr">+20</span>
+          <span class="home-stat-label">دورة تعليمية</span>
+        </div>
+      </li>
+
+      <li class="col-12 col-sm-6 col-lg-3">
+        <div class="home-stat-item p-3">
+          <span class="home-stat-value" dir="ltr">+15</span>
+          <span class="home-stat-label">معلمًا متخصصًا</span>
+        </div>
+      </li>
+
+      <li class="col-12 col-sm-6 col-lg-3">
+        <div class="home-stat-item p-3">
+          <span class="home-stat-value" dir="ltr">+500</span>
+          <span class="home-stat-label">طالب مسجل</span>
+        </div>
+      </li>
+
+      <li class="col-12 col-sm-6 col-lg-3">
+        <div class="home-stat-item p-3">
+          <span class="home-stat-value" dir="ltr">+1000</span>
+          <span class="home-stat-label">ساعة تعلم</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="home-testimonials-section py-5">
+  <div class="container">
+    <div class="home-section-header text-center mb-5">
+      <span class="home-section-eyebrow">تجارب المتعلمين</span>
+      <h2 class="home-section-heading">ماذا يقول طلابنا؟</h2>
+      <p class="home-section-lead home-testimonials-lead mx-auto mb-0">
+        تجارب تعكس سهولة التعلم والاستفادة من محتوى منصة الفرقان.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="home-testimonial-card">
+          <i class="bi bi-quote home-testimonial-quote-icon" aria-hidden="true"></i>
+          <div class="home-testimonial-person d-flex align-items-center gap-3 mb-3">
+            <img
+              src="images/avatar.webp"
+              alt="صورة رمزية للطالبة سارة"
+              class="home-testimonial-avatar"
+            />
+            <div class="home-testimonial-person-copy">
+              <h3 class="home-testimonial-name mb-0">سارة م.</h3>
+              <span class="home-testimonial-role">طالبة</span>
+            </div>
+          </div>
+          <blockquote class="home-testimonial-quote">
+            ساعدتني الدورة على فهم أحكام التجويد بطريقة سهلة ومنظمة، وأصبحت أعرف الأخطاء التي كنت أقع فيها أثناء القراءة.
+          </blockquote>
+          <div
+            class="home-testimonial-rating"
+            role="img"
+            aria-label="التقييم 5 من 5"
+          >
+            <span class="home-testimonial-rating-value" aria-hidden="true">5.0</span>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="home-testimonial-card">
+          <i class="bi bi-quote home-testimonial-quote-icon" aria-hidden="true"></i>
+          <div class="home-testimonial-person d-flex align-items-center gap-3 mb-3">
+            <img
+              src="images/avatar-5.png"
+              alt="صورة رمزية للطالب عبد الله"
+              class="home-testimonial-avatar"
+            />
+            <div class="home-testimonial-person-copy">
+              <h3 class="home-testimonial-name mb-0">عبد الله أ.</h3>
+              <span class="home-testimonial-role">طالب جامعي</span>
+            </div>
+          </div>
+          <blockquote class="home-testimonial-quote">
+            أعجبني تنوع الدورات وسهولة الوصول إلى المحتوى، واستطعت التعلم في الوقت المناسب لي ومتابعة تقدمي باستمرار.
+          </blockquote>
+          <div
+            class="home-testimonial-rating"
+            role="img"
+            aria-label="التقييم 5 من 5"
+          >
+            <span class="home-testimonial-rating-value" aria-hidden="true">5.0</span>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="home-testimonial-card">
+          <i class="bi bi-quote home-testimonial-quote-icon" aria-hidden="true"></i>
+          <div class="home-testimonial-person d-flex align-items-center gap-3 mb-3">
+            <img
+              src="images/avatar.webp"
+              alt="صورة رمزية لمريم ع."
+              class="home-testimonial-avatar"
+            />
+            <div class="home-testimonial-person-copy">
+              <h3 class="home-testimonial-name mb-0">مريم ع.</h3>
+              <span class="home-testimonial-role">ولية أمر</span>
+            </div>
+          </div>
+          <blockquote class="home-testimonial-quote">
+            كانت تجربة الحجز سهلة، وساعدت خطة الحفظ والمراجعة ابنتي على الالتزام وتحقيق تقدم ملحوظ.
+          </blockquote>
+          <div
+            class="home-testimonial-rating"
+            role="img"
+            aria-label="التقييم 5 من 5"
+          >
+            <span class="home-testimonial-rating-value" aria-hidden="true">5.0</span>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-faq-section py-5">
+  <div class="container">
+    <div class="home-section-header text-center mb-5">
+      <span class="home-section-eyebrow">معلومات مهمة</span>
+      <h2 class="home-section-heading">أسئلة شائعة</h2>
+      <p class="home-section-lead home-faq-lead mx-auto mb-0">
+        إجابات سريعة عن أهم الأسئلة المتعلقة بالتعلم على منصة الفرقان.
+      </p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10 col-xl-8">
+        <div class="home-faq-list d-flex flex-column gap-3">
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-1" aria-controls="home-faq-answer-1">
+              <span class="home-faq-question-text">هل أحتاج إلى إنشاء حساب للتعلم؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-1" role="region" aria-labelledby="home-faq-question-1">
+              <p class="mb-0">
+                يمكنك تصفح الدورات والمعلمين دون تسجيل، لكنك تحتاج إلى إنشاء حساب للاشتراك في الدورات وحجز الجلسات ومتابعة تقدمك.
+              </p>
+            </div>
+          </details>
+
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-2" aria-controls="home-faq-answer-2">
+              <span class="home-faq-question-text">هل الدورات مناسبة للمبتدئين؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-2" role="region" aria-labelledby="home-faq-question-2">
+              <p class="mb-0">
+                نعم، توفر المنصة دورات لمستويات مختلفة، ويمكنك معرفة مستوى كل دورة قبل الاشتراك فيها.
+              </p>
+            </div>
+          </details>
+
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-3" aria-controls="home-faq-answer-3">
+              <span class="home-faq-question-text">هل توجد جلسات مباشرة مع المعلمين؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-3" role="region" aria-labelledby="home-faq-question-3">
+              <p class="mb-0">
+                نعم، يمكن للمستخدمين المسجلين استعراض المعلمين واختيار موعد مناسب لحجز جلسة تعليمية مباشرة.
+              </p>
+            </div>
+          </details>
+
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-4" aria-controls="home-faq-answer-4">
+              <span class="home-faq-question-text">كيف أختار المعلم المناسب؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-4" role="region" aria-labelledby="home-faq-question-4">
+              <p class="mb-0">
+                يمكنك التعرف على تخصص المعلم وخبرته والنبذة التعريفية الخاصة به قبل اختيار الجلسة المناسبة.
+              </p>
+            </div>
+          </details>
+
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-5" aria-controls="home-faq-answer-5">
+              <span class="home-faq-question-text">هل أحصل على شهادة بعد إتمام الدورة؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-5" role="region" aria-labelledby="home-faq-question-5">
+              <p class="mb-0">
+                بعض الدورات توفر شهادة إتمام بعد إنهاء جميع الدروس والمتطلبات الخاصة بالدورة.
+              </p>
+            </div>
+          </details>
+
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-6" aria-controls="home-faq-answer-6">
+              <span class="home-faq-question-text">هل يمكنني متابعة تقدمي؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-6" role="region" aria-labelledby="home-faq-question-6">
+              <p class="mb-0">
+                نعم، يمكنك متابعة الدورات والدروس التي أكملتها من خلال لوحة التحكم الخاصة بحسابك.
+              </p>
+            </div>
+          </details>
+
+          <details class="home-faq-item">
+            <summary class="home-faq-question" id="home-faq-question-7" aria-controls="home-faq-answer-7">
+              <span class="home-faq-question-text">كيف أتواصل مع الدعم؟</span>
+              <i class="bi bi-plus-lg home-faq-indicator" aria-hidden="true"></i>
+            </summary>
+            <div class="home-faq-answer" id="home-faq-answer-7" role="region" aria-labelledby="home-faq-question-7">
+              <p class="mb-0">
+                يمكنك استخدام بيانات التواصل الموجودة في أسفل الموقع للتواصل مع فريق المنصة.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-final-cta-section py-5">
+  <div class="container">
+    <div class="home-final-cta-panel p-4 p-md-5 text-center">
+      <h2 class="home-final-cta-heading mb-3">مستعد لبدء رحلتك مع القرآن والعلم؟</h2>
+      <p class="home-final-cta-description mx-auto mb-4">
+        أنشئ حسابك الآن، واختر الدورة أو المعلم الذي يناسب أهدافك، وابدأ التعلم بخطوات بسيطة.
+      </p>
+      <div class="home-final-cta-actions d-flex flex-wrap justify-content-center gap-3">
+        <a routerLink="/register" class="home-final-cta-primary-action">ابدأ الآن</a>
+        <a routerLink="/courses" class="home-final-cta-secondary-action">تصفح الدورات</a>
+      </div>
+    </div>
+  </div>
+</section>

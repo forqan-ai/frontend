@@ -32,13 +32,7 @@ export class LearningCircleCardComponent {
   readonly detailsRequested = output<LearningCircleListItem>();
   readonly manageRequested = output<LearningCircleListItem>();
 
-  subjectInitial(subject: string): string {
-    const normalizedSubject = subject.trim();
 
-    return normalizedSubject
-      ? normalizedSubject.charAt(0)
-      : 'ت';
-  }
 
   roleLabel(role: CircleRole | null): string | null {
     switch (role) {

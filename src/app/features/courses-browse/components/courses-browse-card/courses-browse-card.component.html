@@ -1,7 +1,10 @@
 <a
   class="course-card"
-  [routerLink]="['/course-details', course.courseID]"
-  [attr.aria-label]="'عرض تفاصيل دورة ' + course.title"
+  /* [routerLink]="['/course-details', course.courseID]" */
+  /* [routerLink]="['.', course.courseID]" */
+
+  /* [attr.aria-label]="'عرض تفاصيل دورة ' + course.title" */
+  (click)="navigateToCourse()"
 >
   <div class="course-image-wrapper">
     <img
@@ -10,6 +13,7 @@
       [alt]="course.title"
       (error)="onImageError($event)"
     />
+    @if(authService.IsAuthenticated()){
     <button
       class="wishlist-btn"
       [class.active]="isInWishlist()"
@@ -19,6 +23,7 @@
     >
       <i class="bi" [class.bi-heart-fill]="isInWishlist()" [class.bi-heart]="!isInWishlist()"></i>
     </button>
+  }
   </div>
 
   <div class="course-content">

@@ -1,0 +1,888 @@
+:host {
+  display: block;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.contact-hero {
+  position: relative;
+  background-color: var(--primary-light);
+  padding: 56px 0 64px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-hero-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image: radial-gradient(var(--primary) 1.5px, transparent 1.5px),
+                    radial-gradient(var(--primary) 1.5px, var(--primary-light) 1.5px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  pointer-events: none;
+}
+
+.contact-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.contact-breadcrumb-link {
+  color: var(--primary);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.contact-breadcrumb-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.contact-breadcrumb-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.contact-breadcrumb-separator {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.contact-breadcrumb-muted {
+  color: var(--text-light);
+}
+
+.contact-breadcrumb-current {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.contact-hero-heading-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.contact-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px 6px 14px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(52, 27, 22, 0.12);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.contact-hero-icon-box {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(52, 27, 22, 0.08);
+}
+
+.contact-hero-icon {
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.contact-hero-title {
+  color: var(--primary);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+
+.contact-hero-description {
+  color: var(--text-light);
+  font-size: 17px;
+  line-height: 1.85;
+  max-width: 680px;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   General Containers & Section Headers
+   ========================================================================== */
+.contact-container {
+  max-width: 1160px;
+  margin-inline: auto;
+}
+
+.contact-section-header {
+  max-width: 680px;
+  margin-inline: auto;
+  margin-bottom: 40px;
+}
+
+.contact-section-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.contact-section-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* ==========================================================================
+   Section 1: Direct Contact Methods
+   ========================================================================== */
+.contact-methods-section {
+  background-color: var(--secondary);
+  padding-block: 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-methods-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* Common Card Header Badge */
+.contact-card-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.contact-card-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.contact-card-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.contact-card-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.contact-card-description {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+/* Email Card (Main) */
+.contact-email-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(52, 27, 22, 0.04);
+}
+
+.contact-email-card .contact-card-icon-wrapper {
+  background: var(--secondary);
+}
+
+.contact-email-box {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.contact-email-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.contact-email-value {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.contact-action-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.contact-action-note {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.contact-security-alert {
+  margin-top: auto;
+  background: rgba(52, 27, 22, 0.05);
+  border: 1px solid rgba(52, 27, 22, 0.1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.contact-security-icon {
+  font-size: 18px;
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Side Column (Phone & Location) */
+.contact-side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.contact-side-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(52, 27, 22, 0.04);
+  flex: 1;
+}
+
+.contact-phone-box {
+  margin-bottom: 12px;
+}
+
+.contact-phone-number {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.contact-phone-number:hover {
+  text-decoration: underline;
+  color: var(--primary-hover);
+}
+
+.contact-phone-number:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.contact-address-card {
+  font-style: normal;
+}
+
+/* Buttons */
+.contact-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: var(--primary);
+  color: var(--primary-light);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  text-align: center;
+}
+
+.contact-primary-btn:hover {
+  background: var(--primary-hover);
+  color: var(--surface);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 27, 22, 0.2);
+}
+
+.contact-primary-btn:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.contact-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 50px;
+  background: var(--surface);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-height: 44px;
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.contact-secondary-btn:hover {
+  background: var(--primary);
+  color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.contact-secondary-btn:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.contact-ltr-val {
+  direction: ltr;
+  display: inline-block;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   Section 2: Inquiry Topics
+   ========================================================================== */
+.contact-topics-section {
+  background-color: var(--surface);
+  padding-block: 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.contact-topic-card {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-topic-card:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(52, 27, 22, 0.06);
+}
+
+.contact-topic-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--primary);
+  margin-bottom: 18px;
+}
+
+.contact-topic-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.contact-topic-description {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-light);
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.contact-topic-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-topic-link i {
+  transition: transform 0.2s ease;
+}
+
+.contact-topic-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.contact-topic-link:hover i {
+  transform: translateX(-4px);
+}
+
+.contact-topic-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Section 3: Contact Guidelines & Security
+   ========================================================================== */
+.contact-guidelines-section {
+  background-color: var(--secondary);
+  padding-block: 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-guidelines-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: flex-start;
+}
+
+.contact-guidelines-subtitle {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.contact-guidelines-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.contact-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-light);
+  font-weight: 600;
+  background: var(--surface);
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.contact-check-icon {
+  color: var(--primary);
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Security Card */
+.contact-security-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 20px rgba(52, 27, 22, 0.04);
+}
+
+.contact-security-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.contact-security-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.contact-security-card-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-light);
+  margin-bottom: 14px;
+}
+
+/* ==========================================================================
+   Section 4: FAQ Section (<details> / <summary>)
+   ========================================================================== */
+.contact-faq-section {
+  background-color: var(--surface);
+  padding-block: 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-faq-wrapper {
+  max-width: 800px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-faq-item {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.contact-faq-summary {
+  padding: 20px 24px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.contact-faq-summary::-webkit-details-marker {
+  display: none;
+}
+
+.contact-faq-summary::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.contact-faq-item[open] .contact-faq-summary::after {
+  content: '−';
+}
+
+.contact-faq-item[open] .contact-faq-summary {
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.contact-faq-content {
+  padding: 20px 24px;
+  background: var(--surface);
+}
+
+.contact-faq-content p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.contact-inline-link {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.contact-inline-link:hover {
+  color: var(--primary-hover);
+}
+
+.contact-faq-summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+/* ==========================================================================
+   Section 5: Final Support CTA
+   ========================================================================== */
+.contact-cta-section {
+  padding-block: 60px;
+}
+
+.contact-cta-card {
+  background: var(--primary);
+  border-radius: 24px;
+  padding: 48px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(52, 27, 22, 0.15);
+}
+
+.contact-cta-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(233, 212, 191, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--primary-light);
+  margin-bottom: 20px;
+}
+
+.contact-cta-content {
+  max-width: 620px;
+  margin-bottom: 28px;
+}
+
+.contact-cta-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.contact-cta-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #dbcfc7;
+  margin: 0;
+}
+
+.contact-cta-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.contact-cta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-height: 48px;
+}
+
+.contact-cta-btn-primary:hover {
+  background: #ffffff;
+  color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.contact-cta-btn-primary:focus-visible {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 3px;
+}
+
+.contact-cta-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: transparent;
+  border: 2px solid rgba(233, 212, 191, 0.5);
+  color: var(--primary-light);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-height: 48px;
+}
+
+.contact-cta-btn-secondary:hover {
+  border-color: var(--primary-light);
+  background: rgba(233, 212, 191, 0.1);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.contact-cta-btn-secondary:focus-visible {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints (1440px, 1024px, 768px, 390px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .contact-methods-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-topics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-guidelines-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-hero {
+    padding: 40px 0 48px;
+  }
+
+  .contact-hero-title {
+    font-size: 32px;
+  }
+
+  .contact-hero-description {
+    font-size: 15px;
+  }
+
+  .contact-methods-section,
+  .contact-topics-section,
+  .contact-guidelines-section,
+  .contact-faq-section {
+    padding-block: 44px;
+  }
+
+  .contact-section-title {
+    font-size: 24px;
+  }
+
+  .contact-methods-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-topics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-email-card {
+    padding: 24px 20px;
+  }
+
+  .contact-side-card {
+    padding: 24px 20px;
+  }
+
+  .contact-email-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .contact-cta-card {
+    padding: 36px 20px;
+  }
+
+  .contact-cta-title {
+    font-size: 22px;
+  }
+
+  .contact-cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .contact-cta-btn-primary,
+  .contact-cta-btn-secondary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .contact-container {
+    padding-inline: 16px;
+  }
+
+  .contact-hero-title {
+    font-size: 26px;
+  }
+
+  .contact-card-title {
+    font-size: 19px;
+  }
+
+  .contact-primary-btn,
+  .contact-secondary-btn {
+    width: 100%;
+  }
+}
