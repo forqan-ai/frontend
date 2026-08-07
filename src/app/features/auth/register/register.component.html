@@ -138,9 +138,12 @@
                       formControlName="acceptTerms"
                     />
 
-                    <label class="form-check-label small text-muted" for="terms">
-                      أوافق على الشروط والأحكام وسياسة الخصوصية.
-                    </label>
+                    <span class="small text-muted">
+                      <label class="form-check-label text-muted me-1" for="terms">أوافق على</label>
+                      <a routerLink="/terms-and-conditions" class="text-decoration-underline text-brown fw-semibold">الشروط والأحكام</a>
+                      <span class="mx-1">و</span>
+                      <a routerLink="/privacy-policy" class="text-decoration-underline text-brown fw-semibold">سياسة الخصوصية</a>.
+                    </span>
                   </div>
 
                   @if (acceptTerms.touched && acceptTerms.invalid) {
