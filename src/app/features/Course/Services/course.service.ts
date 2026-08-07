@@ -56,4 +56,11 @@ getCertificate(courseId: string): Observable<ICertificate> {
   );
 }
 
+submitCourseForReview(courseId: string): Observable<boolean> {
+  return this.http.patch<boolean>(
+    `${this.baseUrl}/${courseId}/submit-review`,
+    {}
+  );
+}
+
 }

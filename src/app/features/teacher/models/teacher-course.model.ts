@@ -14,4 +14,7 @@ export interface TeacherCourse {
 
   createdAt: string;
 
+  rejectionReason: string | null;
+
+
 }
