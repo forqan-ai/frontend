@@ -1,0 +1,229 @@
+<main class="help-center-page" dir="rtl">
+  <!-- Hero Section -->
+  <section class="help-center-hero">
+    <div class="help-center-hero-pattern"></div>
+    <div class="container">
+      <div class="help-center-hero-content">
+        <nav aria-label="مسار التصفح" class="help-center-breadcrumb">
+          <a routerLink="/" class="help-center-breadcrumb-link">الرئيسية</a>
+          <span class="help-center-breadcrumb-separator">/</span>
+          <span class="help-center-breadcrumb-current" aria-current="page">مركز المساعدة</span>
+        </nav>
+
+        <div class="help-center-hero-heading-row">
+          <div class="help-center-hero-badge">
+            <div class="help-center-hero-icon-box">
+              <i class="bi bi-question-circle help-center-hero-icon" aria-hidden="true"></i>
+            </div>
+            <span>إجابات وإرشادات</span>
+          </div>
+          <h1 class="help-center-hero-title">مركز المساعدة</h1>
+          <p class="help-center-hero-description">
+            اعثر على إجابات لأسئلتك وتعرّف على طريقة استخدام الحساب والدورات والمدفوعات والجلسات وخدمات منصة الفرقان.
+          </p>
+
+          <form (ngSubmit)="applySearch()" class="help-center-search-form" role="search">
+            <label for="helpSearchInput" class="visually-hidden">ابحث عن سؤال أو موضوع</label>
+            <div class="help-center-search-input-wrapper">
+              <i class="bi bi-search help-center-search-icon" aria-hidden="true"></i>
+              <input
+                id="helpSearchInput"
+                type="text"
+                name="searchInput"
+                [(ngModel)]="searchInput"
+                class="help-center-search-input"
+                placeholder="ابحث عن سؤال أو موضوع..."
+              />
+              <button type="submit" class="help-center-search-btn">بحث</button>
+            </div>
+          </form>
+
+          <span class="help-center-search-note">
+            جرّب البحث بكلمات مثل: تسجيل الدخول، شهادة، دفع، جلسة، أو نقاط.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Help Topics -->
+  <section class="help-center-topics-section">
+    <div class="container help-center-container">
+      <div class="help-center-section-header text-center">
+        <h2 class="help-center-section-title">كيف يمكننا مساعدتك؟</h2>
+        <p class="help-center-section-description">
+          اختر الموضوع الأقرب إلى استفسارك للوصول إلى الإرشادات والأسئلة المتعلقة به.
+        </p>
+      </div>
+
+      <div class="help-center-topics-grid">
+        @for (topic of topics; track topic.id) {
+          <div class="help-center-topic-card" (click)="onTopicClick(topic.category)">
+            <div class="help-center-topic-icon-wrapper">
+              <i class="bi {{ topic.icon }}" aria-hidden="true"></i>
+            </div>
+            <h3 class="help-center-topic-title">{{ topic.title }}</h3>
+            <p class="help-center-topic-description">{{ topic.description }}</p>
+            <button type="button" class="help-center-topic-btn">
+              <span>عرض الإرشادات</span>
+              <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: FAQs Section -->
+  <section id="faqs" class="help-center-faqs-section">
+    <div class="container help-center-container">
+      <div class="help-center-section-header text-center">
+        <h2 class="help-center-section-title">الأسئلة الأكثر شيوعًا</h2>
+        <p class="help-center-section-description">
+          إجابات سريعة عن أكثر الأسئلة التي يطرحها مستخدمو منصة الفرقان.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="help-center-categories-nav" role="tablist" aria-label="تصنيفات الأسئلة">
+        @for (cat of categories; track cat.id) {
+          <button
+            type="button"
+            class="help-center-category-btn"
+            [class.active]="activeCategory === cat.id"
+            [attr.aria-pressed]="activeCategory === cat.id"
+            (click)="selectCategory(cat.id)"
+          >
+            {{ cat.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Accordion Area -->
+      <div class="help-center-faq-area" aria-live="polite">
+        @if (filteredFaqs.length > 0) {
+          <div class="help-center-faq-list">
+            @for (faq of filteredFaqs; track faq.id) {
+              <div class="help-center-faq-item" [class.open]="openFaqId === faq.id">
+                <button
+                  type="button"
+                  class="help-center-faq-trigger"
+                  [attr.aria-expanded]="openFaqId === faq.id"
+                  (click)="toggleFaq(faq.id)"
+                >
+                  <span class="help-center-faq-question">{{ faq.question }}</span>
+                  <i
+                    class="bi"
+                    [class.bi-chevron-down]="openFaqId !== faq.id"
+                    [class.bi-chevron-up]="openFaqId === faq.id"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+                @if (openFaqId === faq.id) {
+                  <div class="help-center-faq-content">
+                    <p>{{ faq.answer }}</p>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="help-center-no-results">
+            <i class="bi bi-search help-center-no-results-icon" aria-hidden="true"></i>
+            <span>لم نعثر على نتيجة مطابقة. جرّب استخدام كلمات أبسط أو اختر تصنيفًا آخر.</span>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Quick Guides -->
+  <section class="help-center-guides-section">
+    <div class="container help-center-container">
+      <div class="help-center-section-header text-center">
+        <h2 class="help-center-section-title">إرشادات سريعة</h2>
+        <p class="help-center-section-description">
+          خطوات بسيطة تساعدك في حل أكثر المشكلات شيوعًا.
+        </p>
+      </div>
+
+      <div class="help-center-guides-grid">
+        <!-- Guide 1 -->
+        <div class="help-center-guide-card">
+          <div class="help-center-guide-header">
+            <div class="help-center-guide-icon-wrapper">
+              <i class="bi bi-key" aria-hidden="true"></i>
+            </div>
+            <h3 class="help-center-guide-title">استعادة الوصول إلى حسابك</h3>
+          </div>
+          <ol class="help-center-guide-steps">
+            <li>افتح صفحة تسجيل الدخول.</li>
+            <li>اختر «نسيت كلمة المرور».</li>
+            <li>استخدم البريد المرتبط بحسابك.</li>
+          </ol>
+          <a routerLink="/forgot-password" class="help-center-guide-link">
+            <span>استعادة كلمة المرور</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <!-- Guide 2 -->
+        <div class="help-center-guide-card">
+          <div class="help-center-guide-header">
+            <div class="help-center-guide-icon-wrapper">
+              <i class="bi bi-credit-card" aria-hidden="true"></i>
+            </div>
+            <h3 class="help-center-guide-title">قبل التواصل بخصوص عملية دفع</h3>
+          </div>
+          <ol class="help-center-guide-steps">
+            <li>احتفظ برقم العملية.</li>
+            <li>دوّن القيمة والتاريخ.</li>
+            <li>لا ترسل بيانات البطاقة البنكية الكاملة.</li>
+          </ol>
+          <a routerLink="/contact-us" class="help-center-guide-link">
+            <span>تواصل مع الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Account Security Alert Banner -->
+      <div class="help-center-security-banner">
+        <div class="help-center-security-icon-wrapper">
+          <i class="bi bi-shield-check" aria-hidden="true"></i>
+        </div>
+        <div class="help-center-security-text">
+          <h3 class="help-center-security-title">حافظ على أمان حسابك</h3>
+          <p class="help-center-security-description">
+            لن يطلب منك فريق الفرقان مشاركة كلمة المرور أو رمز تسجيل الدخول أو بيانات البطاقة البنكية الكاملة. استخدم دائمًا البريد الرسمي للمنصة عند التواصل.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Final Support CTA -->
+  <section class="help-center-cta-section">
+    <div class="container">
+      <div class="help-center-cta-card">
+        <div class="help-center-cta-icon-wrapper">
+          <i class="bi bi-headset" aria-hidden="true"></i>
+        </div>
+        <div class="help-center-cta-content text-center">
+          <h2 class="help-center-cta-title">لم تجد الإجابة التي تبحث عنها؟</h2>
+          <p class="help-center-cta-description">
+            يمكنك التواصل مع فريق الفرقان وإرسال تفاصيل استفسارك، وسنساعدك في الوصول إلى الحل المناسب.
+          </p>
+        </div>
+        <div class="help-center-cta-actions">
+          <a routerLink="/contact-us" class="help-center-cta-btn-primary">
+            تواصل معنا
+          </a>
+          <a routerLink="/" class="help-center-cta-btn-secondary">
+            العودة إلى الرئيسية
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
