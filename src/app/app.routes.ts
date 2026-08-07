@@ -111,6 +111,12 @@ export const routes: Routes = [
     ],
   },
   {
+  path: 'chat',
+  loadComponent: () =>
+    import('./features/ai/pages/chat/chat.component').then(m => m.ChatComponent),
+  title: 'المساعد الذكي'
+},
+  {
     path: 'teacher',
     component: TeacherLayoutComponent,
     children: [
@@ -203,4 +209,5 @@ export const routes: Routes = [
     title: 'فشلت عملية الدفع',
   },
   { path: 'checkout/:id', component: CheckoutComponent },
+  
 ];

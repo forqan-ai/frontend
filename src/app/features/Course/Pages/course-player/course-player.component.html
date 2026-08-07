@@ -219,6 +219,12 @@
           }
         </aside>
       </section>
+
+       <section class="chat-column">
+    <app-chat
+      [lessonId]="selectedLesson()?.lessonID ?? ''">
+    </app-chat>
+      </section>
     </main>
   </div>
 }
