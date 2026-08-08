@@ -4,8 +4,6 @@
 
 @if (coursePlayer(); as course) {
   <div class="player-page">
-
-
     <header class="top-bar">
       <div class="course-info">
         <div class="course-name">
@@ -57,22 +55,16 @@
         </button>
 
         @if (hasNextLesson()) {
-  <button
-    class="nav-btn primary"
-    (click)="goToNextLesson()"
-  >
-    الدرس التالي
-    <i class="bi bi-arrow-left"></i>
-  </button>
-} @else {
-  <button
-    class="nav-btn primary"
-    (click)="goToNextLesson()"
-  >
-    <i class="bi bi-award-fill"></i>
-    استلام الشهادة
-  </button>
-}
+          <button class="nav-btn primary" (click)="goToNextLesson()">
+            الدرس التالي
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        } @else {
+          <button class="nav-btn primary" (click)="goToNextLesson()">
+            <i class="bi bi-award-fill"></i>
+            استلام الشهادة
+          </button>
+        }
       </div>
     </header>
 
@@ -153,7 +145,11 @@
           </h3>
 
           @for (module of course.modules; track module.moduleID) {
-            <details class="module-card" open>
+            <details
+  class="module-card"
+  open
+  (toggle)="onModuleToggle($event, module.moduleID)"
+>
               <summary>
                 <div>
                   <i class="bi bi-folder-fill"></i>
@@ -176,7 +172,9 @@
                         @if (lesson.contentType === 'Video') {
                           <img [src]="getYoutubeThumbnail(lesson.contentURL)" alt="video" />
                         } @else if (lesson.contentType === 'Reading') {
-                          <iframe scrolling="no" [src]="lesson.contentURL | safeUrl"> </iframe>
+                          <div class="audio-thumb">
+                            <i class="bi bi-book-fill"></i>
+                          </div>
                         } @else {
                           <div class="audio-thumb">
                             <i class="bi bi-music-note-beamed"></i>
@@ -220,10 +218,8 @@
         </aside>
       </section>
 
-       <section class="chat-column">
-    <app-chat
-      [lessonId]="selectedLesson()?.lessonID ?? ''">
-    </app-chat>
+      <section class="chat-column">
+        <app-chat [lessonId]="selectedLesson()?.lessonID ?? ''"> </app-chat>
       </section>
     </main>
   </div>

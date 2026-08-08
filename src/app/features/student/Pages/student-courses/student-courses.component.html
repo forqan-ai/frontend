@@ -1,1 +1,224 @@
-<p>student-courses works!</p>
+<div class="courses-page" dir="rtl">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="bi bi-book"></i>
+      </div>
+
+      <div>
+        <h1>دوراتي</h1>
+        <p>الدورات التي قمت بالتسجيل فيها ومتابعة تقدمك فيها</p>
+      </div>
+    </div>
+
+    <div class="courses-count">
+      <span>{{ courses.length }}</span>
+      <small>دورات</small>
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+  @if (loading()) {
+
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>جاري تحميل دوراتك...</p>
+    </div>
+
+  }
+
+
+  <!-- Error -->
+  @if (!loading && error()) {
+
+    <div class="error-container">
+
+      <i class="bi bi-exclamation-circle"></i>
+
+      <h3>حدث خطأ</h3>
+
+      <p>{{ error() }}</p>
+
+      <button
+        type="button"
+        class="retry-btn"
+        (click)="loadCourses()">
+
+        <i class="bi bi-arrow-repeat"></i>
+        المحاولة مرة أخرى
+
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- Empty -->
+  @if (!loading && !error && courses.length === 0) {
+
+    <div class="empty-container">
+
+      <div class="empty-icon">
+        <i class="bi bi-book"></i>
+      </div>
+
+      <h3>لا توجد دورات حتى الآن</h3>
+
+      <p>لم تقم بالتسجيل في أي دورة بعد</p>
+
+    </div>
+
+  }
+
+
+  <!-- Courses -->
+  @if (!loading() && !error() && courses.length > 0) {
+
+    <div class="courses-grid">
+
+      @for (course of courses; track course.enrollmentID; let i = $index) {
+
+        <div class="course-card">
+
+          <!-- Top -->
+          <div class="course-top">
+
+            <div class="course-icon">
+              <i [class]="'bi ' + getCourseIcon(i)"></i>
+            </div>
+
+            @if (course.isCompleted || course.progressPercent >= 100) {
+
+              <span class="status completed">
+                <i class="bi bi-check-circle-fill"></i>
+                مكتملة
+              </span>
+
+            }
+            @else if (course.progressPercent > 0) {
+
+              <span class="status progress">
+                <i class="bi bi-clock"></i>
+                قيد التعلم
+              </span>
+
+            }
+            @else {
+
+              <span class="status new">
+                جديدة
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- Information -->
+          <div class="course-info">
+
+            <h2>
+              {{ course.courseName }}
+            </h2>
+
+            <p class="enrolled-date">
+
+              <i class="bi bi-calendar3"></i>
+
+              تاريخ التسجيل:
+              {{ course.enrolledAt | date:'dd/MM/yyyy' }}
+
+            </p>
+
+          </div>
+
+
+          <!-- Progress -->
+          <div class="progress-section">
+
+            <div class="progress-header">
+
+              <span>نسبة التقدم</span>
+
+              <strong>
+                {{ course.progressPercent }}%
+              </strong>
+
+            </div>
+
+            <div class="progress-bar">
+
+              <div
+                class="progress-value"
+                [class]="getProgressClass(course.progressPercent)"
+                [style.width.%]="course.progressPercent">
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Footer -->
+          <div class="course-footer">
+
+            <div class="progress-text">
+
+              @if (course.isCompleted || course.progressPercent >= 100) {
+
+                <i class="bi bi-check-circle-fill"></i>
+                اكتملت الدورة
+
+              }
+              @else if (course.progressPercent === 0) {
+
+                <i class="bi bi-play-circle"></i>
+                لم تبدأ بعد
+
+              }
+              @else {
+
+                <i class="bi bi-bar-chart"></i>
+                {{ getProgressText(course) }}
+
+              }
+
+            </div>
+
+
+            <button
+              type="button"
+              class="continue-btn"
+              (click)="continueCourse(course)">
+
+              @if (course.progressPercent === 0) {
+                ابدأ التعلم
+              }
+              @else if (course.isCompleted || course.progressPercent >= 100) {
+                مراجعة الدورة
+              }
+              @else {
+                متابعة التعلم
+              }
+
+              <i class="bi bi-arrow-left"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

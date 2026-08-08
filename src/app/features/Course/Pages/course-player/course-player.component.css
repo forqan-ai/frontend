@@ -602,6 +602,42 @@
   box-shadow: 0 18px 45px rgba(52, 27, 22, 0.08);
 }
 
+.course-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 24px;
+  align-items: start;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.player-card {
+  width: 100%;
+}
+
+.player-card iframe,
+.video-preview {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
+.right-column {
+  height: calc((100vw - 350px - 24px) * 9 / 16);
+  max-height: calc((100vw - 350px - 24px) * 9 / 16);
+}
+
+.sidebar {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.chat-column {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 1200px) {
    .course-layout {
     grid-template-columns: 1fr;
