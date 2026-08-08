@@ -1,1 +1,206 @@
-<p>admin-courses-review works!</p>
+<div class="review-page">
+  <h2 class="page-title">مراجعة الدورات</h2>
+
+  @if (loading()) {
+    <div class="loading">جاري تحميل الدورات...</div>
+  } @else {
+    @if (courses().length === 0) {
+      <div class="empty-state">
+        <h3>لا توجد دورات بانتظار المراجعة</h3>
+
+        <p>جميع الدورات تم مراجعتها حاليًا.</p>
+      </div>
+    } @else {
+      <div class="courses-list">
+        @for (course of courses(); track course.courseID) {
+          <div class="course-card">
+            <img
+              [src]="course.thumbnailURL || 'assets/images/course-placeholder.jpg'"
+              [alt]="course.title"
+              class="course-thumbnail"
+            />
+
+            <div class="course-data">
+              <h3>
+                {{ course.title }}
+              </h3>
+
+              <p>
+                {{ course.subtitle }}
+              </p>
+
+              <span>
+                التصنيف:
+                {{ course.categoryName }}
+              </span>
+
+              <span>
+                الحالة:
+                {{ course.status }}
+              </span>
+            </div>
+
+            <div class="course-actions">
+              <app-button (btnClick)="reviewCourse(course.courseID)"> مراجعة الدورة </app-button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  @if (detailsLoading()) {
+    <div class="loading">جاري تحميل تفاصيل الدورة...</div>
+  }
+
+  @if (selectedCourse(); as course) {
+    <div class="review-overlay">
+      <div class="review-modal">
+        <!-- Header -->
+        <div class="review-header">
+          <div>
+            <h2>{{ course.title }}</h2>
+
+            <p>{{ course.subtitle }}</p>
+          </div>
+
+          <button
+            type="button"
+            class="close-button"
+            [disabled]="actionLoading()"
+            (click)="closeReview()"
+          >
+            ×
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="review-body">
+          @if (course.thumbnailURL) {
+            <img [src]="course.thumbnailURL" [alt]="course.title" class="details-thumbnail" />
+          }
+
+          <div class="course-description">
+            <h3>وصف الدورة</h3>
+
+            <p>
+              {{ course.description || 'لا يوجد وصف للدورة' }}
+            </p>
+          </div>
+
+          <!-- Curriculum -->
+          <div class="curriculum">
+            <h3 class="section-title">محتوى الدورة</h3>
+
+            @if (course.modules.length === 0) {
+              <p class="empty-content">لا توجد وحدات في هذه الدورة.</p>
+            } @else {
+              @for (module of course.modules; track module.moduleID) {
+                <div class="module-card">
+                  <div class="module-header">
+                    <span class="module-number">
+                      {{ module.orderIndex + 1 }}
+                    </span>
+
+                    <h4>
+                      {{ module.title }}
+                    </h4>
+                  </div>
+
+                  <div class="lessons">
+                    @for (lesson of module.lessons; track lesson.lessonID) {
+                      <div class="lesson-item">
+                        <div class="lesson-info">
+                          <span class="lesson-number">
+                            {{ lesson.orderIndex + 1 }}
+                          </span>
+
+                          <div>
+                            <h5>
+                              {{ lesson.title }}
+                            </h5>
+
+                            <span class="lesson-type">
+                              {{ lesson.contentType }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <span class="lesson-duration"> {{ lesson.durationSeconds }} ثانية </span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+
+        <!-- Footer / Actions -->
+        <div class="review-footer">
+          <button
+            type="button"
+            class="cancel-button"
+            [disabled]="actionLoading()"
+            (click)="closeReview()"
+          >
+            إغلاق
+          </button>
+
+          <button
+            type="button"
+            class="reject-button"
+            [disabled]="actionLoading()"
+            (click)="openRejectDialog()"
+          >
+            رفض الدورة
+          </button>
+
+          <button
+            type="button"
+            class="approve-button"
+            [disabled]="actionLoading()"
+            (click)="approveCourse()"
+          >
+            @if (actionLoading()) {
+              جاري التنفيذ...
+            } @else {
+              قبول الدورة
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+  @if (rejectDialog()) {
+    <div class="reject-dialog">
+      <div class="dialog-content">
+        <h3>رفض الدورة</h3>
+
+        <textarea
+          rows="5"
+          placeholder="اكتب سبب رفض الدورة..."
+          [value]="rejectionReason()"
+          [disabled]="actionLoading()"
+          (input)="onRejectionReasonChange($event)"
+        ></textarea>
+
+        <div class="dialog-actions">
+          <button type="button" (click)="closeRejectDialog()">إلغاء</button>
+
+          <button
+            type="button"
+            [disabled]="actionLoading() || !rejectionReason().trim()"
+            (click)="rejectCourse()"
+          >
+            @if (actionLoading()) {
+              جاري الرفض...
+            } @else {
+              تأكيد الرفض
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

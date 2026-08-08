@@ -9,7 +9,7 @@ import { RouterLink } from "@angular/router";
 @Component({
   selector: 'app-teaching-request-list',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, RouterLink],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './admin-teaching-requests.component.html',
   styleUrls: ['./admin-teaching-requests.component.css']
 })
