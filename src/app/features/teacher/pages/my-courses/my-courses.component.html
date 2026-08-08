@@ -72,6 +72,12 @@
             </div>
           </div>
         </div>
+
+          @if (submitError()) {
+          <div class="submit-error-msg" style="color:red; padding: 8px 12px; margin: 4px 0; font-size:13px; background:#fff0f0; border-radius:6px; border:1px solid #f5c6cb;">
+            ⚠️ {{ submitError() }}
+          </div>
+          }
       </div>
     }
   </div>
