@@ -244,4 +244,22 @@ export class CoursePlayerComponent implements OnInit {
         return '';
     }
   }
+
+  onModuleToggle(event: Event, moduleId: string): void {
+  const current = event.target as HTMLDetailsElement;
+
+  if (!current.open) {
+    return;
+  }
+
+  const modules = document.querySelectorAll<HTMLDetailsElement>(
+    '.module-card'
+  );
+
+  modules.forEach(module => {
+    if (module !== current) {
+      module.open = false;
+    }
+  });
+}
 }
