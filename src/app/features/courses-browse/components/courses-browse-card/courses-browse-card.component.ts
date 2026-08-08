@@ -79,7 +79,7 @@ export class CoursesBrowseCardComponent implements OnInit {
       });
     }
     else {
-      this.router.navigateByUrl(`/course-details/${this.course.courseID}`);
+      this.router.navigateByUrl(`/courses/${this.course.courseID}`);
     }
 
   }

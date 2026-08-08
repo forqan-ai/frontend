@@ -1,10 +1,10 @@
 <a
   class="course-card"
   /* [routerLink]="['/course-details', course.courseID]" */
-  /* [routerLink]="['.', course.courseID]" */
+  [routerLink]="['.', course.courseID]"
 
   /* [attr.aria-label]="'عرض تفاصيل دورة ' + course.title" */
-  (click)="navigateToCourse()"
+  /* (click)="navigateToCourse()" */
 >
   <div class="course-image-wrapper">
     <img

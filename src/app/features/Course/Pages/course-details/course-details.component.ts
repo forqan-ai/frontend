@@ -290,7 +290,7 @@ export class CourseDetailsComponent {
 
   navigateToTeacher() {
     if (this.authService.isLoggedIn()) {
-      this.router.navigateByUrl(`/dashboard/student/teachers/${this.course()?.teacherID}/details`)
+      this.router.navigateByUrl(`/student/teachers/${this.course()?.teacherID}/details`)
     }
     else {
       this.router.navigateByUrl(`teachers/${this.course()?.teacherID}/details`)

@@ -28,6 +28,7 @@
               [src]="item.thumbnailURL || 'images/card1.jfif'"
               [alt]="item.title"
               class="card-image"
+               [routerLink]="['../courses', item.courseID]"
               (error)="$any($event.target).src = 'images/card1.jfif'"
             />
             <button
@@ -41,7 +42,7 @@
           <div class="card-body">
             <span class="category-badge">{{ item.categoryName }}</span>
             <h3 class="card-title">
-              <a [routerLink]="['/course-details', item.courseID]">{{ item.title }}</a>
+              {{ item.title }}
             </h3>
             <p class="teacher-name">
               <i class="bi bi-person"></i>

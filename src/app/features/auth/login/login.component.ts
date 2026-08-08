@@ -143,9 +143,9 @@ export class LoginComponent implements AfterViewInit {
           if (this.authService.hasRole(Role.Teacher)) {
             this.router.navigate(['/teacher']);
           } else if (this.authService.hasRole(Role.Student)) {
-            this.router.navigate(['/dashboard/student/home']);
+            this.router.navigate(['/student/home']);
           } else if (this.authService.hasRole(Role.Admin)) {
-            this.router.navigate(['/dashboard/admin/teaching-requests']);
+            this.router.navigate(['/admin/teaching-requests']);
           }
         } else {
           const apiError = res.errors as ApiError[];

@@ -23,7 +23,7 @@ export class TeacherDetailsComponent {
 
 
   ngOnInit() {
-    const teacherId = this.route.snapshot.paramMap.get('id');
+    const teacherId = this.route.snapshot.paramMap.get('teacherid');
     this.loadTeacherDetails(teacherId!);
   }
 

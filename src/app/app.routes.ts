@@ -18,6 +18,8 @@ import { TeachingRequestComponent } from './features/student/Pages/teaching-requ
 import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 
 import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
+import { StudentDashboardComponent } from './Layout/dashboard_layout/student-dashboard/student-dashboard.component';
+import { AdminDashboardComponent } from './Layout/dashboard_layout/admin-dashboard/admin-dashboard.component';
 export const routes: Routes = [
   {
     path: '',
@@ -38,17 +40,22 @@ export const routes: Routes = [
         title: 'إنشاء حساب',
       },
       {
-        path: 'courses',
-        component: CoursesBrowseComponent,
-        title: 'تصفح الدورات المقدمة من منصة الفرقان',
+        path: 'courses/:id/:teacherid',
+        component: TeacherDetailsComponent,
+        title: 'تفاصيل عن المعلم'
       },
       {
-        path: 'course-details/:id',
+        path: 'courses/:id',
         loadComponent: () =>
           import('./features/Course/Pages/course-details/course-details.component').then(
             (m) => m.CourseDetailsComponent,
           ),
         title: 'تفاصيل الدورة',
+      },
+      {
+        path: 'courses',
+        component: CoursesBrowseComponent,
+        title: 'تصفح الدورات المقدمة من منصة الفرقان',
       },
       {
         path: 'course-details/:courseId/certificate',
@@ -64,7 +71,7 @@ export const routes: Routes = [
         title: 'تصفح المعلمون المسجلون علي من منصة الفرقان',
       },
       {
-        path: 'teachers/:id/details',
+        path: 'teachers/:teacherid/details',
         component: TeacherDetailsComponent,
         title: 'تفاصيل عن المعلم',
       },
@@ -109,6 +116,27 @@ export const routes: Routes = [
         loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
       },
     ],
+  },
+  {
+    path: 'student',
+    component: StudentDashboardComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
+      },
+    ]
+  },
+  {
+    path: 'admin',
+    component: AdminDashboardComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+      },
+    ]
   },
   {
     path: 'teacher',
@@ -168,7 +196,7 @@ export const routes: Routes = [
   {
     path: 'pointPackages',
     component: PointPackagesComponent,
-    title : 'شراء نقاط'
+    title: 'شراء نقاط'
   },
   {
     path: 'course-checkout/:id',
@@ -202,5 +230,9 @@ export const routes: Routes = [
       ),
     title: 'فشلت عملية الدفع',
   },
-  { path: 'checkout/:id', component: CheckoutComponent },
+  {
+    path: 'checkout/:id',
+    component: CheckoutComponent,
+    title: 'متابعة عملية الدفع'
+  },
 ];

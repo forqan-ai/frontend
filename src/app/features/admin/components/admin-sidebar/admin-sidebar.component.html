@@ -1,27 +1,3 @@
-<!-- <aside class="sidebar">
-  <div class="sidebar-profile">
-    <div class="avatar sidebar-avatar">
-      <img [src]="studentImage()" alt="Profile" />
-    </div>
-    <span>{{ user()?.fullName }}</span>
-  </div>
-
-  <nav class="sidebar-nav">
-    <a class="active"><i class="bi bi-grid-1x2-fill"></i> الرئيسية</a>
-    <a><i class="bi bi-book"></i> دوراتي</a>
-    <a><i class="bi bi-award"></i> شهاداتي</a>
-    <a><i class="bi bi-people"></i> حلقات العلم</a>
-      <a routerLink="/my-bookings"><i class="bi bi-calendar-check"></i> حجوزاتي</a>
-    <a routerLink="/settings"><i class="bi bi-gear"></i> الإعدادات</a>
-  </nav>
-
-  <a class="sidebar-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i> تسجيل خروج</a>
-</aside> -->
-
-
-<!-- Desktop Sidebar (visible on md+) -->
-<!-- Desktop Sidebar (visible on md+) -->
-<!-- width was 260 px -->
 <div class="d-none d-lg-flex flex-column vh-100 position-fixed end-0 top-0"
   style="width: 240px; z-index: 1000; background-color: var(--primary-hover);">
   <div class="p-3 border-bottom-side text-center" style="background-color: var(--bg);">
@@ -38,58 +14,24 @@
 
   <nav class="flex-grow-1 p-3">
     <div class="d-flex flex-column gap-2">
-      <a routerLink="admin/teaching-requests" (click)="setActiveRoute('teaching-requests')"
+      <a routerLink="teaching-requests" (click)="setActiveRoute('teaching-requests')"
         [class.green-anchor]="isActive('teaching-requests')" [class.grey-anchor]="!isActive('teaching-requests')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-grid-1x2-fill"></i> طلبات التدريس
+        <i class="bi bi-grid-1x2-fill"></i> طلبات الانضمام
       </a>
 
-      <a routerLink="admin/courses-review" (click)="setActiveRoute('courses-review')"
+      <a routerLink="courses-review" (click)="setActiveRoute('courses-review')"
         [class.green-anchor]="isActive('courses-review')" [class.grey-anchor]="!isActive('courses-review')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-book"></i> مراجعة الدورات
       </a>
 
-      <a routerLink="admin/bookings" (click)="setActiveRoute('bookings')"
-        [class.green-anchor]="isActive('bookings')" [class.grey-anchor]="!isActive('bookings')"
+      <a routerLink="bookings" (click)="setActiveRoute('bookings')" [class.green-anchor]="isActive('bookings')"
+        [class.grey-anchor]="!isActive('bookings')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-calendar-check"></i> إدارة الحجوزات
       </a>
 
-      <!-- <a routerLink="student/learning-circles" (click)="setActiveRoute('learning-circles')"
-        [class.green-anchor]="isActive('learning-circles')" [class.grey-anchor]="!isActive('learning-circles')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-bounding-box-circles"></i>
-        حلقات العلم
-      </a>
-
-      <a routerLink="student/teachers" (click)="setActiveRoute('teachers')" [class.green-anchor]="isActive('teachers')"
-        [class.grey-anchor]="!isActive('teachers')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <span class="material-symbols-outlined">
-          groups
-        </span>
-        المعلمون
-      </a>
-
-      <a routerLink="student/courses" (click)="setActiveRoute('courses')" [class.green-anchor]="isActive('courses')"
-        [class.grey-anchor]="!isActive('courses')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-collection-play"></i>
-        الدورات
-      </a> -->
-
-      <!-- <a routerLink="my-certificates" (click)="setActiveRoute('my-certificates')"
-        [class.green-anchor]="isActive('my-certificates')" [class.grey-anchor]="!isActive('my-certificates')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-award"></i> شهاداتي
-      </a> -->
-
-      <!-- <a routerLink="student/settings" (click)="setActiveRoute('settings')" [class.green-anchor]="isActive('settings')"
-        [class.grey-anchor]="!isActive('settings')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-person-gear"></i> إدارة حسابك
-      </a> -->
     </div>
   </nav>
 

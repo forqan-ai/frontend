@@ -1,30 +1,5 @@
-<!-- <aside class="sidebar">
-  <div class="sidebar-profile">
-    <div class="avatar sidebar-avatar">
-      <img [src]="studentImage()" alt="Profile" />
-    </div>
-    <span>{{ user()?.fullName }}</span>
-  </div>
-
-  <nav class="sidebar-nav">
-    <a class="active"><i class="bi bi-grid-1x2-fill"></i> الرئيسية</a>
-    <a><i class="bi bi-book"></i> دوراتي</a>
-    <a><i class="bi bi-award"></i> شهاداتي</a>
-    <a><i class="bi bi-people"></i> حلقات العلم</a>
-      <a routerLink="/my-bookings"><i class="bi bi-calendar-check"></i> حجوزاتي</a>
-    <a routerLink="/settings"><i class="bi bi-gear"></i> الإعدادات</a>
-  </nav>
-
-  <a class="sidebar-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i> تسجيل خروج</a>
-</aside> -->
-
-<!-- Desktop Sidebar (visible on md+) -->
-<!-- Desktop Sidebar (visible on md+) -->
-<!-- width was 260 px -->
-<div
-  class="d-none d-lg-flex flex-column vh-100 position-fixed end-0 top-0"
-  style="width: 240px; z-index: 1000; background-color: var(--primary-hover)"
->
+<div class="d-none d-lg-flex flex-column vh-100 position-fixed end-0 top-0"
+  style="width: 240px; z-index: 1000; background-color: var(--primary-hover)">
   <div class="p-3 border-bottom-side text-center" style="background-color: var(--bg)">
     <div class="d-flex flex-column align-items-center gap-2">
       <app-avatar [border]="true" [size]="70" src="{{ studentImage() }}"> </app-avatar>
@@ -37,102 +12,70 @@
 
   <nav class="flex-grow-1 p-3">
     <div class="d-flex flex-column gap-2">
-      <a
-        routerLink="/dashboard/student/home"
-        (click)="setActiveRoute('home')"
-        [class.green-anchor]="isActive('home')"
-        [class.grey-anchor]="!isActive('home')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="home" (click)="setActiveRoute('home')"
+        [class.secondary-white-anchor]="isActive('home')" [class.white-anchor]="!isActive('home')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-grid-1x2-fill"></i> الرئيسية
       </a>
 
-      <a
-        routerLink="/dashboard/student/my-courses"
-        (click)="setActiveRoute('my-courses')"
-        [class.green-anchor]="isActive('my-courses')"
-        [class.grey-anchor]="!isActive('my-courses')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="my-courses" (click)="setActiveRoute('my-courses')"
+        [class.secondary-white-anchor]="isActive('my-courses')" [class.white-anchor]="!isActive('my-courses')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-book"></i> دوراتي
       </a>
 
-      <a
-        routerLink="/dashboard/student/learning-circles"
-        (click)="setActiveRoute('learning-circles')"
-        [class.green-anchor]="isActive('learning-circles')"
-        [class.grey-anchor]="!isActive('learning-circles')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="learning-circles" (click)="setActiveRoute('learning-circles')"
+        [class.secondary-white-anchor]="isActive('learning-circles')"
+        [class.white-anchor]="!isActive('learning-circles')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <!-- <i class="bi bi-people"></i>  -->
         <i class="bi bi-bounding-box-circles"></i>
         حلقات العلم
       </a>
 
-      <a
-        routerLink="/dashboard/student/teachers"
-        (click)="setActiveRoute('teachers')"
-        [class.green-anchor]="isActive('teachers')"
-        [class.grey-anchor]="!isActive('teachers')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="teachers" (click)="setActiveRoute('teachers')"
+        [class.secondary-white-anchor]="isActive('teachers')" [class.white-anchor]="!isActive('teachers')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <span class="material-symbols-outlined"> groups </span>
         المعلمون
       </a>
 
-      <a
-        routerLink="/dashboard/student/courses"
-        (click)="setActiveRoute('courses')"
-        [class.green-anchor]="isActive('courses')"
-        [class.grey-anchor]="!isActive('courses')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="courses" (click)="setActiveRoute('courses')"
+        [class.secondary-white-anchor]="isActive('courses')" [class.white-anchor]="!isActive('courses')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <!-- <i class="bi bi-journal-bookmark-fill"></i> -->
         <i class="bi bi-collection-play"></i>
         الدورات
       </a>
 
-      <a
-      routerLink="/dashboard/student/wishlist"
-      (click)="setActiveRoute('wishlist')"
-      [class.green-anchor]="isActive('wishlist')"
-      [class.grey-anchor]="!isActive('wishlist')"
-      class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-    >
-      <i class="bi bi-heart"></i>
-      مفضلتي
-    </a>
-
-
-      <!-- <a routerLink="my-certificates" (click)="setActiveRoute('my-certificates')"
-        [class.green-anchor]="isActive('my-certificates')" [class.grey-anchor]="!isActive('my-certificates')"
+      <a routerLink="wishlist" (click)="setActiveRoute('wishlist')"
+        [class.secondary-white-anchor]="isActive('wishlist')" [class.white-anchor]="!isActive('wishlist')"
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
-        <i class="bi bi-award"></i> شهاداتي
-      </a> -->
+        <i class="bi bi-heart"></i>
+        مفضلتي
+      </a>
 
-      <a
-        routerLink="/dashboard/student/settings"
-        (click)="setActiveRoute('settings')"
-        [class.green-anchor]="isActive('settings')"
-        [class.grey-anchor]="!isActive('settings')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="settings" (click)="setActiveRoute('settings')"
+        [class.secondary-white-anchor]="isActive('settings')" [class.white-anchor]="!isActive('settings')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-person-gear"></i> إدارة حسابك
       </a>
+
+      @if( user()?.role == 'Teacher' ){
+      <a routerLink="/teacher" (click)="setActiveRoute('teacher')" [class.white-anchor]="!isActive('teacher')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
+        <i class="fa fa-person-chalkboard"></i> اذهب الي لوحة المعلم
+      </a>
+      }
+
     </div>
   </nav>
 
   <div class="p-3 border-top-side">
-    <a
-      href="#"
-      class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none"
-    >
+    <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 white-anchor text-decoration-none">
       Help & Support
     </a>
-    <a
-      (click)="logout()"
-      class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none"
-    >
+    <a (click)="logout()" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 white-anchor text-decoration-none">
       <i class="bi bi-box-arrow-left"></i> تسجيل خروج
     </a>
   </div>

@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
 import { SettingsService } from '../../Services/settings.service';
@@ -20,6 +20,7 @@ export class StudentMobileSidebarComponent {
 
   activeRoute: string = 'home';
   user = this.settingsService.user;
+
 
   studentImage = computed(() =>
     this.getStudentImage(this.user()?.profileImageURL)
@@ -71,10 +72,10 @@ export class StudentMobileSidebarComponent {
       this.activeRoute = 'teachers';
     } else if (url.includes('/dashboard/courses')) {
       this.activeRoute = 'courses';
-      // } else if (url.includes('/dashboard/my-certificates')) {
-      //   this.activeRoute = 'my-certificates';
     } else if (url.includes('/dashboard/settings')) {
       this.activeRoute = 'settings';
+    } else if (url.includes('teacher')) {
+      this.activeRoute = 'teacher'
     }
   }
 

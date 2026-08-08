@@ -32,7 +32,7 @@ export class CoursesBrowseComponent implements OnInit {
 
   private readonly courseService = inject(CourseService);
   private readonly authService = inject(AuthService);
-
+  
   private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('recommendedSlider') recommendedSliderRef!: ElementRef<HTMLDivElement>;

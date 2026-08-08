@@ -137,19 +137,14 @@
         <h3 class="section-title mb-4 text-end">مُقدّم الدورة</h3>
         <div class="instructor-card text-center p-4">
           <div class="instructor-avatar-frame mx-auto mb-3 shadow-sm">
-            <!-- <img [src]="course()?.teacherImgUrl" [alt]="course()?.teacherName"
-                            class="img-fluid rounded-circle"> -->
             <a class="image-link">
               <img [src]="course()?.teacherImgUrl ?? 'images/avatar.webp'" [alt]="course()?.teacherName"
-                class="instructor-image" (click)="navigateToTeacher()" />
+                class="instructor-image" [routerLink]="['.', course()?.teacherID]" />
             </a>
           </div>
-          <a [routerLink]="['/teachers', course()?.teacherID, 'details']" class="name-link">
-            <!-- {{ course()?.teacherName }} -->
-
+          <a [routerLink]="['.', course()?.teacherID]" class="name-link">
             <h5 class="mb-1">{{ course()?.teacherName }}</h5>
           </a>
-          <!-- <h5 class="mb-1">{{course()?.teacherName }}</h5> -->
           <p class="instructor-title mb-3">{{ course()?.teacherTitle }}</p>
           <hr class="instructor-divider my-3" />
           <p class="instructor-bio">{{ course()?.teacherBio }}</p>
