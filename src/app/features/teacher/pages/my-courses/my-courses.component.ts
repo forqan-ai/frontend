@@ -42,4 +42,36 @@ export class MyCoursesComponent {
   buildCourse(courseId: string) {
     this.router.navigate(['/teacher/course-builder', courseId]);
   }
+
+  submitLoading = signal<string | null>(null);
+  submitError = signal<string | null>(null);
+
+  submitForReview(courseId: string): void {
+    if (this.submitLoading()) {
+      return;
+    }
+
+    const confirmed = confirm('هل أنت متأكد من إرسال الدورة للمراجعة؟');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.submitLoading.set(courseId);
+    this.submitError.set(null);
+
+    this.courseService.submitCourseForReview(courseId).subscribe({
+      next: () => {
+        this.submitLoading.set(null);
+        this.loadCourses();
+      },
+
+      error: (err) => {
+        console.error('Error submitting course for review:', err);
+        this.submitLoading.set(null);
+        const msg = err?.error || 'حدث خطأ أثناء الإرسال';
+        this.submitError.set(typeof msg === 'string' ? msg : JSON.stringify(msg));
+      },
+    });
+  }
 }

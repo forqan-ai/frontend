@@ -1,0 +1,532 @@
+<main class="privacy-page" dir="rtl">
+  <!-- Hero Section -->
+  <section class="privacy-hero">
+    <div class="privacy-hero-pattern"></div>
+    <div class="container">
+      <div class="privacy-hero-content">
+        <nav aria-label="مسار التصفح" class="privacy-breadcrumb">
+          <a routerLink="/" class="privacy-breadcrumb-link">الرئيسية</a>
+          <span class="privacy-breadcrumb-separator">/</span>
+          <a routerLink="/help-center" class="privacy-breadcrumb-link">الدعم والمساعدة</a>
+          <span class="privacy-breadcrumb-separator">/</span>
+          <span class="privacy-breadcrumb-current" aria-current="page">سياسة الخصوصية</span>
+        </nav>
+
+        <div class="privacy-hero-heading-row">
+          <div class="privacy-hero-badge">
+            <i class="bi bi-shield-lock privacy-hero-icon" aria-hidden="true"></i>
+            <span>الخصوصية والأمان</span>
+          </div>
+          <h1 class="privacy-hero-title">سياسة الخصوصية</h1>
+          <p class="privacy-hero-description">
+            نوضح في هذه السياسة كيفية جمع بياناتك واستخدامها وحمايتها عند استخدام منصة الفرقان وخدماتها التعليمية.
+          </p>
+          <div class="privacy-hero-meta">
+            <i class="bi bi-calendar3" aria-hidden="true"></i>
+            <span>آخر تحديث: 6 أغسطس 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <div class="container privacy-main-container">
+    <!-- Mobile Table of Contents -->
+    <details class="privacy-mobile-toc d-lg-none">
+      <summary class="privacy-mobile-toc-summary">
+        <i class="bi bi-list-nested me-2" aria-hidden="true"></i>
+        <span>محتويات السياسة</span>
+      </summary>
+      <nav class="privacy-mobile-toc-nav" aria-label="جدول محتويات السياسة للمحمول">
+        <ul class="privacy-mobile-toc-list">
+          @for (section of sections; track section.id) {
+            <li>
+              <a
+                [routerLink]="[]"
+                [fragment]="section.id"
+                (click)="setActiveSection(section.id)"
+                [class.active]="activeSection() === section.id"
+                class="privacy-mobile-toc-link"
+              >
+                <span class="privacy-toc-number">{{ section.number }}</span>
+                <span class="privacy-toc-label">{{ section.label }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+    </details>
+
+    <!-- Two-Column Layout -->
+    <div class="privacy-layout">
+      <!-- Sticky Sidebar Table of Contents (Desktop) -->
+      <aside class="privacy-toc-aside d-none d-lg-block">
+        <nav class="privacy-toc-card" aria-label="جدول محتويات السياسة">
+          <h2 class="privacy-toc-title">محتويات السياسة</h2>
+          <ul class="privacy-toc-list">
+            @for (section of sections; track section.id) {
+              <li>
+                <a
+                  [routerLink]="[]"
+                  [fragment]="section.id"
+                  (click)="setActiveSection(section.id)"
+                  [class.active]="activeSection() === section.id"
+                  [attr.aria-current]="activeSection() === section.id ? 'location' : null"
+                  class="privacy-toc-link"
+                >
+                  <span class="privacy-toc-number">{{ section.number }}</span>
+                  <span class="privacy-toc-label">{{ section.label }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Legal Content Card -->
+      <article class="privacy-content-card">
+        <!-- Highlighted Summary Box -->
+        <div class="privacy-summary-box">
+          <div class="privacy-summary-header">
+            <i class="bi bi-shield-check privacy-summary-icon" aria-hidden="true"></i>
+            <h3 class="privacy-summary-title">خصوصيتك تهمنا</h3>
+          </div>
+          <p class="privacy-summary-text">
+            نستخدم بياناتك لتشغيل حسابك، وتقديم تجربة التعلّم، ومعالجة المدفوعات، وتوفير الدعم. لا نطلب بيانات أكثر مما نحتاج إليه، ولا نشاركها إلا لتقديم الخدمة أو تنفيذ التزام قانوني.
+          </p>
+        </div>
+
+        <!-- Section 01: Introduction -->
+        <section id="introduction" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">01</span>
+            <h2 class="privacy-section-title">مقدمة</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p>
+              تحترم منصة الفرقان خصوصية مستخدميها، وتلتزم بالتعامل مع البيانات الشخصية بمسؤولية ووضوح. توضح هذه السياسة أنواع البيانات التي قد نجمعها عند إنشاء حساب أو استخدام الدورات والمعلمين والجلسات وحلقات العلم وباقي خدمات المنصة، كما توضح أسباب استخدامها والجهات التي قد تتم مشاركتها معها.
+            </p>
+            <p>
+              باستخدام منصة الفرقان، فإنك تقر بأنك قرأت هذه السياسة وفهمت ما ورد فيها. إذا كنت لا توافق على السياسة، يرجى التوقف عن استخدام المنصة والتواصل معنا عند وجود أي استفسار.
+            </p>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 02: Data Collected -->
+        <section id="data-collected" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">02</span>
+            <h2 class="privacy-section-title">البيانات التي نجمعها</h2>
+          </header>
+          <div class="privacy-section-body">
+            <div class="privacy-data-grid">
+              <div class="privacy-data-card">
+                <div class="privacy-card-icon-wrapper">
+                  <i class="bi bi-person-vcard" aria-hidden="true"></i>
+                </div>
+                <h3 class="privacy-card-title">بيانات الحساب والهوية</h3>
+                <p class="privacy-card-text">
+                  تشمل الاسم الكامل، والبريد الإلكتروني، والجنس، ورقم الهاتف عند تقديمه، وصورة الملف الشخصي، ونوع الحساب وحالته. لا نخزن كلمة المرور بصورتها النصية المباشرة.
+                </p>
+              </div>
+
+              <div class="privacy-data-card">
+                <div class="privacy-card-icon-wrapper">
+                  <i class="bi bi-journal-check" aria-hidden="true"></i>
+                </div>
+                <h3 class="privacy-card-title">بيانات التعلّم والنشاط</h3>
+                <p class="privacy-card-text">
+                  تشمل الدورات التي تستعرضها أو تشترك فيها، والدروس المكتملة، ونسبة التقدم، ونتائج الاختبارات، والشهادات، والمفضلة، وعمليات البحث، والنقاط والمكافآت والنشاط اليومي.
+                </p>
+              </div>
+
+              <div class="privacy-data-card">
+                <div class="privacy-card-icon-wrapper">
+                  <i class="bi bi-credit-card" aria-hidden="true"></i>
+                </div>
+                <h3 class="privacy-card-title">بيانات الدفع والمعاملات</h3>
+                <p class="privacy-card-text">
+                  تشمل قيمة العملية، والعملة، ونوع عملية الشراء، وباقة النقاط أو الدورة المرتبطة بها، وحالة الدفع، وأرقام تعريف العملية لدى مزود الدفع. تتم معالجة بيانات البطاقة من خلال مزود الدفع، ولا تحتفظ منصة الفرقان ببيانات البطاقة الكاملة.
+                </p>
+              </div>
+
+              <div class="privacy-data-card">
+                <div class="privacy-card-icon-wrapper">
+                  <i class="bi bi-person-badge" aria-hidden="true"></i>
+                </div>
+                <h3 class="privacy-card-title">بيانات التقديم كمعلم</h3>
+                <p class="privacy-card-text">
+                  عند التقديم كمعلم، قد نجمع المسمى العلمي، والنبذة الشخصية، والتخصصات، والمؤهلات، وسنوات الخبرة، والجهات السابقة، والفيديو التعريفي، والسيرة الذاتية، والشهادات، والدولة، ورقم الهاتف وأي معلومات إضافية يقدمها المتقدم.
+                </p>
+              </div>
+
+              <div class="privacy-data-card">
+                <div class="privacy-card-icon-wrapper">
+                  <i class="bi bi-chat-square-text" aria-hidden="true"></i>
+                </div>
+                <h3 class="privacy-card-title">المحتوى والتواصل داخل المنصة</h3>
+                <p class="privacy-card-text">
+                  تشمل المنشورات والصور والرسائل التي تشاركها داخل حلقات العلم، وبيانات العضوية والأدوار، والجلسات والحجوزات والتقييمات، والرسائل التي ترسلها إلى فريق الدعم.
+                </p>
+              </div>
+
+              <div class="privacy-data-card">
+                <div class="privacy-card-icon-wrapper">
+                  <i class="bi bi-gear" aria-hidden="true"></i>
+                </div>
+                <h3 class="privacy-card-title">البيانات التقنية</h3>
+                <p class="privacy-card-text">
+                  قد تشمل نوع الجهاز والمتصفح، وعنوان بروتوكول الإنترنت، وسجلات الأخطاء، وأوقات الاستخدام، وبيانات تسجيل الدخول، وملفات تعريف الارتباط أو تقنيات التخزين المشابهة اللازمة لتشغيل المنصة وتحسينها.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 03: Data Use -->
+        <section id="data-use" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">03</span>
+            <h2 class="privacy-section-title">كيف نستخدم بياناتك</h2>
+          </header>
+          <div class="privacy-section-body">
+            <ul class="privacy-checklist">
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>إنشاء حسابك والتحقق من هويتك وتأمين تسجيل الدخول.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>إتاحة الدورات والدروس ومتابعة تقدمك وإصدار الشهادات المؤهلة.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>إدارة نقاطك ومكافآتك وعمليات الدفع والاشتراكات.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>إدارة الجلسات المباشرة والحجوزات وحلقات العلم.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>مراجعة طلبات التقديم كمعلم والتحقق من المؤهلات.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>عرض المحتوى والتوصيات والخدمات المناسبة لاهتماماتك.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>إرسال رسائل تأكيد الحساب والتنبيهات المهمة المتعلقة بالخدمة.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>الرد على الاستفسارات وطلبات الدعم والشكاوى.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>تحسين أداء المنصة ومعالجة الأخطاء وتطوير تجربة الاستخدام.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>حماية المستخدمين ومنع الاحتيال أو إساءة الاستخدام أو مخالفة الشروط.</span>
+              </li>
+              <li class="privacy-checklist-item">
+                <i class="bi bi-check-circle-fill privacy-check-icon" aria-hidden="true"></i>
+                <span>الالتزام بالمتطلبات القانونية والتنظيمية.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 04: Data Sharing -->
+        <section id="data-sharing" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">04</span>
+            <h2 class="privacy-section-title">مشاركة البيانات</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p class="privacy-intro-lead">
+              لا نشارك بياناتك الشخصية إلا بالقدر اللازم لتقديم الخدمة، أو بعد الحصول على موافقتك، أو عندما يتطلب القانون ذلك.
+            </p>
+
+            <div class="privacy-providers-grid">
+              <div class="privacy-provider-card">
+                <i class="bi bi-credit-card privacy-provider-icon" aria-hidden="true"></i>
+                <span>Paymob، لمعالجة المدفوعات والتحقق من حالتها.</span>
+              </div>
+              <div class="privacy-provider-card">
+                <i class="bi bi-google privacy-provider-icon" aria-hidden="true"></i>
+                <span>Google، عند اختيار تسجيل الدخول باستخدام حساب Google.</span>
+              </div>
+              <div class="privacy-provider-card">
+                <i class="bi bi-cloud privacy-provider-icon" aria-hidden="true"></i>
+                <span>Cloudinary، لتخزين الصور والملفات المرفوعة.</span>
+              </div>
+              <div class="privacy-provider-card">
+                <i class="bi bi-envelope privacy-provider-icon" aria-hidden="true"></i>
+                <span>مزود خدمة البريد الإلكتروني، لإرسال رسائل التأكيد والتنبيهات.</span>
+              </div>
+              <div class="privacy-provider-card">
+                <i class="bi bi-server privacy-provider-icon" aria-hidden="true"></i>
+                <span>خدمات الاستضافة والبنية التقنية الضرورية لتشغيل المنصة.</span>
+              </div>
+              <div class="privacy-provider-card">
+                <i class="bi bi-building privacy-provider-icon" aria-hidden="true"></i>
+                <span>الجهات الرسمية أو القانونية، عندما يكون الإفصاح مطلوبًا قانونيًا.</span>
+              </div>
+            </div>
+
+            <div class="privacy-no-sale-banner">
+              <i class="bi bi-shield-x privacy-no-sale-icon" aria-hidden="true"></i>
+              <span>لا نبيع بياناتك الشخصية إلى أطراف ثالثة مقابل المال.</span>
+            </div>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 05: Cookies -->
+        <section id="cookies" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">05</span>
+            <h2 class="privacy-section-title">ملفات تعريف الارتباط وتقنيات التخزين</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p>
+              قد تستخدم منصة الفرقان ملفات تعريف الارتباط أو تقنيات تخزين مشابهة للحفاظ على تسجيل الدخول، وتذكر تفضيلات المستخدم، وتأمين الحساب، وقياس أداء الصفحات، واكتشاف الأعطال.
+            </p>
+            <p>
+              يمكنك التحكم في بعض هذه التقنيات من خلال إعدادات المتصفح، لكن تعطيل التقنيات الأساسية قد يؤدي إلى توقف بعض خصائص المنصة عن العمل بصورة صحيحة.
+            </p>
+
+            <div class="privacy-cookie-note">
+              <i class="bi bi-cookie privacy-cookie-icon" aria-hidden="true"></i>
+              <div class="privacy-cookie-content">
+                <h3 class="privacy-cookie-title">ملاحظة عن ملفات الارتباط</h3>
+                <p class="privacy-cookie-text">
+                  تستخدم التقنيات الأساسية لتشغيل الحساب والخدمات بصورة صحيحة، وقد يؤدي تعطيلها إلى التأثير في بعض الخصائص.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 06: Data Security -->
+        <section id="data-security" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">06</span>
+            <h2 class="privacy-section-title">حفظ البيانات وحمايتها</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p>
+              نحتفظ بالبيانات الشخصية طوال المدة اللازمة لتقديم الخدمات، وتنفيذ الالتزامات التعاقدية، ومعالجة النزاعات، والالتزام بالمتطلبات القانونية. قد نحتفظ ببعض سجلات الدفع أو النشاط بعد إغلاق الحساب إذا كان الاحتفاظ بها مطلوبًا لأسباب قانونية أو أمنية.
+            </p>
+            <p>
+              نستخدم إجراءات تقنية وتنظيمية مناسبة لحماية البيانات من الوصول غير المصرح به أو التعديل أو الفقد أو الإفصاح. ومع ذلك، لا توجد وسيلة تخزين أو نقل إلكتروني تضمن حماية كاملة بنسبة مئة بالمئة.
+            </p>
+
+            <div class="privacy-security-cards">
+              <div class="privacy-security-card">
+                <div class="privacy-security-icon-wrapper">
+                  <i class="bi bi-lock" aria-hidden="true"></i>
+                </div>
+                <span>تأمين الحسابات وكلمات المرور.</span>
+              </div>
+              <div class="privacy-security-card">
+                <div class="privacy-security-icon-wrapper">
+                  <i class="bi bi-person-check" aria-hidden="true"></i>
+                </div>
+                <span>تقييد الوصول إلى البيانات.</span>
+              </div>
+              <div class="privacy-security-card">
+                <div class="privacy-security-icon-wrapper">
+                  <i class="bi bi-shield-check" aria-hidden="true"></i>
+                </div>
+                <span>مراقبة الأخطاء ومحاولات إساءة الاستخدام.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 07: Rights -->
+        <section id="rights" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">07</span>
+            <h2 class="privacy-section-title">حقوقك</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p class="privacy-intro-lead">
+              بحسب القوانين المطبقة، قد يكون لك عدد من الحقوق المتعلقة ببياناتك الشخصية.
+            </p>
+
+            <ul class="privacy-rights-list">
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>طلب معرفة البيانات التي نحتفظ بها عنك.</span>
+              </li>
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>طلب تصحيح البيانات غير الدقيقة أو غير المكتملة.</span>
+              </li>
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>طلب حذف حسابك وبياناتك، مع مراعاة الالتزامات القانونية.</span>
+              </li>
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>الاعتراض على بعض طرق استخدام البيانات أو طلب تقييدها.</span>
+              </li>
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>طلب نسخة من بياناتك عندما يكون ذلك متاحًا.</span>
+              </li>
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>سحب الموافقة في الحالات التي يعتمد فيها الاستخدام على موافقتك.</span>
+              </li>
+              <li class="privacy-rights-item">
+                <i class="bi bi-check2-circle privacy-rights-icon" aria-hidden="true"></i>
+                <span>تحديث بيانات حسابك من خلال إعدادات الملف الشخصي.</span>
+              </li>
+            </ul>
+
+            <p class="privacy-rights-closing">
+              لتقديم طلب متعلق ببياناتك، استخدم بيانات التواصل الموجودة في نهاية هذه الصفحة. قد نطلب معلومات إضافية للتحقق من هوية صاحب الطلب قبل تنفيذه.
+            </p>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 08: Children Privacy -->
+        <section id="children" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">08</span>
+            <h2 class="privacy-section-title">خصوصية صغار السن</h2>
+          </header>
+          <div class="privacy-section-body">
+            <div class="privacy-children-panel">
+              <div class="privacy-children-icon-wrapper">
+                <i class="bi bi-people" aria-hidden="true"></i>
+              </div>
+              <div class="privacy-children-text">
+                <p>
+                  تقدم منصة الفرقان محتوى تعليميًا يمكن أن يناسب فئات عمرية مختلفة. إذا كان المستخدم دون السن القانوني المعمول به في بلده، فيجب أن يتم إنشاء الحساب واستخدام المنصة بموافقة وإشراف ولي الأمر.
+                </p>
+                <p class="mb-0">
+                  إذا علم ولي الأمر أن طفلًا قدم بيانات شخصية دون موافقته، يمكنه التواصل معنا لمراجعة البيانات واتخاذ الإجراء المناسب.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 09: Updates -->
+        <section id="updates" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">09</span>
+            <h2 class="privacy-section-title">تحديثات سياسة الخصوصية</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p>
+              قد نقوم بتحديث هذه السياسة عند تطوير خدمات المنصة أو تغير المتطلبات القانونية أو التقنية. سيتم نشر النسخة المحدثة في هذه الصفحة مع تعديل تاريخ آخر تحديث.
+            </p>
+            <p>
+              إذا كان التغيير جوهريًا، فقد نعرض إشعارًا داخل المنصة أو نرسل تنبيهًا إلى البريد الإلكتروني المسجل.
+            </p>
+          </div>
+        </section>
+
+        <hr class="privacy-divider" />
+
+        <!-- Section 10: Contact Us -->
+        <section id="contact" class="privacy-section">
+          <header class="privacy-section-header">
+            <span class="privacy-section-badge">10</span>
+            <h2 class="privacy-section-title">تواصل معنا</h2>
+          </header>
+          <div class="privacy-section-body">
+            <p>
+              إذا كان لديك سؤال عن سياسة الخصوصية، أو ترغب في تقديم طلب متعلق ببياناتك الشخصية، يمكنك التواصل مع فريق منصة الفرقان.
+            </p>
+
+            <address class="privacy-contact-cards">
+              <div class="privacy-contact-card">
+                <div class="privacy-contact-icon-wrapper">
+                  <i class="bi bi-envelope" aria-hidden="true"></i>
+                </div>
+                <div class="privacy-contact-details">
+                  <span class="privacy-contact-label">البريد الإلكتروني</span>
+                  <a href="mailto:info@furqan.com" class="privacy-contact-link privacy-ltr-val">info@furqan.com</a>
+                </div>
+              </div>
+
+              <div class="privacy-contact-card">
+                <div class="privacy-contact-icon-wrapper">
+                  <i class="bi bi-telephone" aria-hidden="true"></i>
+                </div>
+                <div class="privacy-contact-details">
+                  <span class="privacy-contact-label">رقم الهاتف</span>
+                  <a href="tel:+201000000000" class="privacy-contact-link privacy-ltr-val">+20 100 000 0000</a>
+                </div>
+              </div>
+
+              <div class="privacy-contact-card">
+                <div class="privacy-contact-icon-wrapper">
+                  <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                </div>
+                <div class="privacy-contact-details">
+                  <span class="privacy-contact-label">الموقع</span>
+                  <span class="privacy-contact-val">القاهرة، مصر</span>
+                </div>
+              </div>
+            </address>
+
+            <div class="privacy-contact-action-wrapper">
+              <a routerLink="/contact-us" class="privacy-contact-btn">
+                <i class="bi bi-envelope me-2" aria-hidden="true"></i>
+                <span>اتصل بنا</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+
+  <!-- Final Support CTA Section -->
+  <section class="privacy-cta-section">
+    <div class="container">
+      <div class="privacy-cta-card">
+        <div class="privacy-cta-content">
+          <h2 class="privacy-cta-title">هل لديك سؤال عن بياناتك؟</h2>
+          <p class="privacy-cta-description">
+            فريق الفرقان جاهز لمساعدتك والإجابة عن الاستفسارات المتعلقة بالخصوصية واستخدام البيانات.
+          </p>
+        </div>
+        <div class="privacy-cta-actions">
+          <a routerLink="/contact-us" class="privacy-cta-btn-primary">
+            تواصل مع فريق الدعم
+          </a>
+          <a routerLink="/help-center" class="privacy-cta-btn-secondary">
+            زيارة مركز المساعدة
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

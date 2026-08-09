@@ -17,7 +17,9 @@
 
           <span
             class="status"
-            [class.published]="course.status === 'Published'"
+            [class.approved]="course.status === 'Approved'"
+            [class.pending]="course.status === 'PendingApproval'"
+            [class.rejected]="course.status === 'Rejected'"
             [class.draft]="course.status === 'Draft'"
           >
             {{ course.status }}
@@ -40,9 +42,42 @@
               {{ course.createdAt | date: 'dd MMM yyyy' }}
             </small>
 
-            <button (click)="buildCourse(course.courseID)">إدارة المحتوى</button>
+            <div class="course-actions">
+              <button type="button" (click)="buildCourse(course.courseID)">إدارة المحتوى</button>
+
+              @if (course.status === 'Draft' || course.status === 'Rejected') {
+                <button
+                  type="button"
+                  class="submit-review-btn"
+                  [disabled]="submitLoading() === course.courseID"
+                  (click)="submitForReview(course.courseID)"
+                >
+                  @if (submitLoading() === course.courseID) {
+                    جاري الإرسال...
+                  } @else if (course.status === 'Rejected') {
+                    إعادة الإرسال للمراجعة
+                  } @else {
+                    إرسال للمراجعة
+                  }
+                </button>
+              }
+
+              @if (course.status === 'PendingApproval') {
+                <span class="pending-review"> قيد المراجعة </span>
+              }
+
+              @if (course.status === 'Approved') {
+                <span class="approved"> تمت الموافقة </span>
+              }
+            </div>
           </div>
         </div>
+
+          @if (submitError()) {
+          <div class="submit-error-msg" style="color:red; padding: 8px 12px; margin: 4px 0; font-size:13px; background:#fff0f0; border-radius:6px; border:1px solid #f5c6cb;">
+            ⚠️ {{ submitError() }}
+          </div>
+          }
       </div>
     }
   </div>

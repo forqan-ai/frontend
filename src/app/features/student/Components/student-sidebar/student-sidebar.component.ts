@@ -68,7 +68,10 @@ export class StudentSidebarComponent implements OnInit {
       this.activeRoute = 'settings';
     } else if (url.includes('teacher')) {
       this.activeRoute = 'teacher'
+    } else if (url.includes('wishlist')) {
+      this.activeRoute = 'wishlist'
     }
+
   }
 
   getStudentImage(imageUrl?: string | null): string {

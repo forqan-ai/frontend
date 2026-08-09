@@ -20,6 +20,7 @@ import { RewardPopupComponent } from '../../../Reward/Components/reward-popup/re
 import { AuthService } from '../../../../core/services/auth.service';
 import { RewardProgress } from '../../../Reward/models/RewardProgress';
 import { ButtonComponent } from "../../../../shared/components/button/button.component";
+import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
 
 const streakImages = {
   sad: 'images/avatars/sad.png',
@@ -55,7 +56,7 @@ export class StudentprofileComponent implements OnInit {
   private poService = inject(PointsService);
   private courseService = inject(CourseService);
 
-  recommendedCourses = signal<ICourseListItem[]>([]);
+  recommendedCourses = signal<ICourseCardDto[]>([]);
   rewardProgress = signal<RewardProgress | null>(null);
 
   reward = signal<Reward | null>(null);

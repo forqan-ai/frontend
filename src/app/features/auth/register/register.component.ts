@@ -9,7 +9,7 @@ import {
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiError, ExternalProvider } from '../../../core/models/auth.models';
+import { ApiError, ExternalProvider, RegisterRequest } from '../../../core/models/auth.models';
 import { CommonModule } from '@angular/common';
 import { GoogleAuthService } from '../../../core/services/google-auth.service';
 import { environment } from '../../../../environments/environment.development';
@@ -94,20 +94,25 @@ export class RegisterComponent {
     }
 
     this.isSubmitting.set(true);
-    const { fullName, email, password, confirmPassword, gender } = this.form.getRawValue();
 
-    this.authService.register({ fullName, email, password, confirmPassword, gender }).subscribe({
+    const { fullName, email, password, confirmPassword, gender } = this.form.getRawValue();
+    const registerRequest: RegisterRequest = this.form.getRawValue();
+
+    this.authService.register(registerRequest).subscribe({
       next: () => {
         this.isSubmitting.set(false);
+        console.log('login succedded')
+        localStorage.setItem('registeredEmail', registerRequest.email);
         this.router.navigate(['check-email']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
-        const apiError = err.error.errors as ApiError[];
-
-        this.errorMessage.set(
-          apiError[0]?.description ?? 'حدث خطأ أثناء إنشاء الحساب، يرجى المحاولة مرة أخرى.',
-        );
+        console.log(err);
+        // const apiError = err.error.errors as ApiError[];
+        // console.log('error occured')
+        // this.errorMessage.set(
+        //   apiError[0]?.description ?? 'حدث خطأ أثناء إنشاء الحساب، يرجى المحاولة مرة أخرى.',
+        // );
       },
     });
   }

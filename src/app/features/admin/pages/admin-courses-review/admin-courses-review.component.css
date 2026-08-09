@@ -1,0 +1,540 @@
+.review-page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.page-title {
+  margin-bottom: 2rem;
+  color: #5c3d1e;
+  font-weight: 800;
+}
+
+.courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.course-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #e0d5c8;
+  border-radius: 1rem;
+}
+
+.course-thumbnail {
+  width: 180px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+.course-data {
+  flex: 1;
+}
+
+.course-data h3 {
+  margin-bottom: 0.5rem;
+}
+
+.course-data p {
+  color: #777;
+}
+
+.course-data span {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+.course-actions {
+  min-width: 150px;
+}
+
+.loading {
+  padding: 3rem;
+  text-align: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+}
+
+/* Review */
+
+.review-panel {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: white;
+  border: 2px solid #e0d5c8;
+  border-radius: 1rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.close-button {
+  border: none;
+  background: transparent;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.details-thumbnail {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+}
+
+.module-card {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+}
+
+.module-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.lesson {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  background: #fafafa;
+  border-radius: 0.5rem;
+}
+
+.lesson small {
+  display: block;
+  color: #777;
+}
+
+.review-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.approve-button,
+.reject-button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+}
+
+.approve-button {
+  background: #198754;
+  color: white;
+}
+
+.reject-button {
+  background: #dc3545;
+  color: white;
+}
+
+.reject-dialog {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+
+  z-index: 3000;
+}
+
+.dialog-content {
+  width: 500px;
+  max-width: 90%;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.dialog-content textarea {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* =========================
+   Review Modal
+========================= */
+
+.review-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+
+  z-index: 2000;
+}
+
+/* Modal */
+
+.review-modal {
+  width: min(1000px, 95vw);
+  max-height: 90vh;
+
+  background: #fff;
+
+  border-radius: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
+  animation: reviewModalIn 0.2s ease-out;
+}
+
+/* Header */
+
+.review-header {
+  padding: 1.5rem 2rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  border-bottom: 1px solid #e8ddd0;
+
+  background: #fff;
+}
+
+.review-header h2 {
+  margin: 0;
+
+  color: #5c3d1e;
+
+  font-weight: 800;
+}
+
+.review-header p {
+  margin: 0.5rem 0 0;
+
+  color: #777;
+}
+
+.close-button {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+
+  background: #f5f2ee;
+
+  border-radius: 50%;
+
+  font-size: 1.7rem;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  color: #5c3d1e;
+
+  transition: 0.2s;
+}
+
+.close-button:hover {
+  background: #e8ddd0;
+}
+
+/* Body */
+
+.review-body {
+  padding: 1.5rem 2rem;
+
+  overflow-y: auto;
+
+  flex: 1;
+}
+
+/* Thumbnail */
+
+.details-thumbnail {
+  width: 100%;
+
+  max-height: 280px;
+
+  object-fit: cover;
+
+  border-radius: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+/* Description */
+
+.course-description {
+  margin-bottom: 2rem;
+}
+
+.course-description h3,
+.section-title {
+  color: #5c3d1e;
+
+  font-weight: 800;
+
+  margin-bottom: 0.75rem;
+}
+
+.course-description p {
+  color: #555;
+
+  line-height: 1.8;
+
+  margin: 0;
+}
+
+/* Modules */
+
+.module-card {
+  border: 1px solid #e0d5c8;
+
+  border-radius: 0.9rem;
+
+  margin-bottom: 1rem;
+
+  overflow: hidden;
+
+  background: #fff;
+}
+
+.module-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+
+  padding: 1rem 1.25rem;
+
+  background: #faf8f5;
+}
+
+.module-number {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #5c3d1e;
+
+  color: white;
+
+  font-weight: 700;
+}
+
+.module-header h4 {
+  margin: 0;
+
+  color: #2c1a0e;
+
+  font-weight: 700;
+}
+
+/* Lessons */
+
+.lessons {
+  padding: 0.5rem 1rem 1rem;
+}
+
+.lesson-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0.9rem;
+
+  border-bottom: 1px solid #eee;
+}
+
+.lesson-item:last-child {
+  border-bottom: none;
+}
+
+.lesson-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.75rem;
+}
+
+.lesson-number {
+  color: #8a7060;
+
+  font-weight: 700;
+}
+
+.lesson-info h5 {
+  margin: 0;
+
+  font-size: 0.95rem;
+
+  color: #333;
+}
+
+.lesson-type {
+  display: block;
+
+  margin-top: 0.25rem;
+
+  color: #8a7060;
+
+  font-size: 0.8rem;
+}
+
+.lesson-duration {
+  color: #777;
+
+  font-size: 0.85rem;
+
+  white-space: nowrap;
+}
+
+/* Footer */
+
+.review-footer {
+  padding: 1rem 2rem;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 0.75rem;
+
+  border-top: 1px solid #e8ddd0;
+
+  background: #faf8f5;
+}
+
+.review-footer button {
+  border: none;
+
+  border-radius: 0.65rem;
+
+  padding: 0.75rem 1.4rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: #eee;
+
+  color: #555;
+}
+
+.reject-button {
+  background: #dc3545;
+
+  color: white;
+}
+
+.approve-button {
+  background: #198754;
+
+  color: white;
+}
+
+.review-footer button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+/* Animation */
+
+@keyframes reviewModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .review-overlay {
+    padding: 0.75rem;
+  }
+
+  .review-modal {
+    width: 100%;
+
+    max-height: 95vh;
+
+    border-radius: 1rem;
+  }
+
+  .review-header,
+  .review-body {
+    padding: 1rem;
+  }
+
+  .review-footer {
+    padding: 1rem;
+
+    flex-wrap: wrap;
+  }
+
+  .review-footer button {
+    flex: 1;
+  }
+
+  .lesson-item {
+    align-items: flex-start;
+
+    gap: 1rem;
+  }
+}

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CourseLevel, ICourseListItem } from '../../models/course-list-item.interface';
 import { WishlistService } from '../../../student/Services/wishlist.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { CourseLevelArabic, ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
 
 @Component({
   selector: 'app-courses-browse-card',
@@ -12,7 +13,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './courses-browse-card.component.css',
 })
 export class CoursesBrowseCardComponent implements OnInit {
-  @Input({ required: true }) course!: ICourseListItem;
+  @Input({ required: true }) course!: ICourseCardDto;
 
   wishlistService = inject(WishlistService);
   authService = inject(AuthService);
@@ -20,14 +21,8 @@ export class CoursesBrowseCardComponent implements OnInit {
   isInWishlist = signal(false);
   isToggling = signal(false);
 
-  private readonly levelLabels: Record<CourseLevel, string> = {
-    Beginner: 'مبتدئ',
-    Intermediate: 'متوسط',
-    Advanced: 'متقدم',
-  };
-
   get levelLabel(): string {
-    return this.levelLabels[this.course.level];
+    return CourseLevelArabic[this.course.level];
   }
 
   get formattedDuration(): string {

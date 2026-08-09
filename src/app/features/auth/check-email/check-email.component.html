@@ -20,8 +20,8 @@
             العودة لتسجيل الدخول
           </button>
 
-          <button type="button" class="btn btn-link text-brown fw-semibold" (click)="resendActivationEmail()">
-            لم يصلك الرابط؟ إعادة إرسال
+          <button [disabled]="resendingEmail()" type="button" class="btn btn-link text-brown fw-semibold" (click)="resendActivationEmail()">
+            {{!resendingEmail() ? ' لم يصلك الرابط؟ إعادة إرسال' : 'يتم إرسال الرابط' }}
           </button>
           <div *ngIf="statusMessage" class="mt-3 text-center fw-bold"
      [ngClass]="statusMessage.includes('بنجاح') ? 'text-success' : 'text-danger'">

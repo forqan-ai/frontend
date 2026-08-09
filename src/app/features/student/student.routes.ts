@@ -14,6 +14,7 @@ import { PointPackagesComponent } from '../points/pages/point-packages/point-pac
 import { CourseDetailsComponent } from '../Course/Pages/course-details/course-details.component';
 import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teacher-details.component';
 import { CheckoutComponent } from '../points/pages/checkout/checkout.component';
+import { CourseCheckoutComponent } from '../Course/Pages/checkout/course-checkout.component';
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -50,6 +51,11 @@ export const STUDENT_ROUTES: Routes = [
     path: 'settings',
     component: StudentSettingsComponent,
     title: 'الإعدادات',
+  },
+  {
+    path: 'courses/:id/checkout',
+    component: CourseCheckoutComponent,
+    title: 'إتمام عملية الدفع ',
   },
   {
     path: 'courses/:id/:teacherid',
@@ -110,6 +116,11 @@ export const STUDENT_ROUTES: Routes = [
         (m) => m.CertificateComponent,
       ),
     title: 'شهادة إتمام الدورة',
+  },
+  {
+    path: 'wishlist/:id',
+    component: CourseDetailsComponent,
+    title: 'تفاصيل الدورة',
   },
   {
     path: 'wishlist',

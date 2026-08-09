@@ -20,10 +20,13 @@ import { IPaginatedResult } from '../../models/paginated-result.interface';
 import { CoursesBrowseCardComponent } from "../../components/courses-browse-card/courses-browse-card.component";
 import { CourseService } from '../../../Course/Services/course.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
+import { CourseDetailsComponent } from "../../../Course/Pages/course-details/course-details.component";
+import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
 
 @Component({
   selector: 'app-courses-browse',
-  imports: [RouterLink, CoursesBrowseCardComponent],
+  imports: [RouterLink, CoursesBrowseCardComponent, CourseDetailsComponent, CourseCardComponent],
   templateUrl: './courses-browse.component.html',
   styleUrl: './courses-browse.component.css',
 })
@@ -46,7 +49,7 @@ export class CoursesBrowseComponent implements OnInit {
 
   private readonly searchInput$ = toObservable(this.searchInput);
 
-  readonly courses = signal<ICourseListItem[]>([]);
+  readonly courses = signal<ICourseCardDto[]>([]);
 
   readonly categories = signal<ICategory[]>([]);
 
@@ -69,7 +72,7 @@ export class CoursesBrowseComponent implements OnInit {
   readonly categoriesError =
     signal('');
 
-  readonly recommendedCourses = signal<ICourseListItem[]>([]);
+  readonly recommendedCourses = signal<ICourseCardDto[]>([]);
   readonly isLoggedIn = signal(false);
 
   ngOnInit(): void {
@@ -191,7 +194,7 @@ export class CoursesBrowseComponent implements OnInit {
 
   private applyCoursesResult(
     result:
-      IPaginatedResult<ICourseListItem>,
+      IPaginatedResult<ICourseCardDto>,
   ): void {
     this.courses.set(result.items);
     this.totalCount.set(

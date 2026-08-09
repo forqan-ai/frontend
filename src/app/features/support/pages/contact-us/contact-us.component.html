@@ -1,0 +1,359 @@
+<main class="contact-page" dir="rtl">
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="contact-hero-pattern"></div>
+    <div class="container">
+      <div class="contact-hero-content">
+        <nav aria-label="مسار التصفح" class="contact-breadcrumb">
+          <a routerLink="/" class="contact-breadcrumb-link">الرئيسية</a>
+          <span class="contact-breadcrumb-separator">/</span>
+          <a routerLink="/help-center" class="contact-breadcrumb-link">الدعم والمساعدة</a>
+          <span class="contact-breadcrumb-separator">/</span>
+          <span class="contact-breadcrumb-current" aria-current="page">اتصل بنا</span>
+        </nav>
+
+        <div class="contact-hero-heading-row">
+          <div class="contact-hero-badge">
+            <div class="contact-hero-icon-box">
+              <i class="bi bi-headset contact-hero-icon" aria-hidden="true"></i>
+            </div>
+            <span>نحن هنا لمساعدتك</span>
+          </div>
+          <h1 class="contact-hero-title">اتصل بنا</h1>
+          <p class="contact-hero-description">
+            إذا كان لديك سؤال أو واجهت مشكلة أثناء استخدام منصة الفرقان، يمكنك التواصل معنا مباشرة عبر البريد الإلكتروني أو الهاتف.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Direct Contact Methods -->
+  <section class="contact-methods-section">
+    <div class="container contact-container">
+      <div class="contact-section-header text-center">
+        <h2 class="contact-section-title">اختر وسيلة التواصل المناسبة</h2>
+        <p class="contact-section-description">
+          يمكنك مراسلتنا عبر البريد الإلكتروني أو الاتصال بنا مباشرة، وسيساعدك فريق الفرقان في الاستفسارات المتعلقة بالحسابات والدورات والخدمات.
+        </p>
+      </div>
+
+      <div class="contact-methods-grid">
+        <!-- Main Email Card (Right / Large) -->
+        <div class="contact-email-card">
+          <div class="contact-card-badge">
+            <div class="contact-card-icon-wrapper">
+              <i class="bi bi-envelope" aria-hidden="true"></i>
+            </div>
+            <span class="contact-card-subtitle">التواصل عبر البريد الإلكتروني</span>
+          </div>
+
+          <h3 class="contact-card-title">راسل فريق الدعم</h3>
+          <p class="contact-card-description">
+            أرسل تفاصيل استفسارك بوضوح، وأضف رقم العملية أو الحجز إذا كانت المشكلة مرتبطة بالدفع أو الجلسات.
+          </p>
+
+          <div class="contact-email-box">
+            <span class="contact-email-label">البريد الإلكتروني الرسمي:</span>
+            <span dir="ltr" class="contact-ltr-val contact-email-value">info@furqan.com</span>
+          </div>
+
+          <div class="contact-action-box">
+            <a [href]="getMailto('استفسار من منصة الفرقان')" class="contact-primary-btn">
+              فتح البريد الإلكتروني
+            </a>
+            <span class="contact-action-note">سيتم فتح تطبيق البريد الإلكتروني على جهازك.</span>
+          </div>
+
+          <div class="contact-security-alert">
+            <i class="bi bi-shield-check contact-security-icon" aria-hidden="true"></i>
+            <span>لن يطلب منك فريق الفرقان إرسال كلمة المرور أو بيانات البطاقة البنكية الكاملة عبر البريد الإلكتروني.</span>
+          </div>
+        </div>
+
+        <!-- Left Stacked Column: Phone & Location Cards -->
+        <div class="contact-side-column">
+          <!-- Phone Card -->
+          <div class="contact-side-card">
+            <div class="contact-card-badge">
+              <div class="contact-card-icon-wrapper">
+                <i class="bi bi-telephone" aria-hidden="true"></i>
+              </div>
+              <span class="contact-card-subtitle">التواصل عبر الهاتف</span>
+            </div>
+
+            <h3 class="contact-card-title">اتصل بنا</h3>
+            <div class="contact-phone-box">
+              <a href="tel:+201000000000" dir="ltr" class="contact-ltr-val contact-phone-number">+20 100 000 0000</a>
+            </div>
+            <p class="contact-card-description">
+              يمكنك الاتصال بفريق الفرقان للاستفسارات العامة والمساعدة في استخدام المنصة.
+            </p>
+
+            <a href="tel:+201000000000" class="contact-secondary-btn">
+              إجراء مكالمة
+            </a>
+          </div>
+
+          <!-- Location Card (<address>) -->
+          <address class="contact-side-card contact-address-card">
+            <div class="contact-card-badge">
+              <div class="contact-card-icon-wrapper">
+                <i class="bi bi-geo-alt" aria-hidden="true"></i>
+              </div>
+              <span class="contact-card-subtitle">الموقع</span>
+            </div>
+
+            <h3 class="contact-card-title">القاهرة، مصر</h3>
+            <p class="contact-card-description">
+              يعمل فريق منصة الفرقان من القاهرة لخدمة الطلاب والمعلمين ومستخدمي المنصة.
+            </p>
+          </address>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Inquiry Topics -->
+  <section class="contact-topics-section">
+    <div class="container contact-container">
+      <div class="contact-section-header text-center">
+        <h2 class="contact-section-title">اختر موضوع استفسارك</h2>
+        <p class="contact-section-description">
+          قبل التواصل معنا، جهز المعلومات المناسبة لموضوع استفسارك حتى نتمكن من مساعدتك بصورة أسرع.
+        </p>
+      </div>
+
+      <div class="contact-topics-grid">
+        <!-- Topic 1 -->
+        <div class="contact-topic-card">
+          <div class="contact-topic-icon-wrapper">
+            <i class="bi bi-person-lock" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-topic-title">الحساب وتسجيل الدخول</h3>
+          <p class="contact-topic-description">
+            اذكر البريد الإلكتروني المرتبط بالحساب، ووصف المشكلة أو رسالة الخطأ التي ظهرت لك.
+          </p>
+          <a [href]="getMailto('مشكلة في الحساب وتسجيل الدخول')" class="contact-topic-link">
+            <span>مراسلة الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <!-- Topic 2 -->
+        <div class="contact-topic-card">
+          <div class="contact-topic-icon-wrapper">
+            <i class="bi bi-book" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-topic-title">الدورات والشهادات</h3>
+          <p class="contact-topic-description">
+            اذكر اسم الدورة والمشكلة المتعلقة بالاشتراك أو الدروس أو التقدم أو شهادة الإتمام.
+          </p>
+          <a [href]="getMailto('استفسار عن دورة أو شهادة')" class="contact-topic-link">
+            <span>مراسلة الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <!-- Topic 3 -->
+        <div class="contact-topic-card">
+          <div class="contact-topic-icon-wrapper">
+            <i class="bi bi-credit-card" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-topic-title">الدفع وباقات النقاط</h3>
+          <p class="contact-topic-description">
+            أضف رقم عملية الدفع وقيمتها وتاريخها، ولا ترسل بيانات البطاقة البنكية الكاملة.
+          </p>
+          <a [href]="getMailto('مشكلة في الدفع أو النقاط')" class="contact-topic-link">
+            <span>مراسلة الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <!-- Topic 4 -->
+        <div class="contact-topic-card">
+          <div class="contact-topic-icon-wrapper">
+            <i class="bi bi-calendar-check" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-topic-title">الجلسات والحجوزات</h3>
+          <p class="contact-topic-description">
+            اذكر اسم الجلسة وموعدها ورقم الحجز، ووضح إذا كانت المشكلة متعلقة بالحجز أو الإلغاء.
+          </p>
+          <a [href]="getMailto('مشكلة في جلسة أو حجز')" class="contact-topic-link">
+            <span>مراسلة الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <!-- Topic 5 -->
+        <div class="contact-topic-card">
+          <div class="contact-topic-icon-wrapper">
+            <i class="bi bi-people" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-topic-title">حلقات العلم والمحادثات</h3>
+          <p class="contact-topic-description">
+            اذكر اسم الحلقة ووصف المشكلة المتعلقة بالعضوية أو المنشورات أو الرسائل.
+          </p>
+          <a [href]="getMailto('مشكلة في حلقات العلم')" class="contact-topic-link">
+            <span>مراسلة الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <!-- Topic 6 -->
+        <div class="contact-topic-card">
+          <div class="contact-topic-icon-wrapper">
+            <i class="bi bi-person-badge" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-topic-title">التقديم كمعلم</h3>
+          <p class="contact-topic-description">
+            اذكر البريد المستخدم في الطلب وحالته، ولا ترسل مستندات حساسة إلا عند طلبها.
+          </p>
+          <a [href]="getMailto('استفسار عن التقديم كمعلم')" class="contact-topic-link">
+            <span>مراسلة الدعم</span>
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Guidelines & Security -->
+  <section class="contact-guidelines-section">
+    <div class="container contact-container">
+      <div class="contact-guidelines-layout">
+        <!-- Main Column: Guidelines Checklist -->
+        <div class="contact-guidelines-main">
+          <span class="contact-guidelines-subtitle">قبل التواصل</span>
+          <h2 class="contact-guidelines-title">ساعدنا على فهم المشكلة</h2>
+          <ul class="contact-checklist">
+            <li class="contact-checklist-item">
+              <i class="bi bi-check-circle contact-check-icon" aria-hidden="true"></i>
+              <span>استخدم البريد المرتبط بحسابك إن أمكن.</span>
+            </li>
+            <li class="contact-checklist-item">
+              <i class="bi bi-check-circle contact-check-icon" aria-hidden="true"></i>
+              <span>اكتب عنوانًا واضحًا يصف المشكلة.</span>
+            </li>
+            <li class="contact-checklist-item">
+              <i class="bi bi-check-circle contact-check-icon" aria-hidden="true"></i>
+              <span>اذكر الخطوات التي قمت بها قبل ظهور المشكلة.</span>
+            </li>
+            <li class="contact-checklist-item">
+              <i class="bi bi-check-circle contact-check-icon" aria-hidden="true"></i>
+              <span>أرفق صورة لرسالة الخطأ من خلال تطبيق البريد عند الحاجة.</span>
+            </li>
+            <li class="contact-checklist-item">
+              <i class="bi bi-check-circle contact-check-icon" aria-hidden="true"></i>
+              <span>أضف رقم العملية أو الحجز عند وجوده.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Side Column: Security Card -->
+        <div class="contact-security-card">
+          <div class="contact-security-icon-wrapper">
+            <i class="bi bi-shield-check" aria-hidden="true"></i>
+          </div>
+          <h3 class="contact-security-card-title">حافظ على أمان حسابك</h3>
+          <p class="contact-security-card-text">
+            لن يطلب منك فريق الفرقان إرسال كلمة المرور أو رمز تسجيل الدخول أو بيانات البطاقة البنكية الكاملة.
+          </p>
+          <p class="contact-security-card-text mb-0">
+            إذا استلمت رسالة تطلب هذه البيانات، فلا ترد عليها وتأكد من أن البريد المستخدم هو البريد الرسمي للمنصة.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: FAQ -->
+  <section class="contact-faq-section">
+    <div class="container contact-container">
+      <div class="contact-section-header text-center">
+        <h2 class="contact-section-title">أسئلة قبل التواصل</h2>
+      </div>
+
+      <div class="contact-faq-wrapper">
+        <!-- Q1 (Open by default) -->
+        <details class="contact-faq-item" open>
+          <summary class="contact-faq-summary">
+            <span>ما المعلومات التي يجب إرسالها عند وجود مشكلة في الدفع؟</span>
+          </summary>
+          <div class="contact-faq-content">
+            <p>أرسل البريد المرتبط بحسابك، ورقم العملية، وقيمة الدفع، وتاريخ العملية، ووصف ما حدث. لا ترسل رقم البطاقة الكامل أو رمز الأمان.</p>
+          </div>
+        </details>
+
+        <!-- Q2 -->
+        <details class="contact-faq-item">
+          <summary class="contact-faq-summary">
+            <span>ماذا أفعل إذا لم أستطع تسجيل الدخول؟</span>
+          </summary>
+          <div class="contact-faq-content">
+            <p>
+              استخدم خيار <a routerLink="/forgot-password" class="contact-inline-link">استعادة كلمة المرور</a> أولًا. إذا استمرت المشكلة، راسلنا من البريد المرتبط بالحساب واذكر رسالة الخطأ التي تظهر لك.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q3 -->
+        <details class="contact-faq-item">
+          <summary class="contact-faq-summary">
+            <span>كيف أستفسر عن شهادة إتمام؟</span>
+          </summary>
+          <div class="contact-faq-content">
+            <p>اذكر اسم الدورة ونسبة تقدمك والبريد المرتبط بالحساب، وتأكد من استكمال جميع دروس ومتطلبات الدورة.</p>
+          </div>
+        </details>
+
+        <!-- Q4 -->
+        <details class="contact-faq-item">
+          <summary class="contact-faq-summary">
+            <span>هل يمكنني إرسال صورة للمشكلة؟</span>
+          </summary>
+          <div class="contact-faq-content">
+            <p>نعم، يمكنك إرفاق صورة واضحة لرسالة الخطأ عند مراسلتنا من خلال تطبيق البريد الإلكتروني.</p>
+          </div>
+        </details>
+
+        <!-- Q5 -->
+        <details class="contact-faq-item">
+          <summary class="contact-faq-summary">
+            <span>أين أجد إجابات عن الأسئلة الشائعة؟</span>
+          </summary>
+          <div class="contact-faq-content">
+            <p>
+              يمكنك زيارة <a routerLink="/help-center" class="contact-inline-link">مركز المساعدة</a> للاطلاع على إرشادات الحسابات والدورات والمدفوعات والجلسات وحلقات العلم.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Final Support CTA -->
+  <section class="contact-cta-section">
+    <div class="container">
+      <div class="contact-cta-card">
+        <div class="contact-cta-icon-wrapper">
+          <i class="bi bi-question-circle" aria-hidden="true"></i>
+        </div>
+        <div class="contact-cta-content text-center">
+          <h2 class="contact-cta-title">قد تجد إجابة سؤالك في مركز المساعدة</h2>
+          <p class="contact-cta-description">
+            استعرض الإرشادات والأسئلة الشائعة المتعلقة بالحسابات والدورات والمدفوعات والجلسات.
+          </p>
+        </div>
+        <div class="contact-cta-actions">
+          <a routerLink="/help-center" class="contact-cta-btn-primary">
+            زيارة مركز المساعدة
+          </a>
+          <a routerLink="/" class="contact-cta-btn-secondary">
+            العودة إلى الرئيسية
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

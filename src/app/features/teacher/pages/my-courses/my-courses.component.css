@@ -66,16 +66,22 @@
   border-radius: 30px;
 
   color: white;
-
+  background-color: #8a6414;
   font-size: 13px;
 
   font-weight: 600;
 }
 
-.status.published {
+.status.approved {
   background: #28a745;
+  color: #fff;
 }
-
+.status.pending {
+  background: #ffc107;
+}
+.status.rejected {
+  background: #dc3545;
+}
 .status.draft {
   background: #ff9800;
 }
@@ -143,4 +149,45 @@
 
 .footer button:hover {
   background: #59352d;
+}
+
+.course-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.submit-review-btn {
+  background: #5c3d1e;
+  color: white;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-review-btn:hover {
+  background: #4a2f15;
+}
+
+.submit-review-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pending-review {
+  background: #fff4d6;
+  color: #8a6414;
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+}
+
+.approved {
+  background: #e7f6ec;
+  color: #217a3c;
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
 }

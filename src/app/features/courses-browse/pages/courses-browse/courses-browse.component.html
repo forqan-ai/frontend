@@ -97,7 +97,7 @@
         } @else {
         <div class="courses-grid">
           @for (course of courses(); track course.courseID) {
-          <app-courses-browse-card [course]="course" />
+          <app-course-card [course]="course" />
           }
         </div>
 
@@ -141,7 +141,7 @@
         <div class="recommended-slider" #recommendedSlider>
           @for (course of recommendedCourses(); track course.courseID) {
           <div class="recommended-slide">
-            <app-courses-browse-card [course]="course" />
+            <app-course-card [course]="course" />
           </div>
           }
         </div>

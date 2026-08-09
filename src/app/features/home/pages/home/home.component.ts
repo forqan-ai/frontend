@@ -4,6 +4,7 @@ import { finalize } from 'rxjs';
 import { CoursesBrowseService } from '../../../courses-browse/services/courses-browse.service';
 import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
 import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
+import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
 
 interface FeaturedCoursePreview {
   title: string;
@@ -35,8 +36,8 @@ interface FeaturedTeacher {
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  readonly recommendedCourses = signal<ICourseListItem[]>([]);
-  readonly displayRecommendedCourses = signal<ICourseListItem[]>([]);
+  readonly recommendedCourses = signal<ICourseCardDto[]>([]);
+  readonly displayRecommendedCourses = signal<ICourseCardDto[]>([]);
   readonly recommendedCoursesLoading = signal(true);
   readonly recommendedCoursesLoadFailed = signal(false);
 

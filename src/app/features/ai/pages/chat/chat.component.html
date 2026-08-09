@@ -1,0 +1,63 @@
+<div class="chat-container">
+
+  <div class="chat-header">
+    <div class="ai-icon">
+      <i class="bi bi-robot"></i>
+    </div>
+    <div class="chat-info">
+      <h3>مساعد فرقان الذكي</h3>
+      <span>اسألني عن محتوى هذا الدرس</span>
+    </div>
+  </div>
+
+  <div class="messages" #scrollContainer>
+    @for (message of messages; track $index) {
+      <div class="message-row"
+        [class.user]="isUser(message.role)"
+        [class.assistant]="isAssistant(message.role)">
+
+        @if(isAssistant(message.role)){
+          <div class="avatar">
+            <i class="bi bi-robot"></i>
+          </div>
+        }
+
+        <div class="message">
+          {{ message.content }}
+        </div>
+
+        @if(isUser(message.role)){
+          <div class="avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        }
+      </div>
+    }
+
+    @if (loading) {
+      <div class="message-row assistant">
+        <div class="avatar">
+          <i class="bi bi-robot"></i>
+        </div>
+        <div class="message typing">
+          جاري كتابة الرد...
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="input-area">
+    <textarea
+      [(ngModel)]="question"
+      placeholder="اكتب سؤالك..."
+      rows="1">
+    </textarea>
+
+    <button
+      (click)="sendMessage()"
+      [disabled]="loading">
+      <i class="bi bi-send-fill"></i>
+    </button>
+  </div>
+
+</div>

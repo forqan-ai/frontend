@@ -1,0 +1,802 @@
+<main class="terms-page" dir="rtl">
+  <!-- Hero Section -->
+  <section class="terms-hero">
+    <div class="terms-hero-pattern"></div>
+    <div class="container">
+      <div class="terms-hero-content">
+        <nav aria-label="مسار التصفح" class="terms-breadcrumb">
+          <a routerLink="/" class="terms-breadcrumb-link">الرئيسية</a>
+          <span class="terms-breadcrumb-separator">/</span>
+          <a routerLink="/help-center" class="terms-breadcrumb-link">الدعم والمساعدة</a>
+          <span class="terms-breadcrumb-separator">/</span>
+          <span class="terms-breadcrumb-current" aria-current="page">الشروط والأحكام</span>
+        </nav>
+
+        <div class="terms-hero-heading-row">
+          <div class="terms-hero-badge">
+            <i class="bi bi-file-earmark-check terms-hero-icon" aria-hidden="true"></i>
+            <span>استخدام المنصة</span>
+          </div>
+          <h1 class="terms-hero-title">الشروط والأحكام</h1>
+          <p class="terms-hero-description">
+            توضح هذه الشروط القواعد المنظمة لاستخدام منصة الفرقان وخدماتها التعليمية، وحقوق ومسؤوليات المستخدمين والمعلمين.
+          </p>
+          <div class="terms-hero-meta">
+            <i class="bi bi-calendar3" aria-hidden="true"></i>
+            <span>آخر تحديث: 6 أغسطس 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <div class="container terms-main-container">
+    <!-- Mobile Table of Contents -->
+    <details class="terms-mobile-toc d-lg-none">
+      <summary class="terms-mobile-toc-summary">
+        <i class="bi bi-list-nested me-2" aria-hidden="true"></i>
+        <span>محتويات الشروط</span>
+      </summary>
+      <nav class="terms-mobile-toc-nav" aria-label="جدول محتويات الشروط للمحمول">
+        <ul class="terms-mobile-toc-list">
+          @for (section of sections; track section.id) {
+            <li>
+              <a
+                [routerLink]="[]"
+                [fragment]="section.id"
+                (click)="setActiveSection(section.id)"
+                [class.active]="activeSection() === section.id"
+                class="terms-mobile-toc-link"
+              >
+                <span class="terms-toc-number">{{ section.number }}</span>
+                <span class="terms-toc-label">{{ section.label }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+    </details>
+
+    <!-- Two-Column Layout -->
+    <div class="terms-layout">
+      <!-- Sticky Sidebar Table of Contents (Desktop) -->
+      <aside class="terms-toc-aside d-none d-lg-block">
+        <nav class="terms-toc-card" aria-label="جدول محتويات الشروط">
+          <h2 class="terms-toc-title">محتويات الشروط</h2>
+          <ul class="terms-toc-list">
+            @for (section of sections; track section.id) {
+              <li>
+                <a
+                  [routerLink]="[]"
+                  [fragment]="section.id"
+                  (click)="setActiveSection(section.id)"
+                  [class.active]="activeSection() === section.id"
+                  [attr.aria-current]="activeSection() === section.id ? 'location' : null"
+                  class="terms-toc-link"
+                >
+                  <span class="terms-toc-number">{{ section.number }}</span>
+                  <span class="terms-toc-label">{{ section.label }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Legal Content Card -->
+      <article class="terms-content-card">
+        <!-- Highlighted Summary Box -->
+        <div class="terms-summary-box">
+          <div class="terms-summary-header">
+            <i class="bi bi-file-earmark-check terms-summary-icon" aria-hidden="true"></i>
+            <h3 class="terms-summary-title">قبل استخدام المنصة</h3>
+          </div>
+          <p class="terms-summary-text">
+            باستخدامك منصة الفرقان، أو إنشاء حساب، أو الاشتراك في أي دورة أو جلسة أو حلقة تعلم، فإنك توافق على الالتزام بهذه الشروط. يرجى قراءتها بعناية قبل متابعة استخدام المنصة.
+          </p>
+        </div>
+
+        <!-- Section 01: Introduction -->
+        <section id="introduction" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">01</span>
+            <h2 class="terms-section-title">مقدمة وقبول الشروط</h2>
+          </header>
+          <div class="terms-section-body">
+            <p>
+              تنظم هذه الشروط والأحكام استخدامك لمنصة الفرقان والمواقع والصفحات والخدمات التعليمية المرتبطة بها. تشير كلمة «المنصة» إلى منصة الفرقان، وتشير كلمة «المستخدم» إلى كل من يتصفح المنصة أو ينشئ حسابًا كطالب أو معلم.
+            </p>
+            <p>
+              يعد إنشاء الحساب أو استخدام أي من خدمات المنصة موافقة على هذه الشروط و<a routerLink="/privacy-policy" class="terms-link">سياسة الخصوصية</a>. إذا كنت لا توافق على أي جزء منها، يجب عليك التوقف عن استخدام المنصة.
+            </p>
+            <p>
+              قد تخضع بعض الخدمات لشروط إضافية تظهر قبل الاشتراك أو الحجز أو الدفع. في حالة وجود شروط خاصة بخدمة معينة، تطبق تلك الشروط إلى جانب هذه الوثيقة.
+            </p>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 02: Eligibility -->
+        <section id="eligibility" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">02</span>
+            <h2 class="terms-section-title">أهلية الاستخدام والحسابات</h2>
+          </header>
+          <div class="terms-section-body">
+            <div class="terms-grid-4">
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-person-check" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">صحة البيانات</h3>
+                <p class="terms-card-text">
+                  يلتزم المستخدم بتقديم معلومات صحيحة وحديثة وكاملة عند إنشاء الحساب، وتحديثها عند حدوث أي تغيير.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-shield-lock" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">أمان الحساب</h3>
+                <p class="terms-card-text">
+                  يتحمل المستخدم مسؤولية حماية بيانات تسجيل الدخول وعدم مشاركتها مع الآخرين، وإبلاغ المنصة عند الاشتباه في استخدام غير مصرح به.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-person" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">الحساب الشخصي</h3>
+                <p class="terms-card-text">
+                  لا يجوز إنشاء حساب باسم شخص آخر، أو انتحال صفة مستخدم أو معلم أو جهة تعليمية، أو بيع الحساب أو نقله دون موافقة المنصة.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-people" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">صغار السن</h3>
+                <p class="terms-card-text">
+                  إذا كان المستخدم دون السن القانوني المعمول به، فيجب أن يتم إنشاء الحساب واستخدام المنصة بموافقة وإشراف ولي الأمر.
+                </p>
+              </div>
+            </div>
+
+            <div class="terms-callout">
+              <i class="bi bi-info-circle terms-callout-icon" aria-hidden="true"></i>
+              <span>قد تطلب المنصة التحقق من البريد الإلكتروني أو الهوية أو بعض البيانات قبل إتاحة خصائص معينة.</span>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 03: Services -->
+        <section id="services" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">03</span>
+            <h2 class="terms-section-title">خدمات منصة الفرقان</h2>
+          </header>
+          <div class="terms-section-body">
+            <p class="terms-intro-lead">
+              توفر منصة الفرقان مجموعة من الخدمات التعليمية الرقمية التي تساعد المستخدم على تعلم القرآن الكريم والعلوم الشرعية بطريقة منظمة ومرنة.
+            </p>
+
+            <div class="terms-services-grid">
+              <div class="terms-service-card">
+                <i class="bi bi-play-circle terms-service-icon" aria-hidden="true"></i>
+                <span>دورات تعليمية منظمة</span>
+              </div>
+              <div class="terms-service-card">
+                <i class="bi bi-person-badge terms-service-icon" aria-hidden="true"></i>
+                <span>معلمون متخصصون</span>
+              </div>
+              <div class="terms-service-card">
+                <i class="bi bi-camera-video terms-service-icon" aria-hidden="true"></i>
+                <span>جلسات تعليمية مباشرة</span>
+              </div>
+              <div class="terms-service-card">
+                <i class="bi bi-people terms-service-icon" aria-hidden="true"></i>
+                <span>حلقات علم وتواصل</span>
+              </div>
+              <div class="terms-service-card">
+                <i class="bi bi-graph-up-arrow terms-service-icon" aria-hidden="true"></i>
+                <span>متابعة التقدم</span>
+              </div>
+              <div class="terms-service-card">
+                <i class="bi bi-award terms-service-icon" aria-hidden="true"></i>
+                <span>شهادات ونقاط ومكافآت</span>
+              </div>
+            </div>
+
+            <p>
+              يمكن تصفح بعض أقسام المنصة دون تسجيل، بينما يتطلب الاشتراك في الدورات أو حجز الجلسات أو الانضمام إلى حلقات العلم أو متابعة التقدم إنشاء حساب وتسجيل الدخول.
+            </p>
+            <p>
+              يجوز للمنصة تطوير الخدمات أو تعديل طريقة عرضها أو إضافة خصائص جديدة، مع الحرص على عدم التأثير غير المبرر في الحقوق المكتسبة للمستخدمين.
+            </p>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 04: Courses & Certificates -->
+        <section id="courses-certificates" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">04</span>
+            <h2 class="terms-section-title">الدورات والشهادات</h2>
+          </header>
+          <div class="terms-section-body">
+            <div class="terms-grid-4">
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-card-checklist" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">معلومات الدورة</h3>
+                <p class="terms-card-text">
+                  تعرض كل دورة عنوانها ووصفها ومستواها ومحتوياتها وسعرها أو متطلبات الالتحاق بها. تقع على المستخدم مسؤولية مراجعة هذه المعلومات قبل الاشتراك.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-unlock" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">الوصول إلى المحتوى</h3>
+                <p class="terms-card-text">
+                  يحصل المستخدم على حق شخصي ومحدود للوصول إلى الدورة بعد إتمام الاشتراك أو عملية الدفع المطلوبة. لا يجوز مشاركة الحساب أو إعادة بيع الوصول إلى المحتوى.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">تحديث المحتوى</h3>
+                <p class="terms-card-text">
+                  يجوز للمعلم أو المنصة تحديث ترتيب الدروس أو المواد التعليمية أو استبدالها بهدف تحسين الجودة، بشرط الحفاظ على الغرض التعليمي الأساسي للدورة.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-award" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">شهادات الإتمام</h3>
+                <p class="terms-card-text">
+                  تتاح شهادة الإتمام فقط للدورات التي تدعم إصدار الشهادات وبعد استكمال الدروس والمتطلبات المحددة. شهادة المنصة تعليمية، ولا تعد اعتمادًا أكاديميًا أو مهنيًا رسميًا إلا إذا تم توضيح خلاف ذلك.
+                </p>
+              </div>
+            </div>
+
+            <div class="terms-callout">
+              <i class="bi bi-patch-check terms-callout-icon" aria-hidden="true"></i>
+              <span>إكمال جزء من الدورة لا يضمن إصدار الشهادة ما لم يتم استيفاء جميع متطلباتها.</span>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 05: Payments & Points -->
+        <section id="payments-points" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">05</span>
+            <h2 class="terms-section-title">المدفوعات والنقاط</h2>
+          </header>
+          <div class="terms-section-body">
+            <div class="terms-grid-3">
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-credit-card" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">عمليات الدفع</h3>
+                <p class="terms-card-text">
+                  تعرض الأسعار والعملة قبل تأكيد الشراء. تتم معالجة عمليات الدفع من خلال مزود الدفع المعتمد، ولا تعتبر العملية مكتملة إلا بعد تأكيد نجاحها.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-coin" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">نقاط الفرقان</h3>
+                <p class="terms-card-text">
+                  تمثل النقاط رصيدًا رقميًا يستخدم داخل المنصة للوصول إلى بعض الخدمات مثل الجلسات أو حلقات العلم. لا تعد النقاط عملة نقدية، ولا يمكن تحويلها إلى أموال أو نقلها بين الحسابات إلا إذا أعلنت المنصة صراحة عن إمكانية ذلك.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-receipt" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">حالة العملية</h3>
+                <p class="terms-card-text">
+                  قد تظهر عملية الدفع بحالة ناجحة أو معلقة أو فاشلة. إذا تم خصم مبلغ دون تفعيل الخدمة، يجب التواصل مع الدعم وإرفاق رقم العملية للتحقق منها.
+                </p>
+              </div>
+            </div>
+
+            <div class="terms-callout-panel">
+              <i class="bi bi-arrow-counterclockwise terms-callout-panel-icon" aria-hidden="true"></i>
+              <div class="terms-callout-panel-content">
+                <h3 class="terms-callout-panel-title">الإلغاء والاسترداد</h3>
+                <p class="terms-callout-panel-text">
+                  تخضع طلبات الاسترداد لطبيعة الخدمة والقوانين المطبقة والشروط الموضحة وقت الشراء. لا يعتبر عدم استخدام المحتوى بعد تفعيله ضمانًا تلقائيًا للاسترداد. إذا حدث خصم بسبب خطأ تقني ولم تتم إتاحة الخدمة، يقوم فريق الدعم بمراجعة العملية واتخاذ الإجراء المناسب.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 06: Sessions & Bookings -->
+        <section id="sessions-bookings" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">06</span>
+            <h2 class="terms-section-title">الجلسات والحجوزات</h2>
+          </header>
+          <div class="terms-section-body">
+            <p class="terms-intro-lead">
+              تتيح المنصة حجز جلسات تعليمية مباشرة وفق المواعيد والأسعار بالنقاط الموضحة للمستخدم.
+            </p>
+
+            <ul class="terms-checklist">
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>يجب أن يمتلك الطالب رصيد النقاط المطلوب لإتمام الحجز.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>يظهر موعد الجلسة ومدتها وسعرها بالنقاط قبل تأكيد الحجز.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>يلتزم الطالب والمعلم بالحضور في الموعد المحدد.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>رابط الجلسة مخصص للمشتركين ولا يجوز مشاركته مع الآخرين.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>يجب استخدام اسم وبيانات صحيحة أثناء حضور الجلسة.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>يلتزم جميع المشاركين بالسلوك المحترم وعدم تسجيل الجلسة أو نشرها دون موافقة.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>قد يتم إلغاء الجلسة أو تعديل موعدها عند وجود ظرف تقني أو طارئ.</span>
+              </li>
+              <li class="terms-checklist-item">
+                <i class="bi bi-check-circle-fill terms-check-icon" aria-hidden="true"></i>
+                <span>لا يمكن إلغاء جلسة أو حجز بعد اكتماله.</span>
+              </li>
+            </ul>
+
+            <div class="terms-callout-panel">
+              <i class="bi bi-calendar-x terms-callout-panel-icon" aria-hidden="true"></i>
+              <div class="terms-callout-panel-content">
+                <h3 class="terms-callout-panel-title">إلغاء الحجز</h3>
+                <p class="terms-callout-panel-text">
+                  تعتمد إمكانية الإلغاء وطريقة التعامل مع النقاط على حالة الحجز ووقت الإلغاء والجهة التي قامت به. يجب عرض الشروط المطبقة للمستخدم قبل تأكيد الإلغاء.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 07: Learning Circles -->
+        <section id="learning-circles" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">07</span>
+            <h2 class="terms-section-title">حلقات العلم والتواصل</h2>
+          </header>
+          <div class="terms-section-body">
+            <p class="terms-intro-lead">
+              توفر حلقات العلم مساحة للتعلم الجماعي، ونشر المحتوى، والتفاعل، وإرسال الرسائل بين أعضاء الحلقة وفق الصلاحيات المحددة.
+            </p>
+
+            <div class="terms-grid-2">
+              <div class="terms-card">
+                <div class="terms-card-header-row">
+                  <i class="bi bi-check-circle terms-icon-success" aria-hidden="true"></i>
+                  <h3 class="terms-card-title m-0">السلوك المطلوب</h3>
+                </div>
+                <ul class="terms-list">
+                  <li>احترام المعلمين وباقي المستخدمين.</li>
+                  <li>الالتزام بموضوع الحلقة والغرض التعليمي منها.</li>
+                  <li>التأكد من صحة المحتوى قبل مشاركته.</li>
+                  <li>احترام خصوصية الآخرين وعدم نشر بياناتهم.</li>
+                </ul>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-header-row">
+                  <i class="bi bi-slash-circle terms-icon-danger" aria-hidden="true"></i>
+                  <h3 class="terms-card-title m-0">المحتوى غير المسموح</h3>
+                </div>
+                <ul class="terms-list">
+                  <li>الإساءة أو التهديد أو التحرش أو خطاب الكراهية.</li>
+                  <li>الرسائل المزعجة والإعلانات غير المصرح بها.</li>
+                  <li>انتحال الهوية أو نشر معلومات مضللة عمدًا.</li>
+                  <li>المحتوى المخالف للقانون أو حقوق الملكية الفكرية.</li>
+                  <li>نشر البيانات الشخصية أو الحساسة دون إذن.</li>
+                  <li>إرسال ملفات ضارة أو روابط احتيالية.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="terms-callout">
+              <i class="bi bi-shield-exclamation terms-callout-icon" aria-hidden="true"></i>
+              <span>يجوز للمنصة أو مشرف الحلقة حذف المحتوى المخالف، أو تقييد صلاحيات العضو، أو إيقافه عند تكرار المخالفة.</span>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 08: Teachers -->
+        <section id="teachers" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">08</span>
+            <h2 class="terms-section-title">شروط المعلمين</h2>
+          </header>
+          <div class="terms-section-body">
+            <div class="terms-grid-4">
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-file-earmark-check" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">صحة المؤهلات</h3>
+                <p class="terms-card-text">
+                  يلتزم المتقدم كمعلم بتقديم بيانات صحيحة ومستندات أصلية أو صالحة، وعدم ادعاء مؤهلات أو خبرات غير حقيقية.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-search" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">مراجعة الطلب</h3>
+                <p class="terms-card-text">
+                  تخضع طلبات التقديم للمراجعة، ولا يعني إرسال الطلب ضمان قبوله. يجوز للإدارة طلب معلومات أو مستندات إضافية.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-journal-check" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">جودة المحتوى</h3>
+                <p class="terms-card-text">
+                  يتحمل المعلم مسؤولية دقة المحتوى الذي يقدمه، وملاءمته للغرض التعليمي، واحترام حقوق الملكية الفكرية والضوابط الشرعية والمهنية.
+                </p>
+              </div>
+
+              <div class="terms-card">
+                <div class="terms-card-icon-wrapper">
+                  <i class="bi bi-calendar-check" aria-hidden="true"></i>
+                </div>
+                <h3 class="terms-card-title">الالتزام بالجلسات</h3>
+                <p class="terms-card-text">
+                  يلتزم المعلم بالمواعيد المؤكدة والتعامل المهني مع الطلاب، وتحديث بيانات الجلسات أو إلغائها عند تعذر الحضور.
+                </p>
+              </div>
+            </div>
+
+            <div class="terms-callout">
+              <i class="bi bi-coin terms-callout-icon" aria-hidden="true"></i>
+              <span>يتم احتساب مستحقات أو نقاط المعلم وفق الآلية المعروضة داخل حسابه، وبعد اكتمال الخدمات المرتبطة بها والتحقق من حالتها.</span>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 09: Intellectual Property -->
+        <section id="intellectual-property" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">09</span>
+            <h2 class="terms-section-title">الملكية الفكرية</h2>
+          </header>
+          <div class="terms-section-body">
+            <p>
+              تعود حقوق اسم وشعار وتصميم وبرمجيات منصة الفرقان والمحتوى الذي تنتجه المنصة إلى أصحابها، وتكون محمية وفق القوانين المطبقة.
+            </p>
+            <p>
+              يحصل المستخدم على ترخيص شخصي ومحدود وغير قابل للبيع لاستخدام المحتوى لأغراض التعلم الشخصي فقط.
+            </p>
+
+            <div class="terms-prohibited-actions">
+              <div class="terms-prohibited-action">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>نسخ الدورات أو تسجيلها أو إعادة نشرها.</span>
+              </div>
+              <div class="terms-prohibited-action">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>بيع المحتوى أو مشاركته خارج الحساب المصرح له.</span>
+              </div>
+              <div class="terms-prohibited-action">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>إزالة العلامات أو إشعارات حقوق الملكية.</span>
+              </div>
+              <div class="terms-prohibited-action">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>استخدام المحتوى لأغراض تجارية دون إذن مكتوب.</span>
+              </div>
+            </div>
+
+            <div class="terms-callout-panel mt-4">
+              <i class="bi bi-file-text terms-callout-panel-icon" aria-hidden="true"></i>
+              <div class="terms-callout-panel-content">
+                <h3 class="terms-callout-panel-title">المحتوى الذي ينشئه المستخدم</h3>
+                <p class="terms-callout-panel-text">
+                  يحتفظ المستخدم أو المعلم بحقوق المحتوى الذي ينشئه، لكنه يمنح المنصة الإذن اللازم لتخزينه وعرضه ومعالجته داخل الخدمة. ويجب أن يملك المستخدم الحق في نشر أي محتوى أو صورة أو ملف يقوم برفعه.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 10: Prohibited Use -->
+        <section id="prohibited-use" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">10</span>
+            <h2 class="terms-section-title">الاستخدامات المحظورة</h2>
+          </header>
+          <div class="terms-section-body">
+            <ul class="terms-prohibited-grid">
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>محاولة الوصول إلى حسابات أو بيانات لا تخصك.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>اختبار أمان المنصة أو تجاوز وسائل الحماية دون تصريح.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>استخدام برامج آلية لجمع المحتوى أو البيانات.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>رفع فيروسات أو ملفات أو روابط ضارة.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>تنفيذ عمليات دفع احتيالية أو إساءة استخدام النقاط.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>إنشاء حسابات وهمية أو انتحال شخصية الآخرين.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>تعطيل المنصة أو التأثير في أدائها.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>استخدام المنصة في نشاط مخالف للقانون.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>جمع بيانات المستخدمين أو التواصل معهم لأغراض غير مصرح بها.</span>
+              </li>
+              <li class="terms-prohibited-item">
+                <i class="bi bi-x-circle terms-icon-danger" aria-hidden="true"></i>
+                <span>نسخ أو إعادة بيع خدمات المنصة.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 11: Account Suspension -->
+        <section id="account-suspension" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">11</span>
+            <h2 class="terms-section-title">تعليق الحساب وإنهاؤه</h2>
+          </header>
+          <div class="terms-section-body">
+            <p>
+              يجوز للمنصة اتخاذ إجراء عند مخالفة هذه الشروط، أو الإضرار بالمستخدمين، أو إساءة استخدام الخدمات، أو الاشتباه في الاحتيال.
+            </p>
+
+            <div class="terms-steps-grid">
+              <div class="terms-step-card">
+                <span class="terms-step-num">1</span>
+                <div class="terms-step-icon-wrapper">
+                  <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                </div>
+                <span>تنبيه المستخدم</span>
+              </div>
+              <div class="terms-step-card">
+                <span class="terms-step-num">2</span>
+                <div class="terms-step-icon-wrapper">
+                  <i class="bi bi-trash" aria-hidden="true"></i>
+                </div>
+                <span>حذف المحتوى المخالف</span>
+              </div>
+              <div class="terms-step-card">
+                <span class="terms-step-num">3</span>
+                <div class="terms-step-icon-wrapper">
+                  <i class="bi bi-lock" aria-hidden="true"></i>
+                </div>
+                <span>تقييد بعض الخصائص</span>
+              </div>
+              <div class="terms-step-card">
+                <span class="terms-step-num">4</span>
+                <div class="terms-step-icon-wrapper">
+                  <i class="bi bi-person-x" aria-hidden="true"></i>
+                </div>
+                <span>تعليق الحساب أو إنهاؤه</span>
+              </div>
+            </div>
+
+            <p>
+              يعتمد الإجراء على طبيعة المخالفة وتكرارها وخطورتها. في الحالات الجسيمة، يجوز تعليق الحساب مباشرة لحماية المنصة والمستخدمين.
+            </p>
+            <p>
+              يمكن للمستخدم التواصل مع فريق الدعم للاعتراض على القرار أو طلب مراجعته. وقد تحتفظ المنصة ببعض السجلات بعد إغلاق الحساب إذا كان ذلك مطلوبًا قانونيًا أو لأسباب أمنية.
+            </p>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 12: Availability & Liability -->
+        <section id="availability-liability" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">12</span>
+            <h2 class="terms-section-title">توفر الخدمة وحدود المسؤولية</h2>
+          </header>
+          <div class="terms-section-body">
+            <p>
+              تسعى منصة الفرقان إلى توفير خدمات مستقرة وآمنة، لكن قد تتوقف بعض الخصائص بصورة مؤقتة بسبب الصيانة أو التحديثات أو أعطال الإنترنت أو خدمات الجهات الخارجية.
+            </p>
+            <p>
+              المحتوى المقدم على المنصة لأغراض تعليمية عامة، ولا يغني عن الرجوع إلى أهل الاختصاص في المسائل الشخصية أو الفتاوى الفردية.
+            </p>
+            <p>
+              الآراء التي يعبر عنها المعلمون أو المستخدمون داخل المحتوى أو حلقات العلم تمثل أصحابها، ما لم توضح المنصة خلاف ذلك.
+            </p>
+            <p>
+              في الحدود التي يسمح بها القانون، لا تتحمل المنصة المسؤولية عن الأضرار الناتجة عن الاستخدام المخالف للشروط، أو مشاركة بيانات الحساب، أو الاعتماد غير المناسب على المحتوى، أو الأعطال الخارجة عن السيطرة المعقولة.
+            </p>
+
+            <div class="terms-callout-panel">
+              <i class="bi bi-info-circle terms-callout-panel-icon" aria-hidden="true"></i>
+              <div class="terms-callout-panel-content">
+                <h3 class="terms-callout-panel-title">طبيعة الخدمة</h3>
+                <p class="terms-callout-panel-text">
+                  توفر المنصة أدوات ومحتوى تعليميًا، ولا تضمن أن جميع الخدمات ستبقى متاحة دون انقطاع في كل الأوقات.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 13: Updates & Law -->
+        <section id="updates-law" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">13</span>
+            <h2 class="terms-section-title">تحديث الشروط والقانون المطبق</h2>
+          </header>
+          <div class="terms-section-body">
+            <p>
+              يجوز لمنصة الفرقان تحديث هذه الشروط عند تطوير الخدمات أو تغير المتطلبات القانونية أو التقنية. سيتم نشر النسخة المحدثة في هذه الصفحة مع تعديل تاريخ آخر تحديث.
+            </p>
+            <p>
+              إذا كان التغيير جوهريًا، قد يتم إشعار المستخدم داخل المنصة أو من خلال البريد الإلكتروني المسجل.
+            </p>
+            <p>
+              تخضع هذه الشروط للقوانين السارية في جمهورية مصر العربية، مع مراعاة قواعد الاختصاص والحقوق الإلزامية التي تقررها القوانين المطبقة.
+            </p>
+
+            <div class="terms-callout-panel">
+              <i class="bi bi-bank terms-callout-panel-icon" aria-hidden="true"></i>
+              <div class="terms-callout-panel-content">
+                <h3 class="terms-callout-panel-title">القانون المطبق</h3>
+                <p class="terms-callout-panel-text">
+                  تتم معالجة أي خلاف متعلق بهذه الشروط وفق القوانين والقواعد المعمول بها في جمهورية مصر العربية.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="terms-divider" />
+
+        <!-- Section 14: Contact Us -->
+        <section id="contact" class="terms-section">
+          <header class="terms-section-header">
+            <span class="terms-section-badge">14</span>
+            <h2 class="terms-section-title">تواصل معنا</h2>
+          </header>
+          <div class="terms-section-body">
+            <p>
+              إذا كان لديك سؤال عن هذه الشروط، أو واجهت مشكلة تتعلق بحسابك أو عملية دفع أو خدمة تعليمية، يمكنك التواصل مع فريق منصة الفرقان.
+            </p>
+
+            <address class="terms-contact-cards">
+              <div class="terms-contact-card">
+                <div class="terms-contact-icon-wrapper">
+                  <i class="bi bi-envelope" aria-hidden="true"></i>
+                </div>
+                <div class="terms-contact-details">
+                  <span class="terms-contact-label">البريد الإلكتروني</span>
+                  <a href="mailto:info@furqan.com" class="terms-contact-link terms-ltr-val">info@furqan.com</a>
+                </div>
+              </div>
+
+              <div class="terms-contact-card">
+                <div class="terms-contact-icon-wrapper">
+                  <i class="bi bi-telephone" aria-hidden="true"></i>
+                </div>
+                <div class="terms-contact-details">
+                  <span class="terms-contact-label">رقم الهاتف</span>
+                  <a href="tel:+201000000000" class="terms-contact-link terms-ltr-val">+20 100 000 0000</a>
+                </div>
+              </div>
+
+              <div class="terms-contact-card">
+                <div class="terms-contact-icon-wrapper">
+                  <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                </div>
+                <div class="terms-contact-details">
+                  <span class="terms-contact-label">الموقع</span>
+                  <span class="terms-contact-val">القاهرة، مصر</span>
+                </div>
+              </div>
+            </address>
+
+            <div class="terms-contact-action-wrapper">
+              <a routerLink="/contact-us" class="terms-contact-btn">
+                <i class="bi bi-envelope me-2" aria-hidden="true"></i>
+                <span>اتصل بنا</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+
+  <!-- Final Support CTA Section -->
+  <section class="terms-cta-section">
+    <div class="container">
+      <div class="terms-cta-card">
+        <div class="terms-cta-content">
+          <h2 class="terms-cta-title">هل لديك استفسار عن الشروط؟</h2>
+          <p class="terms-cta-description">
+            يمكن لفريق الدعم مساعدتك في فهم الشروط المتعلقة بالحسابات والدورات والمدفوعات والجلسات.
+          </p>
+        </div>
+        <div class="terms-cta-actions">
+          <a routerLink="/contact-us" class="terms-cta-btn-primary">
+            تواصل مع فريق الدعم
+          </a>
+          <a routerLink="/help-center" class="terms-cta-btn-secondary">
+            زيارة مركز المساعدة
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

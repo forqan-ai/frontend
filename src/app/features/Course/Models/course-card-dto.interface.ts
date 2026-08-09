@@ -1,11 +1,23 @@
+export const CourseLevelArabic: Record<string, string> = {
+    Beginner: 'مبتدئ',
+    Intermediate: 'متوسط',
+    Advanced: 'متقدم',
+};
+
 export interface ICourseCardDto {
-    id: number;
+    courseID: string;
     title: string;
-    instructor: string;
-    category: string;
-    rating: number;
+    description: string,
+    thumbnailURL: string,
+    level: string,
+    categoryID: string,
+    categoryName: string;
+    teacherID: string,
+    teacherName: string,
+    teacherImgUrl: string,
+    durationSeconds: number,
+    rating: number,
     reviewsCount: number;
     price: string;
-    imageUrl: string;
-    isFavorite?: boolean;
+    createdAt: string;
 }
