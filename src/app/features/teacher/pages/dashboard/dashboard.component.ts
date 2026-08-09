@@ -1,11 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { HeaderComponent } from '../../components/header/header.component';
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 import { StatisticsComponent } from '../../components/statistics/statistics.component';
-import { QuickActionsComponent } from '../../components/quick-actions/quick-actions.component';
-import { RouterLink } from '@angular/router';
 
 import { TeacherService } from '../../services/teacher.service';
 
@@ -17,14 +13,9 @@ import { PointsBalanceComponent } from '../../components/points-balance/points-b
   selector: 'app-teacher-dashboard',
   standalone: true,
   imports: [
-    SidebarComponent,
-    HeaderComponent,
     ProfileCardComponent,
     StatisticsComponent,
-    QuickActionsComponent,
     PointsBalanceComponent,
-    RouterLink,
-    // RecentCoursesComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -35,6 +26,10 @@ export class DashboardComponent implements OnInit {
   dashboard = signal<TeacherDashboard | null>(null);
 
   profile = signal<TeacherProfile | null>(null);
+
+  dashboardLoading = signal(true);
+
+  dashboardError = signal('');
 
   sidebarOpen = signal(false);
 
@@ -53,10 +48,20 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboard() {
-    this.teacherService.getDashboard().subscribe({
-      next: (res) => this.dashboard.set(res),
+    this.dashboardLoading.set(true);
+    this.dashboardError.set('');
 
-      error: console.error,
+    this.teacherService.getDashboard().subscribe({
+      next: (res) => {
+        this.dashboard.set(res);
+        this.dashboardLoading.set(false);
+      },
+
+      error: (error) => {
+        console.error(error);
+        this.dashboardError.set('تعذر تحميل إحصاءات لوحة المعلم.');
+        this.dashboardLoading.set(false);
+      },
     });
   }
 

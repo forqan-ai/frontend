@@ -1,31 +1,39 @@
 @if (teacher(); as teacher) {
-  <div class="profile-card">
-    <img [src]="teacher.profileImageURL || 'assets/images/avatar.png'" class="avatar" />
+  <article class="profile-card" dir="rtl">
+    <div class="profile-top">
+      <div class="avatar-frame">
+        <img [src]="teacher.profileImageURL || 'images/avatar.webp'" [alt]="teacher.fullName" class="avatar" />
+      </div>
 
-    <h2>
-      {{ teacher.fullName }}
-    </h2>
-
-    <p>
-      {{ teacher.bio }}
-    </p>
-
-    <div class="rating">
-      ⭐ {{ teacher.rating }}
-
-      ({{ teacher.ratingCount }})
-    </div>
-
-    @if (teacher.verifiedStatus) {
-      <div class="verified">✔ مدرس معتمد</div>
-    }
-
-    <div class="specialties">
-      @for (item of teacher.specialties; track item) {
-        <span>
-          {{ item }}
+      @if (teacher.verifiedStatus) {
+        <span class="verified">
+          <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+          معلم معتمد
         </span>
       }
     </div>
-  </div>
+
+    <h2>{{ teacher.fullName }}</h2>
+
+    <p>
+      {{
+        teacher.bio ||
+          'أكمل بيانات ملفك التعريفي لتظهر للطلاب بصورة أوضح وتساعدهم على اختيارك بثقة.'
+      }}
+    </p>
+
+    <div class="rating">
+      <i class="bi bi-star-fill" aria-hidden="true"></i>
+      <strong>{{ teacher.rating || 0 }}</strong>
+      <span>({{ teacher.ratingCount || 0 }} تقييم)</span>
+    </div>
+
+    @if (teacher.specialties.length > 0) {
+      <div class="specialties" aria-label="تخصصات المعلم">
+        @for (item of teacher.specialties; track item) {
+          <span>{{ item }}</span>
+        }
+      </div>
+    }
+  </article>
 }

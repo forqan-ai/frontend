@@ -72,7 +72,8 @@ export class LessonContentComponent {
           this.loadLesson();
         },
         error: (err) => {
-          console.log(err);
+          console.error('Upload error status:', err.status);
+          console.error('Upload error body:', JSON.stringify(err.error));
           this.isUploading.set(false);
         },
       });

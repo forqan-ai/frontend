@@ -1,12 +1,39 @@
+:host {
+  display: block;
+  --teacher-ink: #341b16;
+  --teacher-ink-soft: #6f5850;
+  --teacher-muted: #8a7a70;
+  --teacher-surface: #ffffff;
+  --teacher-warm: #fbf8f2;
+  --teacher-warm-strong: #f1e5d8;
+  --teacher-border: #eadfd4;
+  --teacher-accent: #0b6e4f;
+  --teacher-accent-soft: rgba(11, 110, 79, 0.1);
+}
+
 .layout {
-  display: flex;
   min-height: 100vh;
-  background: #f5f7fb;
+  display: flex;
+  background:
+    linear-gradient(180deg, rgba(248, 243, 237, 0.88), rgba(251, 248, 242, 1)),
+    radial-gradient(circle at top right, rgba(11, 110, 79, 0.08), transparent 34%);
 }
 
 .content {
+  min-width: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+}
+
+router-outlet + app-quick-actions {
+  width: min(100%, 1240px);
+  margin-inline: auto;
+}
+
+@media (max-width: 992px) {
+  .layout {
+    display: block;
+  }
 }
