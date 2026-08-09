@@ -35,6 +35,8 @@
     "bootstrap-icons": "^1.13.1",
     "html2pdf.js": "^0.14.0",
     "jwt-decode": "^4.0.0",
+    "marked": "^18.0.9",
+    "ngx-markdown": "^22.0.0",
     "lottie-web": "^5.13.0",
     "ngx-lottie": "^22.0.0",
     "rxjs": "~7.8.0",
