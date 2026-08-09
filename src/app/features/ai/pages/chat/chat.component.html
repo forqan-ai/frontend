@@ -1,32 +1,33 @@
 <div class="chat-container">
-
+  <!-- Header -->
   <div class="chat-header">
     <div class="ai-icon">
       <i class="bi bi-robot"></i>
     </div>
+
     <div class="chat-info">
-      <h3>مساعد فرقان الذكي</h3>
-      <span>اسألني عن محتوى هذا الدرس</span>
+      <h3>المساعد الذكي</h3>
+      <span>اسألني عن محتوى الدرس</span>
     </div>
   </div>
 
-  <div class="messages" #scrollContainer>
+  <!-- Messages -->
+  <div #messagesContainer class="messages">
     @for (message of messages; track $index) {
-      <div class="message-row"
+      <div
+        class="message-row"
         [class.user]="isUser(message.role)"
-        [class.assistant]="isAssistant(message.role)">
-
-        @if(isAssistant(message.role)){
+        [class.assistant]="!isUser(message.role)"
+      >
+        @if (!isUser(message.role)) {
           <div class="avatar">
             <i class="bi bi-robot"></i>
           </div>
         }
 
-        <div class="message">
-          {{ message.content }}
-        </div>
+        <div class="message" [innerHTML]="parseMarkdown(message.content)"></div>
 
-        @if(isUser(message.role)){
+        @if (isUser(message.role)) {
           <div class="avatar">
             <i class="bi bi-person-fill"></i>
           </div>
@@ -34,30 +35,73 @@
       </div>
     }
 
+    <!-- References -->
+    @if (references()?.length) {
+      <div class="references-container">
+        <div class="references-header">
+          <div class="references-title-wrapper">
+            <div class="references-title-icon">
+              <i class="bi bi-bookmark-fill"></i>
+            </div>
+
+            <div>
+              <span class="references-title"> المصادر المستخدمة </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="references-list">
+          @for (ref of references(); track $index) {
+            <button
+              type="button"
+              class="reference-item"
+              (click)="goToReference(ref.timestamp)"
+              [disabled]="ref.timestamp === undefined"
+              [attr.aria-label]="'تشغيل الفيديو من ' + formatTimestamp(ref.timestamp)"
+              title="الانتقال إلى الفيديو من هذا الوقت"
+            >
+              <!-- Number -->
+              <span class="reference-number">
+                {{ $index + 1 }}
+              </span>
+
+              <!-- Information -->
+              <span class="reference-content">
+                <span class="reference-label"> من الدرس </span>
+
+                <span class="reference-time">
+                  {{ formatTimestamp(ref.timestamp) }}
+                </span>
+              </span>
+
+              <!-- Action -->
+              <span class="reference-action"> تشغيل </span>
+
+              <i class="bi bi-chevron-left reference-arrow"></i>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Loading -->
     @if (loading) {
       <div class="message-row assistant">
         <div class="avatar">
           <i class="bi bi-robot"></i>
         </div>
-        <div class="message typing">
-          جاري كتابة الرد...
-        </div>
+
+        <div class="message typing">جاري كتابة الرد...</div>
       </div>
     }
   </div>
 
+  <!-- Input -->
   <div class="input-area">
-    <textarea
-      [(ngModel)]="question"
-      placeholder="اكتب سؤالك..."
-      rows="1">
-    </textarea>
+    <textarea [(ngModel)]="question" placeholder="اكتب سؤالك..." rows="1"></textarea>
 
-    <button
-      (click)="sendMessage()"
-      [disabled]="loading">
+    <button type="button" (click)="sendMessage()" [disabled]="loading" aria-label="إرسال الرسالة">
       <i class="bi bi-send-fill"></i>
     </button>
   </div>
-
 </div>

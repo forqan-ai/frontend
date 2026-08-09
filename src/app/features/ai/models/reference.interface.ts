@@ -1,4 +1,4 @@
 export interface IReference {
-  timestamp?: string;
+  timestamp?: number;
   pageNumber?: number;
 }
