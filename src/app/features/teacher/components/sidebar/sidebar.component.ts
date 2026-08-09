@@ -17,38 +17,37 @@ export class SidebarComponent {
   menu = signal<SidebarItem[]>([
     {
       title: 'لوحة التحكم',
-      icon: 'dashboard',
+      icon: 'bi bi-grid-1x2-fill',
       route: '/teacher',
     },
     {
       title: 'إنشاء دورة',
-      icon: 'add',
+      icon: 'bi bi-plus-lg',
       route: '/teacher/create-course',
     },
     {
       title: 'دوراتي',
-      icon: 'menu_book',
+      icon: 'bi bi-journal-bookmark-fill',
       route: '/teacher/my-courses',
     },
-
     {
       title: 'الطلاب',
-      icon: 'groups',
+      icon: 'bi bi-people-fill',
       route: '/teacher/students',
     },
     {
       title: 'حلقات العلم',
-      icon: 'school',
+      icon: 'bi bi-mortarboard-fill',
       route: '/teacher/circles',
     },
     {
       title: 'الملف الشخصي',
-      icon: 'person',
+      icon: 'bi bi-person-fill',
       route: '/teacher/profile',
     },
     {
       title: 'الإعدادات',
-      icon: 'settings',
+      icon: 'bi bi-gear-fill',
       route: '/teacher/settings',
     },
   ]);

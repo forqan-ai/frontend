@@ -1,28 +1,90 @@
-<div class="dashboard">
+<main class="teacher-dashboard-page" dir="rtl">
+  <section class="dashboard-hero">
+    <div class="hero-copy">
+      <span class="dashboard-eyebrow">مساحة المعلم</span>
+      <h2>نظرة مركزة على نشاطك التعليمي</h2>
+      <p>
+        تابع الدورات، الطلاب، الحلقات، والرصيد من مكان واحد بتجربة مرتبة تساعدك تتحرك بسرعة ووضوح.
+      </p>
 
-  <div class="content">
-    <app-header [teacherName]="dashboard()?.fullName ?? ''" [image]="profile()?.profileImageURL ?? ''"
-      (menuClick)="toggleSidebar()">
-    </app-header>
-   
-    <div style="padding: 20px 20px 0">
-      <a
-        class="btn-primary"
-        [routerLink]="['/circles', '11111111-1111-1111-1111-111111111111', 'sessions']"
-        style="display: inline-block"
-      >
-        <i class="bi bi-camera-video"></i>
-        إدارة جلسات البث المباشر
-      </a>
+      <div class="hero-badges">
+        <span>
+          <i class="bi bi-person-check" aria-hidden="true"></i>
+          {{ dashboard()?.fullName || profile()?.fullName || 'جاري تحميل البيانات' }}
+        </span>
+
+        <span>
+          <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+          @if (dashboard()) {
+            {{ dashboard()?.verifiedStatus ? 'حساب موثق' : 'قيد المراجعة' }}
+          } @else {
+            جاري التحقق
+          }
+        </span>
+      </div>
     </div>
 
-    <div class="dashboard-grid">
-      <app-profile-card [teacher]="profile()"> </app-profile-card>
+    <div class="hero-focus-card" aria-label="ملخص سريع">
+      <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+      <strong>{{ dashboardLoading() ? '...' : (dashboard()?.totalCourses ?? 0) }}</strong>
+      <p>دورة ضمن مساحة التدريس</p>
+    </div>
+  </section>
 
-      <app-statistics [dashboard]="dashboard()"> </app-statistics>
+  @if (dashboardError()) {
+    <div class="dashboard-error" role="alert">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      {{ dashboardError() }}
+    </div>
+  }
 
+  <section class="dashboard-insights" aria-label="تنظيم العمل">
+    <article class="insight-card primary">
+      <div class="insight-icon">
+        <i class="bi bi-pencil-square" aria-hidden="true"></i>
+      </div>
+      <div>
+        <span>مسودات تحتاج متابعة</span>
+        <strong>{{ dashboardLoading() ? '...' : (dashboard()?.draftCourses ?? 0) }}</strong>
+      </div>
+    </article>
+
+    <article class="insight-card">
+      <div class="insight-icon">
+        <i class="bi bi-archive" aria-hidden="true"></i>
+      </div>
+      <div>
+        <span>دورات مؤرشفة</span>
+        <strong>{{ dashboardLoading() ? '...' : (dashboard()?.archivedCourses ?? 0) }}</strong>
+      </div>
+    </article>
+
+    <article class="insight-card">
+      <div class="insight-icon">
+        <i class="bi bi-mortarboard-fill" aria-hidden="true"></i>
+      </div>
+      <div>
+        <span>حلقات العلم</span>
+        <strong>{{ dashboardLoading() ? '...' : (dashboard()?.learningCirclesCount ?? 0) }}</strong>
+      </div>
+    </article>
+  </section>
+
+  <section class="dashboard-overview" aria-label="ملخص لوحة المعلم">
+    @if (dashboardLoading()) {
+      <div class="statistics-loading" aria-label="جاري تحميل الإحصاءات">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    } @else {
+      <app-statistics [dashboard]="dashboard()"></app-statistics>
+    }
+
+    <div class="dashboard-side-grid">
+      <app-profile-card [teacher]="profile()"></app-profile-card>
       <app-points-balance />
     </div>
-  </div>
-</div>
-
+  </section>
+</main>
