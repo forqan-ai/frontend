@@ -8,6 +8,7 @@ export enum AddCircleMemberStatus {
   Inactive = 'Inactive',
   InvalidEmail = 'InvalidEmail',
   DuplicateInRequest = 'DuplicateInRequest',
+  NotLearner = 'NotLearner',
 }
 
 export type ManageableCircleRole =

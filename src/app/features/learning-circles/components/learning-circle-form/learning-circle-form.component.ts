@@ -16,7 +16,7 @@ import {
   required,
   submit,
 } from '@angular/forms/signals';
-import { CreateLearningCircleRequest } from '../../models/learning-circle.models';
+import { CircleJoinPolicy, CreateLearningCircleRequest } from '../../models/learning-circle.models';
 
 type CircleTextField = 'name' | 'subject' | 'description';
 
@@ -24,7 +24,7 @@ const EMPTY_FORM_VALUE: CreateLearningCircleRequest = {
   name: '',
   subject: '',
   description: '',
-  isOpenForJoin: true,
+  joinPolicy: CircleJoinPolicy.RequiresApproval,
 };
 
 @Component({
@@ -35,6 +35,7 @@ const EMPTY_FORM_VALUE: CreateLearningCircleRequest = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LearningCircleFormComponent {
+  readonly CircleJoinPolicy = CircleJoinPolicy;
   readonly initialValue =
     input<CreateLearningCircleRequest | null>(null);
 
@@ -121,6 +122,10 @@ export class LearningCircleFormComponent {
       ...value,
       [field]: value[field].trim(),
     }));
+  }
+
+  setJoinPolicy(joinPolicy: CircleJoinPolicy): void {
+    this.formModel.update((value) => ({ ...value, joinPolicy }));
   }
 
   showError(field: FieldTree<string>): boolean {

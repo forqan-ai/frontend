@@ -22,6 +22,7 @@ export class CircleContentNavigationComponent {
   readonly canViewSessions = input(false);
   readonly postsCount = input(0);
   readonly membersCount = input(0);
+  readonly pendingJoinRequestsCount = input(0);
 
   readonly sectionChanged =
     output<CircleContentSection>();

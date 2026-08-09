@@ -1,26 +1,38 @@
 @let item = circle();
 
 <article class="circle-card" [attr.aria-busy]="actionPending()">
+  <div class="card-cover">
+    <app-circle-geometric-cover
+      [circleId]="item.circleId"
+      [circleName]="item.name"
+      [compact]="true"
+    />
+
+    <span class="cover-subject">
+      <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+      {{ item.subject }}
+    </span>
+  </div>
+
   <div class="card-content">
     <div class="status-row">
-      <span class="status-badge subject-badge">
-        <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-        {{ item.subject }}
-      </span>
-
       @if (item.isMember) {
         <span class="status-badge member-status">
           <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
           منضم
         </span>
-      } @else if (item.isOpenForJoin) {
+      } @else if (item.joinPolicy === CircleJoinPolicy.Automatic) {
         <span class="status-badge open-status">
           متاحة للانضمام
+        </span>
+      } @else if (item.joinPolicy === CircleJoinPolicy.RequiresApproval) {
+        <span class="status-badge open-status">
+          الانضمام بموافقة الإدارة
         </span>
       } @else {
         <span class="status-badge invitation-status">
           <i class="bi bi-envelope-lock" aria-hidden="true"></i>
-          دعوة فقط
+          خاصة - بالدعوة فقط
         </span>
       }
 
@@ -117,6 +129,29 @@
         (click)="leaveRequested.emit(item)"
       >
         مغادرة الحلقة
+      </button>
+    }
+
+    @if (showRequestAction()) {
+      <button
+        type="button"
+        class="primary-button join-button"
+        [disabled]="actionPending()"
+        (click)="joinRequestSubmitted.emit(item)"
+      >
+        <i class="bi bi-person-plus" aria-hidden="true"></i>
+        إرسال طلب انضمام
+      </button>
+    }
+
+    @if (showCancelRequestAction()) {
+      <button
+        type="button"
+        class="danger-button"
+        [disabled]="actionPending()"
+        (click)="joinRequestCancelled.emit(item)"
+      >
+        إلغاء طلب الانضمام
       </button>
     }
   </footer>

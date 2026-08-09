@@ -107,7 +107,7 @@ export class AddCircleMembersModalComponent {
           return {
             kind: 'emails-required',
             message:
-              'اختر طالبًا أو أدخل بريدًا إلكترونيًا واحدًا على الأقل.',
+              'اختر متعلمًا أو أدخل بريدًا إلكترونيًا واحدًا على الأقل.',
           };
         }
 
@@ -268,8 +268,8 @@ export class AddCircleMembersModalComponent {
             this.membersAdded.emit(response.addedCount);
             this.toast.show(
               response.addedCount === 1
-                ? 'تمت إضافة طالب واحد إلى الحلقة.'
-                : `تمت إضافة ${response.addedCount} طلاب إلى الحلقة.`,
+                ? 'تمت إضافة متعلم واحد إلى الحلقة.'
+                : `تمت إضافة ${response.addedCount} متعلمين إلى الحلقة.`,
             );
 
             if (this.candidateSearch().length >= 2) {

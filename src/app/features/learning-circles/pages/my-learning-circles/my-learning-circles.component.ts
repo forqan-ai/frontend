@@ -23,8 +23,6 @@ import {
   finalize,
   map,
 } from 'rxjs';
-import { Role } from '../../../../core/models/auth.models';
-import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { LearningCirclesGridComponent } from '../../components/learning-circles-grid/learning-circles-grid.component';
@@ -57,18 +55,25 @@ export class MyLearningCirclesComponent implements OnInit {
   private readonly actionErrorService =
     inject(CircleActionErrorService);
 
-  private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly isTeacher =
-    this.authService.hasRole(Role.Teacher);
+  readonly isManagementContext =
+    this.route.snapshot.data['circleContext'] === 'management';
+
+  readonly pageTitle = this.isManagementContext
+    ? 'حلقات العلم التي تديرها'
+    : 'حلقاتي';
+
+  readonly resultsTitle = this.isManagementContext
+    ? 'حلقات العلم التي أنشأتها'
+    : 'حلقات العلم المنضم إليها';
 
   readonly pageDescription = computed(() =>
-    this.isTeacher
-      ? 'إدارة حلقات التعلم التي تملكها أو تشارك في الإشراف عليها.'
+    this.isManagementContext
+      ? 'إدارة حلقات العلم التي أنشأتها ومتابعة الطلاب والمحتوى داخلها.'
       : 'تابع حلقات التعلم التي انضممت إليها ودورك داخل كل حلقة.',
   );
 
@@ -232,8 +237,11 @@ export class MyLearningCirclesComponent implements OnInit {
       search: this.searchTerm() || undefined,
     };
 
-    this.listSubscription = this.circlesService
-      .getMine(query)
+    const circlesRequest = this.isManagementContext
+      ? this.circlesService.getOwned(query)
+      : this.circlesService.getJoined(query);
+
+    this.listSubscription = circlesRequest
       .pipe(
         finalize(() => {
           if (currentRequestId === this.requestId) {
@@ -286,6 +294,14 @@ export class MyLearningCirclesComponent implements OnInit {
   }
 
   private navigateToDetails(circleId: string): void {
+    if (this.isManagementContext) {
+      void this.router.navigate([
+        '/teacher/circles',
+        circleId,
+      ]);
+      return;
+    }
+
     void this.router.navigate(
       ['..', circleId],
       { relativeTo: this.route },
