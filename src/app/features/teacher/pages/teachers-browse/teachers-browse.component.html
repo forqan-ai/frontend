@@ -1,1 +1,193 @@
-<p>teachers-browse works!</p>
+<main class="teachers-page" dir="rtl">
+  <section class="teachers-hero">
+    <div class="container teachers-hero-grid">
+      <div class="teachers-hero-copy">
+        <span class="teachers-eyebrow">المعلمون</span>
+
+        <h1>اختر معلمك وابدأ رحلة تعلم مطمئنة</h1>
+
+        <p>
+          تعرّف على نخبة من المعلمين المتخصصين، واستعرض خبراتهم وتقييماتهم قبل اختيار
+          المسار الأنسب لك.
+        </p>
+
+        <label class="teachers-search">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <input
+            #searchInputElement
+            type="search"
+            [value]="searchInput()"
+            (input)="searchInput.set(searchInputElement.value)"
+            placeholder="ابحث باسم المعلم أو التخصص..."
+            aria-label="البحث عن معلم"
+          />
+
+          @if (searchInput()) {
+            <button type="button" (click)="clearSearch()" aria-label="مسح البحث">
+              <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+          }
+        </label>
+      </div>
+
+      <div class="teachers-hero-visual" aria-hidden="true">
+        <img src="images/instructor.webp" alt="" />
+      </div>
+    </div>
+  </section>
+
+  <section class="teachers-summary">
+    <div class="container teachers-summary-grid">
+      <div class="summary-item">
+        <strong>{{ totalCount() }}</strong>
+        <span>معلم متاح</span>
+      </div>
+
+      <div class="summary-item">
+        <strong>{{ verifiedTeachersOnPage() }}</strong>
+        <span>معلم موثق في النتائج</span>
+      </div>
+
+      <div class="summary-item">
+        <strong>{{ averageRating() }}</strong>
+        <span>متوسط التقييم</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="teachers-results-section">
+    <div class="container">
+      <div class="teachers-results-header">
+        <div>
+          <span class="section-kicker">قائمة المعلمين</span>
+          <h2>معلمون يساعدونك على التعلم بخطوات واضحة</h2>
+        </div>
+
+        <p>
+          تم العثور على <strong>{{ totalCount() }}</strong> نتيجة
+        </p>
+      </div>
+
+      @if (isLoading()) {
+        <div class="teachers-state">
+          <div class="spinner-border" role="status" aria-label="جاري تحميل المعلمين"></div>
+          <p>جاري تحميل المعلمين...</p>
+        </div>
+      } @else if (errorMessage()) {
+        <div class="teachers-state error-state">
+          <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+          <h2>تعذر تحميل المعلمين</h2>
+          <p>{{ errorMessage() }}</p>
+          <button type="button" (click)="retry()">إعادة المحاولة</button>
+        </div>
+      } @else if (teachers().length === 0) {
+        <div class="teachers-state">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <h2>لا توجد نتائج مطابقة</h2>
+          <p>جرّب البحث باسم مختلف أو امسح كلمة البحث الحالية.</p>
+          <button type="button" (click)="clearSearch()">عرض جميع المعلمين</button>
+        </div>
+      } @else {
+        <div class="teachers-grid">
+          @for (teacher of teachers(); track teacher.teacherID) {
+            <article class="teacher-card">
+              <div class="teacher-card-header">
+                <div class="teacher-avatar">
+                  <img
+                    #teacherImg
+                    [src]="getTeacherImage(teacher)"
+                    [alt]="teacher.teacherName"
+                    loading="lazy"
+                    (error)="teacherImg.src = 'images/avatar.webp'"
+                  />
+                </div>
+
+                @if (teacher.verifiedStatus) {
+                  <span class="verified-badge">
+                    <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+                    موثق
+                  </span>
+                }
+              </div>
+
+              <div class="teacher-card-body">
+                <span class="teacher-specialty">{{ primarySpecialty(teacher) }}</span>
+                <h3>{{ teacher.teacherName }}</h3>
+                <p class="teacher-title">{{ teacher.title || 'معلم في منصة الفرقان' }}</p>
+
+                <p class="teacher-bio">
+                  {{ teacher.bio || 'يساعد الطلاب على بناء فهم واضح ومتين بخطة تعلم تناسب مستواهم.' }}
+                </p>
+
+                @if (visibleSpecialties(teacher).length > 0) {
+                  <div class="specialties-list" aria-label="تخصصات المعلم">
+                    @for (specialty of visibleSpecialties(teacher); track specialty) {
+                      <span>{{ specialty }}</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="teacher-card-metrics">
+                <span>
+                  <i class="bi bi-star-fill" aria-hidden="true"></i>
+                  {{ teacher.rating || 0 }}
+                </span>
+
+                <span>
+                  <i class="bi bi-book" aria-hidden="true"></i>
+                  {{ teacher.totalCourses }} دورة
+                </span>
+
+                <span>
+                  <i class="bi bi-people" aria-hidden="true"></i>
+                  {{ teacher.totalEnrollments }} طالب
+                </span>
+              </div>
+
+              <div class="teacher-card-footer">
+                <span>منذ {{ joinedYear(teacher.joinedAt) }}</span>
+
+                <a [routerLink]="getTeacherDetailsRoute(teacher.teacherID)">
+                  عرض الملف
+                  <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                </a>
+              </div>
+            </article>
+          }
+        </div>
+
+        @if (totalPages() > 1) {
+          <nav class="teachers-pagination" aria-label="صفحات المعلمين">
+            <button
+              type="button"
+              [disabled]="pageNumber() === 1"
+              (click)="goToPage(pageNumber() - 1)"
+            >
+              السابق
+            </button>
+
+            @for (page of pageNumbers(); track page) {
+              <button
+                type="button"
+                [class.active]="pageNumber() === page"
+                [attr.aria-current]="pageNumber() === page ? 'page' : null"
+                (click)="goToPage(page)"
+              >
+                {{ page }}
+              </button>
+            }
+
+            <button
+              type="button"
+              [disabled]="pageNumber() === totalPages()"
+              (click)="goToPage(pageNumber() + 1)"
+            >
+              التالي
+            </button>
+          </nav>
+        }
+      }
+    </div>
+  </section>
+</main>

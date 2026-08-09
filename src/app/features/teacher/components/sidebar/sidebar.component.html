@@ -2,40 +2,30 @@
   <div class="overlay" (click)="closeSidebar()"></div>
 }
 
-<div class="sidebar" [class.open]="opened()">
-  <div class="logo">
-    <img src="images/logo.png" alt="logo" />
+<aside class="sidebar" [class.open]="opened()" dir="rtl" aria-label="قائمة المعلم">
+  <div class="brand">
+    <div class="logo">
+      <img src="images/logo.png" alt="منصة الفرقان" />
+    </div>
+    <span>مساحة المعلم</span>
   </div>
 
   <nav>
     @for (item of menu(); track item.route) {
-      @if (item.route === '/teacher') {
-        <a
-          [routerLink]="item.route"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="closeSidebar()"
-        >
-          <span class="material-symbols-outlined">
-            {{ item.icon }}
-          </span>
-
-          {{ item.title }}
-        </a>
-      } @else {
-        <a [routerLink]="item.route" routerLinkActive="active"  [routerLinkActiveOptions]="{ exact: true }" (click)="closeSidebar()">
-          <span class="material-symbols-outlined">
-            {{ item.icon }}
-          </span>
-          {{ item.title }}
-        </a>
-      }
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeSidebar()"
+      >
+        <i [class]="'nav-icon ' + item.icon" aria-hidden="true"></i>
+        <span class="nav-label">{{ item.title }}</span>
+      </a>
     }
   </nav>
 
-  <button class="logout">
-    <span class="material-symbols-outlined"> logout </span>
-
+  <button class="logout" type="button">
+    <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
     تسجيل خروج
   </button>
-</div>
+</aside>
