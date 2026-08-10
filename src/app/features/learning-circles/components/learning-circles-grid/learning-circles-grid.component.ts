@@ -6,6 +6,8 @@ import {
 } from '@angular/core';
 import {
   CircleRole,
+  CircleJoinPolicy,
+  CircleJoinRequestStatus,
   LearningCircleListItem,
 } from '../../models/learning-circle.models';
 import { LearningCircleCardComponent } from '../learning-circle-card/learning-circle-card.component';
@@ -26,9 +28,12 @@ export class LearningCirclesGridComponent {
 
   readonly allowJoin = input(false);
   readonly showMemberMetadata = input(false);
-  readonly allowMemberActions = input(false);
+  readonly allowLeaveActions = input(false);
+  readonly allowManageActions = input(false);
 
   readonly joinRequested = output<LearningCircleListItem>();
+  readonly joinRequestSubmitted = output<LearningCircleListItem>();
+  readonly joinRequestCancelled = output<LearningCircleListItem>();
   readonly leaveRequested = output<LearningCircleListItem>();
   readonly detailsRequested = output<LearningCircleListItem>();
   readonly manageRequested = output<LearningCircleListItem>();
@@ -37,13 +42,24 @@ export class LearningCirclesGridComponent {
     return (
       this.allowJoin() &&
       !circle.isMember &&
-      circle.isOpenForJoin
+      circle.joinPolicy === CircleJoinPolicy.Automatic
     );
+  }
+
+  canRequestToJoin(circle: LearningCircleListItem): boolean {
+    return this.allowJoin() && !circle.isMember &&
+      circle.joinPolicy === CircleJoinPolicy.RequiresApproval &&
+      circle.currentUserJoinRequestStatus !== CircleJoinRequestStatus.Pending;
+  }
+
+  canCancelJoinRequest(circle: LearningCircleListItem): boolean {
+    return this.allowJoin() && !circle.isMember &&
+      circle.currentUserJoinRequestStatus === CircleJoinRequestStatus.Pending;
   }
 
   canLeave(circle: LearningCircleListItem): boolean {
     return (
-      this.allowMemberActions() &&
+      this.allowLeaveActions() &&
       circle.isMember &&
       circle.currentUserRole !== CircleRole.Owner
     );
@@ -51,7 +67,7 @@ export class LearningCirclesGridComponent {
 
   canManage(circle: LearningCircleListItem): boolean {
     return (
-      this.allowMemberActions() &&
+      this.allowManageActions() &&
       (
         circle.currentUserRole === CircleRole.Owner ||
         circle.currentUserRole === CircleRole.Moderator

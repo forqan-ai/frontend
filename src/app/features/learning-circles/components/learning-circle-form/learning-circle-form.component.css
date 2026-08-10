@@ -249,3 +249,33 @@
     min-width: 0;
   }
 }
+.join-policy-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.join-policy-options button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem;
+  border: 1px solid #d8e0e8;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: inherit;
+  text-align: right;
+}
+
+.join-policy-options button.selected {
+  border-color: #198754;
+  background: #f0faf5;
+  box-shadow: 0 0 0 2px rgb(25 135 84 / 12%);
+}
+
+.join-policy-options span { font-size: 0.82rem; color: #667085; }
+
+@media (max-width: 720px) {
+  .join-policy-options { grid-template-columns: 1fr; }
+}

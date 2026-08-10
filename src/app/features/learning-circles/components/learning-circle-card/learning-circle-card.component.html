@@ -1,26 +1,54 @@
 @let item = circle();
 
 <article class="circle-card" [attr.aria-busy]="actionPending()">
-  <div class="card-content">
-    <div class="status-row">
-      <span class="status-badge subject-badge">
-        <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-        {{ item.subject }}
-      </span>
+  <div class="card-cover">
+    <app-circle-geometric-cover
+      [circleId]="item.circleId"
+      [circleName]="item.name"
+      [compact]="true"
+    />
 
+    <div class="teacher-avatar-wrapper">
+      @if (item.teacher.profileImageUrl) {
+        <img
+          [src]="item.teacher.profileImageUrl"
+          [alt]="'صورة المعلم ' + item.teacher.fullName"
+          class="teacher-avatar"
+        />
+      } @else {
+        <div class="teacher-avatar teacher-placeholder" aria-hidden="true">
+          <i class="bi bi-person-fill"></i>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="card-content">
+    <h2 class="circle-title">{{ item.name }}</h2>
+
+    <div class="teacher-subtitle">
+      <span class="label">المعلم المشرف: </span>
+      <strong class="name">{{ item.teacher.fullName }}</strong>
+    </div>
+
+    <div class="status-row">
       @if (item.isMember) {
         <span class="status-badge member-status">
-          <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+          <span class="status-dot" aria-hidden="true">●</span>
           منضم
         </span>
-      } @else if (item.isOpenForJoin) {
+      } @else if (item.joinPolicy === CircleJoinPolicy.Automatic) {
         <span class="status-badge open-status">
           متاحة للانضمام
+        </span>
+      } @else if (item.joinPolicy === CircleJoinPolicy.RequiresApproval) {
+        <span class="status-badge open-status">
+          الانضمام بموافقة الإدارة
         </span>
       } @else {
         <span class="status-badge invitation-status">
           <i class="bi bi-envelope-lock" aria-hidden="true"></i>
-          دعوة فقط
+          خاصة - بالدعوة فقط
         </span>
       }
 
@@ -29,62 +57,29 @@
       }
     </div>
 
-    <h2>{{ item.name }}</h2>
-
-    <p class="description">{{ item.description }}</p>
-
-    <div class="teacher">
-      @if (item.teacher.profileImageUrl) {
-        <img
-          [src]="item.teacher.profileImageUrl"
-          [alt]="'صورة المعلم ' + item.teacher.fullName"
-        />
-      } @else {
-        <span class="teacher-placeholder" aria-hidden="true">
-          <i class="bi bi-person-fill"></i>
-        </span>
-      }
-
-      <div class="teacher-info">
-        <span class="teacher-label">المعلم المشرف</span>
-        <strong>{{ item.teacher.fullName }}</strong>
-      </div>
-    </div>
-
-    <div class="card-meta">
-      <span class="meta-item">
-        <i class="bi bi-people" aria-hidden="true"></i>
-        <span>{{ item.membersCount }} عضو</span>
-      </span>
-
-      @if (showPostsCount()) {
-        <span class="meta-item">
-          <i class="bi bi-file-post" aria-hidden="true"></i>
-          <span>{{ item.postsCount }} منشور</span>
-        </span>
-      }
-
-      <span class="meta-item last-activity">
-        <i class="bi bi-clock" aria-hidden="true"></i>
-        <time [attr.datetime]="item.lastActivityAt">
+    <div class="card-meta-grid">
+      <div class="meta-col">
+        <span class="meta-label">آخر نشاط</span>
+        <time class="meta-value" [attr.datetime]="item.lastActivityAt">
           {{ item.lastActivityAt | date: 'dd/MM/yyyy' }}
         </time>
-        <span class="visually-hidden">آخر نشاط</span>
-      </span>
+      </div>
+
+      <div class="meta-col">
+        <span class="meta-label">الأعضاء</span>
+        <span class="meta-value">{{ item.membersCount }} عضو</span>
+      </div>
+
+      @if (showPostsCount() && !showManageAction()) {
+        <div class="meta-col meta-col-posts">
+          <span class="meta-label">المنشورات</span>
+          <span class="meta-value">{{ item.postsCount }} منشور</span>
+        </div>
+      }
     </div>
   </div>
 
   <footer class="card-actions">
-    <button
-      type="button"
-      class="secondary-button"
-      [disabled]="actionPending()"
-      (click)="detailsRequested.emit(item)"
-    >
-      عرض التفاصيل
-      <i class="bi bi-arrow-left" aria-hidden="true"></i>
-    </button>
-
     @if (showManageAction()) {
       <button
         type="button"
@@ -92,7 +87,6 @@
         [disabled]="actionPending()"
         (click)="manageRequested.emit(item)"
       >
-        <i class="bi bi-sliders" aria-hidden="true"></i>
         إدارة الحلقة
       </button>
     }
@@ -104,10 +98,29 @@
         [disabled]="actionPending()"
         (click)="joinRequested.emit(item)"
       >
-        <i class="bi bi-person-plus" aria-hidden="true"></i>
         انضم مجانًا
       </button>
     }
+
+    @if (showRequestAction()) {
+      <button
+        type="button"
+        class="primary-button join-button"
+        [disabled]="actionPending()"
+        (click)="joinRequestSubmitted.emit(item)"
+      >
+        إرسال طلب انضمام
+      </button>
+    }
+
+    <button
+      type="button"
+      class="secondary-button"
+      [disabled]="actionPending()"
+      (click)="detailsRequested.emit(item)"
+    >
+      التفاصيل
+    </button>
 
     @if (showLeaveAction()) {
       <button
@@ -119,5 +132,17 @@
         مغادرة الحلقة
       </button>
     }
+
+    @if (showCancelRequestAction()) {
+      <button
+        type="button"
+        class="danger-button"
+        [disabled]="actionPending()"
+        (click)="joinRequestCancelled.emit(item)"
+      >
+        إلغاء طلب الانضمام
+      </button>
+    }
   </footer>
 </article>
+
