@@ -32,6 +32,9 @@
       <i class="bi bi-people" aria-hidden="true"></i>
       الأعضاء
       <span>{{ membersCount() }}</span>
+      @if (pendingJoinRequestsCount() > 0) {
+        <span class="requests-badge" title="طلبات انضمام معلقة">+{{ pendingJoinRequestsCount() }} طلبات</span>
+      }
     </button>
   }
 

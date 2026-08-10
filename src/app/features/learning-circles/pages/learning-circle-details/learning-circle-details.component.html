@@ -1,6 +1,4 @@
-@if (isTeacher) {
-  <app-toast />
-}
+<app-toast />
 
 <main class="details-page" dir="rtl">
   <nav class="breadcrumb" aria-label="مسار الصفحة">
@@ -94,6 +92,8 @@
       [details]="circle"
       [actionPending]="actionPending() !== null"
       (joinRequested)="openJoinConfirmation()"
+      (joinRequestSubmitted)="requestToJoin()"
+      (joinRequestCancelled)="cancelJoinRequest()"
       (leaveRequested)="openLeaveConfirmation()"
       (editRequested)="editCircle()"
       (archiveRequested)="openArchiveConfirmation()"
@@ -113,6 +113,7 @@
         [canViewSessions]="circle.isMember || circle.currentUserRole !== null"
         [postsCount]="circle.postsCount"
         [membersCount]="circle.membersCount"
+        [pendingJoinRequestsCount]="circle.pendingJoinRequestsCount"
         (sectionChanged)="selectContentSection($event)"
       />
 
@@ -126,13 +127,78 @@
           aria-labelledby="circle-posts-tab"
           [hidden]="activeContentSection() !== 'posts'"
         >
-          <app-circle-posts-section
-            [details]="circle"
-            [active]="activeContentSection() === 'posts'"
-            (detailsRefreshRequested)="
-              refreshDetailsFromContent()
-            "
-          />
+          <div class="discussion-layout">
+            <app-circle-posts-section
+              [details]="circle"
+              [active]="activeContentSection() === 'posts'"
+              (detailsRefreshRequested)="refreshDetailsFromContent()"
+            />
+
+            <aside class="circle-sidebar" aria-label="معلومات الحلقة">
+              <section class="info-card about-card">
+                <div class="info-card-heading">
+                  <span class="info-icon"><i class="bi bi-info-lg" aria-hidden="true"></i></span>
+                  <h2>حول الحلقة</h2>
+                </div>
+                <p>{{ circle.description }}</p>
+                <dl class="info-list">
+                  <div>
+                    <dt><i class="bi bi-book" aria-hidden="true"></i> المجال</dt>
+                    <dd>{{ circle.subject }}</dd>
+                  </div>
+                  <div>
+                    <dt><i class="bi bi-door-open" aria-hidden="true"></i> الانضمام</dt>
+                    <dd>{{ circle.joinPolicy === 'Automatic' ? 'انضمام تلقائي' : circle.joinPolicy === 'RequiresApproval' ? 'يتطلب موافقة' : 'بدعوة فقط' }}</dd>
+                  </div>
+                  <div>
+                    <dt><i class="bi bi-calendar3" aria-hidden="true"></i> أُنشئت في</dt>
+                    <dd><time [attr.datetime]="circle.createdAt">{{ circle.createdAt | date: 'dd/MM/yyyy' }}</time></dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section class="info-card teacher-card">
+                <div class="info-card-heading">
+                  <span class="info-icon"><i class="bi bi-mortarboard" aria-hidden="true"></i></span>
+                  <h2>معلم الحلقة</h2>
+                </div>
+                <div class="teacher-profile">
+                  @if (circle.teacher.profileImageUrl) {
+                    <img [src]="circle.teacher.profileImageUrl" [alt]="'صورة المعلم ' + circle.teacher.fullName" />
+                  } @else {
+                    <span class="teacher-fallback" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+                  }
+                  <div>
+                    <strong>{{ circle.teacher.fullName }}</strong>
+                    <span>المعلم المشرف على الحلقة</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="info-card activity-card">
+                <div class="info-card-heading">
+                  <span class="info-icon"><i class="bi bi-activity" aria-hidden="true"></i></span>
+                  <h2>نشاط الحلقة</h2>
+                </div>
+                <div class="activity-grid">
+                  <div><strong>{{ circle.membersCount }}</strong><span>عضو</span></div>
+                  <div><strong>{{ circle.postsCount }}</strong><span>منشور</span></div>
+                </div>
+                <div class="last-activity">
+                  <span>آخر نشاط</span>
+                  <time [attr.datetime]="circle.lastActivityAt">{{ circle.lastActivityAt | date: 'dd/MM/yyyy' }}</time>
+                </div>
+              </section>
+
+              <section class="info-card permission-card">
+                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                <div>
+                  <span>صلاحيتك داخل الحلقة</span>
+                  <strong>{{ roleLabel(circle.currentUserRole) }}</strong>
+                </div>
+              </section>
+            </aside>
+          </div>
         </div>
       }
 
@@ -146,6 +212,13 @@
           aria-labelledby="circle-members-tab"
           [hidden]="activeContentSection() !== 'members'"
         >
+          @if (circle.permissions.canReviewJoinRequests) {
+            <app-circle-join-requests-section
+              [circleId]="circle.circleId"
+              (changed)="refreshDetailsFromContent()"
+            />
+          }
+
           <app-circle-members-section
             [details]="circle"
             [active]="activeContentSection() === 'members'"

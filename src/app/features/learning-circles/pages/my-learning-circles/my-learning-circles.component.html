@@ -1,4 +1,4 @@
-@if (isTeacher) {
+@if (isManagementContext) {
   <app-toast />
 }
 
@@ -11,6 +11,7 @@
     </ol>
   </nav> -->
 
+  @if (!isManagementContext) {
   <nav class="circles-navigation" aria-label="التنقل بين صفحات حلقات التعلم">
     <a
       routerLink=".."
@@ -28,17 +29,18 @@
       حلقاتي
     </a>
   </nav>
+  }
 
   <header class="page-header">
     <div class="page-heading">
-      <h1>حلقاتي</h1>
+      <h1>{{ pageTitle }}</h1>
       <p>{{ pageDescription() }}</p>
     </div>
 
-    @if (isTeacher) {
+    @if (isManagementContext) {
       <a
         class="create-button"
-        routerLink="../create"
+        routerLink="/teacher/circles/create"
       >
         <i class="bi bi-plus-lg" aria-hidden="true"></i>
         إنشاء حلقة
@@ -86,7 +88,7 @@
 
   <div class="results-header">
     <div>
-      <h2>حلقات التعلم المنضم إليها</h2>
+      <h2>{{ resultsTitle }}</h2>
 
       @if (!loading() && !searchValidation()) {
         <p>
@@ -133,7 +135,7 @@
         <button type="button" (click)="clearSearch()">
           عرض جميع حلقاتي
         </button>
-      } @else if (isTeacher) {
+      } @else if (isManagementContext) {
         <h2>لم تنشئ أي حلقة تعلم بعد</h2>
         <p>
           أنشئ حلقة جديدة لبدء مشاركة المحتوى مع الطلاب.
@@ -141,7 +143,7 @@
 
         <a
           class="state-action"
-          routerLink="../create"
+          routerLink="/teacher/circles/create"
         >
           إنشاء حلقة
         </a>
@@ -166,7 +168,8 @@
       [actionCircleId]="actionCircleId()"
       [allowJoin]="false"
       [showMemberMetadata]="true"
-      [allowMemberActions]="true"
+      [allowLeaveActions]="!isManagementContext"
+      [allowManageActions]="isManagementContext"
       (leaveRequested)="openLeaveConfirmation($event)"
       (detailsRequested)="showDetails($event)"
       (manageRequested)="manageCircle($event)"

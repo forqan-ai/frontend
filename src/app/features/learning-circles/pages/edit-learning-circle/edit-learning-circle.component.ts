@@ -67,7 +67,7 @@ export class EditLearningCircleComponent implements OnInit {
         name: circle.name,
         subject: circle.subject,
         description: circle.description,
-        isOpenForJoin: circle.isOpenForJoin,
+        joinPolicy: circle.joinPolicy,
       };
     });
 

@@ -7,12 +7,14 @@ import {
 } from '@angular/core';
 import {
   CircleRole,
+  CircleJoinPolicy,
   LearningCircleListItem,
 } from '../../models/learning-circle.models';
+import { CircleGeometricCoverComponent } from '../circle-geometric-cover/circle-geometric-cover.component';
 
 @Component({
   selector: 'app-learning-circle-card',
-  imports: [DatePipe],
+  imports: [DatePipe, CircleGeometricCoverComponent],
   templateUrl: './learning-circle-card.component.html',
   styleUrl: './learning-circle-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,13 +26,19 @@ export class LearningCircleCardComponent {
   readonly showPostsCount = input(false);
   readonly showRole = input(false);
   readonly showJoinAction = input(false);
+  readonly showRequestAction = input(false);
+  readonly showCancelRequestAction = input(false);
   readonly showLeaveAction = input(false);
   readonly showManageAction = input(false);
 
   readonly joinRequested = output<LearningCircleListItem>();
+  readonly joinRequestSubmitted = output<LearningCircleListItem>();
+  readonly joinRequestCancelled = output<LearningCircleListItem>();
   readonly leaveRequested = output<LearningCircleListItem>();
   readonly detailsRequested = output<LearningCircleListItem>();
   readonly manageRequested = output<LearningCircleListItem>();
+
+  readonly CircleJoinPolicy = CircleJoinPolicy;
 
 
 

@@ -1,0 +1,32 @@
+<section class="join-requests" dir="rtl" aria-labelledby="join-requests-title">
+  <header>
+    <div><h2 id="join-requests-title">طلبات الانضمام</h2><p>راجع طلبات المتعلمين قبل إضافتهم للحلقة.</p></div>
+    <button type="button" class="refresh" [disabled]="loading()" (click)="load()">تحديث</button>
+  </header>
+
+  @if (loading()) {
+    <p class="state">جارٍ تحميل الطلبات...</p>
+  } @else if (failed()) {
+    <p class="state error">تعذر تنفيذ العملية. حدّث القائمة وحاول مرة أخرى.</p>
+  } @else if (requests().length === 0) {
+    <p class="state">لا توجد طلبات انضمام معلّقة.</p>
+  } @else {
+    <div class="request-list">
+      @for (request of requests(); track request.requestId) {
+        <article>
+          <div class="requester">
+            @if (request.requesterProfileImageUrl) { <img [src]="request.requesterProfileImageUrl" [alt]="request.requesterName" /> }
+            @else { <span class="avatar"><i class="bi bi-person-fill"></i></span> }
+            <div><strong>{{ request.requesterName }}</strong><span>{{ request.requesterEmail }}</span></div>
+          </div>
+          @if (request.message) { <p class="message">{{ request.message }}</p> }
+          <time [attr.datetime]="request.requestedAt">{{ request.requestedAt | date: 'dd/MM/yyyy - h:mm a' }}</time>
+          <div class="actions">
+            <button type="button" class="reject" [disabled]="reviewingId() !== null" (click)="reject(request)">رفض</button>
+            <button type="button" class="approve" [disabled]="reviewingId() !== null" (click)="approve(request)">قبول وإضافة</button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

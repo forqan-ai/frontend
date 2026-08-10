@@ -29,10 +29,11 @@ import { ToastComponent } from '../../../../shared/components/toast/toast.compon
 import { LearningCirclesGridComponent } from '../../components/learning-circles-grid/learning-circles-grid.component';
 import { LearningCirclesPaginationComponent } from '../../components/learning-circles-pagination/learning-circles-pagination.component';
 import { MembershipConfirmationModalComponent } from '../../components/membership-confirmation-modal/membership-confirmation-modal.component';
-import { LearningCircleListItem } from '../../models/learning-circle.models';
+import { CircleJoinPolicy, LearningCircleListItem } from '../../models/learning-circle.models';
 import { SearchPaginationQuery } from '../../models/pagination.models';
 import { CircleActionErrorService } from '../../services/circle-action-error.service';
 import { LearningCirclesService } from '../../services/learning-circles.service';
+import { CircleJoinRequestsService } from '../../services/circle-join-requests.service';
 
 @Component({
   selector: 'app-explore-learning-circles',
@@ -52,6 +53,7 @@ import { LearningCirclesService } from '../../services/learning-circles.service'
 export class ExploreLearningCirclesComponent implements OnInit {
   private readonly circlesService =
     inject(LearningCirclesService);
+  private readonly joinRequestsService = inject(CircleJoinRequestsService);
 
   private readonly actionErrorService =
     inject(CircleActionErrorService);
@@ -63,10 +65,11 @@ export class ExploreLearningCirclesComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly canCreateCircle =
-    this.authService.hasRole(Role.Teacher);
+    false;
 
   readonly canJoinCircles =
-    this.authService.hasRole(Role.Student);
+    this.authService.hasRole(Role.Student) ||
+    this.authService.hasRole(Role.Teacher);
 
   readonly searchControl = new FormControl('', {
     nonNullable: true,
@@ -133,12 +136,40 @@ export class ExploreLearningCirclesComponent implements OnInit {
     if (
       !this.canJoinCircles ||
       circle.isMember ||
-      !circle.isOpenForJoin
+      circle.joinPolicy !== CircleJoinPolicy.Automatic
     ) {
       return;
     }
 
     this.selectedCircle.set(circle);
+  }
+
+  requestToJoin(circle: LearningCircleListItem): void {
+    if (!this.canJoinCircles || circle.isMember || this.actionCircleId() !== null) return;
+    this.actionCircleId.set(circle.circleId);
+    this.joinRequestsService.create(circle.circleId)
+      .pipe(finalize(() => this.actionCircleId.set(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.toast.show('تم إرسال طلب الانضمام، وسيظهر لك قرار إدارة الحلقة بعد مراجعته.');
+          this.loadCircles();
+        },
+        error: () => this.toast.show('تعذر إرسال طلب الانضمام. حاول مرة أخرى.', 'error'),
+      });
+  }
+
+  cancelJoinRequest(circle: LearningCircleListItem): void {
+    if (this.actionCircleId() !== null) return;
+    this.actionCircleId.set(circle.circleId);
+    this.joinRequestsService.cancel(circle.circleId)
+      .pipe(finalize(() => this.actionCircleId.set(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.toast.show('تم إلغاء طلب الانضمام.');
+          this.loadCircles();
+        },
+        error: () => this.toast.show('تعذر إلغاء طلب الانضمام.', 'error'),
+      });
   }
 
   closeJoinConfirmation(): void {
