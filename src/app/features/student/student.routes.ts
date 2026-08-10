@@ -111,5 +111,14 @@ export const STUDENT_ROUTES: Routes = [
     path: 'my-courses/course-feedback',
     component: StudentFeedbackComponent,
     title: 'تقييم الدورة'
-  }
+  },
+  {
+  path: 'placement-test',
+  loadChildren: () =>
+    import('../placement-test/placement-test.routes').then(
+      (m) => m.PLACEMENT_ROUTES,
+    ),
+  title: 'اختبار تحديد المستوى',
+},
+
 ];

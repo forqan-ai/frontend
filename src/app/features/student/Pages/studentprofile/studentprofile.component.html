@@ -232,11 +232,15 @@
                     style="background-color: var(--primary)"></div>
                 </div>
                 <button type="button" class="btn btn-sm w-100 fw-semibold" style="
-                        border-color: var(--primary);
+                        background-color: var(--primary-light);
                         color: var(--primary);
-                        background-color: transparent;
-                      ">
-                  خض الاختبار <i class="bi bi-arrow-left ms-1"></i>
+                        border: none;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      " routerLink="/dashboard/student/placement-test"
+                      onmouseover="this.style.backgroundColor='var(--primary)'; this.style.color='#fff';"
+                      onmouseout="this.style.backgroundColor='var(--primary-light)'; this.style.color='var(--primary)';">
+                  إجراء الاختبار <i class="bi bi-pencil-square ms-1"></i>
                 </button>
               </div>
             </div>
