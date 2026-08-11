@@ -108,3 +108,8 @@
     text-align: center;
   }
 }
+
+.user-name {
+  font-weight: 500;
+  white-space: nowrap;
+}

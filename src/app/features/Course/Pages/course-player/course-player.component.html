@@ -70,7 +70,7 @@
 
     <main class="course-layout">
       <section class="main-content">
-        <div class="player-card">
+        <div class="player-card" #playerCard>
           @if (selectedLesson()?.contentType === 'Video') {
             @if (!videoStarted()) {
               <div class="video-preview">
@@ -83,12 +83,14 @@
                 </div>
               </div>
             } @else {
-              <iframe
-                [src]="getVideoUrl(selectedLesson()?.contentURL) | safeUrl"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-              >
-              </iframe>
+              <video
+                #videoPlayer
+                [src]="selectedLesson()?.contentURL"
+                controls
+                playsinline
+                preload="metadata"
+                (loadedmetadata)="onVideoLoaded()"
+              ></video>
             }
           }
 
@@ -102,7 +104,7 @@
                 {{ selectedLesson()?.title }}
               </h2>
 
-              <audio controls>
+              <audio #audioPlayer controls preload="metadata" (loadedmetadata)="onVideoLoaded()">
                 <source [src]="selectedLesson()?.contentURL" />
               </audio>
             </div>
@@ -145,11 +147,7 @@
           </h3>
 
           @for (module of course.modules; track module.moduleID) {
-            <details
-  class="module-card"
-  open
-  (toggle)="onModuleToggle($event, module.moduleID)"
->
+            <details class="module-card" open (toggle)="onModuleToggle($event, module.moduleID)">
               <summary>
                 <div>
                   <i class="bi bi-folder-fill"></i>
@@ -219,7 +217,11 @@
       </section>
 
       <section class="chat-column">
-        <app-chat [lessonId]="selectedLesson()?.lessonID ?? ''"> </app-chat>
+        <app-chat
+          [lessonId]="selectedLesson()?.lessonID ?? ''"
+          (referenceClicked)="seekVideo($event)"
+        >
+        </app-chat>
       </section>
     </main>
   </div>

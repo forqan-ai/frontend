@@ -1,11 +1,13 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { TeacherProfile } from '../models/teacher-profile.model';
 import { TeacherDashboard } from '../models/teacher-dashboard.model';
 import { ITeacherDetailsDto } from '../models/teacher-details-dto.interface';
 import { Specialty } from '../models/specialty.model';
+import { IPaginatedResult } from '../../courses-browse/models/paginated-result.interface';
+import { ITeacherListItem, ITeacherListQuery } from '../models/teacher-list.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +26,18 @@ export class TeacherService {
 
   getDashboard(): Observable<TeacherDashboard> {
     return this.http.get<TeacherDashboard>(`${this.api}/dashboard`);
+  }
+
+  getTeachers(query: ITeacherListQuery): Observable<IPaginatedResult<ITeacherListItem>> {
+    let params = new HttpParams()
+      .set('pageNumber', query.pageNumber)
+      .set('pageSize', query.pageSize);
+
+    if (query.search) {
+      params = params.set('search', query.search);
+    }
+
+    return this.http.get<IPaginatedResult<ITeacherListItem>>(this.api, { params });
   }
 
   getTeacherDetails(id: string): Observable<ITeacherDetailsDto> {

@@ -22,6 +22,8 @@ export class StudentSidebarComponent implements OnInit {
 
   user = this.settingsService.user;
 
+  
+
   studentImage = computed(() =>
     this.getStudentImage(this.user()?.profileImageURL)
   );

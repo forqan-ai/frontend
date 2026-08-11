@@ -73,7 +73,7 @@ export const STUDENT_ROUTES: Routes = [
     title: 'تصفح الدورات المقدمة من منصة الفرقان',
   },
   {
-    path: 'teachers/:teacherid/details',
+    path: 'teachers/:teacherid',
     component: TeacherDetailsComponent,
     title: 'تفاصيل عن المعلم'
   },

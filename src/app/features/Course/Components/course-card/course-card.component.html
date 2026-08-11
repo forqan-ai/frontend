@@ -1,4 +1,4 @@
-<a [routerLink]="['.', course.courseID]">
+<a [routerLink]="getCourseLink()">
     <div class="course-card">
 
         <!-- Image -->
@@ -16,7 +16,7 @@
             <!-- Price -->
             <div class="price-badge">
                 <span style="font-family: 'Arshid';">
-                    {{ course.price === '٠' ? 'مجاني' : course.price + '$' }}
+                    {{ course.price === 0 ? 'مجاني' : course.price + '$' }}
                 </span>
             </div>
 

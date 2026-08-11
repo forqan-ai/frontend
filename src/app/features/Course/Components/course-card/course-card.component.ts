@@ -3,7 +3,7 @@ import { Component, EventEmitter, inject, Input, numberAttribute, output, Output
 import { CourseLevelArabic, ICourseCardDto } from '../../Models/course-card-dto.interface';
 import { WishlistService } from '../../../student/Services/wishlist.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 
 
@@ -88,5 +88,17 @@ export class CourseCardComponent {
       return `${hours} س : ${minutes} د`;
     }
     return `${minutes} د`;
+  }
+
+  private router = inject(Router);
+
+  getCourseLink(): string[] {
+    const currentUrl = this.router.url;
+
+    if (currentUrl.startsWith('/student')) {
+      return ['/student/courses', this.course.courseID];
+    }
+
+    return ['/course-details', this.course.courseID]
   }
 }

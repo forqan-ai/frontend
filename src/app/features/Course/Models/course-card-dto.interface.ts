@@ -18,6 +18,6 @@ export interface ICourseCardDto {
     durationSeconds: number,
     rating: number,
     reviewsCount: number;
-    price: string;
+    price: number;
     createdAt: string;
 }

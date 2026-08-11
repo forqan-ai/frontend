@@ -43,21 +43,35 @@
         </li>
       </ul>
 
+
       <div class="navbar-actions">
         <!-- <a [hidden]="authService.isLoggedIn()" class="login-btn" routerLink="/login" (click)="closeMenu()"> تسجيل
           الدخول </a> -->
+        @if(this.authService.isLoggedIn())
+        {
+        <a routerLink="/student/home" style="position: relative; ">
+          <app-avatar [size]=45 [src]="user()?.profileImageURL ?? 'images/avatar.webp'"></app-avatar>
+        </a>
+        <span class="user-name">
+          {{ user()?.fullName }}
+        </span>
+        <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
+          الخروج <i class="bi bi-box-arrow-left"></i>
+        </app-button>
+        }
+        @else{
         <app-button (btnClick)="closeMenu()" pageLink="/login" variant="secondary" size="small">تسجيل
           الدخول
         </app-button>
         <app-button (btnClick)="closeMenu()" pageLink="/register" variant="secondary" size="small">إنشاء
           حساب
         </app-button>
+        }
+
         <!-- <a [hidden]="authService.isLoggedIn()" class="register-btn" routerLink="/register" (click)="closeMenu()"> إنشاء
           حساب </a> -->
 
-        <!-- <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
-          الخروج <i class="bi bi-box-arrow-left"></i>
-        </app-button> -->
+
       </div>
     </div>
   </div>

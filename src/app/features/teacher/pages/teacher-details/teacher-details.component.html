@@ -1,137 +1,159 @@
-<div class="container">
+<main class="teacher-details-page" dir="rtl">
+  <div class="container">
+    <a class="back-link" [routerLink]="getTeachersRoute()">
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      العودة إلى المعلمين
+    </a>
 
-    <div class="profile-card mb-4">
-        <div class="row g-4 align-items-center">
-            <div class="col-md-4 col-lg-3 text-center text-md-start">
-                <img [src] = "teacher()?.teacherImgUrl ?? 'images/avatar.webp'" alt="صورة المدرب" class="instructor-avatar mx-auto mx-md-0">
-            </div>
-            <div class="col-md-8 col-lg-9">
-                <div class="d-flex flex-wrap align-items-center gap-3 mb-2">
-                    <h1 class="display-5 fw-bold mb-0">{{teacher()?.teacherName}}</h1>
-                    <span class="badge-title"><i class="bi bi-mortarboard"></i> مدرب معتمد</span>
-                </div>
-                <p class="fs-5 mb-3" style="color:var(--text-light);">
-                    <i class="bi bi-briefcase" style="color:var(--primary-light);"></i>
-                    {{teacher()?.title}}
-                </p>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="stat-chip">
-                        <!-- <img src="star.png" style="width: 16px; height: 16px;"> -->
-                        <img style="width: 18px; gap: 4px;" src="images/star.png">
-                        {{teacher()?.rating}} ({{teacher()?.ratingCount}}
-                        تقييم)</span>
+    @if (isLoading()) {
+    <section class="teacher-state" aria-live="polite">
+      <div class="spinner-border" role="status" aria-label="جاري تحميل بيانات المعلم"></div>
+      <p>جاري تحميل بيانات المعلم...</p>
+    </section>
+    } @else if (errorMessage()) {
+    <section class="teacher-state error-state">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      <h1>تعذر تحميل بيانات المعلم</h1>
+      <p>{{ errorMessage() }}</p>
+      <button type="button" (click)="retry()">إعادة المحاولة</button>
+    </section>
+    } @else if (teacher(); as teacherDetails) {
+    <section class="teacher-profile-hero">
+      <div class="teacher-avatar-frame">
+        <img [src]="getTeacherImage()" [alt]="'صورة ' + teacherDetails.teacherName" class="teacher-avatar"
+          (error)="onTeacherImageError($event)" />
+      </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="teacher-profile-copy">
+        <div class="teacher-heading-row">
+          <div>
+            <span class="teacher-kicker">ملف المعلم</span>
+            <h1>{{ teacherDetails.teacherName }}</h1>
+          </div>
 
-    <div class="row g-4 mb-5">
-        <div class="col-lg-7">
-            <div class="bio-card">
-                <h3 class="section-title"><i class="bi bi-person-circle" style="color:var(--primary-light);"></i> نبذة
-                </h3>
-                <p style="font-size:1.05rem;">
-                    {{teacher()?.bio}}
-                </p>
-                <div class="mt-3 d-flex flex-wrap gap-2">
-                    <span class="bio-badge"><i class="bi bi-calendar3"></i> انضم {{teacher()?.joinedAt}}</span>
-                    <!-- <span class="bio-badge"><i class="bi bi-globe2"></i> ٤ لغات</span> -->
-                    <span class="bio-badge"><i class="bi bi-award"></i> ١٢ شهادة</span>
-                </div>
-            </div>
+          @if (teacherDetails.verifiedStatus) {
+          <span class="verified-badge">
+            <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+            معلم موثق
+          </span>
+          }
         </div>
 
-        <div class="col-lg-5">
-            <div class="row g-3 h-100">
-                <div class="col-6">
-                    <div class="stat-card d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="stat-icon"><i class="bi bi-people"></i></div>
-                        <div class="stat-number">{{teacher()?.totalEnrollments}}</div>
-                        <div class="stat-label">طلاب اشتروا</div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="stat-card d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="stat-icon"><i class="bi bi-camera-video"></i></div>
-                        <div class="stat-number">{{teacher()?.totalCourses}}</div>
-                        <div class="stat-label">دورة مسجلة</div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="stat-card d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
-                        <div class="stat-number">{{teacher()?.totalContentHours}}</div>
-                        <div class="stat-label">ساعة محتوى</div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="stat-card d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="stat-icon"><i class="bi bi-star-fill"></i></div>
-                        <div class="stat-number">{{teacher()?.rating}}</div>
-                        <div class="stat-label">متوسط التقييم</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <p class="teacher-title">
+          <i class="bi bi-mortarboard" aria-hidden="true"></i>
+          {{ teacherDetails.title || 'معلم في منصة الفرقان' }}
+        </p>
 
-    <div class="mb-4">
-        <h3 class="section-title"><i class="bi bi-book" style="color:var(--primary-light);"></i> دورات المدرب</h3>
-    </div>
-
-    <div class="row g-3 mb-5">
-        <div class="col-md-6">
-            <div class="course-item">
-                <div class="course-item-icon"><i class="bi bi-play-circle-fill"></i></div>
-                <div class="course-item-content">
-                    <div class="course-item-title">القيادة التحويلية في المؤسسات</div>
-                    <div class="course-item-meta">
-                        <span><i class="bi bi-people"></i> ١٬٢٠٠</span>
-                        <span class="course-price"><span class="sar">﷼</span> ٢٩٩</span>
-                    </div>
-                </div>
-            </div>
+        <div class="teacher-rating-row" [attr.aria-label]="'التقييم ' + teacherDetails.rating + ' من 5'">
+          <i class="bi bi-star-fill" aria-hidden="true"></i>
+          <strong>{{ teacherDetails.rating || 0 }}</strong>
+          <span>({{ teacherDetails.ratingCount || 0 }} تقييم)</span>
         </div>
-        <div class="col-md-6">
-            <div class="course-item">
-                <div class="course-item-icon"><i class="bi bi-play-circle-fill"></i></div>
-                <div class="course-item-content">
-                    <div class="course-item-title">إدارة الفرق عن بُعد</div>
-                    <div class="course-item-meta">
-                        <span><i class="bi bi-people"></i> ٩٥٠</span>
-                        <span class="course-price"><span class="sar">﷼</span> ١٩٩</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="course-item">
-                <div class="course-item-icon"><i class="bi bi-play-circle-fill"></i></div>
-                <div class="course-item-content">
-                    <div class="course-item-title">التسويق الاستراتيجي الحديث</div>
-                    <div class="course-item-meta">
-                        <span><i class="bi bi-people"></i> ٢٬١٠٠</span>
-                        <span class="course-price"><span class="sar">﷼</span> ٣٤٩</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="course-item">
-                <div class="course-item-icon"><i class="bi bi-play-circle-fill"></i></div>
-                <div class="course-item-content">
-                    <div class="course-item-title">تحليل البيانات لصنع القرار</div>
-                    <div class="course-item-meta">
-                        <span><i class="bi bi-people"></i> ١٬٦٥٠</span>
-                        <span class="course-price"><span class="sar">﷼</span> ٤٩٩</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
+        @if (teacherDetails.specialties.length > 0) {
+        <div class="teacher-specialties" aria-label="تخصصات المعلم">
+          @for (specialty of teacherDetails.specialties; track specialty) {
+          <span>{{ specialty }}</span>
+          }
+        </div>
+        }
+      </div>
+    </section>
 
-   
+    <section class="teacher-stats-grid" aria-label="إحصاءات المعلم">
+      <div class="stat-card">
+        <i class="bi bi-people" aria-hidden="true"></i>
+        <strong>{{ teacherDetails.totalEnrollments || 0 }}</strong>
+        <span>طالب مشترك</span>
+      </div>
 
-</div>
+      <div class="stat-card">
+        <i class="bi bi-book" aria-hidden="true"></i>
+        <strong>{{ teacherDetails.totalCourses || 0 }}</strong>
+        <span>دورة منشورة</span>
+      </div>
+
+      <div class="stat-card">
+        <i class="bi bi-clock-history" aria-hidden="true"></i>
+        <strong>{{ teacherDetails.totalContentHours || 0 }}</strong>
+        <span>ساعة محتوى</span>
+      </div>
+
+      <div class="stat-card">
+        <i class="bi bi-calendar3" aria-hidden="true"></i>
+        <strong>{{ joinedYear(teacherDetails.joinedAt) }}</strong>
+        <span>سنة الانضمام</span>
+      </div>
+    </section>
+
+    <section class="teacher-about-section">
+      <div class="section-heading">
+        <span class="teacher-kicker">نبذة</span>
+        <h2>تعرف على خبرة المعلم وأسلوبه</h2>
+      </div>
+
+      <p>
+        {{
+        teacherDetails.bio ||
+        'يساعد هذا المعلم الطلاب على التعلم بخطة واضحة تناسب مستواهم، مع متابعة منظمة وتركيز على الفهم والتطبيق.'
+        }}
+      </p>
+    </section>
+
+    <section class="teacher-courses-section">
+      <div class="section-heading">
+        <span class="teacher-kicker">الدورات</span>
+        <h2>دورات يقدمها {{ teacherDetails.teacherName }}</h2>
+      </div>
+
+      @if (teacherDetails.courses.length === 0) {
+      <div class="empty-courses">
+        <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+        <h3>لا توجد دورات منشورة حاليا</h3>
+        <p>سيظهر هنا أي محتوى جديد بعد اعتماده ونشره على المنصة.</p>
+      </div>
+      } @else {
+      <div class="teacher-courses-grid">
+        @for (course of teacherDetails.courses; track course.courseID) {
+        <!-- <a class="teacher-course-card" [routerLink]="getCourseRoute(course)">
+                <div class="course-image-wrapper">
+                  <img
+                    [src]="course.thumbnailURL || 'images/card1.jfif'"
+                    [alt]="course.title"
+                    (error)="onCourseImageError($event)"
+                  />
+                </div>
+
+                <div class="course-content">
+                  <span class="course-category">{{ course.categoryName || 'دورة تعليمية' }}</span>
+                  <h3>{{ course.title }}</h3>
+                  <p>
+                    {{
+                      course.description ||
+                        'دورة منظمة تساعدك على التعلم بخطوات واضحة ومحتوى مناسب.'
+                    }}
+                  </p>
+
+                  <div class="course-meta">
+                    <span>
+                      <i class="bi bi-clock" aria-hidden="true"></i>
+                      {{ formattedDuration(course.durationSeconds) }}
+                    </span>
+
+                    <span>
+                      <i class="bi bi-star-fill" aria-hidden="true"></i>
+                      {{ course.rating || 0 }}
+                    </span>
+
+                    <span class="course-price">{{ formattedPrice(course.price) }}</span>
+                  </div>
+                </div>
+              </a> -->
+        <app-course-card [course]="course"></app-course-card>
+        }
+      </div>
+      }
+    </section>
+    }
+  </div>
+</main>

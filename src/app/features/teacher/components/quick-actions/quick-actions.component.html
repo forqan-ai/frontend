@@ -1,33 +1,32 @@
-<section class="quick-actions">
-  <h2>الإجراءات السريعة</h2>
+<section class="quick-actions" dir="rtl">
+  <div class="section-heading">
+    <span>اختصارات</span>
+    <h2>الإجراءات السريعة</h2>
+  </div>
 
   <div class="actions">
-    <button (click)="goToCreateCourse()">
-      <span class="material-symbols-outlined"> add </span>
-
+    <button type="button" (click)="goToCreateCourse()">
+      <i class="bi bi-plus-lg" aria-hidden="true"></i>
       إنشاء دورة
     </button>
 
-    <button (click)="goToMyCourses()">
-      <span class="material-symbols-outlined"> menu_book </span>
+    <button type="button" (click)="goToMyCourses()">
+      <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
       دوراتي
     </button>
 
-    <button (click)="goToStudents()">
-      <span class="material-symbols-outlined"> groups </span>
-
+    <button type="button" (click)="goToStudents()">
+      <i class="bi bi-people-fill" aria-hidden="true"></i>
       الطلاب
     </button>
 
-    <button (click)="goToProfile()">
-      <span class="material-symbols-outlined"> person </span>
-
+    <button type="button" (click)="goToProfile()">
+      <i class="bi bi-person-fill" aria-hidden="true"></i>
       الملف الشخصي
     </button>
 
-    <button (click)="goToCircles()">
-      <span class="material-symbols-outlined"> forum </span>
-
+    <button type="button" (click)="goToCircles()">
+      <i class="bi bi-chat-square-text-fill" aria-hidden="true"></i>
       حلقات العلم
     </button>
   </div>

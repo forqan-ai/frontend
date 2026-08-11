@@ -1,20 +1,37 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  CUSTOM_ELEMENTS_SCHEMA
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+
 import { environment } from '../../../../environments/environment.development';
+
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
+
   isResetMode = false;
+
   status: 'idle' | 'loading' | 'success' | 'error' = 'idle';
+
   errorMessage = '';
 
   email = '';
@@ -31,6 +48,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+
       const urlEmail = params['email'];
       let urlToken = params['token'];
 
@@ -39,10 +57,12 @@ export class ResetPasswordComponent implements OnInit {
         this.token = urlToken.replace(/ /g, '+');
         this.isResetMode = true;
       }
+
     });
   }
 
-  handleForgotPassword() {
+  handleForgotPassword(): void {
+
     if (!this.email) {
       this.status = 'error';
       this.errorMessage = 'الرجاء إدخال البريد الإلكتروني.';
@@ -50,37 +70,60 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     this.status = 'loading';
-    const apiUrl = `${environment.apiUrl}/api/auth/forgot-password`;
 
-    this.http.post(apiUrl, { email: this.email }).subscribe({
+    const apiUrl =
+      `${environment.apiUrl}/api/auth/forgot-password`;
+
+    this.http.post(apiUrl, {
+      email: this.email
+    }).subscribe({
+
       next: () => {
         this.status = 'success';
         this.cdr.detectChanges();
       },
+
       error: (err) => {
+
         console.error(err);
+
         this.status = 'error';
-        this.errorMessage = 'فشل إرسال رابط استعادة كلمة المرور.';
+
+        this.errorMessage =
+          'فشل إرسال رابط استعادة كلمة المرور.';
+
         this.cdr.detectChanges();
       }
+
     });
   }
 
-  handleResetPassword() {
+  handleResetPassword(): void {
+
     if (!this.newPassword || !this.confirmPassword) {
+
       this.status = 'error';
-      this.errorMessage = 'الرجاء ملء جميع الحقول.';
+
+      this.errorMessage =
+        'الرجاء ملء جميع الحقول.';
+
       return;
     }
 
     if (this.newPassword !== this.confirmPassword) {
+
       this.status = 'error';
-      this.errorMessage = 'كلمتا المرور غير متطابقتين.';
+
+      this.errorMessage =
+        'كلمتا المرور غير متطابقتين.';
+
       return;
     }
 
     this.status = 'loading';
-    const apiUrl = `${environment.apiUrl}/api/auth/reset-password`;
+
+    const apiUrl =
+      `${environment.apiUrl}/api/auth/reset-password`;
 
     const payload = {
       email: this.email,
@@ -89,20 +132,30 @@ export class ResetPasswordComponent implements OnInit {
     };
 
     this.http.post(apiUrl, payload).subscribe({
+
       next: () => {
+
         this.status = 'success';
+
         this.cdr.detectChanges();
       },
+
       error: (err) => {
+
         console.error(err);
+
         this.status = 'error';
-        this.errorMessage = 'فشل إعادة تعيين كلمة المرور، قد يكون الرابط منتهي الصلاحية.';
+
+        this.errorMessage =
+          'فشل إعادة تعيين كلمة المرور، قد يكون الرابط منتهي الصلاحية.';
+
         this.cdr.detectChanges();
       }
+
     });
   }
 
-  goToLogin() {
+  goToLogin(): void {
     this.router.navigate(['/login']);
   }
 }

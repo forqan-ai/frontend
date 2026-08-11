@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   Subscription,
   distinctUntilChanged,
@@ -55,7 +55,8 @@ type DetailsAction =
     CircleSessionsComponent,
     MembershipConfirmationModalComponent,
     ArchiveCircleConfirmationModalComponent,
-  ],
+    RouterLink
+],
   templateUrl: './learning-circle-details.component.html',
   styleUrl: './learning-circle-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -130,10 +131,10 @@ export class LearningCircleDetailsComponent implements OnInit {
       section === 'posts'
         ? details.permissions.canViewPosts
         : section === 'members'
-        ? details.permissions.canViewMembers
-        : section === 'chat' || section === 'sessions'
-        ? isParticipant
-        : false;
+          ? details.permissions.canViewMembers
+          : section === 'chat' || section === 'sessions'
+            ? isParticipant
+            : false;
 
     if (!allowed) {
       return;
@@ -152,13 +153,21 @@ export class LearningCircleDetailsComponent implements OnInit {
     }
   }
 
+
   backToCircles(): void {
-    void this.router.navigate([
-      this.isTeacher
-        ? '/teacher/circles'
-        : '/dashboard/student/learning-circles',
-    ]);
+    if (this.router.url.startsWith('/student')) {
+      this.router.navigateByUrl('/student/learning-circles')
+    }
+    else if (this.router.url.startsWith('/teacher')) {
+      this.router.navigateByUrl('/teacher/circles')
+    }
   }
+  // void this.router.navigate([
+  //   this.isTeacher
+  //     ? '/teacher/circles'
+  //     : '/dashboard/student/learning-circles',
+  // ]);
+
 
   editCircle(): void {
     const details = this.details();
@@ -453,8 +462,8 @@ export class LearningCircleDetailsComponent implements OnInit {
         ? canViewPosts
           ? 'posts'
           : canViewMembers
-          ? 'members'
-          : 'chat'
+            ? 'members'
+            : 'chat'
         : currentSection;
 
     this.activeContentSection.set(nextSection);

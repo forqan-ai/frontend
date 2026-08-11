@@ -5,6 +5,7 @@ import { CoursesBrowseService } from '../../../courses-browse/services/courses-b
 import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
 import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
 import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
+import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
 
 interface FeaturedCoursePreview {
   title: string;
@@ -31,7 +32,7 @@ interface FeaturedTeacher {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CoursesBrowseCardComponent],
+  imports: [RouterLink, CoursesBrowseCardComponent, CourseCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

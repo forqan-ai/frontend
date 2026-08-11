@@ -193,6 +193,11 @@ export const routes: Routes = [
       import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
+    path: 'course-details/:id/:teacherid',
+    component: TeacherDetailsComponent,
+    title: 'تفاصيل عن المعلم'
+  },
+  {
     path: 'course-details/:id',
     loadComponent: () =>
       import('./features/Course/Pages/course-details/course-details.component').then(

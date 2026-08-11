@@ -1,23 +1,23 @@
-<div class="balance-card">
+<article class="balance-card" dir="rtl">
   <div class="card-header">
     <div class="icon-wrapper">
-      <span class="material-symbols-outlined">payments</span>
+      <i class="bi bi-coin" aria-hidden="true"></i>
     </div>
     <span class="badge">رصيدك الحالي</span>
   </div>
 
   <div class="balance-body">
     @if (loading()) {
-      <div class="skeleton-block"></div>
+      <div class="skeleton-block" aria-label="جاري تحميل الرصيد"></div>
     } @else {
       <div class="balance-amount">
         <span class="amount">{{ balance() ?? 0 }}</span>
         <span class="unit">نقطة</span>
       </div>
       <p class="hint">
-        <span class="material-symbols-outlined">info</span>
-        يتم تحديث الرصيد مع كل حجز جديد
+        <i class="bi bi-info-circle" aria-hidden="true"></i>
+        يتم تحديث الرصيد مع كل حجز جديد.
       </p>
     }
   </div>
-</div>
+</article>
