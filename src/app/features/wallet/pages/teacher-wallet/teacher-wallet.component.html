@@ -1,0 +1,108 @@
+<main class="wallet-page" dir="rtl">
+  <div class="wallet-header">
+    <div>
+      <h2>المحفظة</h2>
+      <p>تتبع أرباحك من الدورات وطلبات السحب بسهولة.</p>
+    </div>
+    <a routerLink="/teacher/wallet/withdraw" class="btn-withdraw">
+      <i class="bi bi-cash-coin" aria-hidden="true"></i>
+      طلب سحب جديد
+    </a>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      {{ error() }}
+    </div>
+  }
+
+  <section class="summary-grid" aria-label="ملخص المحفظة">
+    @for (card of summaryCards; track card.key) {
+      <article class="summary-card">
+        <div class="summary-icon">
+          <i [class]="card.icon" aria-hidden="true"></i>
+        </div>
+        <div class="summary-body">
+          <span>{{ card.title }}</span>
+          @if (loadingSummary()) {
+            <div class="skeleton-line"></div>
+          } @else {
+            <strong>{{ (summary()?.[card.key] ?? 0).toLocaleString('en-EG') }}</strong>
+          }
+        </div>
+      </article>
+    }
+  </section>
+
+  <section class="transactions-section">
+    <div class="section-head">
+      <h3>آخر الحركات</h3>
+      <a routerLink="/teacher/wallet/withdrawals" class="link-more">
+        طلبات السحب
+        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    @if (loadingTransactions()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-secondary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    } @else if (transactions().length === 0) {
+      <div class="empty-state">
+        <i class="bi bi-wallet2" aria-hidden="true"></i>
+        <p>لا توجد حركات مالية بعد.</p>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table transactions-table align-middle">
+          <thead>
+            <tr>
+              <th>البيان</th>
+              <th>النوع</th>
+              <th>الرصيد بعد الحركة</th>
+              <th>التاريخ</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (tx of transactions(); track tx.transactionId) {
+              <tr>
+                <td>
+                  <div class="tx-cell">
+                    <i
+                      [class]="tx.direction === 'Credit' ? 'bi bi-arrow-down-left tx-credit-icon' : 'bi bi-arrow-up-right tx-debit-icon'"
+                      aria-hidden="true"
+                    ></i>
+                    <div>
+                      <strong>{{ tx.notes || reasonLabel[tx.reason] || tx.reason }}</strong>
+                      <span class="tx-amount" [class.credit]="tx.direction === 'Credit'">
+                        {{ formatAmount(tx.amount, tx.direction) }}
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="tx-type" [class.credit]="tx.direction === 'Credit'">
+                    {{ directionLabel[tx.direction] ?? tx.direction }}
+                  </span>
+                </td>
+                <td class="tx-balance">{{ tx.balanceAfter.toLocaleString('en-EG') }} جنيه</td>
+                <td class="tx-date">{{ tx.createdAt | date: 'short' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (hasNextPage()) {
+        <div class="text-center mt-3">
+          <button type="button" class="btn btn-outline-secondary" (click)="loadMore()">
+            تحميل المزيد
+          </button>
+        </div>
+      }
+    }
+  </section>
+</main>

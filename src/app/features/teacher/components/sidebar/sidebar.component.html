@@ -24,8 +24,16 @@
     }
   </nav>
 
-  <button class="logout" type="button">
-    <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-    تسجيل خروج
-  </button>
+
+  <div class="sidebar-footer">
+    <button class="role-switch-btn" type="button" (click)="goToStudent()">
+      <span class="role-switch-icon"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></span>
+       لوحة الطالب
+      <i class="bi bi-arrow-left role-switch-arrow" aria-hidden="true"></i>
+    </button>
+    <button (click)="logout()" class="logout" type="button">
+      <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+      تسجيل خروج
+    </button>
+  </div>
 </aside>

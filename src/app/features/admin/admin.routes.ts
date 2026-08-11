@@ -28,5 +28,17 @@ export const ADMIN_ROUTES: Routes = [
     {
         path: 'bookings',
         loadComponent: () => import('../live-sessions/Pages/admin-bookings/admin-bookings.component').then((m) => m.AdminBookingsComponent),        title: 'إدارة الحجوزات'
+    },
+    {
+        path: 'withdrawals',
+        loadComponent: () =>
+            import('./pages/admin-withdrawals/admin-withdrawals.component').then((m) => m.AdminWithdrawalsComponent),
+        title: 'إدارة السحوبات'
+    },
+    {
+        path: 'withdrawals/:id',
+        loadComponent: () =>
+            import('./pages/admin-withdrawal-details/admin-withdrawal-details.component').then((m) => m.AdminWithdrawalDetailsComponent),
+        title: 'تفاصيل طلب السحب'
     }
 ]

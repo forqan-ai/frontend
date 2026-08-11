@@ -213,7 +213,7 @@ export class CoursePlayerComponent implements OnInit {
           if (nextLesson) {
             this.selectLesson(nextLesson);
           } else {
-            this.router.navigate(['/dashboard', 'student', 'certificate', this.courseId]);
+            this.router.navigate(['/student', 'certificate', this.courseId]);
           }
         },
 
@@ -225,7 +225,7 @@ export class CoursePlayerComponent implements OnInit {
       if (nextLesson) {
         this.selectLesson(nextLesson);
       } else {
-        this.router.navigate(['/dashboard', 'student', 'certificate', this.courseId]);
+        this.router.navigate(['/student', 'certificate', this.courseId]);
       }
     }
   }

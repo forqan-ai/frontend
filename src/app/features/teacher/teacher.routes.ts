@@ -87,6 +87,11 @@ export const TEACHER_ROUTES: Routes = [
         (c) => c.LessonContentComponent,
       ),
   },
+  {
+    path: 'wallet',
+    loadChildren: () =>
+      import('../wallet/wallet.routes').then((m) => m.WALLET_ROUTES),
+  },
   // {
   //   path: 'my-courses',
   //   component: MyCoursesComponent
