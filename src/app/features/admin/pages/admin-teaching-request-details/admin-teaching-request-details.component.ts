@@ -49,6 +49,10 @@ export class AdminTeachingRequestDetailsComponent {
           ...res,
           specializations: JSON.parse(res.specializations as unknown as string)
         });
+        console.log(res.certificates)
+        // res.certificates.forEach(c => console.log(c));
+
+
       },
       error: (err) => {
         this.loading.set(false);
@@ -57,7 +61,9 @@ export class AdminTeachingRequestDetailsComponent {
     })
   }
 
-
+  showcert(cert: string) {
+    console.log(cert.toString())
+  }
   acceptRequest(): void {
     const response: RequestResponseDto = {
       requestId: this.request()?.id!,

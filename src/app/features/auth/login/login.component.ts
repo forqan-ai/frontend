@@ -30,6 +30,7 @@ import {
   LoginRequest,
   Role,
 } from '../../../core/models/auth.models';
+import { SettingsService } from '../../student/Services/settings.service';
 
 declare global {
   interface Window {
@@ -143,6 +144,8 @@ export class LoginComponent implements AfterViewInit {
     );
   }
 
+
+  settingsService = inject(SettingsService);
   onSubmit(): void {
     this.clearErrors();
 
@@ -163,18 +166,28 @@ export class LoginComponent implements AfterViewInit {
       .login(request)
       .subscribe({
         next: (res) => {
+          this.settingsService.setUser(res.data.user);
           this.isSubmitting.set(false);
 
+
+
           if (res.succeeded) {
-            this.navigateByRole();
-            return;
+            if (this.authService.hasRole(Role.Teacher)) {
+              this.router.navigate(['/teacher']);
+            } else if (this.authService.hasRole(Role.Student)) {
+              this.router.navigate(['/student/home']);
+            } else if (this.authService.hasRole(Role.Admin)) {
+              this.router.navigate(['/admin/teaching-requests']);
+            }
+          } else {
+            const apiError = res.errors as ApiError[];
+
+            this.errorMessage.set(
+              apiError[0]?.description ??
+              'حدث خطأ أثناء تسجيل الدخول.'
+            );
           }
-
-          this.handleApiErrors(
-            res.errors as ApiError[]
-          );
         },
-
         error: (err: HttpErrorResponse) => {
           this.isSubmitting.set(false);
 

@@ -1,3 +1,5 @@
+import { ICourseCardDto } from "../../Course/Models/course-card-dto.interface";
+
 export interface ITeacherDetailsCourse {
     courseID: string;
     title: string;
@@ -24,5 +26,5 @@ export interface ITeacherDetailsDto {
     totalContentHours: number;
     joinedAt: string;
     specialties: string[];
-    courses: ITeacherDetailsCourse[];
+    courses: ICourseCardDto[];
 }

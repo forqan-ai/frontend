@@ -3,8 +3,6 @@
 ========================== */
 
 .payment-content {
-  margin-right: 240px;
-  width: calc(100% - 240px);
   min-height: 100vh;
   background: #fbf9f5;
   position: relative;

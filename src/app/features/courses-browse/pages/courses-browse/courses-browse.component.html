@@ -10,14 +10,9 @@
       <label class="search-box">
         <i class="bi bi-search" aria-hidden="true"></i>
 
-        <input
-          #searchInputElement
-          type="search"
-          [value]="searchInput()"
-          (input)="searchInput.set(searchInputElement.value)"
-          placeholder="ابحث عن دورة..."
-          aria-label="البحث عن دورة"
-        />
+        <input #searchInputElement type="search" [value]="searchInput()"
+          (input)="searchInput.set(searchInputElement.value)" placeholder="ابحث عن دورة..."
+          aria-label="البحث عن دورة" />
       </label>
     </div>
   </section>
@@ -29,43 +24,34 @@
           <h2>التصنيفات</h2>
 
           @if (selectedCategoryId() !== null || searchInput()) {
-            <button
-              type="button"
-              class="clear-button"
-              (click)="clearFilters()"
-            >
-              مسح الفلاتر
-            </button>
+          <button type="button" class="clear-button" (click)="clearFilters()">
+            مسح الفلاتر
+          </button>
           }
         </div>
 
         @if (categoriesError()) {
-          <div class="categories-error">
-            <span>{{ categoriesError() }}</span>
+        <div class="categories-error">
+          <span>{{ categoriesError() }}</span>
 
-            <button type="button" (click)="retryCategories()">
-              إعادة المحاولة
-            </button>
-          </div>
+          <button type="button" (click)="retryCategories()">
+            إعادة المحاولة
+          </button>
+        </div>
         } @else {
-          <div class="category-tabs" aria-label="تصنيفات الدورات">
-            <button
-              type="button"
-              [class.active]="selectedCategoryId() === null"
-              (click)="selectCategory(null)"
-            >
-              الكل
-            </button>
+        <div class="category-tabs" aria-label="تصنيفات الدورات">
+          <button type="button" [class.active]="selectedCategoryId() === null" (click)="selectCategory(null)">
+            الكل
+          </button>
 
-            @for (category of categories(); track category.categoryID) 
-            {
-              <button type="button"
-                [class.active]="selectedCategoryId() === category.categoryID"
-                (click)="selectCategory(category.categoryID)">
-                {{ category.name }}
-              </button>
-            }
-          </div>
+          @for (category of categories(); track category.categoryID)
+          {
+          <button type="button" [class.active]="selectedCategoryId() === category.categoryID"
+            (click)="selectCategory(category.categoryID)">
+            {{ category.name }}
+          </button>
+          }
+        </div>
         }
       </div>
 
@@ -77,83 +63,63 @@
         </div>
 
         @if (isLoadingCourses()) {
-          <div class="page-state">
-            <div
-              class="spinner-border"
-              role="status"
-              aria-label="جار تحميل الدورات"
-            ></div>
+        <div class="page-state">
+          <div class="spinner-border" role="status" aria-label="جار تحميل الدورات"></div>
 
-            <p>جار تحميل الدورات...</p>
-          </div>
+          <p>جار تحميل الدورات...</p>
+        </div>
         } @else if (coursesError()) {
-          <div class="page-state error-state">
-            <i
-              class="bi bi-exclamation-circle"
-              aria-hidden="true"
-            ></i>
+        <div class="page-state error-state">
+          <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
 
-            <h2>تعذر تحميل الدورات</h2>
+          <h2>تعذر تحميل الدورات</h2>
 
-            <p>{{ coursesError() }}</p>
+          <p>{{ coursesError() }}</p>
 
-            <button type="button" (click)="retryCourses()">
-              إعادة المحاولة
-            </button>
-          </div>
+          <button type="button" (click)="retryCourses()">
+            إعادة المحاولة
+          </button>
+        </div>
         } @else if (courses().length === 0) {
-          <div class="page-state">
-            <i class="bi bi-search" aria-hidden="true"></i>
+        <div class="page-state">
+          <i class="bi bi-search" aria-hidden="true"></i>
 
-            <h2>لا توجد دورات مطابقة</h2>
+          <h2>لا توجد دورات مطابقة</h2>
 
-            <p>
-              جرّب تغيير كلمة البحث أو اختيار تصنيف آخر.
-            </p>
+          <p>
+            جرّب تغيير كلمة البحث أو اختيار تصنيف آخر.
+          </p>
 
-            <button type="button" (click)="clearFilters()">
-              عرض جميع الدورات
-            </button>
-          </div>
+          <button type="button" (click)="clearFilters()">
+            عرض جميع الدورات
+          </button>
+        </div>
         } @else {
-          <div class="courses-grid">
-            @for (course of courses(); track course.courseID) {
-              <app-courses-browse-card [course]="course" />
-            }
-          </div>
-
-          @if (totalPages() > 1) {
-            <nav class="pagination" aria-label="صفحات الدورات">
-              <button
-                type="button"
-                [disabled]="pageNumber() === 1"
-                (click)="goToPage(pageNumber() - 1)"
-              >
-                السابق
-              </button>
-
-              @for (page of pageNumbers(); track page) {
-                <button
-                  type="button"
-                  [class.active]="pageNumber() === page"
-                  [attr.aria-current]="
-                    pageNumber() === page ? 'page' : null
-                  "
-                  (click)="goToPage(page)"
-                >
-                  {{ page }}
-                </button>
-              }
-
-              <button
-                type="button"
-                [disabled]="pageNumber() === totalPages()"
-                (click)="goToPage(pageNumber() + 1)"
-              >
-                التالي
-              </button>
-            </nav>
+        <div class="courses-grid">
+          @for (course of courses(); track course.courseID) {
+          <app-course-card [course]="course" />
           }
+        </div>
+
+        @if (totalPages() > 1) {
+        <nav class="pagination" aria-label="صفحات الدورات">
+          <button type="button" [disabled]="pageNumber() === 1" (click)="goToPage(pageNumber() - 1)">
+            السابق
+          </button>
+
+          @for (page of pageNumbers(); track page) {
+          <button type="button" [class.active]="pageNumber() === page" [attr.aria-current]="
+                    pageNumber() === page ? 'page' : null
+                  " (click)="goToPage(page)">
+            {{ page }}
+          </button>
+          }
+
+          <button type="button" [disabled]="pageNumber() === totalPages()" (click)="goToPage(pageNumber() + 1)">
+            التالي
+          </button>
+        </nav>
+        }
         }
       </section>
 
@@ -164,26 +130,24 @@
             <i class="bi bi-star-fill"></i> مقترحة لك
           </h2>
           <div class="recommended-controls">
-            <button type="button" class="slider-btn" (click)="scrollRecommended('prev')"
-              aria-label="السابق">
+            <button type="button" class="slider-btn" (click)="scrollRecommended('prev')" aria-label="السابق">
               <i class="bi bi-chevron-right"></i>
             </button>
-            <button type="button" class="slider-btn" (click)="scrollRecommended('next')"
-              aria-label="التالي">
+            <button type="button" class="slider-btn" (click)="scrollRecommended('next')" aria-label="التالي">
               <i class="bi bi-chevron-left"></i>
             </button>
           </div>
         </div>
         <div class="recommended-slider" #recommendedSlider>
           @for (course of recommendedCourses(); track course.courseID) {
-            <div class="recommended-slide">
-              <app-courses-browse-card [course]="course" />
-            </div>
+          <div class="recommended-slide">
+            <app-course-card [course]="course" />
+          </div>
           }
         </div>
       </section>
       }
-
+      @if(isLoggedIn() === false){
       <section class="challenge-banner">
         <div class="challenge-content">
           <span class="challenge-label">طور مستواك</span>
@@ -197,11 +161,10 @@
           <a routerLink="/register">اشترك الآن</a>
         </div>
 
-        <img
-          src="images/instructor.webp"
-          alt="تحديات التعلم"
-        />
+        <img src="images/instructor.webp" alt="تحديات التعلم" />
       </section>
+      }
     </div>
   </section>
+
 </main>

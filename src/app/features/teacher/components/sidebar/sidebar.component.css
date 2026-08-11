@@ -4,8 +4,10 @@
 }
 
 .sidebar {
-  width: 286px;
-  min-width: 286px;
+  /* width: 286px;
+  min-width: 286px; */
+  width: 240px;
+  min-width: 240px;
   min-height: 100vh;
   padding: 24px 18px;
   position: sticky;
@@ -31,7 +33,7 @@
 }
 
 .logo {
-  width: 138px;
+  width: 80px;
   padding: 10px 12px;
   display: flex;
   align-items: center;

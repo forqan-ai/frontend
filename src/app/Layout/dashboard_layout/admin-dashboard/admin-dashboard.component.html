@@ -1,21 +1,13 @@
-@if(userRole() === Role.Student){
-<app-student-mobile-navbar></app-student-mobile-navbar>
-<app-student-mobile-sidebar></app-student-mobile-sidebar>
-}
-@else if (userRole() === Role.Admin) {
 <app-adamin-mobile-sidebar></app-adamin-mobile-sidebar>
 <app-admin-mobile-navbar></app-admin-mobile-navbar>
-}
+
+
 
 <div style="background-color: var(--bg);">
 
-    @if(userRole() === Role.Student){
-    <app-student-sidebar></app-student-sidebar>
 
-    }
-    @else if (userRole() === Role.Admin) {
     <app-admin-sidebar></app-admin-sidebar>
-    }
+
     <div class="d-md-none" style="height: 56px;"></div> <!-- Spacer for mobile navbar -->
 
     <div class="d-md-block" style="margin-left: 0;"></div>

@@ -17,7 +17,7 @@ import {
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiError } from '../../../core/models/auth.models';
+import { ApiError, ExternalProvider, RegisterRequest } from '../../../core/models/auth.models';
 import { CommonModule } from '@angular/common';
 import { GoogleAuthService } from '../../../core/services/google-auth.service';
 import { environment } from '../../../../environments/environment.development';

@@ -37,7 +37,7 @@ export class SidebarComponent {
     },
     {
       title: 'حلقات العلم',
-      icon: 'bi bi-mortarboard-fill',
+      icon: 'bi bi-bounding-box-circles',
       route: '/teacher/circles',
     },
     {
@@ -46,9 +46,9 @@ export class SidebarComponent {
       route: '/teacher/profile',
     },
     {
-      title: 'الإعدادات',
-      icon: 'bi bi-gear-fill',
-      route: '/teacher/settings',
+      title: 'الرجوع الي لوحة الطالب',
+      icon: 'bi bi-arrow-right  ',
+      route: '/student/home',
     },
   ]);
 

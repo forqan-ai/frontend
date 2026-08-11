@@ -231,7 +231,7 @@
                             شهادة {{i + 1}}
                         </h6>
 
-                        <a [href]="cert" target="_blank" class="tr-view-btn w-100 text-center">
+                        <a [href]="cert" (click)="showcert(cert)" target="_blank" class="tr-view-btn w-100 text-center">
 
                             عرض الشهادة
 

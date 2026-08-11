@@ -94,8 +94,8 @@ export class TeachersBrowseComponent implements OnInit {
   }
 
   getTeacherDetailsRoute(teacherId: string): string[] {
-    if (this.router.url.startsWith('/dashboard/student')) {
-      return ['/dashboard/student/teachers', teacherId, 'details'];
+    if (this.router.url.startsWith('/student')) {
+      return ['.', teacherId];
     }
 
     return ['/teachers', teacherId, 'details'];

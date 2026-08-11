@@ -6,120 +6,116 @@
     </a>
 
     @if (isLoading()) {
-      <section class="teacher-state" aria-live="polite">
-        <div class="spinner-border" role="status" aria-label="جاري تحميل بيانات المعلم"></div>
-        <p>جاري تحميل بيانات المعلم...</p>
-      </section>
+    <section class="teacher-state" aria-live="polite">
+      <div class="spinner-border" role="status" aria-label="جاري تحميل بيانات المعلم"></div>
+      <p>جاري تحميل بيانات المعلم...</p>
+    </section>
     } @else if (errorMessage()) {
-      <section class="teacher-state error-state">
-        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
-        <h1>تعذر تحميل بيانات المعلم</h1>
-        <p>{{ errorMessage() }}</p>
-        <button type="button" (click)="retry()">إعادة المحاولة</button>
-      </section>
+    <section class="teacher-state error-state">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      <h1>تعذر تحميل بيانات المعلم</h1>
+      <p>{{ errorMessage() }}</p>
+      <button type="button" (click)="retry()">إعادة المحاولة</button>
+    </section>
     } @else if (teacher(); as teacherDetails) {
-      <section class="teacher-profile-hero">
-        <div class="teacher-avatar-frame">
-          <img
-            [src]="getTeacherImage()"
-            [alt]="'صورة ' + teacherDetails.teacherName"
-            class="teacher-avatar"
-            (error)="onTeacherImageError($event)"
-          />
-        </div>
+    <section class="teacher-profile-hero">
+      <div class="teacher-avatar-frame">
+        <img [src]="getTeacherImage()" [alt]="'صورة ' + teacherDetails.teacherName" class="teacher-avatar"
+          (error)="onTeacherImageError($event)" />
+      </div>
 
-        <div class="teacher-profile-copy">
-          <div class="teacher-heading-row">
-            <div>
-              <span class="teacher-kicker">ملف المعلم</span>
-              <h1>{{ teacherDetails.teacherName }}</h1>
-            </div>
-
-            @if (teacherDetails.verifiedStatus) {
-              <span class="verified-badge">
-                <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
-                معلم موثق
-              </span>
-            }
+      <div class="teacher-profile-copy">
+        <div class="teacher-heading-row">
+          <div>
+            <span class="teacher-kicker">ملف المعلم</span>
+            <h1>{{ teacherDetails.teacherName }}</h1>
           </div>
 
-          <p class="teacher-title">
-            <i class="bi bi-mortarboard" aria-hidden="true"></i>
-            {{ teacherDetails.title || 'معلم في منصة الفرقان' }}
-          </p>
-
-          <div class="teacher-rating-row" [attr.aria-label]="'التقييم ' + teacherDetails.rating + ' من 5'">
-            <i class="bi bi-star-fill" aria-hidden="true"></i>
-            <strong>{{ teacherDetails.rating || 0 }}</strong>
-            <span>({{ teacherDetails.ratingCount || 0 }} تقييم)</span>
-          </div>
-
-          @if (teacherDetails.specialties.length > 0) {
-            <div class="teacher-specialties" aria-label="تخصصات المعلم">
-              @for (specialty of teacherDetails.specialties; track specialty) {
-                <span>{{ specialty }}</span>
-              }
-            </div>
+          @if (teacherDetails.verifiedStatus) {
+          <span class="verified-badge">
+            <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+            معلم موثق
+          </span>
           }
         </div>
-      </section>
 
-      <section class="teacher-stats-grid" aria-label="إحصاءات المعلم">
-        <div class="stat-card">
-          <i class="bi bi-people" aria-hidden="true"></i>
-          <strong>{{ teacherDetails.totalEnrollments || 0 }}</strong>
-          <span>طالب مشترك</span>
-        </div>
-
-        <div class="stat-card">
-          <i class="bi bi-book" aria-hidden="true"></i>
-          <strong>{{ teacherDetails.totalCourses || 0 }}</strong>
-          <span>دورة منشورة</span>
-        </div>
-
-        <div class="stat-card">
-          <i class="bi bi-clock-history" aria-hidden="true"></i>
-          <strong>{{ teacherDetails.totalContentHours || 0 }}</strong>
-          <span>ساعة محتوى</span>
-        </div>
-
-        <div class="stat-card">
-          <i class="bi bi-calendar3" aria-hidden="true"></i>
-          <strong>{{ joinedYear(teacherDetails.joinedAt) }}</strong>
-          <span>سنة الانضمام</span>
-        </div>
-      </section>
-
-      <section class="teacher-about-section">
-        <div class="section-heading">
-          <span class="teacher-kicker">نبذة</span>
-          <h2>تعرف على خبرة المعلم وأسلوبه</h2>
-        </div>
-
-        <p>
-          {{
-            teacherDetails.bio ||
-              'يساعد هذا المعلم الطلاب على التعلم بخطة واضحة تناسب مستواهم، مع متابعة منظمة وتركيز على الفهم والتطبيق.'
-          }}
+        <p class="teacher-title">
+          <i class="bi bi-mortarboard" aria-hidden="true"></i>
+          {{ teacherDetails.title || 'معلم في منصة الفرقان' }}
         </p>
-      </section>
 
-      <section class="teacher-courses-section">
-        <div class="section-heading">
-          <span class="teacher-kicker">الدورات</span>
-          <h2>دورات يقدمها {{ teacherDetails.teacherName }}</h2>
+        <div class="teacher-rating-row" [attr.aria-label]="'التقييم ' + teacherDetails.rating + ' من 5'">
+          <i class="bi bi-star-fill" aria-hidden="true"></i>
+          <strong>{{ teacherDetails.rating || 0 }}</strong>
+          <span>({{ teacherDetails.ratingCount || 0 }} تقييم)</span>
         </div>
 
-        @if (teacherDetails.courses.length === 0) {
-          <div class="empty-courses">
-            <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
-            <h3>لا توجد دورات منشورة حاليا</h3>
-            <p>سيظهر هنا أي محتوى جديد بعد اعتماده ونشره على المنصة.</p>
-          </div>
-        } @else {
-          <div class="teacher-courses-grid">
-            @for (course of teacherDetails.courses; track course.courseID) {
-              <a class="teacher-course-card" [routerLink]="getCourseRoute(course)">
+        @if (teacherDetails.specialties.length > 0) {
+        <div class="teacher-specialties" aria-label="تخصصات المعلم">
+          @for (specialty of teacherDetails.specialties; track specialty) {
+          <span>{{ specialty }}</span>
+          }
+        </div>
+        }
+      </div>
+    </section>
+
+    <section class="teacher-stats-grid" aria-label="إحصاءات المعلم">
+      <div class="stat-card">
+        <i class="bi bi-people" aria-hidden="true"></i>
+        <strong>{{ teacherDetails.totalEnrollments || 0 }}</strong>
+        <span>طالب مشترك</span>
+      </div>
+
+      <div class="stat-card">
+        <i class="bi bi-book" aria-hidden="true"></i>
+        <strong>{{ teacherDetails.totalCourses || 0 }}</strong>
+        <span>دورة منشورة</span>
+      </div>
+
+      <div class="stat-card">
+        <i class="bi bi-clock-history" aria-hidden="true"></i>
+        <strong>{{ teacherDetails.totalContentHours || 0 }}</strong>
+        <span>ساعة محتوى</span>
+      </div>
+
+      <div class="stat-card">
+        <i class="bi bi-calendar3" aria-hidden="true"></i>
+        <strong>{{ joinedYear(teacherDetails.joinedAt) }}</strong>
+        <span>سنة الانضمام</span>
+      </div>
+    </section>
+
+    <section class="teacher-about-section">
+      <div class="section-heading">
+        <span class="teacher-kicker">نبذة</span>
+        <h2>تعرف على خبرة المعلم وأسلوبه</h2>
+      </div>
+
+      <p>
+        {{
+        teacherDetails.bio ||
+        'يساعد هذا المعلم الطلاب على التعلم بخطة واضحة تناسب مستواهم، مع متابعة منظمة وتركيز على الفهم والتطبيق.'
+        }}
+      </p>
+    </section>
+
+    <section class="teacher-courses-section">
+      <div class="section-heading">
+        <span class="teacher-kicker">الدورات</span>
+        <h2>دورات يقدمها {{ teacherDetails.teacherName }}</h2>
+      </div>
+
+      @if (teacherDetails.courses.length === 0) {
+      <div class="empty-courses">
+        <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+        <h3>لا توجد دورات منشورة حاليا</h3>
+        <p>سيظهر هنا أي محتوى جديد بعد اعتماده ونشره على المنصة.</p>
+      </div>
+      } @else {
+      <div class="teacher-courses-grid">
+        @for (course of teacherDetails.courses; track course.courseID) {
+        <!-- <a class="teacher-course-card" [routerLink]="getCourseRoute(course)">
                 <div class="course-image-wrapper">
                   <img
                     [src]="course.thumbnailURL || 'images/card1.jfif'"
@@ -152,11 +148,12 @@
                     <span class="course-price">{{ formattedPrice(course.price) }}</span>
                   </div>
                 </div>
-              </a>
-            }
-          </div>
+              </a> -->
+        <app-course-card [course]="course"></app-course-card>
         }
-      </section>
+      </div>
+      }
+    </section>
     }
   </div>
 </main>

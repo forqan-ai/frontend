@@ -1,139 +1,242 @@
-:host {
-  --text-main-brown: #4d2f25;
-  --heart-brown: #63392b;
-  --card-border-color: #e5dec9;
-  --bg-card: #ffffff;
-  --star-gold: #ffc107;
-  
-  --badge-blue-bg: #d7effe;
-  --badge-blue-txt: #2196f3;
-  --badge-orange-bg: #ffeecd;
-  --badge-orange-txt: #ff9800;
-  --badge-green-bg: #def7e4;
-  --badge-green-txt: #4caf50;
-}
-
-.custom-course-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--card-border-color);
-  border-radius: 24px;
-  padding: 24px 20px 20px 20px;
-  position: relative;
-  box-shadow: 0 4px 20px rgba(99, 57, 43, 0.02);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+.course-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 100%;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  max-width: 320px;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.custom-course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(99, 57, 43, 0.06);
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(52, 27, 22, 0.1);
 }
 
-.favorite-btn {
-  position: absolute;
-  top: 24px;
-  left: 20px;
-  background: none;
-  border: none;
-  color: var(--heart-brown);
-  opacity: 0.6;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
-  padding: 0;
-}
 
-.favorite-btn:hover, .favorite-btn.is-fav {
-  opacity: 1;
-  transform: scale(1.1);
-}
+/* =========================
+   IMAGE
+========================= */
 
-.card-top-content {
-  padding-left: 25px; 
-}
-
-.course-card-title {
-  font-family: "IBM Plex Sans Arabic", sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 32px;
-  letter-spacing: 0;
-  text-align: right;
-  font-size: 18px;
-}
-
-.badge-item {
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 12px;
-}
-.badge-blue { background-color: var(--badge-blue-bg); color: var(--badge-blue-txt); }
-.badge-orange { background-color: var(--badge-orange-bg); color: var(--badge-orange-txt); }
-.badge-green { background-color: var(--badge-green-bg); color: var(--badge-green-txt); }
-
-.instructor-row, .rating-row {
-  font-size: 0.88rem;
-}
-.instructor-name {
-  color: #6c757d;
-  font-weight: 500;
-}
-.meta-icon {
-  color: #adb5bd;
-  display: inline-flex;
-}
-
-.stars-gold {
-  color: var(--star-gold);
-  letter-spacing: -2px;
-  font-size: 1.05rem;
-}
-.rating-val {
-  color: var(--text-main-brown);
-  font-weight: 700;
-  margin-right: 4px;
-}
-.reviews-count {
-  color: #a0a0a0;
-}
-
-.card-bottom-image-wrapper {
-  margin-top: 16px;
-  border-radius: 18px;
-  overflow: hidden;
-  aspect-ratio: 16 / 10;
+.card-image-wrapper {
   position: relative;
-  background: transparent; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  margin: 12px 12px 0;
+  width: calc(100% - 24px);
+  border-radius: 12px;
 }
 
 .course-thumb {
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  border-radius: 18px; 
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;
+
   transition: transform 0.3s ease;
 }
 
-.custom-course-card:hover .course-thumb {
-  transform: scale(1.04);
-}
+
+
+
+/* =========================
+   PRICE
+========================= */
+
 .price-badge {
   position: absolute;
   bottom: 12px;
   left: 12px;
-  background-color: rgba(255, 255, 255, 0.95);
-  color: var(--text-main-brown);
-  padding: 4px 12px;
+
+  background: var(--primary);
+  color: #fff;
+
+  padding: 6px 12px;
   border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.card-content {
+  padding: 18px 16px 20px;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.course-card-title {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+.course-duration {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin: 0 0 14px;
+
+  color: var(--text-muted);
+  opacity: 0.8;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.course-duration i {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+
+/* =========================
+   BADGES
+========================= */
+
+.badges-row {
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.badge-item {
+  padding: 4px 9px;
+  border-radius: 6px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-blue {
+  background: #e8f1ff;
+  color: #2563eb;
+}
+
+.badge-orange {
+  background: #fff2df;
+  color: #d97706;
+}
+
+.badge-green {
+  background: #e8f7ee;
+  color: #15803d;
+}
+
+
+/* =========================
+   INSTRUCTOR
+========================= */
+
+.instructor-row {
+  margin-bottom: 12px;
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+}
+
+.meta-icon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--secondary);
+  color: var(--primary);
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+}
+
+.instructor-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   RATING
+========================= */
+
+.rating-row {
+  margin-top: auto;
+
+  color: var(--text);
+  font-size: 14px;
+}
+
+.rating-star {
+  color: #f59e0b;
+}
+
+.rating-num {
+  font-weight: 700;
+}
+
+.reviews-count {
+  color: var(--text-muted) !important;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  transition: transform 0.2s, color 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  padding: 0;
+}
+.wishlist-btn i{
+  color:var(--primary);
+  margin-left: 1px;
+  margin-top: 4px;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.08);
+}
+

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { IPaginatedResult } from '../models/paginated-result.interface';
 import { ICourseListItem } from '../models/course-list-item.interface';
 import { ICategory } from '../models/category.interface';
+import { ICourseCardDto } from '../../Course/Models/course-card-dto.interface';
 
 @Service()
 export class CoursesBrowseService {
@@ -15,7 +16,7 @@ export class CoursesBrowseService {
   private readonly coursesUrl = `${environment.apiUrl}/api/courses`;
   private readonly categoriesUrl = `${environment.apiUrl}/api/categories`;
 
-  getCourses(query: ICoursesQuery): Observable<IPaginatedResult<ICourseListItem>> {
+  getCourses(query: ICoursesQuery): Observable<IPaginatedResult<ICourseCardDto>> {
     let params = new HttpParams()
       .set('pageNumber', query.pageNumber.toString())
       .set('pageSize', query.pageSize.toString());
@@ -28,7 +29,7 @@ export class CoursesBrowseService {
       params = params.set('categoryId', query.categoryId);
     }
 
-    return this.http.get<IPaginatedResult<ICourseListItem>>(
+    return this.http.get<IPaginatedResult<ICourseCardDto>>(
       this.coursesUrl,
       { params },
     );

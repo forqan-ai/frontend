@@ -1,9 +1,10 @@
-import { Component, inject, OnInit, computed, Signal } from '@angular/core';
+import { Component, inject, OnInit, computed, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, NavigationEnd, RouterLinkActive } from '@angular/router';
 import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
+import { single } from 'rxjs';
 
 @Component({
   selector: 'app-student-sidebar',
@@ -16,11 +17,12 @@ export class StudentSidebarComponent implements OnInit {
   private settingsService = inject(SettingsService);
   private authService = inject(AuthService);
   private router = inject(Router);
-
   apiUrl = 'https://localhost:7054';
   activeRoute: string = '';
 
   user = this.settingsService.user;
+
+  
 
   studentImage = computed(() =>
     this.getStudentImage(this.user()?.profileImageURL)
@@ -64,11 +66,14 @@ export class StudentSidebarComponent implements OnInit {
       this.activeRoute = 'teachers';
     } else if (url.includes('courses')) {
       this.activeRoute = 'courses';
-    } else if (url.includes('my-certificates')) {
-      this.activeRoute = 'my-certificates';
     } else if (url.includes('settings')) {
       this.activeRoute = 'settings';
+    } else if (url.includes('teacher')) {
+      this.activeRoute = 'teacher'
+    } else if (url.includes('wishlist')) {
+      this.activeRoute = 'wishlist'
     }
+
   }
 
   getStudentImage(imageUrl?: string | null): string {

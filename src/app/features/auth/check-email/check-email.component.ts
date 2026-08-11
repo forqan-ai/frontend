@@ -1,13 +1,13 @@
 import {
   Component,
-  OnInit,
+  inject, OnInit, signal,
   CUSTOM_ELEMENTS_SCHEMA,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment.development';
-
+import { ToastService } from '../../../core/services/toast.service';
 @Component({
   selector: 'app-check-email',
   standalone: true,
@@ -25,11 +25,13 @@ export class CheckEmailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
-  ) {}
+  ) { }
 
+  toastService = inject(ToastService);
+  resendingEmail = signal<boolean>(false);
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      this.userEmail = params['email'] || sessionStorage.getItem('registeredEmail') || '';
+      this.userEmail = params['email'] || sessionStorage.getItem('registeredEmail') || localStorage.getItem('registeredEmail') || '';
     });
   }
 
@@ -48,11 +50,18 @@ export class CheckEmailComponent implements OnInit {
       next: (response) => {
         this.isResending = false;
         this.statusMessage = 'تم إرسال رابط التفعيل بنجاح، تحقق من بريدك الإلكتروني.';
+        this.toastService.show("تم الإرسال الي بريدك الإلكتروني")
+
       },
       error: (error) => {
         this.isResending = false;
         this.statusMessage = 'حدث خطأ أثناء إرسال الرابط، حاول مرة أخرى.';
+        this.toastService.show("حدث خطأ, برجاء المحاولة مرة اخري", 'error')
+
       },
+      complete: () => {
+        this.resendingEmail.set(false);
+      }
     });
   }
 }

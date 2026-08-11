@@ -1,7 +1,6 @@
 import { Component, HostListener, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { ButtonComponent } from "../../../../shared/components/button/button.component";
 import { StudentService } from '../../Services/student.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -14,7 +13,7 @@ import { TeachingRequestResultRejectedComponent } from "../../Components/teachin
 
 @Component({
   selector: 'app-teaching-request',
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, TeachignRequestStatusBarComponent, TeachingRequestFormComponent, TeachingRequestResultPendingComponent, TeachingRequestResultAcceptedComponent, TeachingRequestResultRejectedComponent],
+  imports: [CommonModule, ReactiveFormsModule, TeachignRequestStatusBarComponent, TeachingRequestFormComponent, TeachingRequestResultPendingComponent, TeachingRequestResultAcceptedComponent, TeachingRequestResultRejectedComponent],
   templateUrl: './teaching-request.component.html',
   styleUrl: './teaching-request.component.css',
 })

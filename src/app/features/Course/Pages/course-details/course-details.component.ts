@@ -51,9 +51,6 @@ export class CourseDetailsComponent {
   @ViewChild('recommendedSlider') recommendedSliderRef!: ElementRef<HTMLDivElement>;
 
   courseService = inject(CourseService);
-
-
-
   course = signal<ICourseDetailsDto | null>(null);
   curriculum = signal<ICourseModuleDto[]>([]);
   owned = signal<boolean>(false);
@@ -62,11 +59,9 @@ export class CourseDetailsComponent {
   courseDetailsLoaded = signal<boolean>(false);
   private readonly destroyRef = inject(DestroyRef);
 
-
   courseId: string | null = null;
 
   ngOnInit() {
-
     this.route.paramMap.subscribe(params => {
       // const courseId = params.get('id');
       this.courseId = params.get('id');
@@ -83,7 +78,7 @@ export class CourseDetailsComponent {
     }
   }
 
-  readonly recommendedCourses = signal<ICourseListItem[]>([]);
+  readonly recommendedCourses = signal<ICourseCardDto[]>([]);
 
   private loadRecommendedCourses(): void {
     this.courseService.getRecommendedCourses()
@@ -99,7 +94,6 @@ export class CourseDetailsComponent {
     if (!el) return;
     el.scrollBy({ left: dir === 'next' ? -320 : 320, behavior: 'smooth' });
   }
-
 
   loadCourseDetails(courseId: string) {
     this.courseService.getCourseDetails(courseId)
@@ -131,37 +125,18 @@ export class CourseDetailsComponent {
       });
   }
 
-
-
-
-
   loadOwnership(courseId: string) {
-
     this.courseService.checkOwnership(courseId)
       .subscribe({
-
         next: (res: ICourseOwnership) => {
-
           this.owned.set(res.owned);
-
         },
-
-
         error: (err: any) => {
-
           console.log(err);
-
           this.owned.set(false);
-
         }
-
       });
-
   }
-
-
-
-
 
   calculateTotalTime(timeInSeconds: number): string {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -192,7 +167,6 @@ export class CourseDetailsComponent {
     }
     return `${seconds} ث`;
   }
-
 
   initVideoPlayer(url?: string) {
     if (!url) {
@@ -233,20 +207,17 @@ export class CourseDetailsComponent {
   }
 
   handlePurchaseClick() {
-    const courseId = this.route.snapshot.paramMap.get('id');
-    if (!courseId) return;
-    if (this.owned()) {
-      this.router.navigate([
-        '/dashboard',
-        'student',
-        'course-player',
-        courseId
-      ]);
-    } else {
-      this.router.navigate([
-        '/course-checkout',
-        courseId
-      ]);
+    if (this.authService.isLoggedIn()) {
+      const courseId = this.route.snapshot.paramMap.get('id');
+      if (!courseId) return;
+      if (this.owned()) {
+        this.router.navigate(['student', 'course-player', courseId]);
+      } else {
+        this.router.navigate(['student', 'courses', courseId, 'checkout']);
+      }
+    }
+    else {
+      this.router.navigateByUrl('/login');
     }
   }
 
@@ -290,7 +261,7 @@ export class CourseDetailsComponent {
 
   navigateToTeacher() {
     if (this.authService.isLoggedIn()) {
-      this.router.navigateByUrl(`/dashboard/student/teachers/${this.course()?.teacherID}/details`)
+      this.router.navigateByUrl(`/student/teachers/${this.course()?.teacherID}/details`)
     }
     else {
       this.router.navigateByUrl(`teachers/${this.course()?.teacherID}/details`)

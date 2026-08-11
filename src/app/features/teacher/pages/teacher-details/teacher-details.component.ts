@@ -6,10 +6,12 @@ import {
   ITeacherDetailsCourse,
   ITeacherDetailsDto,
 } from '../../models/teacher-details-dto.interface';
+import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
+import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
 
 @Component({
   selector: 'app-teacher-details',
-  imports: [RouterLink],
+  imports: [RouterLink, CourseCardComponent],
   templateUrl: './teacher-details.component.html',
   styleUrl: './teacher-details.component.css',
 })
@@ -24,7 +26,7 @@ export class TeacherDetailsComponent implements OnInit {
   readonly errorMessage = signal('');
 
   ngOnInit(): void {
-    const teacherId = this.route.snapshot.paramMap.get('id');
+    const teacherId = this.route.snapshot.paramMap.get('teacherid');
 
     if (!teacherId) {
       this.errorMessage.set('لم يتم العثور على بيانات المعلم المطلوبة.');
@@ -35,7 +37,7 @@ export class TeacherDetailsComponent implements OnInit {
   }
 
   retry(): void {
-    const teacherId = this.route.snapshot.paramMap.get('id');
+    const teacherId = this.route.snapshot.paramMap.get('teacherid');
 
     if (teacherId) {
       this.loadTeacherDetails(teacherId);
@@ -81,17 +83,17 @@ export class TeacherDetailsComponent implements OnInit {
     return `${price} نقطة`;
   }
 
-  getCourseRoute(course: ITeacherDetailsCourse): string[] {
-    if (this.router.url.startsWith('/dashboard/student')) {
-      return ['/dashboard/student/courses', course.courseID];
+  getCourseRoute(course: ICourseCardDto): string[] {
+    if (this.router.url.startsWith('/student')) {
+      return ['/student/courses', course.courseID];
     }
 
     return ['/course-details', course.courseID];
   }
 
   getTeachersRoute(): string[] {
-    if (this.router.url.startsWith('/dashboard/student')) {
-      return ['/dashboard/student/teachers'];
+    if (this.router.url.startsWith('/student')) {
+      return ['/student/teachers'];
     }
 
     return ['/teachers'];

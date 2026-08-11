@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { IWishlistItem, IToggleWishlistResponse } from '../Models/wishlist-item.interface';
+import { ICourseCardDto } from '../../Course/Models/course-card-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class WishlistService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/api/wishlist`;
 
-  getWishlist(): Observable<IWishlistItem[]> {
-    return this.http.get<IWishlistItem[]>(this.apiUrl);
+  getWishlist(): Observable<ICourseCardDto[]> {
+    return this.http.get<ICourseCardDto[]>(this.apiUrl);
   }
 
   toggleWishlist(courseId: string): Observable<IToggleWishlistResponse> {
