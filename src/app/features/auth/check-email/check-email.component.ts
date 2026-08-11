@@ -1,18 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment.development';
+
 @Component({
   selector: 'app-check-email',
   standalone: true,
   imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './check-email.component.html',
   styleUrl: './check-email.component.css',
 })
 export class CheckEmailComponent implements OnInit {
   userEmail: string = '';
   statusMessage: string = '';
+  isResending: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -28,12 +36,23 @@ export class CheckEmailComponent implements OnInit {
   goToLogin() {
     this.router.navigate(['/login']);
   }
+
   resendActivationEmail() {
-    if (!this.userEmail) return;
+    if (!this.userEmail || this.isResending) return;
+
+    this.isResending = true;
+    this.statusMessage = '';
+
     const payload = { email: this.userEmail };
     this.http.post(`${environment.apiUrl}/api/auth/resend-confirmation-email`, payload).subscribe({
-      next: (response) => {},
-      error: (error) => {},
+      next: (response) => {
+        this.isResending = false;
+        this.statusMessage = 'تم إرسال رابط التفعيل بنجاح، تحقق من بريدك الإلكتروني.';
+      },
+      error: (error) => {
+        this.isResending = false;
+        this.statusMessage = 'حدث خطأ أثناء إرسال الرابط، حاول مرة أخرى.';
+      },
     });
   }
 }
