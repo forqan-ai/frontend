@@ -284,7 +284,7 @@ export class LoginComponent implements AfterViewInit {
       this.authService.hasRole(Role.Student)
     ) {
       this.router.navigate([
-        '/dashboard/student/home',
+        '/student/home',
       ]);
 
       return;
@@ -294,7 +294,7 @@ export class LoginComponent implements AfterViewInit {
       this.authService.hasRole(Role.Admin)
     ) {
       this.router.navigate([
-        '/dashboard/admin/teaching-requests',
+        '/admin/teaching-requests',
       ]);
     }
   }

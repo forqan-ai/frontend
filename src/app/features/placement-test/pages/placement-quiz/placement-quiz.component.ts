@@ -79,7 +79,7 @@ export class PlacementQuizComponent implements OnInit {
     this.placementService.submitTest({ answers: answersDto }).subscribe({
       next: (result) => {
         localStorage.setItem('placementResult', JSON.stringify(result));
-        this.router.navigate(['/dashboard/student/placement-test/result']);
+        this.router.navigate(['/student/placement-test/result']);
       },
       error: () => {
         this.error = 'حدث خطأ أثناء إرسال الاختبار';

@@ -1,6 +1,7 @@
-import { Component, input, output, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, input, output, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarItem } from '../../models/sidebar-item';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +12,8 @@ import { SidebarItem } from '../../models/sidebar-item';
 })
 export class SidebarComponent {
   opened = input(false);
+  authservice = inject(AuthService);
+  router = inject(Router);
 
   close = output<void>();
 
@@ -41,18 +44,27 @@ export class SidebarComponent {
       route: '/teacher/circles',
     },
     {
+      title: 'المحفظة',
+      icon: 'bi bi-wallet2',
+      route: '/teacher/wallet',
+    },
+    {
       title: 'الملف الشخصي',
       icon: 'bi bi-person-fill',
       route: '/teacher/profile',
-    },
-    {
-      title: 'الرجوع الي لوحة الطالب',
-      icon: 'bi bi-arrow-right  ',
-      route: '/student/home',
     },
   ]);
 
   closeSidebar() {
     this.close.emit();
+  }
+
+  goToStudent(): void {
+    this.router.navigate(['/student/home']);
+  }
+
+    logout(): void {
+    this.authservice.logout();
+    this.router.navigate(['/login']);
   }
 }

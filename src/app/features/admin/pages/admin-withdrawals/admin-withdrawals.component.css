@@ -1,0 +1,666 @@
+/* ============================================================
+   Design tokens
+   Palette:  #FBF6EF cream · #FFFFFF card · #3E2A1A espresso
+             #8A7060 taupe · #0B6E4F evergreen (approve)
+             #C08A2E warm gold (money) · #C0392B rejected
+             #2B5EA7 transfer blue
+   Type:     'Cairo' for UI text, tabular-nums for figures
+   Signature: amounts styled like receipt stubs; reject dialog
+              styled like a torn payment ticket
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&display=swap');
+
+.admin-withdrawals-page {
+  --ink: #3e2a1a;
+  --ink-soft: #8a7060;
+  --line: #e8dcce;
+  --paper: #fbf6ef;
+  --card: #ffffff;
+  --evergreen: #0b6e4f;
+  --evergreen-soft: #e6f4ee;
+  --gold: #b8791f;
+  --gold-soft: #fbf0dd;
+  --rejected: #c0392b;
+  --rejected-soft: #fdecec;
+  --transfer: #2b5ea7;
+  --transfer-soft: #e8f0fb;
+
+  font-family: 'Cairo', 'Segoe UI', sans-serif;
+  background: var(--paper);
+  padding: 28px 20px 48px;
+  border-radius: 20px;
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-withdrawals-page * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Header ---------- */
+
+.page-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.page-head-icon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  background: linear-gradient(155deg, var(--evergreen) 0%, #0a5d42 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 8px 18px -6px rgba(11, 110, 79, 0.45);
+}
+
+.page-head h2 {
+  color: var(--ink);
+  font-weight: 800;
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.page-head p {
+  color: var(--ink-soft);
+  margin: 2px 0 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---------- Status tabs ---------- */
+
+.status-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 5px;
+  background: #f2e9dc;
+  border-radius: 999px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.status-tab {
+  padding: 9px 20px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 14px;
+  font-family: inherit;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.status-tab:hover {
+  color: var(--evergreen);
+}
+
+.status-tab.active {
+  background: var(--card);
+  color: var(--evergreen);
+  box-shadow: 0 3px 10px -3px rgba(60, 40, 20, 0.25);
+}
+
+/* ---------- Ledger card / table ---------- */
+
+.ledger-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 12px 30px -20px rgba(62, 42, 26, 0.35);
+}
+
+.withdrawals-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.withdrawals-table thead th {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #faf5ec;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 16px;
+  text-align: start;
+}
+
+.withdrawals-table thead th.actions-col {
+  text-align: end;
+}
+
+.withdrawals-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3ebe0;
+  vertical-align: middle;
+}
+
+.withdrawals-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.withdrawals-table tbody tr {
+  transition: background 0.15s ease;
+  animation: row-in 0.35s ease both;
+}
+
+.withdrawals-table tbody tr:hover {
+  background: #fdfbf6;
+}
+
+.withdrawals-table tbody tr.row-busy {
+  background: #faf6ee;
+}
+
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Teacher cell ---------- */
+
+.teacher-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.teacher-avatar-wrap {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #eadfd0, #f7f1e6);
+}
+
+.teacher-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: #f4eee7;
+}
+
+.teacher-meta strong {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14.5px;
+  display: block;
+}
+
+.muted {
+  color: var(--ink-soft);
+  font-size: 13px;
+  display: block;
+}
+
+/* ---------- Amount: receipt-stub styling ---------- */
+
+.amount-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  font-size: 14.5px;
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: 1px dashed #e3c07f;
+  border-radius: 10px;
+  padding: 5px 10px 5px 8px;
+}
+
+.amount-chip i {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.amount-chip small {
+  font-weight: 700;
+  font-size: 11.5px;
+  color: #a97e3a;
+  direction: rtl;
+}
+
+.payout-method {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.payout-method i {
+  color: var(--ink-soft);
+}
+
+/* ---------- Actions ---------- */
+
+.actions-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  text-decoration: none;
+  transition: all 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-action:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-action-approve {
+  background: var(--evergreen-soft);
+  color: var(--evergreen);
+  border-color: #b7dfcf;
+}
+
+.btn-action-approve:hover:not(:disabled) {
+  background: var(--evergreen);
+  color: #fff;
+  border-color: var(--evergreen);
+  transform: translateY(-1px);
+}
+
+.btn-action-reject {
+  background: var(--rejected-soft);
+  color: var(--rejected);
+  border-color: #f2c4c0;
+}
+
+.btn-action-reject:hover:not(:disabled) {
+  background: var(--rejected);
+  color: #fff;
+  border-color: var(--rejected);
+  transform: translateY(-1px);
+}
+
+.btn-action-transfer {
+  background: var(--transfer-soft);
+  color: var(--transfer);
+  border-color: #bcd3f0;
+}
+
+.btn-action-transfer:hover:not(:disabled) {
+  background: var(--transfer);
+  color: #fff;
+  border-color: var(--transfer);
+  transform: translateY(-1px);
+}
+
+.btn-action-details {
+  background: #fff;
+  color: var(--ink-soft);
+  border-color: var(--line);
+}
+
+.btn-action-details:hover:not(:disabled) {
+  background: #faf5ec;
+  color: var(--ink);
+  border-color: #c9b8a5;
+}
+
+.btn-spinner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Pagination ---------- */
+
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 700;
+  font-size: 13.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--evergreen);
+  color: var(--evergreen);
+}
+
+.page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 13.5px;
+}
+
+/* ---------- Empty state ---------- */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 64px 24px;
+  background: var(--card);
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #faf5ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: #d8c093;
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.empty-hint {
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ---------- Loading skeleton ---------- */
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3ebe0;
+}
+
+.skeleton-row:last-child {
+  border-bottom: none;
+}
+
+.skeleton-avatar,
+.skeleton-line {
+  background: linear-gradient(90deg, #f2ebe0 25%, #f9f4ea 37%, #f2ebe0 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+
+.skeleton-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-line {
+  height: 11px;
+}
+
+.w-20 { width: 60px; }
+.w-40 { width: 40%; max-width: 220px; }
+.w-60 { width: 60%; max-width: 320px; }
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ---------- Reject dialog: torn ticket ---------- */
+
+.reject-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 31, 18, 0.55);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  z-index: 3000;
+  animation: fade-in 0.18s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dialog-content {
+  width: 480px;
+  max-width: 92%;
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px -12px rgba(46, 31, 18, 0.45);
+  overflow: hidden;
+  animation: pop-in 0.22s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dialog-perforation {
+  height: 14px;
+  background:
+    radial-gradient(circle 7px at 0 50%, transparent 7px, var(--rejected-soft) 7.5px),
+    radial-gradient(circle 7px at 100% 50%, transparent 7px, var(--rejected-soft) 7.5px),
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent 8px,
+      #f0c9c4 8px,
+      #f0c9c4 9px
+    );
+  background-color: var(--rejected-soft);
+}
+
+.dialog-body {
+  padding: 22px 28px 26px;
+}
+
+.dialog-content h3 {
+  color: var(--ink);
+  font-weight: 800;
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.dialog-hint {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+
+.dialog-hint strong {
+  color: var(--ink);
+}
+
+.dialog-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.dialog-content textarea {
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  background: #fdfbf7;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dialog-content textarea:focus {
+  outline: none;
+  border-color: var(--evergreen);
+  box-shadow: 0 0 0 3px rgba(11, 110, 79, 0.12);
+  background: #fff;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn-cancel,
+.btn-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.btn-cancel {
+  background: #f4eee7;
+  color: var(--ink-soft);
+  border-color: var(--line);
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #eadfd4;
+}
+
+.btn-confirm {
+  background: var(--rejected);
+  color: #fff;
+}
+
+.btn-confirm:hover:not(:disabled) {
+  background: #a93226;
+}
+
+.btn-cancel:disabled,
+.btn-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .admin-withdrawals-page {
+    padding: 20px 12px 36px;
+  }
+
+  .ledger-card {
+    overflow-x: auto;
+  }
+
+  .withdrawals-table {
+    min-width: 720px;
+  }
+
+  .page-head-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+/* ---------- Keyboard focus ---------- */
+
+.status-tab:focus-visible,
+.btn-action:focus-visible,
+.page-btn:focus-visible,
+.btn-cancel:focus-visible,
+.btn-confirm:focus-visible {
+  outline: 2px solid var(--evergreen);
+  outline-offset: 2px;
+}
