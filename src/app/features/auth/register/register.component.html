@@ -1,214 +1,508 @@
-<div class="register min-vh-100 d-flex align-items-center py-4">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-xl-10 col-lg-11">
-        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-          <div class="row g-0">
-            <!-- Left Side (Form) -->
-            <div
-              class="col-md-6 d-flex align-items-center justify-content-center bg-cream p-4 p-lg-5"
-            >
-              <div class="w-100" style="max-width: 440px">
-                <div class="d-flex flex-column align-items-center text-center mb-4">
-                  <img src="images/start_logo.png" alt="منارة العلم" class="mb-2 logo-brand" />
-                  <h2 class="fw-bold text-brown mb-1">إنشاء حساب</h2>
-                  <p class="text-muted small">ابدأ رحلتك التعليمية معنا.</p>
-                </div>
+<div class="login-page register-page">
 
-                <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                  <!-- Full Name -->
-                  <div class="mb-3">
-                    <div class="input-group custom-input-group">
-                      <input
-                        type="text"
-                        class="form-control border-2"
-                        placeholder="الاسم الكامل"
-                        formControlName="fullName"
-                        [class.is-invalid]="fullName.invalid && fullName.touched"
-                      />
-                      <i class="bi bi-person position-absolute"></i>
-                    </div>
+  <div class="islamic-pattern-overlay"></div>
+  <div class="ambient-glow"></div>
 
-                    @if (fullName.touched && fullName.invalid) {
-                      <small class="text-danger">
-                        @if (fullName.hasError('required')) {
-                          الاسم مطلوب
-                        } @else if (fullName.hasError('minlength')) {
-                          الاسم يجب أن يكون 3 أحرف على الأقل
-                        }
-                      </small>
-                    }
-                  </div>
+  <div class="login-layout">
 
-                  <!-- Email -->
-                  <div class="mb-3">
-                    <div class="input-group custom-input-group">
-                      <input
-                        type="email"
-                        class="form-control border-2"
-                        placeholder="البريد الإلكتروني"
-                        formControlName="email"
-                        [class.is-invalid]="email.invalid && email.touched"
-                      />
-                      <i class="bi bi-envelope position-absolute"></i>
-                    </div>
+    <div class="login-animation-side">
 
-                    @if (email.touched && email.invalid) {
-                      <small class="text-danger">
-                        @if (email.hasError('required')) {
-                          البريد الإلكتروني مطلوب
-                        } @else if (email.hasError('email')) {
-                          البريد الإلكتروني غير صالح
-                        }
-                      </small>
-                    }
-                  </div>
+      <div class="animation-lines"></div>
+      <div class="animation-circle"></div>
 
-                  <!-- Password -->
-                  <div class="mb-3">
-                    <div class="input-group custom-input-group">
-                      <input
-                        [type]="showPassword() ? 'text' : 'password'"
-                        class="form-control border-2"
-                        placeholder="كلمة المرور"
-                        formControlName="password"
-                        [class.is-invalid]="password.invalid && password.touched"
-                      />
-
-                      <i class="bi bi-lock position-absolute"></i>
-                    </div>
-
-                    @if (password.touched && password.invalid) {
-                      <small class="text-danger">
-                        @if (password.hasError('required')) {
-                          كلمة المرور مطلوبة
-                        } @else if (password.hasError('minlength')) {
-                          كلمة المرور يجب أن تكون 8 أحرف على الأقل
-                        }
-                      </small>
-                    }
-                  </div>
-
-                  <!-- Confirm Password -->
-                  <div class="mb-3">
-                    <div class="input-group custom-input-group">
-                      <input
-                        [type]="showConfirmPassword() ? 'text' : 'password'"
-                        class="form-control border-2"
-                        placeholder="تأكيد كلمة المرور"
-                        formControlName="confirmPassword"
-                        [class.is-invalid]="confirmPassword.invalid && confirmPassword.touched"
-                      />
-
-                      <i class="bi bi-lock position-absolute"></i>
-                    </div>
-
-                    @if (confirmPassword.touched && confirmPassword.invalid) {
-                      <small class="text-danger">
-                        @if (confirmPassword.hasError('required')) {
-                          تأكيد كلمة المرور مطلوب
-                        }
-                      </small>
-                    }
-                  </div>
-
-                  <!-- Gender -->
-                  <div class="mb-3">
-                    <select
-                      class="form-select border-2"
-                      name="Gender"
-                      id=""
-                      formControlName="gender"
-                    >
-                      <option value="" [disabled]="true">النوع</option>
-                      <option value="Male">ذكر</option>
-                      <option value="Female">انثى</option>
-                    </select>
-                    @if (gender.touched && gender.invalid) {
-                      <small class="text-danger d-block mb-3"> يجب ملىء الحقل </small>
-                    }
-                  </div>
-
-                  <!-- Terms -->
-                  <div class="form-check d-flex align-items-center gap-2 mb-2 p-0">
-                    <input
-                      class="form-check-input m-0"
-                      type="checkbox"
-                      id="terms"
-                      formControlName="acceptTerms"
-                    />
-
-                    <span class="small text-muted">
-                      <label class="form-check-label text-muted me-1" for="terms">أوافق على</label>
-                      <a routerLink="/terms-and-conditions" class="text-decoration-underline text-brown fw-semibold">الشروط والأحكام</a>
-                      <span class="mx-1">و</span>
-                      <a routerLink="/privacy-policy" class="text-decoration-underline text-brown fw-semibold">سياسة الخصوصية</a>.
-                    </span>
-                  </div>
-
-                  @if (acceptTerms.touched && acceptTerms.invalid) {
-                    <small class="text-danger d-block mb-3">
-                      يجب الموافقة على الشروط والأحكام.
-                    </small>
-                  }
-
-                  <!-- API Error -->
-                  @if (errorMessage()) {
-                    <div class="alert alert-danger">
-                      {{ errorMessage() }}
-                    </div>
-                  }
-
-                  <button
-                    type="submit"
-                    class="btn btn-brown w-100 py-2 mb-4 text-white"
-                    [disabled]="isSubmitting()"
-                  >
-                    @if (isSubmitting()) {
-                      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-                    }
-
-                    {{ isSubmitting() ? 'جاري إنشاء الحساب...' : 'إنشاء حساب' }}
-                  </button>
-
-                  <div class="d-flex align-items-center my-4">
-                    <hr class="flex-grow-1" />
-                    <span class="mx-3 text-muted small">أو</span>
-                    <hr class="flex-grow-1" />
-                  </div>
-
-                  <div
-                    class="social d-flex justify-content-center flex-column align-items-center gap-2"
-                  >
-                    <!-- Google -->
-                    <button #googleButton type="button" class=""></button>
-
-                    <!-- Facebook -->
-                    <button
-                      type="button"
-                      class="btn btn-outline-social rounded-5 mb-4 d-flex align-items-center justify-content-center gap-2"
-                      style="width: 270px"
-                    >
-                      <i class="bi bi-facebook text-primary"></i>
-                      تسجيل الدخول عبر فيسبوك
-                    </button>
-                  </div>
-
-                  <div class="text-center">
-                    <p class="small text-muted mb-0">
-                      لديك حساب بالفعل؟
-                      <a routerLink="/login" class="fw-bold text-decoration-none"> تسجيل دخول </a>
-                    </p>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <!-- Right Side Image -->
-            <div class="col-md-6 d-none d-md-block library-bg"></div>
-          </div>
-        </div>
+      <div class="login-animation">
+        <dotlottie-wc
+          src="https://lottie.host/d184512a-0ee0-40ff-88a3-fe745ad3fc75/6cYgbavwPy.lottie"
+          autoplay
+          loop>
+        </dotlottie-wc>
       </div>
+
     </div>
+
+
+    <div class="login-card register-card">
+
+      <img
+        src="/images/start_logo.png"
+        alt="فرقان"
+        class="logo-brand"
+      />
+
+      <div class="form-header">
+
+        <h1 class="login-title">
+          إنشاء حساب جديد
+        </h1>
+
+        <p class="form-description">
+          أنشئ حسابك في فرقان وابدأ رحلتك التعليمية
+        </p>
+
+      </div>
+
+
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        autocomplete="off">
+
+
+        <div class="form-field">
+
+          <label
+            for="fullName"
+            class="visually-hidden">
+            الاسم الكامل
+          </label>
+
+          <div class="input-group custom-input-group">
+
+            <input
+              id="fullName"
+              type="text"
+              class="form-control"
+              placeholder="الاسم الكامل"
+              formControlName="fullName"
+              autocomplete="name"
+              [class.is-invalid]="fullName.invalid && fullName.touched"
+              [attr.aria-invalid]="fullName.invalid && fullName.touched"
+            />
+
+            <i
+              class="bi bi-person"
+              aria-hidden="true">
+            </i>
+
+          </div>
+
+          @if (fullName.touched && fullName.invalid) {
+
+            <small
+              class="text-danger"
+              role="alert">
+
+              @if (fullName.hasError('required')) {
+                الاسم مطلوب
+              }
+              @else if (fullName.hasError('minlength')) {
+                الاسم يجب أن يكون 3 أحرف على الأقل
+              }
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label
+            for="email"
+            class="visually-hidden">
+            البريد الإلكتروني
+          </label>
+
+          <div class="input-group custom-input-group">
+
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              placeholder="البريد الإلكتروني"
+              formControlName="email"
+              autocomplete="username"
+              style="direction: ltr; text-align: right;"
+              [class.is-invalid]="email.invalid && email.touched"
+              [attr.aria-invalid]="email.invalid && email.touched"
+            />
+
+            <i
+              class="bi bi-envelope"
+              aria-hidden="true">
+            </i>
+
+          </div>
+
+          @if (email.touched && email.invalid) {
+
+            <small
+              class="text-danger"
+              role="alert">
+
+              @if (email.hasError('required')) {
+                البريد الإلكتروني مطلوب
+              }
+              @else if (email.hasError('email')) {
+                البريد الإلكتروني غير صالح
+              }
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label
+            for="password"
+            class="visually-hidden">
+            كلمة المرور
+          </label>
+
+          <div class="input-group custom-input-group">
+
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              class="form-control"
+              placeholder="كلمة المرور"
+              formControlName="password"
+              autocomplete="new-password"
+              [class.is-invalid]="password.invalid && password.touched"
+              [attr.aria-invalid]="password.invalid && password.touched"
+            />
+
+            <i
+              class="bi bi-lock"
+              aria-hidden="true">
+            </i>
+
+            <button
+              type="button"
+              class="toggle-password-icon btn btn-link p-0"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-pressed]="showPassword()"
+              [attr.aria-label]="
+                showPassword()
+                  ? 'إخفاء كلمة المرور'
+                  : 'إظهار كلمة المرور'
+              ">
+
+              <i
+                [class]="
+                  showPassword()
+                    ? 'bi bi-eye'
+                    : 'bi bi-eye-slash'
+                "
+                aria-hidden="true">
+              </i>
+
+            </button>
+
+          </div>
+
+          @if (password.touched && password.invalid) {
+
+            <small
+              class="text-danger"
+              role="alert">
+
+              @if (password.hasError('required')) {
+                كلمة المرور مطلوبة
+              }
+              @else if (password.hasError('minlength')) {
+                كلمة المرور يجب أن تكون 8 أحرف على الأقل
+              }
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label
+            for="confirmPassword"
+            class="visually-hidden">
+            تأكيد كلمة المرور
+          </label>
+
+          <div class="input-group custom-input-group">
+
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword() ? 'text' : 'password'"
+              class="form-control"
+              placeholder="تأكيد كلمة المرور"
+              formControlName="confirmPassword"
+              autocomplete="new-password"
+              [class.is-invalid]="
+                confirmPassword.invalid &&
+                confirmPassword.touched
+              "
+              [attr.aria-invalid]="
+                confirmPassword.invalid &&
+                confirmPassword.touched
+              "
+            />
+
+            <i
+              class="bi bi-lock"
+              aria-hidden="true">
+            </i>
+
+            <button
+              type="button"
+              class="toggle-password-icon btn btn-link p-0"
+              (click)="toggleConfirmPasswordVisibility()"
+              [attr.aria-pressed]="showConfirmPassword()"
+              [attr.aria-label]="
+                showConfirmPassword()
+                  ? 'إخفاء تأكيد كلمة المرور'
+                  : 'إظهار تأكيد كلمة المرور'
+              ">
+
+              <i
+                [class]="
+                  showConfirmPassword()
+                    ? 'bi bi-eye'
+                    : 'bi bi-eye-slash'
+                "
+                aria-hidden="true">
+              </i>
+
+            </button>
+
+          </div>
+
+          @if (
+            confirmPassword.touched &&
+            confirmPassword.invalid
+          ) {
+
+            <small
+              class="text-danger"
+              role="alert">
+
+              @if (confirmPassword.hasError('required')) {
+                تأكيد كلمة المرور مطلوب
+              }
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label
+            for="gender"
+            class="visually-hidden">
+            النوع
+          </label>
+
+          <div class="custom-select-wrapper">
+
+            <select
+              id="gender"
+              class="form-select custom-select"
+              formControlName="gender"
+              [class.is-invalid]="gender.invalid && gender.touched">
+
+              <option
+                value=""
+                disabled>
+                النوع
+              </option>
+
+              <option value="Male">
+                ذكر
+              </option>
+
+              <option value="Female">
+                أنثى
+              </option>
+
+            </select>
+
+            <i
+              class="bi bi-person-vcard select-icon"
+              aria-hidden="true">
+            </i>
+
+          </div>
+
+          @if (gender.touched && gender.invalid) {
+
+            <small
+              class="text-danger"
+              role="alert">
+
+              يجب اختيار النوع
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <div class="terms-wrapper">
+
+          <div class="form-check terms-check">
+
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="terms"
+              formControlName="acceptTerms"
+            />
+
+            <label
+              class="form-check-label"
+              for="terms">
+
+              أوافق على
+
+            </label>
+
+            <a
+              routerLink="/terms-and-conditions"
+              class="terms-link">
+
+              الشروط والأحكام
+
+            </a>
+
+            <span>
+              و
+            </span>
+
+            <a
+              routerLink="/privacy-policy"
+              class="terms-link">
+
+              سياسة الخصوصية
+
+            </a>
+
+          </div>
+
+          @if (
+            acceptTerms.touched &&
+            acceptTerms.invalid
+          ) {
+
+            <small
+              class="text-danger terms-error"
+              role="alert">
+
+              يجب الموافقة على الشروط والأحكام.
+
+            </small>
+
+          }
+
+        </div>
+
+
+        @if (errorMessage()) {
+
+          <div
+            class="alert alert-danger api-error"
+            role="alert">
+
+            <i
+              class="bi bi-exclamation-circle-fill"
+              aria-hidden="true">
+            </i>
+
+            <span>
+              {{ errorMessage() }}
+            </span>
+
+          </div>
+
+        }
+
+
+        <button
+          type="submit"
+          class="btn btn-brown"
+          [disabled]="isSubmitting()">
+
+          @if (isSubmitting()) {
+
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              aria-hidden="true">
+            </span>
+
+          }
+
+          {{
+            isSubmitting()
+              ? 'جاري إنشاء الحساب...'
+              : 'إنشاء حساب'
+          }}
+
+        </button>
+
+
+        <div class="trust-badge">
+
+          <i
+            class="bi bi-shield-check"
+            aria-hidden="true">
+          </i>
+
+          <span>
+            بياناتك محمية ومشفرة بالكامل
+          </span>
+
+        </div>
+
+
+        <div class="login-divider">
+
+          <span>
+            أو
+          </span>
+
+        </div>
+
+
+        <div class="social">
+
+          <div
+            #googleButton
+            class="google-button">
+          </div>
+
+        </div>
+
+
+        <div class="text-center register-footer">
+
+          <p class="register-text mb-0">
+
+            لديك حساب بالفعل؟
+
+            <a
+              routerLink="/login"
+              class="text-brown text-decoration-none">
+
+              تسجيل الدخول
+
+            </a>
+
+          </p>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
   </div>
+
 </div>

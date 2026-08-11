@@ -39,9 +39,9 @@ export class CircleMembersErrorService {
       InvalidEmailsCount:
         'يجب إدخال بريد إلكتروني واحد على الأقل، وبحد أقصى 50 بريدًا.',
       MembersNotAdded:
-        'تعذر إضافة الطلاب إلى الحلقة. حاول مرة أخرى.',
+        'تعذر إضافة المتعلمين إلى الحلقة. حاول مرة أخرى.',
       MembersAdditionConflict:
-        'تعذر إتمام الإضافة لأن بعض الطلاب قد أصبحوا أعضاء بالفعل.',
+        'تعذر إتمام الإضافة لأن بعض المتعلمين قد أصبحوا أعضاء بالفعل.',
     },
     remove: {
       CannotRemoveYourself:
@@ -149,9 +149,9 @@ export class CircleMembersErrorService {
 
     switch (action) {
       case 'candidates':
-        return 'تعذر البحث عن الطلاب. حاول مرة أخرى.';
+        return 'تعذر البحث عن المتعلمين. حاول مرة أخرى.';
       case 'add':
-        return 'تعذر إضافة الطلاب إلى الحلقة. حاول مرة أخرى.';
+        return 'تعذر إضافة المتعلمين إلى الحلقة. حاول مرة أخرى.';
       case 'remove':
         return 'تعذر إزالة العضو من الحلقة. حاول مرة أخرى.';
       case 'role':
@@ -168,9 +168,11 @@ export class CircleMembersErrorService {
       case AddCircleMemberStatus.NotFound:
         return 'لا يوجد حساب بهذا البريد';
       case AddCircleMemberStatus.NotStudent:
-        return 'الحساب ليس لطالب';
+        return 'الحساب ليس مؤهلًا للتعلم';
+      case AddCircleMemberStatus.NotLearner:
+        return 'الحساب ليس مؤهلًا للتعلم';
       case AddCircleMemberStatus.Inactive:
-        return 'حساب الطالب غير نشط';
+        return 'حساب المتعلم غير نشط';
       case AddCircleMemberStatus.InvalidEmail:
         return 'البريد الإلكتروني غير صالح';
       case AddCircleMemberStatus.DuplicateInRequest:

@@ -26,40 +26,40 @@ export class StudentCoursesComponent implements OnInit {
     this.loadCourses();
   }
 
- loadCourses(): void {
+  loadCourses(): void {
 
-  this.loading.set(true);
-  this.error.set('');
+    this.loading.set(true);
+    this.error.set('');
 
-  this.http.get<StudentEnrollment[]>(
-    `${environment.apiUrl}/api/users/student/enrollments`
-  ).subscribe({
+    this.http.get<StudentEnrollment[]>(
+      `${environment.apiUrl}/api/users/student/enrollments`
+    ).subscribe({
 
-    next: (response) => {
+      next: (response) => {
 
-      console.log('Courses loaded:', response);
+        console.log('Courses loaded:', response);
 
-      this.courses = response;
+        this.courses = response;
 
-      this.loading.set(false);
+        this.loading.set(false);
 
-    },
+      },
 
-    error: (error) => {
+      error: (error) => {
 
-      console.error('Failed to load courses:', error);
+        console.error('Failed to load courses:', error);
 
-      this.error.set('حدث خطأ أثناء تحميل الدورات');
+        this.error.set('حدث خطأ أثناء تحميل الدورات');
 
-      this.loading.set(false);
+        this.loading.set(false);
 
-    }
+      }
 
-  });
-}
+    });
+  }
 
   continueCourse(course: StudentEnrollment): void {
-    this.router.navigate([`dashboard/student/course-player`, course.courseID]);
+    this.router.navigate([`/student/course-player`, course.courseID]);
   }
 
   getProgressText(course: StudentEnrollment): string {

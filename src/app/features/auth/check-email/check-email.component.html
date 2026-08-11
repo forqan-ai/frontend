@@ -1,37 +1,106 @@
-<div class="auth-wrapper">
-  <div class="auth-card">
-    <div class="row g-0">
-      <div class="col-md-6 bg-pattern">
-        <div class="text-center">
-          <img src="images/start_logo.png" alt="منارة العلم" class="mb-5" style="width: 180px;" />
+<div class="login-page">
 
-          <div class="icon-box">
-            <i class="bi bi-envelope-at"></i>
-          </div>
+  <div class="islamic-pattern-overlay"></div>
 
-          <h2 class="fw-bold text-brown mb-3">تحقق من بريدك الإلكتروني</h2>
-          <p class="text-muted mb-4" style="line-height: 1.8;">
-            تم إرسال رابط التفعيل إلى بريدك الإلكتروني.
-            <br>
-            نحن بانتظارك لتنضم إلى رحلتك التعليمية في منارة العلم.
-          </p>
+  <div class="ambient-glow"></div>
 
-          <button type="button" class="btn btn-premium w-100 mb-3" (click)="goToLogin()">
-            العودة لتسجيل الدخول
-          </button>
 
-          <button [disabled]="resendingEmail()" type="button" class="btn btn-link text-brown fw-semibold" (click)="resendActivationEmail()">
-            {{!resendingEmail() ? ' لم يصلك الرابط؟ إعادة إرسال' : 'يتم إرسال الرابط' }}
-          </button>
-          <div *ngIf="statusMessage" class="mt-3 text-center fw-bold"
-     [ngClass]="statusMessage.includes('بنجاح') ? 'text-success' : 'text-danger'">
-  {{ statusMessage }}
-</div>
+  <div class="login-layout">
 
-        </div>
+
+    <div class="login-animation-side">
+
+      <div class="animation-lines"></div>
+      <div class="animation-circle"></div>
+
+      <div class="login-animation">
+
+        <dotlottie-wc
+          src="https://lottie.host/f14034c3-de0a-4d64-9cfb-57f1dd239a01/019Fm82y6Q.lottie"
+          autoplay
+          loop>
+        </dotlottie-wc>
+
       </div>
 
-      <div class="col-md-6 img-side d-none d-md-block"></div>
     </div>
+
+
+    <div class="login-card check-email-card">
+
+      <img
+        src="/images/start_logo.png"
+        alt="فرقان"
+        class="logo-brand"
+      />
+
+      <div class="icon-box">
+        <i class="bi bi-envelope-check" aria-hidden="true"></i>
+      </div>
+
+      <h1 class="login-title">
+        تحقق من بريدك الإلكتروني
+      </h1>
+
+      <p class="check-email-text">
+        تم إرسال رابط التفعيل إلى
+        @if (userEmail) {
+          <span class="check-email-address">{{ userEmail }}</span>
+        } @else {
+          بريدك الإلكتروني
+        }
+        <br />
+        نحن بانتظارك لتنضم إلى رحلتك التعليمية في فرقان.
+      </p>
+
+
+      <button
+        type="button"
+        class="btn-brown mb-3"
+        (click)="goToLogin()">
+
+        العودة لتسجيل الدخول
+
+      </button>
+
+
+      <button
+        type="button"
+        class="check-email-resend"
+        [disabled]="isResending"
+        (click)="resendActivationEmail()">
+
+        @if (isResending) {
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            aria-hidden="true">
+          </span>
+        }
+
+        {{
+          isResending
+            ? 'جاري الإرسال...'
+            : 'لم يصلك الرابط؟ إعادة إرسال'
+        }}
+
+      </button>
+
+
+      @if (statusMessage) {
+
+        <div
+          class="check-email-status"
+          [class.is-success]="statusMessage.includes('بنجاح')"
+          role="alert">
+
+          {{ statusMessage }}
+
+        </div>
+
+      }
+
+    </div>
+
   </div>
+
 </div>

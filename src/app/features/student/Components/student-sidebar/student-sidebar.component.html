@@ -2,7 +2,7 @@
   style="width: 240px; z-index: 1000; background-color: var(--primary-hover)">
   <div class="p-3 border-bottom-side text-center" style="background-color: var(--bg)">
     <div class="d-flex flex-column align-items-center gap-2">
-      <app-avatar [border]="true" [size]="70" src="{{ user()?.profileImageURL }}"> </app-avatar>
+      <app-avatar [border]="true" [size]="70" src="{{ user()?.profileImageURL  ?? 'images/avatar.webp'}}"> </app-avatar>
       <div>
         <div class="text-white fw-semibold">{{ user()?.fullName }}</div>
         <div class="text-white-50" style="font-size: 12px">{{ user()?.email }}</div>

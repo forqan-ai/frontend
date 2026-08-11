@@ -85,16 +85,19 @@ export const STUDENT_ROUTES: Routes = [
   {
     path: 'learning-circles/mine',
     component: MyLearningCirclesComponent,
-    title: 'حلقاتي'
+    data: { circleContext: 'learning' },
+    title: 'حلقاتي',
   },
   {
     path: 'learning-circles/:circleId',
     component: LearningCircleDetailsComponent,
+    data: { circleContext: 'learning' },
     title: 'تفاصيل حلقة التعلم',
   },
   {
     path: 'learning-circles',
     component: ExploreLearningCirclesComponent,
+    data: { circleContext: 'learning' },
     title: 'استكشف حلقات التعلم',
   },
   {
@@ -132,5 +135,14 @@ export const STUDENT_ROUTES: Routes = [
     path: 'my-courses/course-feedback',
     component: StudentFeedbackComponent,
     title: 'تقييم الدورة'
-  }
+  },
+  {
+  path: 'placement-test',
+  loadChildren: () =>
+    import('../placement-test/placement-test.routes').then(
+      (m) => m.PLACEMENT_ROUTES,
+    ),
+  title: 'اختبار تحديد المستوى',
+},
+
 ];

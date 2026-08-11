@@ -3,9 +3,9 @@
 }
 
 .details-page {
-  width: min(100%, 1040px);
+  width: min(100%, 1240px);
   margin-inline: auto;
-  padding: 1.25rem;
+  padding: 1.1rem 1.25rem 2.5rem;
 }
 
 .breadcrumb ol {
@@ -31,7 +31,7 @@
 
 .page-toolbar {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .back-button {
@@ -49,6 +49,77 @@
 .back-button:hover {
   background: var(--secondary);
 }
+
+.discussion-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(17rem, 0.9fr);
+  align-items: start;
+  gap: 1rem;
+}
+
+.circle-sidebar {
+  position: sticky;
+  top: 5rem;
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.info-card {
+  border: 1px solid var(--border);
+  border-radius: 0.95rem;
+  background: var(--surface);
+  padding: 1rem;
+  box-shadow: 0 0.35rem 1.2rem color-mix(in srgb, var(--primary) 4%, transparent);
+}
+
+.info-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.info-icon {
+  display: grid;
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 0.6rem;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.info-card h2 { margin: 0; font-size: 0.92rem; }
+.about-card > p { margin: 0 0 0.75rem; font-size: 0.76rem; line-height: 1.7; }
+
+.info-list { display: grid; gap: 0.6rem; margin: 0; }
+.info-list > div { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; border-top: 1px solid var(--border); padding-top: 0.6rem; }
+.info-list dt { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-muted); font-size: 0.7rem; }
+.info-list dt i { color: var(--primary); }
+.info-list dd { margin: 0; color: var(--text); font-size: 0.72rem; font-weight: 700; text-align: end; }
+
+.teacher-profile { display: flex; align-items: center; gap: 0.7rem; }
+.teacher-profile img,
+.teacher-fallback { display: grid; flex: 0 0 2.8rem; width: 2.8rem; height: 2.8rem; place-items: center; border-radius: 50%; background: var(--primary-light); color: var(--primary); object-fit: cover; }
+.teacher-profile > div { display: grid; min-width: 0; }
+.teacher-profile strong { overflow: hidden; color: var(--text); font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; }
+.teacher-profile span { color: var(--text-muted); font-size: 0.66rem; }
+
+.activity-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+.activity-grid > div { display: grid; justify-items: center; border-radius: 0.7rem; background: var(--secondary); padding: 0.7rem; }
+.activity-grid strong { color: var(--text); font-size: 1.1rem; }
+.activity-grid span,
+.last-activity { color: var(--text-muted); font-size: 0.68rem; }
+.last-activity { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: 0.65rem; }
+.last-activity time { color: var(--text); font-weight: 700; }
+
+.permission-card { display: flex; align-items: center; gap: 0.65rem; background: color-mix(in srgb, var(--primary-light) 25%, var(--surface)); }
+.permission-card > i { color: var(--primary); font-size: 1.15rem; }
+.permission-card > div { display: grid; }
+.permission-card span { color: var(--text-muted); font-size: 0.66rem; }
+.permission-card strong { color: var(--text); font-size: 0.78rem; }
 
 .details-skeleton,
 .state-panel,
@@ -258,6 +329,11 @@
   }
 }
 
+@media (max-width: 980px) {
+  .discussion-layout { grid-template-columns: 1fr; }
+  .circle-sidebar { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 520px) {
   .skeleton-stats,
   .skeleton-dates {
@@ -267,6 +343,8 @@
   .content-boundary {
     display: grid;
   }
+
+  .circle-sidebar { grid-template-columns: 1fr; }
 }
 
 .chat-panel-wrapper,

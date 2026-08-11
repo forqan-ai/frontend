@@ -1,4 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject, OnInit, signal,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -8,12 +12,15 @@ import { ToastService } from '../../../core/services/toast.service';
   selector: 'app-check-email',
   standalone: true,
   imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './check-email.component.html',
   styleUrl: './check-email.component.css',
 })
 export class CheckEmailComponent implements OnInit {
   userEmail: string = '';
   statusMessage: string = '';
+  isResending: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -31,16 +38,26 @@ export class CheckEmailComponent implements OnInit {
   goToLogin() {
     this.router.navigate(['/login']);
   }
+
   resendActivationEmail() {
-    this.resendingEmail.set(true);
-    if (!this.userEmail) return;
+    if (!this.userEmail || this.isResending) return;
+
+    this.isResending = true;
+    this.statusMessage = '';
+
     const payload = { email: this.userEmail };
     this.http.post(`${environment.apiUrl}/api/auth/resend-confirmation-email`, payload).subscribe({
       next: (response) => {
+        this.isResending = false;
+        this.statusMessage = 'تم إرسال رابط التفعيل بنجاح، تحقق من بريدك الإلكتروني.';
         this.toastService.show("تم الإرسال الي بريدك الإلكتروني")
+
       },
       error: (error) => {
+        this.isResending = false;
+        this.statusMessage = 'حدث خطأ أثناء إرسال الرابط، حاول مرة أخرى.';
         this.toastService.show("حدث خطأ, برجاء المحاولة مرة اخري", 'error')
+
       },
       complete: () => {
         this.resendingEmail.set(false);

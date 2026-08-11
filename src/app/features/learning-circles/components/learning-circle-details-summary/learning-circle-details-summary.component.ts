@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,21 +6,26 @@ import {
 } from '@angular/core';
 import {
   CircleRole,
+  CircleJoinPolicy,
   LearningCircleDetails,
 } from '../../models/learning-circle.models';
+import { CircleGeometricCoverComponent } from '../circle-geometric-cover/circle-geometric-cover.component';
 
 @Component({
   selector: 'app-learning-circle-details-summary',
-  imports: [DatePipe],
+  imports: [CircleGeometricCoverComponent],
   templateUrl: './learning-circle-details-summary.component.html',
   styleUrl: './learning-circle-details-summary.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LearningCircleDetailsSummaryComponent {
+  readonly CircleJoinPolicy = CircleJoinPolicy;
   readonly details = input.required<LearningCircleDetails>();
   readonly actionPending = input(false);
 
   readonly joinRequested = output<void>();
+  readonly joinRequestSubmitted = output<void>();
+  readonly joinRequestCancelled = output<void>();
   readonly leaveRequested = output<void>();
   readonly editRequested = output<void>();
   readonly archiveRequested = output<void>();
