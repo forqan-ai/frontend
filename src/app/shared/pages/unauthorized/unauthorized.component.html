@@ -1,0 +1,78 @@
+<main class="error-page">
+
+    <!-- Decorative background -->
+    <div class="bg-circle bg-circle--one"></div>
+    <div class="bg-circle bg-circle--two"></div>
+    <div class="bg-circle bg-circle--three"></div>
+
+
+    <div class="error-container">
+
+        <!-- =====================================================
+           FORQAN
+      ====================================================== -->
+
+        <section class="forqan-section" aria-label="فُرقان يبحث عن الصفحة">
+
+            <!-- Ground shadow -->
+            <div class="ground"></div>
+
+
+
+
+            <!--
+          Replace this with your Forqan image.
+
+          Recommended:
+          /assets/forqan-404.png
+
+          You can also use your original Forqan image:
+          /assets/forqan.png
+        -->
+
+            <img class="forqan" src="images/errors/404.webp" alt="فُرقان" />
+
+        </section>
+
+
+        <!-- =====================================================
+           ERROR CONTENT
+      ====================================================== -->
+
+        <section class="error-content">
+
+            <div class="error-number" aria-label="غير مصرح">
+                403
+            </div>
+
+            <h1 class="error-title">
+                عذراً، ليس لديك صلاحية للوصول!
+            </h1>
+
+            <p class="error-description">
+                يبدو أنك لا تملك الصلاحيات اللازمة للوصول إلى هذه الصفحة.
+                يرجى التأكد من تسجيل الدخول بالحساب الصحيح،
+                أو العودة إلى الصفحة الرئيسية للمتابعة.
+            </p>
+
+            <app-button (btnClick)="this.routingService.routeToHome()">
+                <span class="home-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 3.2 3 10.4V21h6.2v-6.2h5.6V21H21V10.4L12 3.2Zm6.8 15.8h-2v-6.2H7.2V19h-2v-7.65L12 6.1l6.8 5.25V19Z" />
+                    </svg>
+                </span>
+                <span>
+                    العودة إلى الصفحة الرئيسية
+                </span>
+            </app-button>
+
+            <div class="error-hint">
+                إذا كنت تعتقد أن لديك صلاحية للوصول إلى هذه الصفحة، يرجى التواصل مع المسؤول.
+            </div>
+
+        </section>
+
+    </div>
+
+</main>

@@ -1,11 +1,13 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarItem } from '../../models/sidebar-item';
+import { ButtonComponent } from "../../../../shared/components/button/button.component";
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ButtonComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
@@ -55,4 +57,7 @@ export class SidebarComponent {
   closeSidebar() {
     this.close.emit();
   }
+
+  authService = inject(AuthService);
+  
 }

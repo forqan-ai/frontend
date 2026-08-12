@@ -15,134 +15,162 @@ import { CourseDetailsComponent } from '../Course/Pages/course-details/course-de
 import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teacher-details.component';
 import { CheckoutComponent } from '../points/pages/checkout/checkout.component';
 import { CourseCheckoutComponent } from '../Course/Pages/checkout/course-checkout.component';
+import { studentGuard } from '../../core/guards/student-guard';
 
 export const STUDENT_ROUTES: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'home',
-  },
-  {
-    path: 'home/pointPackages/checkout/:id',
-    component: CheckoutComponent,
-    title: 'متابعة عملية الدفع'
-  },
-  {
-    path: 'home/pointPackages',
-    component: PointPackagesComponent,
-    title: 'نقاط الطالب'
-  },
-  {
-    path: 'home',
-    component: StudentprofileComponent,
-    title: 'الصفحة الرئيسية',
-  },
-  {
-    path: 'settings/teaching-request',
-    component: TeachingRequestComponent,
-    title: 'طلب الانضمام كمعلم',
-  },
-  {
-    path: 'settings/my-certificates',
-    component: StudentCertificatesComponent,
-    title: 'شهاداتي',
-  },
-  {
-    path: 'settings',
-    component: StudentSettingsComponent,
-    title: 'الإعدادات',
-  },
-  {
-    path: 'courses/:id/checkout',
-    component: CourseCheckoutComponent,
-    title: 'إتمام عملية الدفع ',
-  },
-  {
-    path: 'courses/:id/:teacherid',
-    component: TeacherDetailsComponent,
-    title: 'تفاصيل عن المعلم'
-  },
-  {
-    path: 'courses/:id',
-    component: CourseDetailsComponent,
-    title: 'تفاصيل الدورة',
-  },
-  {
-    path: 'courses',
-    component: CoursesBrowseComponent,
-    title: 'تصفح الدورات المقدمة من منصة الفرقان',
-  },
-  {
-    path: 'teachers/:teacherid',
-    component: TeacherDetailsComponent,
-    title: 'تفاصيل عن المعلم'
-  },
-  {
-    path: 'teachers',
-    component: TeachersBrowseComponent,
-    title: 'تصفح المعلمون المسجلون علي من منصة الفرقان'
-  },
-  {
-    path: 'learning-circles/mine',
-    component: MyLearningCirclesComponent,
-    data: { circleContext: 'learning' },
-    title: 'حلقاتي',
-  },
-  {
-    path: 'learning-circles/:circleId',
-    component: LearningCircleDetailsComponent,
-    data: { circleContext: 'learning' },
-    title: 'تفاصيل حلقة التعلم',
-  },
-  {
-    path: 'learning-circles',
-    component: ExploreLearningCirclesComponent,
-    data: { circleContext: 'learning' },
-    title: 'استكشف حلقات التعلم',
-  },
-  {
-    path: 'my-courses',
-    component: StudentCoursesComponent,
-    title: 'دوراتي',
-  },
-  {
-    path: 'course-player/:id',
-    loadComponent: () =>
-      import('../../features/Course/Pages/course-player/course-player.component').then(
-        (m) => m.CoursePlayerComponent,
-      ),
-  },
-  {
-    path: 'certificate/:courseId',
-    loadComponent: () =>
-      import('../../features/Course/Pages/certificate/certificate.component').then(
-        (m) => m.CertificateComponent,
-      ),
-    title: 'شهادة إتمام الدورة',
-  },
-  {
-    path: 'wishlist/:id',
-    component: CourseDetailsComponent,
-    title: 'تفاصيل الدورة',
-  },
-  {
-    path: 'wishlist',
-    loadComponent: () =>
-      import('./Pages/wishlist/wishlist.component').then((m) => m.WishlistComponent),
-    title: 'مفضلتي',
-  },
-  {
-    path: 'my-courses/course-feedback',
-    component: StudentFeedbackComponent,
-    title: 'تقييم الدورة'
-  },
-  {
-  path: 'placement-test',
-  loadChildren: () =>
-    import('../placement-test/placement-test.routes').then(
-      (m) => m.PLACEMENT_ROUTES,
-    ),
-  title: 'اختبار تحديد المستوى',
-},
+    canActivateChild: [studentGuard],
+    children: [
 
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home',
+      },
+
+      {
+        path: 'home/pointPackages/checkout/:id',
+        component: CheckoutComponent,
+        title: 'متابعة عملية الدفع',
+      },
+
+      {
+        path: 'home/pointPackages',
+        component: PointPackagesComponent,
+        title: 'نقاط الطالب',
+      },
+
+      {
+        path: 'home',
+        component: StudentprofileComponent,
+        title: 'الصفحة الرئيسية',
+      },
+
+      {
+        path: 'settings/teaching-request',
+        component: TeachingRequestComponent,
+        title: 'طلب الانضمام كمعلم',
+      },
+
+      {
+        path: 'settings/my-certificates',
+        component: StudentCertificatesComponent,
+        title: 'شهاداتي',
+      },
+
+      {
+        path: 'settings',
+        component: StudentSettingsComponent,
+        title: 'الإعدادات',
+      },
+
+      {
+        path: 'courses/:id/checkout',
+        component: CourseCheckoutComponent,
+        title: 'إتمام عملية الدفع',
+      },
+
+      {
+        path: 'courses/:id/:teacherid',
+        component: TeacherDetailsComponent,
+        title: 'تفاصيل عن المعلم',
+      },
+
+      {
+        path: 'courses/:id',
+        component: CourseDetailsComponent,
+        title: 'تفاصيل الدورة',
+      },
+
+      {
+        path: 'courses',
+        component: CoursesBrowseComponent,
+        title: 'تصفح الدورات المقدمة من منصة الفرقان',
+      },
+
+      {
+        path: 'teachers/:teacherid',
+        component: TeacherDetailsComponent,
+        title: 'تفاصيل عن المعلم',
+      },
+
+      {
+        path: 'teachers',
+        component: TeachersBrowseComponent,
+        title: 'تصفح المعلمون المسجلون على منصة الفرقان',
+      },
+
+      {
+        path: 'learning-circles/mine',
+        component: MyLearningCirclesComponent,
+        data: { circleContext: 'learning' },
+        title: 'حلقاتي',
+      },
+
+      {
+        path: 'learning-circles/:circleId',
+        component: LearningCircleDetailsComponent,
+        data: { circleContext: 'learning' },
+        title: 'تفاصيل حلقة التعلم',
+      },
+
+      {
+        path: 'learning-circles',
+        component: ExploreLearningCirclesComponent,
+        data: { circleContext: 'learning' },
+        title: 'استكشف حلقات التعلم',
+      },
+
+      {
+        path: 'my-courses',
+        component: StudentCoursesComponent,
+        title: 'دوراتي',
+      },
+
+      {
+        path: 'course-player/:id',
+        loadComponent: () =>
+          import('../../features/Course/Pages/course-player/course-player.component')
+            .then((m) => m.CoursePlayerComponent),
+      },
+
+      {
+        path: 'certificate/:courseId',
+        loadComponent: () =>
+          import('../../features/Course/Pages/certificate/certificate.component')
+            .then((m) => m.CertificateComponent),
+        title: 'شهادة إتمام الدورة',
+      },
+
+      {
+        path: 'wishlist/:id',
+        component: CourseDetailsComponent,
+        title: 'تفاصيل الدورة',
+      },
+
+      {
+        path: 'wishlist',
+        loadComponent: () =>
+          import('./Pages/wishlist/wishlist.component')
+            .then((m) => m.WishlistComponent),
+        title: 'مفضلتي',
+      },
+
+      {
+        path: 'my-courses/course-feedback',
+        component: StudentFeedbackComponent,
+        title: 'تقييم الدورة',
+      },
+
+      {
+        path: 'placement-test',
+        loadChildren: () =>
+          import('../placement-test/placement-test.routes')
+            .then((m) => m.PLACEMENT_ROUTES),
+        title: 'اختبار تحديد المستوى',
+      },
+
+    ],
+  },
 ];

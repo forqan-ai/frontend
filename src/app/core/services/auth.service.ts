@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import {
@@ -11,6 +11,7 @@ import {
   Role,
 } from '../models/auth.models';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,8 @@ export class AuthService {
 
   constructor(private readonly http: HttpClient) { }
 
+
+
   isLoggedIn = signal(!!localStorage.getItem('ForqanKey'));
 
   login(data: LoginRequest): Observable<AuthResponse> {
@@ -29,6 +32,7 @@ export class AuthService {
       tap((res) => {
         localStorage.setItem(this.userStorageKey, res.data.token);
         localStorage.setItem('userId', res.data.user.id)
+        localStorage.setItem('userImg', res.data.user.profileImageURL!);
         this.isLoggedIn.set(true);
         console.log(this.getPayload());
 
@@ -49,8 +53,6 @@ export class AuthService {
     );
   }
 
-
-
   googleLogin(idToken: string | undefined): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(`${this.baseUrl}/google-login`, {
@@ -60,17 +62,19 @@ export class AuthService {
         tap((res) => {
           localStorage.setItem(this.userStorageKey, res.data.token);
           localStorage.setItem('userId', res.data.user.id)
+          localStorage.setItem('userImg', res.data.user.profileImageURL!)
           this.isLoggedIn.set(true);
         })
       );
   }
 
-
-
+  route = inject(Router);
   logout(): void {
     localStorage.removeItem(this.userStorageKey);
     localStorage.removeItem('userId');
+    localStorage.removeItem('userImg');
     this.isLoggedIn.set(false);
+    this.route.navigateByUrl('/login')
   }
 
 

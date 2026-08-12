@@ -168,6 +168,7 @@ export class StudentSettingsComponent implements OnInit {
           next: (res) => {
             this.loading.set(false);
             this.settingsService.setUser(res);
+            localStorage.setItem('userImg', res.profileImageURL!)
             this.imagePreview.set(res.profileImageURL);
           },
         });

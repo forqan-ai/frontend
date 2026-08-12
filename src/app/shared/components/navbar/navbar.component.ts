@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ButtonComponent } from "../button/button.component";
 import { AvatarComponent } from "../avatar/avatar.component";
 import { SettingsService } from '../../../features/student/Services/settings.service';
+import { UserDto } from '../../../core/models/auth.models';
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink, RouterLinkActive, ButtonComponent, AvatarComponent],
@@ -18,9 +19,7 @@ export class NavbarComponent {
 
 
   authService = inject(AuthService);
-  settingsService = inject(SettingsService);
-
-  user = this.settingsService.user;
+  userImg = localStorage.getItem('userImg');
 
 
 

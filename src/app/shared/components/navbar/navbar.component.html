@@ -50,11 +50,11 @@
         @if(this.authService.isLoggedIn())
         {
         <a routerLink="/student/home" style="position: relative; ">
-          <app-avatar [size]=45 [src]="user()?.profileImageURL ?? 'images/avatar.webp'"></app-avatar>
+          <app-avatar [size]=45 [src]="userImg ?? 'images/avatar.webp'"></app-avatar>
         </a>
-        <span class="user-name">
+        <!-- <span class="user-name">
           {{ user()?.fullName }}
-        </span>
+        </span> -->
         <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
           الخروج <i class="bi bi-box-arrow-left"></i>
         </app-button>
