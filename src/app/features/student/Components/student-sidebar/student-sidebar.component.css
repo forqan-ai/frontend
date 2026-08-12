@@ -8,13 +8,21 @@ a {
 ========================== */
 
 .white-anchor {
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.76);
     background: transparent;
+    border: 1px solid transparent;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .white-anchor:hover {
     color: #fff;
-    background: rgba(233, 212, 191, 0.08);
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(-3px);
 }
 
 /* ==========================
@@ -22,14 +30,31 @@ a {
 ========================== */
 
 .secondary-white-anchor {
-    color: var(--primary-light);
-    background: rgba(233, 212, 191, 0.14);
-    border-right: 4px solid var(--primary-light);
-    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+    font-weight: 900;
+    animation: activePop 0.35s ease;
 }
 
 .secondary-white-anchor:hover {
-    background: rgba(233, 212, 191, 0.18);
+    background: var(--primary-light);
+    transform: none;
+}
+
+@keyframes activePop {
+    0% {
+        transform: scale(0.96);
+    }
+
+    60% {
+        transform: scale(1.015);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* ==========================
@@ -37,17 +62,21 @@ a {
 ========================== */
 
 .white-anchor i,
-.secondary-white-anchor i {
+.white-anchor .material-symbols-outlined,
+.secondary-white-anchor i,
+.secondary-white-anchor .material-symbols-outlined {
     font-size: 18px;
-    transition: color .25s ease;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color .25s ease;
 }
 
-.white-anchor:hover i {
-    color: var(--primary-light);
+.white-anchor:hover i,
+.white-anchor:hover .material-symbols-outlined {
+    transform: scale(1.12) rotate(-4deg);
 }
 
-.secondary-white-anchor i {
-    color: var(--primary-light);
+.secondary-white-anchor i,
+.secondary-white-anchor .material-symbols-outlined {
+    color: var(--primary-hover);
 }
 
 /* ==========================
@@ -61,8 +90,11 @@ a {
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     color: #fff;
-    background: linear-gradient(135deg, #0b6e4f 0%, #0a5d42 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 14px;
     cursor: pointer;
@@ -73,6 +105,25 @@ a {
         transform 0.2s ease,
         box-shadow 0.2s ease,
         filter 0.2s ease;
+}
+
+.role-switch-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.25) 45%, transparent 60%);
+    transform: translateX(-120%);
+    z-index: -1;
+}
+
+.role-switch-btn:hover::after {
+    animation: shine 0.9s ease;
+}
+
+@keyframes shine {
+    to {
+        transform: translateX(120%);
+    }
 }
 
 .role-switch-btn .role-switch-icon {
@@ -107,6 +158,10 @@ a {
     transform: rotate(180deg);
 }
 
+.role-switch-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
 .role-switch-btn:hover .role-switch-arrow {
     transform: translateX(-3px);
     opacity: 1;
@@ -115,4 +170,73 @@ a {
 .role-switch-btn:focus-visible {
     outline: 2px solid var(--primary-light);
     outline-offset: 2px;
+}
+
+/* ==========================
+   SIDEBAR ENTRANCE ANIMATIONS
+========================== */
+
+nav .d-flex.flex-column.gap-2 > a {
+    animation: navItemIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--nav-index, 0) * 60ms + 120ms);
+}
+
+@keyframes navItemIn {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.p-3.border-bottom-side {
+    animation: fadeDown 0.5s ease 0.05s both;
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.p-3.border-top-side {
+    animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .white-anchor,
+    .secondary-white-anchor,
+    .role-switch-btn,
+    nav .d-flex.flex-column.gap-2 > a,
+    .p-3.border-bottom-side,
+    .p-3.border-top-side {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .white-anchor:hover {
+        transform: none;
+    }
 }
