@@ -15,7 +15,7 @@
         <div>
           <span class="eyebrow">إدارة أعضاء الحلقة</span>
           <h2 id="add-members-modal-title">
-            إضافة طلاب إلى «{{ circleName() }}»
+            إضافة متعلمين إلى «{{ circleName() }}»
           </h2>
         </div>
 
@@ -38,7 +38,7 @@
             </div>
 
             <div>
-              <h3>نتيجة إضافة الطلاب</h3>
+              <h3>نتيجة إضافة المتعلمين</h3>
               <p>
                 تمت معالجة جميع عناوين البريد المرسلة.
               </p>
@@ -110,7 +110,7 @@
               class="primary-button"
               (click)="startAnotherAddition()"
             >
-              إضافة طلاب آخرين
+              إضافة متعلمين آخرين
             </button>
           </div>
         </section>
@@ -123,7 +123,7 @@
             <div class="section-heading">
               <div>
                 <h3 id="candidate-search-title">
-                  ابحث عن طالب مسجل
+                  ابحث عن متعلم مسجل
                 </h3>
                 <p>
                   تظهر النتائج للحسابات النشطة غير الموجودة في الحلقة.
@@ -132,7 +132,7 @@
 
               @if (candidateTotalCount() > 0) {
                 <span class="result-count">
-                  {{ candidateTotalCount() }} طالب
+                  {{ candidateTotalCount() }} متعلم
                 </span>
               }
             </div>
@@ -142,7 +142,7 @@
               <input
                 type="search"
                 autocomplete="off"
-                placeholder="اكتب اسم الطالب أو بريده الإلكتروني"
+                placeholder="اكتب اسم المتعلم أو بريده الإلكتروني"
                 [value]="candidateSearch()"
                 [attr.aria-invalid]="
                   candidateSearchValidation() !== null
@@ -164,7 +164,7 @@
             @if (candidatesLoading()) {
               <div
                 class="candidate-skeletons"
-                aria-label="جارٍ البحث عن الطلاب"
+                aria-label="جارٍ البحث عن المتعلمين"
               >
                 @for (item of [1, 2, 3]; track item) {
                   <div class="candidate-skeleton">
@@ -179,7 +179,7 @@
             } @else if (candidatesLoadFailed()) {
               <div class="candidate-state" role="alert">
                 <i class="bi bi-wifi-off" aria-hidden="true"></i>
-                <p>تعذر البحث عن الطلاب.</p>
+                <p>تعذر البحث عن المتعلمين.</p>
                 <button type="button" (click)="retryCandidates()">
                   إعادة المحاولة
                 </button>
@@ -196,7 +196,7 @@
                   aria-hidden="true"
                 ></i>
                 <p>
-                  لا يوجد طلاب متاحون يطابقون البحث.
+                  لا يوجد متعلمون متاحون يطابقون البحث.
                 </p>
               </div>
             } @else {
@@ -256,7 +256,7 @@
                 [currentPage]="candidatePage()"
                 [totalPages]="candidateTotalPages()"
                 [disabled]="candidatesLoading()"
-                ariaLabel="صفحات نتائج البحث عن الطلاب"
+                ariaLabel="صفحات نتائج البحث عن المتعلمين"
                 (pageChanged)="goToCandidatePage($event)"
               />
             }
@@ -273,7 +273,7 @@
           >
             <div class="section-heading">
               <div>
-                <h3>إضافة عدة طلاب بالبريد</h3>
+                <h3>إضافة عدة متعلمين بالبريد</h3>
                 <p>
                   افصل بين العناوين بسطر جديد أو فاصلة، وبحد أقصى
                   50 بريدًا.
@@ -288,7 +288,7 @@
             @if (selectedEmails().length > 0) {
               <div
                 class="selected-emails"
-                aria-label="الطلاب المختارون"
+                aria-label="المتعلمون المختارون"
               >
                 @for (
                   email of selectedEmails();

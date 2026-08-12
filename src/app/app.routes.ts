@@ -11,13 +11,14 @@ import { CoursesBrowseComponent } from './features/courses-browse/pages/courses-
 import { TeachersBrowseComponent } from './features/teacher/pages/teachers-browse/teachers-browse.component';
 import { AboutUsComponent } from './features/home/pages/about-us/about-us.component';
 import { TeacherDetailsComponent } from './features/teacher/pages/teacher-details/teacher-details.component';
-import { DashboardLayoutComponent } from './Layout/dashboard_layout/dashboard-layout/dashboard-layout.component';
 import { StudentprofileComponent } from './features/student/Pages/studentprofile/studentprofile.component';
 import { StudentSettingsComponent } from './features/student/Pages/student-settings/student-settings.component';
 import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
 import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 
 import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
+import { StudentDashboardComponent } from './Layout/dashboard_layout/student-dashboard/student-dashboard.component';
+import { AdminDashboardComponent } from './Layout/dashboard_layout/admin-dashboard/admin-dashboard.component';
 export const routes: Routes = [
   {
     path: '',
@@ -38,17 +39,22 @@ export const routes: Routes = [
         title: 'إنشاء حساب',
       },
       {
-        path: 'courses',
-        component: CoursesBrowseComponent,
-        title: 'تصفح الدورات المقدمة من منصة الفرقان',
+        path: 'courses/:id/:teacherid',
+        component: TeacherDetailsComponent,
+        title: 'تفاصيل عن المعلم'
       },
       {
-        path: 'course-details/:id',
+        path: 'courses/:id',
         loadComponent: () =>
           import('./features/Course/Pages/course-details/course-details.component').then(
             (m) => m.CourseDetailsComponent,
           ),
         title: 'تفاصيل الدورة',
+      },
+      {
+        path: 'courses',
+        component: CoursesBrowseComponent,
+        title: 'تصفح الدورات المقدمة من منصة الفرقان',
       },
       {
         path: 'course-details/:courseId/certificate',
@@ -64,7 +70,7 @@ export const routes: Routes = [
         title: 'تصفح المعلمون المسجلون علي من منصة الفرقان',
       },
       {
-        path: 'teachers/:id/details',
+        path: 'teachers/:teacherid/details',
         component: TeacherDetailsComponent,
         title: 'تفاصيل عن المعلم',
       },
@@ -128,26 +134,32 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'dashboard',
-    component: DashboardLayoutComponent,
+    path: 'chat',
+    loadComponent: () =>
+      import('./features/ai/pages/chat/chat.component').then(m => m.ChatComponent),
+    title: 'المساعد الذكي'
+  },
+  {
+    path: 'student',
+    component: StudentDashboardComponent,
     children: [
       {
-        path: 'student',
+        path: '',
         loadChildren: () =>
           import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
       },
-      {
-        path: 'admin',
-        loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
-      },
-    ],
+    ]
   },
   {
-  path: 'chat',
-  loadComponent: () =>
-    import('./features/ai/pages/chat/chat.component').then(m => m.ChatComponent),
-  title: 'المساعد الذكي'
-},
+    path: 'admin',
+    component: AdminDashboardComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+      },
+    ]
+  },
   {
     path: 'teacher',
     component: TeacherLayoutComponent,
@@ -163,6 +175,11 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'course-details/:id/:teacherid',
+    component: TeacherDetailsComponent,
+    title: 'تفاصيل عن المعلم'
   },
   {
     path: 'course-details/:id',
@@ -206,7 +223,7 @@ export const routes: Routes = [
   {
     path: 'pointPackages',
     component: PointPackagesComponent,
-    title : 'شراء نقاط'
+    title: 'شراء نقاط'
   },
   {
     path: 'course-checkout/:id',
@@ -240,6 +257,9 @@ export const routes: Routes = [
       ),
     title: 'فشلت عملية الدفع',
   },
-  { path: 'checkout/:id', component: CheckoutComponent },
-  
+  {
+    path: 'checkout/:id',
+    component: CheckoutComponent,
+    title: 'متابعة عملية الدفع'
+  },
 ];

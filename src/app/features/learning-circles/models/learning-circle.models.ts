@@ -4,6 +4,19 @@ export enum CircleRole {
   Owner = 'Owner',
 }
 
+export enum CircleJoinPolicy {
+  Automatic = 'Automatic',
+  RequiresApproval = 'RequiresApproval',
+  InviteOnly = 'InviteOnly',
+}
+
+export enum CircleJoinRequestStatus {
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
+  Cancelled = 'Cancelled',
+}
+
 export interface CircleTeacher {
   teacherId: string;
   fullName: string;
@@ -21,6 +34,9 @@ export interface CirclePermissions {
   canArchiveCircle: boolean;
   canCreateLiveSession: boolean;
   canJoin: boolean;
+  canRequestToJoin: boolean;
+  canCancelJoinRequest: boolean;
+  canReviewJoinRequests: boolean;
   canLeave: boolean;
 }
 
@@ -29,12 +45,13 @@ export interface LearningCircleListItem {
   name: string;
   subject: string;
   description: string;
-  isOpenForJoin: boolean;
+  joinPolicy: CircleJoinPolicy;
   teacher: CircleTeacher;
   membersCount: number;
   postsCount: number;
   isMember: boolean;
   currentUserRole: CircleRole | null;
+  currentUserJoinRequestStatus: CircleJoinRequestStatus | null;
   lastActivityAt: string;
 }
 
@@ -43,12 +60,14 @@ export interface LearningCircleDetails {
   name: string;
   subject: string;
   description: string;
-  isOpenForJoin: boolean;
+  joinPolicy: CircleJoinPolicy;
   teacher: CircleTeacher;
   membersCount: number;
   postsCount: number;
   isMember: boolean;
   currentUserRole: CircleRole | null;
+  currentUserJoinRequestStatus: CircleJoinRequestStatus | null;
+  pendingJoinRequestsCount: number;
   isArchived: boolean;
   createdAt: string;
   updatedAt: string;
@@ -61,12 +80,12 @@ export interface CreateLearningCircleRequest {
   name: string;
   subject: string;
   description: string;
-  isOpenForJoin: boolean;
+  joinPolicy: CircleJoinPolicy;
 }
 
 export interface UpdateLearningCircleRequest {
   name: string;
   subject: string;
   description: string;
-  isOpenForJoin: boolean;
+  joinPolicy: CircleJoinPolicy;
 }

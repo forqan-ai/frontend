@@ -4,9 +4,9 @@
       <div class="row align-items-center gy-3">
         <div class="col-12 col-md-5">
           <div class="d-flex align-items-center gap-3">
-            <img [src]="getStudentImage(student()?.profileImageURL)" alt="Student Profile Picture"
-              class="rounded-circle border-2 shadow-sm" style="border-color: var(--primary) !important" width="68"
-              height="68" />
+            <app-avatar [src]="getStudentImage(student()?.profileImageURL)" alt="Student Profile Picture"
+              class="rounded-circle border-2 shadow-sm" style="border-color: var(--primary)">
+            </app-avatar>
             <div>
               <span class="badge border mb-1" style="
                   background-color: var(--secondary);
@@ -146,7 +146,7 @@
         </div>
 
         <button type="button" class="btn-continue shadow-sm"
-          [routerLink]="['/dashboard/student/course-player', current.courseID]">
+          [routerLink]="['/student/course-player', current.courseID]">
           متابعة التعلم <i class="bi bi-play-fill ms-1"></i>
         </button>
       </div>
@@ -232,11 +232,15 @@
                     style="background-color: var(--primary)"></div>
                 </div>
                 <button type="button" class="btn btn-sm w-100 fw-semibold" style="
-                        border-color: var(--primary);
+                        background-color: var(--primary-light);
                         color: var(--primary);
-                        background-color: transparent;
-                      ">
-                  خض الاختبار <i class="bi bi-arrow-left ms-1"></i>
+                        border: none;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      " routerLink="/student/placement-test"
+                      onmouseover="this.style.backgroundColor='var(--primary)'; this.style.color='#fff';"
+                      onmouseout="this.style.backgroundColor='var(--primary-light)'; this.style.color='var(--primary)';">
+                  إجراء الاختبار <i class="bi bi-pencil-square ms-1"></i>
                 </button>
               </div>
             </div>
@@ -268,7 +272,7 @@
 
             <p class="mb-4 text-secondary">استخدم نقاطك لفتح الدورات والحصول على المكافآت.</p>
 
-            <app-button size="large" routerLink="/dashboard/student/pointPackages">
+            <app-button size="large" routerLink="pointPackages">
               <i class="bi bi-plus-circle-fill me-2"></i>
               شراء نقاط جديدة
             </app-button>
@@ -374,7 +378,7 @@
           ">
         @for (course of recommendedCourses(); track course.courseID) {
         <div style="flex: 0 0 300px; width: 300px; min-width: 300px">
-          <app-courses-browse-card [course]="course"></app-courses-browse-card>
+          <app-course-card [course]="course"></app-course-card>
         </div>
         }
       </div>

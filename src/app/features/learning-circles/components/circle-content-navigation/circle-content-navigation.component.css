@@ -3,11 +3,15 @@
 }
 
 .content-navigation {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   gap: 0.45rem;
   margin-top: 1rem;
   border: 1px solid var(--border);
-  border-radius: 0.8rem;
+  overflow-x: auto;
+  border-radius: 0.85rem;
   background: var(--surface);
   padding: 0.4rem;
 }
@@ -24,6 +28,7 @@
   padding: 0.55rem 0.85rem;
   font-size: 0.8rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .content-navigation button:hover,
@@ -49,9 +54,24 @@
   font-size: 0.66rem;
 }
 
+.content-navigation button > span.requests-badge {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #ffedd5;
+  font-weight: 700;
+  padding-inline: 0.55rem;
+  min-width: auto;
+}
+
 @media (max-width: 480px) {
   .content-navigation button {
-    flex: 1;
+    flex: 0 0 auto;
     padding-inline: 0.5rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .content-navigation {
+    top: 56px;
   }
 }

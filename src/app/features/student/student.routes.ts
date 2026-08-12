@@ -13,6 +13,8 @@ import { StudentFeedbackComponent } from "../Rating/pages/student-feedback/stude
 import { PointPackagesComponent } from '../points/pages/point-packages/point-packages.component';
 import { CourseDetailsComponent } from '../Course/Pages/course-details/course-details.component';
 import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teacher-details.component';
+import { CheckoutComponent } from '../points/pages/checkout/checkout.component';
+import { CourseCheckoutComponent } from '../Course/Pages/checkout/course-checkout.component';
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -21,25 +23,44 @@ export const STUDENT_ROUTES: Routes = [
     redirectTo: 'home',
   },
   {
+    path: 'home/pointPackages/checkout/:id',
+    component: CheckoutComponent,
+    title: 'متابعة عملية الدفع'
+  },
+  {
+    path: 'home/pointPackages',
+    component: PointPackagesComponent,
+    title: 'نقاط الطالب'
+  },
+  {
     path: 'home',
     component: StudentprofileComponent,
     title: 'الصفحة الرئيسية',
   },
   {
-    path: 'pointPackages',
-    component: PointPackagesComponent,
-    title: 'الطالب نقاط'
-  }
-  ,
+    path: 'settings/teaching-request',
+    component: TeachingRequestComponent,
+    title: 'طلب الانضمام كمعلم',
+  },
+  {
+    path: 'settings/my-certificates',
+    component: StudentCertificatesComponent,
+    title: 'شهاداتي',
+  },
   {
     path: 'settings',
     component: StudentSettingsComponent,
     title: 'الإعدادات',
   },
   {
-    path: 'my-certificates',
-    component: StudentCertificatesComponent,
-    title: 'شهاداتي',
+    path: 'courses/:id/checkout',
+    component: CourseCheckoutComponent,
+    title: 'إتمام عملية الدفع ',
+  },
+  {
+    path: 'courses/:id/:teacherid',
+    component: TeacherDetailsComponent,
+    title: 'تفاصيل عن المعلم'
   },
   {
     path: 'courses/:id',
@@ -52,39 +73,37 @@ export const STUDENT_ROUTES: Routes = [
     title: 'تصفح الدورات المقدمة من منصة الفرقان',
   },
   {
-    path: 'teachers/:id/details',
+    path: 'teachers/:teacherid',
     component: TeacherDetailsComponent,
-    title: 'تفاصيل عن المعلم',
+    title: 'تفاصيل عن المعلم'
   },
   {
     path: 'teachers',
     component: TeachersBrowseComponent,
-    title: 'تصفح المعلمون المسجلون علي من منصة الفرقان',
+    title: 'تصفح المعلمون المسجلون علي من منصة الفرقان'
   },
   {
     path: 'learning-circles/mine',
     component: MyLearningCirclesComponent,
+    data: { circleContext: 'learning' },
     title: 'حلقاتي',
   },
   {
     path: 'learning-circles/:circleId',
     component: LearningCircleDetailsComponent,
+    data: { circleContext: 'learning' },
     title: 'تفاصيل حلقة التعلم',
   },
   {
     path: 'learning-circles',
     component: ExploreLearningCirclesComponent,
+    data: { circleContext: 'learning' },
     title: 'استكشف حلقات التعلم',
   },
   {
     path: 'my-courses',
     component: StudentCoursesComponent,
     title: 'دوراتي',
-  },
-  {
-    path: 'teaching-request',
-    component: TeachingRequestComponent,
-    title: 'طلب الانضمام كمعلم',
   },
   {
     path: 'course-player/:id',
@@ -102,6 +121,11 @@ export const STUDENT_ROUTES: Routes = [
     title: 'شهادة إتمام الدورة',
   },
   {
+    path: 'wishlist/:id',
+    component: CourseDetailsComponent,
+    title: 'تفاصيل الدورة',
+  },
+  {
     path: 'wishlist',
     loadComponent: () =>
       import('./Pages/wishlist/wishlist.component').then((m) => m.WishlistComponent),
@@ -111,5 +135,14 @@ export const STUDENT_ROUTES: Routes = [
     path: 'my-courses/course-feedback',
     component: StudentFeedbackComponent,
     title: 'تقييم الدورة'
-  }
+  },
+  {
+  path: 'placement-test',
+  loadChildren: () =>
+    import('../placement-test/placement-test.routes').then(
+      (m) => m.PLACEMENT_ROUTES,
+    ),
+  title: 'اختبار تحديد المستوى',
+},
+
 ];

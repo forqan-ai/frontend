@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -8,15 +9,13 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   Subscription,
   distinctUntilChanged,
   finalize,
   map,
 } from 'rxjs';
-import { Role } from '../../../../core/models/auth.models';
-import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { CircleChatComponent } from '../../../circle-chat/Components/circle-chat/circle-chat.component';
@@ -27,17 +26,19 @@ import {
   CircleContentSection,
 } from '../../components/circle-content-navigation/circle-content-navigation.component';
 import { CircleMembersSectionComponent } from '../../components/circle-members-section/circle-members-section.component';
+import { CircleJoinRequestsSectionComponent } from '../../components/circle-join-requests-section/circle-join-requests-section.component';
 import { CirclePostsSectionComponent } from '../../components/circle-posts-section/circle-posts-section.component';
 import { LearningCircleDetailsSummaryComponent } from '../../components/learning-circle-details-summary/learning-circle-details-summary.component';
 import { MembershipConfirmationModalComponent } from '../../components/membership-confirmation-modal/membership-confirmation-modal.component';
 import { CircleMembershipAction } from '../../models/circle-action.models';
-import { LearningCircleDetails } from '../../models/learning-circle.models';
+import { CircleRole, LearningCircleDetails } from '../../models/learning-circle.models';
 import { CircleActionErrorService } from '../../services/circle-action-error.service';
 import {
   CircleDetailsErrorService,
   CircleDetailsLoadError,
 } from '../../services/circle-details-error.service';
 import { LearningCirclesService } from '../../services/learning-circles.service';
+import { CircleJoinRequestsService } from '../../services/circle-join-requests.service';
 
 type DetailsAction =
   | CircleMembershipAction
@@ -51,11 +52,14 @@ type DetailsAction =
     CircleContentNavigationComponent,
     CirclePostsSectionComponent,
     CircleMembersSectionComponent,
+    CircleJoinRequestsSectionComponent,
     CircleChatComponent,
     CircleSessionsComponent,
     MembershipConfirmationModalComponent,
     ArchiveCircleConfirmationModalComponent,
-  ],
+    DatePipe,
+    RouterLink
+],
   templateUrl: './learning-circle-details.component.html',
   styleUrl: './learning-circle-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,6 +67,7 @@ type DetailsAction =
 export class LearningCircleDetailsComponent implements OnInit {
   private readonly circlesService =
     inject(LearningCirclesService);
+  private readonly joinRequestsService = inject(CircleJoinRequestsService);
 
   private readonly actionErrorService =
     inject(CircleActionErrorService);
@@ -70,14 +75,13 @@ export class LearningCircleDetailsComponent implements OnInit {
   private readonly detailsErrorService =
     inject(CircleDetailsErrorService);
 
-  private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly isTeacher =
-    this.authService.hasRole(Role.Teacher);
+  readonly isManagementContext =
+    this.route.snapshot.data['circleContext'] === 'management';
 
   readonly details = signal<LearningCircleDetails | null>(null);
   readonly loading = signal(false);
@@ -114,6 +118,19 @@ export class LearningCircleDetailsComponent implements OnInit {
     this.loadDetails();
   }
 
+  roleLabel(role: CircleRole | null): string {
+    switch (role) {
+      case CircleRole.Owner:
+        return 'مالك الحلقة';
+      case CircleRole.Moderator:
+        return 'مشرف';
+      case CircleRole.Member:
+        return 'عضو';
+      default:
+        return 'زائر';
+    }
+  }
+
   refreshDetailsFromContent(): void {
     this.loadDetails(true);
   }
@@ -130,10 +147,10 @@ export class LearningCircleDetailsComponent implements OnInit {
       section === 'posts'
         ? details.permissions.canViewPosts
         : section === 'members'
-        ? details.permissions.canViewMembers
-        : section === 'chat' || section === 'sessions'
-        ? isParticipant
-        : false;
+          ? details.permissions.canViewMembers
+          : section === 'chat' || section === 'sessions'
+            ? isParticipant
+            : false;
 
     if (!allowed) {
       return;
@@ -152,13 +169,21 @@ export class LearningCircleDetailsComponent implements OnInit {
     }
   }
 
+
   backToCircles(): void {
-    void this.router.navigate([
-      this.isTeacher
-        ? '/teacher/circles'
-        : '/dashboard/student/learning-circles',
-    ]);
+    if (this.router.url.startsWith('/student')) {
+      this.router.navigateByUrl('/student/learning-circles')
+    }
+    else if (this.router.url.startsWith('/teacher')) {
+      this.router.navigateByUrl('/teacher/circles')
+    }
   }
+  // void this.router.navigate([
+  //   this.isTeacher
+  //     ? '/teacher/circles'
+  //     : '/student/learning-circles',
+  // ]);
+
 
   editCircle(): void {
     const details = this.details();
@@ -204,6 +229,30 @@ export class LearningCircleDetailsComponent implements OnInit {
     }
 
     this.membershipAction.set('leave');
+  }
+
+  requestToJoin(): void {
+    const details = this.details();
+    if (!details?.permissions.canRequestToJoin || this.actionPending()) return;
+    this.actionPending.set('join');
+    this.joinRequestsService.create(details.circleId)
+      .pipe(finalize(() => this.actionPending.set(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => { this.toast.show('تم إرسال طلب الانضمام بنجاح.'); this.loadDetails(true); },
+        error: () => this.toast.show('تعذر إرسال طلب الانضمام.', 'error'),
+      });
+  }
+
+  cancelJoinRequest(): void {
+    const details = this.details();
+    if (!details?.permissions.canCancelJoinRequest || this.actionPending()) return;
+    this.actionPending.set('join');
+    this.joinRequestsService.cancel(details.circleId)
+      .pipe(finalize(() => this.actionPending.set(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => { this.toast.show('تم إلغاء طلب الانضمام.'); this.loadDetails(true); },
+        error: () => this.toast.show('تعذر إلغاء طلب الانضمام.', 'error'),
+      });
   }
 
   closeMembershipConfirmation(): void {
@@ -369,8 +418,11 @@ export class LearningCircleDetailsComponent implements OnInit {
       )
       .subscribe({
         next: (details) => {
-          this.details.set(details);
-          this.syncContentState(details);
+          const contextualDetails =
+            this.applyContextPermissions(details);
+
+          this.details.set(contextualDetails);
+          this.syncContentState(contextualDetails);
           this.loadError.set(null);
         },
         error: (error: HttpErrorResponse) => {
@@ -397,6 +449,28 @@ export class LearningCircleDetailsComponent implements OnInit {
       error.status === 404 ||
       error.status === 409
     );
+  }
+
+  private applyContextPermissions(
+    details: LearningCircleDetails,
+  ): LearningCircleDetails {
+    if (this.isManagementContext) {
+      return details;
+    }
+
+    return {
+      ...details,
+      permissions: {
+        ...details.permissions,
+        canCreatePost: false,
+        canPinPosts: false,
+        canManageMembers: false,
+        canChangeMemberRoles: false,
+        canEditCircle: false,
+        canArchiveCircle: false,
+        canCreateLiveSession: false,
+      },
+    };
   }
 
   private syncContentState(
@@ -453,8 +527,8 @@ export class LearningCircleDetailsComponent implements OnInit {
         ? canViewPosts
           ? 'posts'
           : canViewMembers
-          ? 'members'
-          : 'chat'
+            ? 'members'
+            : 'chat'
         : currentSection;
 
     this.activeContentSection.set(nextSection);

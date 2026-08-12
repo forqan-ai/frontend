@@ -28,11 +28,20 @@ export class LearningCirclesService {
     );
   }
 
-  getMine(
+  getJoined(
     query: SearchPaginationQuery,
   ): Observable<PagedResult<LearningCircleListItem>> {
     return this.http.get<PagedResult<LearningCircleListItem>>(
       `${this.baseUrl}/mine`,
+      { params: this.createSearchParams(query) },
+    );
+  }
+
+  getOwned(
+    query: SearchPaginationQuery,
+  ): Observable<PagedResult<LearningCircleListItem>> {
+    return this.http.get<PagedResult<LearningCircleListItem>>(
+      `${this.baseUrl}/owned`,
       { params: this.createSearchParams(query) },
     );
   }

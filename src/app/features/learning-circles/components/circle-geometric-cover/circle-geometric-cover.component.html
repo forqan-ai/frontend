@@ -1,0 +1,65 @@
+<div
+  class="geometric-cover"
+  [class.compact]="compact()"
+  [attr.data-variant]="variant()"
+  role="img"
+  [attr.aria-label]="'غلاف هندسي لحلقة ' + circleName()"
+>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <svg
+    class="geometry"
+    viewBox="0 0 1200 360"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <g class="back-grid">
+      <path d="M-40 310 120 218l160 92-160 92z" />
+      <path d="m222 310 160-92 160 92-160 92z" />
+      <path d="m484 310 160-92 160 92-160 92z" />
+      <path d="m746 310 160-92 160 92-160 92z" />
+      <path d="m1008 310 160-92 160 92-160 92z" />
+    </g>
+
+    <g class="cube cube-one">
+      <path class="cube-top" d="m165 94 91-52 91 52-91 53z" />
+      <path class="cube-right" d="m256 147 91-53v105l-91 53z" />
+      <path class="cube-left" d="m165 94 91 53v105l-91-53z" />
+    </g>
+
+    <g class="cube cube-two">
+      <path class="cube-top" d="m766 170 70-40 70 40-70 41z" />
+      <path class="cube-right" d="m836 211 70-41v82l-70 41z" />
+      <path class="cube-left" d="m766 170 70 41v82l-70-41z" />
+    </g>
+
+    <g class="star-medallion">
+      <path
+        class="star-shadow"
+        d="m590 38 29 45 52-13-13 52 45 29-45 29 13 52-52-13-29 45-29-45-52 13 13-52-45-29 45-29-13-52 52 13z"
+      />
+      <path
+        class="star-face"
+        d="m590 26 29 45 52-13-13 52 45 29-45 29 13 52-52-13-29 45-29-45-52 13 13-52-45-29 45-29-13-52 52 13z"
+      />
+      <circle cx="590" cy="139" r="49" class="star-core" />
+      <path class="core-cut" d="m590 96 13 29 31 14-31 14-13 29-14-29-30-14 30-14z" />
+    </g>
+
+    <g class="arch">
+      <path class="arch-shadow" d="M1018 296V151c0-63 88-63 88 0v145z" />
+      <path class="arch-face" d="M1006 286V141c0-63 88-63 88 0v145z" />
+      <path class="arch-opening" d="M1031 286V151c0-30 38-30 38 0v135z" />
+    </g>
+
+    <g class="floating-tiles">
+      <path d="m70 66 42-24 42 24-42 24z" />
+      <path d="m390 48 32-18 32 18-32 19z" />
+      <path d="m930 62 43-25 43 25-43 25z" />
+      <path d="m1110 112 30-17 30 17-30 18z" />
+    </g>
+  </svg>
+
+  <div class="cover-grain" aria-hidden="true"></div>
+</div>

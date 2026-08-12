@@ -70,7 +70,9 @@
                   <small>ج.م</small>
                 </div>
 
-                <button class="btn btn-outline-theme w-100" (click)="buyClick(item.id)">اشحن الآن</button>
+                <button class="btn btn-outline-theme w-100" [routerLink]="['./checkout', item.id]"
+                  /* (click)="buyClick(item.id)" */
+                  >اشحن الآن</button>
               </div>
             </div>
           </div>

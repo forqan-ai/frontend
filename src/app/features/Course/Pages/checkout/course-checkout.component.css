@@ -154,8 +154,6 @@
 }
 
 .payment-content{
-    margin-right: 260px;   /* نفس عرض الـ sidebar */
-    width: calc(100% - 260px);
     min-height: 100vh;
     background:#f8f6f3;
 }

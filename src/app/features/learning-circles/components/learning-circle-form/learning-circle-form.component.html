@@ -108,18 +108,37 @@
       </div>
 
       <div>
-        <h2 id="join-settings-title">الانضمام المباشر</h2>
+        <h2 id="join-settings-title">طريقة الانضمام إلى الحلقة</h2>
         <p>
-          عند تفعيله يستطيع الطالب الانضمام إلى الحلقة مجانًا مباشرة.
-          وعند إيقافه يصبح الانضمام عن طريق الدعوة فقط.
+          اختر هل ينضم المتعلم مباشرة، أم يرسل طلبًا تراجعه إدارة الحلقة، أم تكون الحلقة خاصة لمن تتم إضافتهم فقط.
         </p>
       </div>
     </div>
 
-    <label class="switch">
+    <div class="join-policy-options" role="radiogroup" aria-label="طريقة الانضمام للحلقة">
+      <button type="button" role="radio"
+        [attr.aria-checked]="circleForm.joinPolicy().value() === CircleJoinPolicy.Automatic"
+        [class.selected]="circleForm.joinPolicy().value() === CircleJoinPolicy.Automatic"
+        (click)="setJoinPolicy(CircleJoinPolicy.Automatic)">
+        <strong>انضمام تلقائي</strong><span>يدخل المتعلم مباشرة.</span>
+      </button>
+      <button type="button" role="radio"
+        [attr.aria-checked]="circleForm.joinPolicy().value() === CircleJoinPolicy.RequiresApproval"
+        [class.selected]="circleForm.joinPolicy().value() === CircleJoinPolicy.RequiresApproval"
+        (click)="setJoinPolicy(CircleJoinPolicy.RequiresApproval)">
+        <strong>يتطلب موافقة</strong><span>يراجع المالك أو المشرف الطلب.</span>
+      </button>
+      <button type="button" role="radio"
+        [attr.aria-checked]="circleForm.joinPolicy().value() === CircleJoinPolicy.InviteOnly"
+        [class.selected]="circleForm.joinPolicy().value() === CircleJoinPolicy.InviteOnly"
+        (click)="setJoinPolicy(CircleJoinPolicy.InviteOnly)">
+        <strong>بالدعوة فقط</strong><span>لا تظهر إلا للأعضاء المضافين.</span>
+      </button>
+    </div>
+
+    <label class="switch" hidden>
       <input
         type="checkbox"
-        [formField]="circleForm.isOpenForJoin"
         aria-label="السماح بالانضمام المباشر إلى الحلقة"
       />
       <span class="switch-track" aria-hidden="true">

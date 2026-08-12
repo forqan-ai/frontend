@@ -1,10 +1,10 @@
 <a
   class="course-card"
   /* [routerLink]="['/course-details', course.courseID]" */
-  /* [routerLink]="['.', course.courseID]" */
+  [routerLink]="['.', course.courseID]"
 
   /* [attr.aria-label]="'عرض تفاصيل دورة ' + course.title" */
-  (click)="navigateToCourse()"
+  /* (click)="navigateToCourse()" */
 >
   <div class="course-image-wrapper">
     <img
@@ -21,7 +21,7 @@
       [disabled]="isToggling()"
       aria-label="أضف للمفضلة"
     >
-      <i class="bi" [class.bi-heart-fill]="isInWishlist()" [class.bi-heart]="!isInWishlist()"></i>
+      <i  class= "bi wishlist-like" style="color: var(--primary);" [class.bi-heart-fill]="isInWishlist()" [class.bi-heart]="!isInWishlist()"></i>
     </button>
   }
   </div>

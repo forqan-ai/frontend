@@ -2,14 +2,14 @@ import { Component, inject, Signal, signal } from '@angular/core';
 // import { SidebarComponent } from '../../../student/components/sidebar/sidebar.component';
 import { PointsService } from '../../services/points.service';
 import { pointPakcage } from '../../models/PointPackages';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SidebarComponent } from '../../../teacher/components/sidebar/sidebar.component';
 import { StudentSidebarComponent } from '../../../student/Components/student-sidebar/student-sidebar.component';
 
 @Component({
   selector: 'app-point-packages',
   // imports: [SidebarComponent],
-  imports: [StudentSidebarComponent],
+  imports: [StudentSidebarComponent, RouterLink],
   standalone: true,
   templateUrl: './point-packages.component.html',
   styleUrl: './point-packages.component.css',
@@ -50,6 +50,6 @@ export class PointPackagesComponent {
   }
 
   buyClick(pointPackageID: string) {
-    this.router.navigate(['/checkout', pointPackageID])
+    this.router.navigate(['./checkout', pointPackageID])
   }
 }

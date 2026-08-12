@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService } from '../../services/lesson.service';
 import { LessonModel } from '../../models/lesson.model';
@@ -13,6 +14,7 @@ import { LessonModel } from '../../models/lesson.model';
 export class LessonContentComponent {
   private route = inject(ActivatedRoute);
   private lessonService = inject(LessonService);
+  private sanitizer = inject(DomSanitizer);
 
   moduleId = '';
   lessonId = '';
@@ -23,11 +25,18 @@ export class LessonContentComponent {
   pdfFile = signal<File | null>(null);
   audioFile = signal<File | null>(null);
 
+  isUploading = signal<boolean>(false);
+
   ngOnInit() {
     this.moduleId = this.route.snapshot.paramMap.get('moduleId')!;
     this.lessonId = this.route.snapshot.paramMap.get('lessonId')!;
 
     this.loadLesson();
+  }
+
+  getSafeUrl(url: string | undefined): SafeResourceUrl | string {
+    if (!url) return '';
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   loadLesson() {
@@ -53,14 +62,20 @@ export class LessonContentComponent {
   uploadVideo() {
     if (!this.videoFile()) return;
 
+    this.isUploading.set(true);
     this.lessonService
       .uploadVideo(this.moduleId, this.lessonId, this.videoFile()!)
       .subscribe({
         next: () => {
           this.videoFile.set(null);
+          this.isUploading.set(false);
           this.loadLesson();
         },
-        error: (err) => console.log(err),
+        error: (err) => {
+          console.error('Upload error status:', err.status);
+          console.error('Upload error body:', JSON.stringify(err.error));
+          this.isUploading.set(false);
+        },
       });
   }
 
@@ -77,14 +92,19 @@ export class LessonContentComponent {
   uploadPdf() {
     if (!this.pdfFile()) return;
 
+    this.isUploading.set(true);
     this.lessonService
       .uploadPdf(this.moduleId, this.lessonId, this.pdfFile()!)
       .subscribe({
         next: () => {
           this.pdfFile.set(null);
+          this.isUploading.set(false);
           this.loadLesson();
         },
-        error: (err) => console.log(err),
+        error: (err) => {
+          console.log(err);
+          this.isUploading.set(false);
+        },
       });
   }
 
@@ -101,14 +121,19 @@ export class LessonContentComponent {
   uploadAudio() {
     if (!this.audioFile()) return;
 
+    this.isUploading.set(true);
     this.lessonService
       .uploadAudio(this.moduleId, this.lessonId, this.audioFile()!)
       .subscribe({
         next: () => {
           this.audioFile.set(null);
+          this.isUploading.set(false);
           this.loadLesson();
         },
-        error: (err) => console.log(err),
+        error: (err) => {
+          console.log(err);
+          this.isUploading.set(false);
+        },
       });
   }
 }

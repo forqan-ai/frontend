@@ -7,6 +7,7 @@ import {
   LoginRequest,
   Payload,
   RegisterRequest,
+  RegisterResponse,
   Role,
 } from '../models/auth.models';
 import { jwtDecode } from 'jwt-decode';
@@ -30,19 +31,19 @@ export class AuthService {
         localStorage.setItem('userId', res.data.user.id)
         this.isLoggedIn.set(true);
         console.log(this.getPayload());
-        
+
       })
     );
   }
 
 
 
-  register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, data).pipe(
+  register(data: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, data).pipe(
       tap((res) => {
         console.log(res);
-        localStorage.setItem(this.userStorageKey, res.data.token);
-        localStorage.setItem('userId', res.data.user.id)
+        localStorage.setItem(this.userStorageKey, res.data.confirmationToken);
+        localStorage.setItem('userId', res.data.userId);
         this.isLoggedIn.set(true);   // <-- Missing
       })
     );

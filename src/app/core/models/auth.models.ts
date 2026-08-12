@@ -19,6 +19,20 @@ export interface Payload {
   exp: number;
 }
 
+export interface RegisterResponse {
+  succeeded: boolean;
+  data: RegisterData
+  errors: ApiError[] | null;
+}
+
+export interface RegisterData {
+  userId: string,
+  confirmationToken: string
+}
+
+
+
+
 export interface AuthResponse {
   succeeded: boolean;
   data: AuthData;

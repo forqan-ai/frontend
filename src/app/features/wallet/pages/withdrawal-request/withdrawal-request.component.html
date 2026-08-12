@@ -1,0 +1,140 @@
+<main class="withdraw-page" dir="rtl">
+  <div class="page-head">
+    <a routerLink="/teacher/wallet" class="back-link">
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      العودة إلى المحفظة
+    </a>
+    <h2>طلب سحب أرباح</h2>
+    <p>الحد الأدنى للسحب 100 جنيه. تُدفع الأرباح خلال 24 ساعة من الموافقة.</p>
+  </div>
+
+  @if (successMessage) {
+    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      {{ error }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="withdraw-form">
+    <section class="form-section">
+      <h3>مبلغ السحب</h3>
+      <div class="form-field">
+        <label for="amount">المبلغ (جنيه)</label>
+        <input
+          id="amount"
+          type="number"
+          formControlName="amount"
+          class="form-control amount-input"
+          min="100"
+          step="0.01"
+          placeholder="مثال: 250"
+        />
+        @if (form.get('amount')?.touched && form.get('amount')?.invalid) {
+          <small class="text-danger">
+            @if (form.get('amount')?.errors?.['required']) {
+              أدخل المبلغ المطلوب سحبه.
+            } @else if (form.get('amount')?.errors?.['min']) {
+              الحد الأدنى للسحب 100 جنيه.
+            }
+          </small>
+        }
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>طريقة استلام الأموال</h3>
+      <div class="payout-options">
+        @for (method of payoutOptions; track method.value) {
+          <label class="payout-option">
+            <input type="radio" formControlName="payoutMethod" [value]="method.value" />
+            <span class="payout-option-body">
+              <i [class]="method.icon" aria-hidden="true"></i>
+              <strong>{{ method.label }}</strong>
+            </span>
+          </label>
+        }
+      </div>
+    </section>
+
+    @if (showBankFields) {
+      <section class="form-section">
+        <h3>بيانات الحساب البنكي</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="bankName" class="form-label">اسم البنك</label>
+            <input id="bankName" type="text" formControlName="bankName" class="form-control" />
+            @if (form.get('bankName')?.touched && form.get('bankName')?.invalid) {
+              <small class="text-danger">اسم البنك مطلوب.</small>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="accountHolderName" class="form-label">اسم صاحب الحساب</label>
+            <input id="accountHolderName" type="text" formControlName="accountHolderName" class="form-control" />
+            @if (form.get('accountHolderName')?.touched && form.get('accountHolderName')?.invalid) {
+              <small class="text-danger">اسم صاحب الحساب مطلوب.</small>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="bankAccountNumber" class="form-label">رقم الحساب</label>
+            <input id="bankAccountNumber" type="text" formControlName="bankAccountNumber" class="form-control" />
+            @if (form.get('bankAccountNumber')?.touched && form.get('bankAccountNumber')?.invalid) {
+              <small class="text-danger">رقم الحساب مطلوب.</small>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="bankIBAN" class="form-label">الآيبان (اختياري)</label>
+            <input id="bankIBAN" type="text" formControlName="bankIBAN" class="form-control" dir="ltr" />
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (showWalletFields) {
+      <section class="form-section">
+        <h3>بيانات المحفظة الإلكترونية</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="walletProvider" class="form-label">اسم المحفظة</label>
+            <select id="walletProvider" formControlName="walletProvider" class="form-select">
+              <option value="">اختر...</option>
+              <option value="Vodafone Cash">فودافون كاش</option>
+              <option value="Orange Cash">أورنج كاش</option>
+              <option value="Etisalat Cash">اتصالات كاش</option>
+              <option value="Fawry">فوري</option>
+              <option value="PayPal">باي بال</option>
+            </select>
+            @if (form.get('walletProvider')?.touched && form.get('walletProvider')?.invalid) {
+              <small class="text-danger">اختر اسم المحفظة.</small>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="walletNumber" class="form-label">رقم المحفظة</label>
+            <input id="walletNumber" type="tel" formControlName="walletNumber" class="form-control" dir="ltr" placeholder="01xxxxxxxxx" />
+            @if (form.get('walletNumber')?.touched && form.get('walletNumber')?.invalid) {
+              <small class="text-danger">رقم المحفظة مطلوب.</small>
+            }
+          </div>
+        </div>
+      </section>
+    }
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="submitting">
+        @if (submitting) {
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          جارٍ الإرسال...
+        } @else {
+          <i class="bi bi-send" aria-hidden="true"></i>
+          إرسال طلب السحب
+        }
+      </button>
+    </div>
+  </form>
+</main>

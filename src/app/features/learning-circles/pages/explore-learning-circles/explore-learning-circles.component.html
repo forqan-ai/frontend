@@ -1,6 +1,4 @@
-@if (canCreateCircle) {
-  <app-toast />
-}
+<app-toast />
 
 <main class="list-page" dir="rtl">
   <!-- <nav class="breadcrumb" aria-label="مسار الصفحة">
@@ -139,8 +137,11 @@
       [actionCircleId]="actionCircleId()"
       [allowJoin]="canJoinCircles"
       [showMemberMetadata]="false"
-      [allowMemberActions]="false"
+      [allowLeaveActions]="false"
+      [allowManageActions]="false"
       (joinRequested)="openJoinConfirmation($event)"
+      (joinRequestSubmitted)="requestToJoin($event)"
+      (joinRequestCancelled)="cancelJoinRequest($event)"
       (detailsRequested)="showDetails($event)"
     />
 

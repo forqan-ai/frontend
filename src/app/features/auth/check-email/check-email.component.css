@@ -1,59 +1,1335 @@
-.auth-wrapper {
-  background-color: #2e211e;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 20px;
+.login-page {
+    min-height: 100vh;
+    width: 100%;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(255, 255, 255, 0.62),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 88% 12%,
+            rgba(255, 255, 255, 0.42),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 75% 75%,
+            rgba(214, 178, 148, 0.22),
+            transparent 40%
+        ),
+        linear-gradient(
+            160deg,
+            #f8eee5 0%,
+            #f5e8dc 45%,
+            #f1e0d1 100%
+        );
+
+    direction: rtl;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    position: relative;
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-.auth-card {
-  background: #ffffff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  width: 100%;
-  max-width: 900px;
-  margin: auto;
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+    box-sizing: border-box;
 }
 
-.bg-pattern {
-  background-color: #f8f4ee;
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.islamic-pattern-overlay {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.11;
+
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            rgba(83, 49, 39, 0.55) 0,
+            rgba(83, 49, 39, 0.55) 1px,
+            transparent 1px,
+            transparent 42px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(83, 49, 39, 0.55) 0,
+            rgba(83, 49, 39, 0.55) 1px,
+            transparent 1px,
+            transparent 42px
+        );
+
+    z-index: 0;
 }
 
-.img-side {
-  background: linear-gradient(rgba(46, 33, 30, 0.8), rgba(46, 33, 30, 0.8)),
-              url('/images/login.png');
-  background-size: cover;
-  background-position: center;
+.login-page::before,
+.login-page::after {
+    content: "";
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(45px);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    animation: drift 16s ease-in-out infinite;
 }
+
+.login-page::before {
+    width: 380px;
+    height: 380px;
+
+    top: -130px;
+    right: -100px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(181, 140, 105, 0.22),
+            rgba(214, 178, 148, 0.08),
+            transparent 72%
+        );
+}
+
+.login-page::after {
+    width: 360px;
+    height: 360px;
+
+    bottom: -140px;
+    left: -100px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.5),
+            rgba(233, 212, 191, 0.2),
+            transparent 72%
+        );
+
+    animation-delay: -8s;
+}
+
+.ambient-glow {
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    left: 42%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(205, 164, 128, 0.22) 0%,
+            rgba(205, 164, 128, 0.1) 35%,
+            rgba(205, 164, 128, 0.035) 55%,
+            transparent 72%
+        );
+
+    filter: blur(30px);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    animation: pulse-glow 10s ease-in-out infinite;
+}
+
+.login-layout {
+    width: min(1180px, 100%);
+
+    min-height: calc(100vh - 40px);
+    height: auto;
+
+    max-height: none;
+
+    direction: ltr;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        470px;
+
+    align-items: center;
+
+    gap: 45px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.login-animation-side,
+.login-card {
+    direction: rtl;
+}
+
+/* =========================
+ANIMATION SIDE
+========================= */
+
+.login-animation-side {
+    height: 100%;
+    min-height: 560px;
+
+    position: relative;
+
+    overflow: visible;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+}
+
+.login-animation-side::before {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.92) 0%,
+            rgba(250, 237, 221, 0.88) 24%,
+            rgba(230, 202, 173, 0.68) 48%,
+            rgba(211, 175, 140, 0.34) 63%,
+            rgba(211, 175, 140, 0.08) 75%,
+            transparent 84%
+        );
+
+    box-shadow:
+        0 0 55px rgba(196, 153, 113, 0.28),
+        0 0 100px rgba(196, 153, 113, 0.16),
+        inset 0 0 45px rgba(255, 255, 255, 0.42);
+
+    animation: animation-halo 8s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+.login-animation-side::after {
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(181, 140, 105, 0.38);
+
+    box-shadow:
+        0 0 0 18px rgba(214, 178, 148, 0.14),
+        0 0 0 40px rgba(214, 178, 148, 0.08),
+        0 0 45px rgba(181, 140, 105, 0.14);
+
+    animation: ring-pulse 7s ease-in-out infinite;
+
+    z-index: 1;
+}
+
+.animation-lines,
+.animation-circle {
+    position: absolute;
+
+    pointer-events: none;
+}
+
+.animation-lines {
+    width: 430px;
+    height: 430px;
+
+    border-radius: 50%;
+
+    background:
+        repeating-linear-gradient(
+            45deg,
+            transparent 0,
+            transparent 38px,
+            rgba(181, 140, 105, 0.18) 39px,
+            rgba(181, 140, 105, 0.18) 40px
+        );
+
+    mask-image:
+        radial-gradient(
+            circle,
+            #000 0%,
+            #000 50%,
+            transparent 76%
+        );
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle,
+            #000 0%,
+            #000 50%,
+            transparent 76%
+        );
+
+    opacity: 0.75;
+
+    animation: lines-rotate 22s linear infinite;
+
+    z-index: 2;
+}
+
+.animation-circle {
+    width: 350px;
+    height: 350px;
+
+    border-radius: 50%;
+
+    background:
+        repeating-linear-gradient(
+            -45deg,
+            transparent 0,
+            transparent 42px,
+            rgba(181, 140, 105, 0.15) 43px,
+            rgba(181, 140, 105, 0.15) 44px
+        );
+
+    mask-image:
+        radial-gradient(
+            circle,
+            #000 0%,
+            #000 52%,
+            transparent 78%
+        );
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle,
+            #000 0%,
+            #000 52%,
+            transparent 78%
+        );
+
+    opacity: 0.7;
+
+    animation: lines-rotate-reverse 28s linear infinite;
+
+    z-index: 2;
+}
+
+.login-animation {
+    width: 450px;
+    height: 450px;
+
+    position: relative;
+
+    z-index: 4;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    animation: floating 4s ease-in-out infinite;
+}
+
+.login-animation dotlottie-wc {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    position: relative;
+
+    z-index: 5;
+
+    filter:
+        brightness(0.96)
+        saturate(1.22)
+        contrast(1.16)
+        sepia(0.06);
+
+    transform: scale(1.03);
+}
+
+/* =========================
+CARD
+========================= */
+
+.login-card {
+    width: 100%;
+
+    max-height: none;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(239, 220, 202, 0.34),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(231, 207, 185, 0.22),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(252, 247, 242, 0.98),
+            rgba(255, 255, 255, 0.98)
+        );
+
+    background-size:
+        180% 180%,
+        180% 180%,
+        220% 220%;
+
+    background-position:
+        0% 0%,
+        100% 100%,
+        0% 50%;
+
+    border-radius: 28px;
+
+    padding: 34px 36px 28px;
+
+    box-shadow:
+        0 30px 70px rgba(52, 27, 22, 0.12),
+        0 8px 25px rgba(52, 27, 22, 0.05);
+
+    border: 1px solid rgba(214, 178, 148, 0.3);
+
+    position: relative;
+
+    z-index: 3;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    animation:
+        card-in 0.5s ease both,
+        form-background-move 14s ease-in-out infinite;
+}
+
+.login-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 28px;
+
+    padding: 1px;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(214, 178, 148, 0.55),
+            rgba(255, 255, 255, 0.9),
+            rgba(214, 178, 148, 0.25),
+            rgba(255, 255, 255, 0.9)
+        );
+
+    background-size: 300% 300%;
+
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+
+    z-index: -1;
+
+    animation: border-flow 8s linear infinite;
+}
+
+.login-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -90px;
+    left: -70px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(214, 178, 148, 0.18),
+            transparent 70%
+        );
+
+    filter: blur(12px);
+
+    pointer-events: none;
+
+    z-index: -1;
+
+    animation: card-light 9s ease-in-out infinite;
+}
+
+.check-email-card {
+    text-align: center;
+}
+
+/* =========================
+LOGO
+========================= */
+
+.logo-brand {
+    width: 105px;
+    height: auto;
+
+    display: block;
+
+    margin: 0 auto 14px;
+
+    animation:
+        logo-in 0.8s ease both,
+        logo-float 5s ease-in-out 1s infinite;
+}
+
+/* =========================
+ICON
+========================= */
 
 .icon-box {
-  width: 80px;
-  height: 80px;
-  background: #fdf5f0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  color: #6d4c41;
-  font-size: 2.5rem;
+    width: 74px;
+    height: 74px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 14px;
+
+    background: rgba(214, 178, 148, 0.16);
+
+    border: 1px solid rgba(214, 178, 148, 0.35);
+
+    color: #8c6251;
+
+    font-size: 2rem;
+
+    animation: logo-in 0.8s ease both;
 }
 
-.btn-premium {
-  background: #6d4c41 !important;
-  color: #fff !important;
-  padding: 12px 30px !important;
-  border-radius: 10px !important;
-  transition: all 0.3s ease;
-  font-weight: 600;
+/* =========================
+HEADER / TEXT
+========================= */
+
+.login-title {
+    color: #3f302a;
+
+    font-size: 1.5rem;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    margin: 0 0 10px;
+
+    animation: title-in 0.7s ease 0.15s both;
 }
 
-.btn-premium:hover {
-  background: #4a342e !important;
-  transform: translateY(-2px);
+.check-email-text {
+    color: #766861;
+
+    font-size: 0.85rem;
+
+    font-weight: 500;
+
+    line-height: 1.8;
+
+    margin: 0 0 22px;
+}
+
+.check-email-address {
+    color: #3f302a;
+    font-weight: 700;
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.btn-brown {
+    width: 100%;
+
+    height: 47px;
+
+    border: none !important;
+
+    border-radius: 13px !important;
+
+    background: var(--primary) !important;
+
+    color: #fff;
+
+    font-size: 0.87rem;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 10px 22px rgba(52, 27, 22, 0.17);
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.btn-brown::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent,
+            rgba(255, 255, 255, 0.22),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.6s ease;
+
+    pointer-events: none;
+}
+
+.btn-brown:hover::before {
+    left: 140%;
+}
+
+.btn-brown:hover {
+    background: var(--primary-hover) !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 28px rgba(52, 27, 22, 0.22);
+}
+
+.btn-brown:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+.check-email-resend {
+    width: 100%;
+
+    border: none;
+    background: transparent;
+
+    padding: 6px;
+
+    color: var(--primary);
+
+    font-size: 0.8rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.check-email-resend:hover:not(:disabled) {
+    color: var(--primary-hover);
+
+    transform: translateY(-1px);
+}
+
+.check-email-resend:disabled {
+    opacity: 0.6;
+
+    cursor: default;
+}
+
+/* =========================
+STATUS MESSAGE
+========================= */
+
+.check-email-status {
+    margin-top: 14px;
+
+    padding: 10px 14px;
+
+    border-radius: 11px;
+
+    background: #fff1f1;
+
+    color: #a52d3d;
+
+    font-size: 0.75rem;
+
+    font-weight: 600;
+
+    animation: shake 0.4s ease;
+}
+
+.check-email-status.is-success {
+    background: #f0f8ee;
+
+    color: #3f7a2e;
+
+    animation: none;
+}
+
+/* =========================
+ANIMATIONS
+========================= */
+
+@keyframes logo-in {
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.85)
+            translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+@keyframes logo-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes title-in {
+    from {
+        opacity: 0;
+
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-6px);
+    }
+
+    40% {
+        transform: translateX(6px);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+@keyframes form-background-move {
+    0% {
+        background-position:
+            0% 0%,
+            100% 100%,
+            0% 50%;
+    }
+
+    50% {
+        background-position:
+            35% 25%,
+            65% 75%,
+            100% 50%;
+    }
+
+    100% {
+        background-position:
+            0% 0%,
+            100% 100%,
+            0% 50%;
+    }
+}
+
+@keyframes border-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes card-light {
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(330px, 350px)
+            scale(1.25);
+    }
+}
+
+@keyframes drift {
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-18px, 22px)
+            scale(1.06);
+    }
+}
+
+@keyframes pulse-glow {
+    0%,
+    100% {
+        opacity: 0.55;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.06);
+    }
+}
+
+@keyframes floating {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes animation-halo {
+    0%,
+    100% {
+        transform: scale(0.98);
+        opacity: 0.82;
+    }
+
+    50% {
+        transform: scale(1.045);
+        opacity: 1;
+    }
+}
+
+@keyframes ring-pulse {
+    0%,
+    100% {
+        transform: scale(0.96);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 0.9;
+    }
+}
+
+@keyframes lines-rotate {
+    0% {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            rotate(180deg)
+            scale(1.04);
+    }
+
+    100% {
+        transform:
+            rotate(360deg)
+            scale(1);
+    }
+}
+
+@keyframes lines-rotate-reverse {
+    0% {
+        transform:
+            rotate(360deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            rotate(180deg)
+            scale(0.96);
+    }
+
+    100% {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+}
+
+@keyframes card-in {
+    from {
+        opacity: 0;
+
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .login-animation,
+    .login-card,
+    .check-email-status,
+    .logo-brand,
+    .icon-box,
+    .login-title,
+    .login-page::before,
+    .login-page::after,
+    .ambient-glow,
+    .login-animation-side::before,
+    .login-animation-side::after,
+    .animation-lines,
+    .animation-circle,
+    .login-card::before,
+    .login-card::after {
+        animation: none !important;
+
+        transition: none !important;
+    }
+}
+
+/* =========================
+1100px
+========================= */
+
+@media (max-width: 1100px) {
+    .login-layout {
+        grid-template-columns:
+            minmax(0, 1fr)
+            430px;
+
+        gap: 30px;
+    }
+
+    .login-animation-side::before {
+        width: 450px;
+        height: 450px;
+    }
+
+    .login-animation-side::after {
+        width: 350px;
+        height: 350px;
+    }
+
+    .login-animation {
+        width: 390px;
+        height: 390px;
+    }
+
+    .animation-lines {
+        width: 370px;
+        height: 370px;
+    }
+
+    .animation-circle {
+        width: 310px;
+        height: 310px;
+    }
+
+    .login-card {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+/* =========================
+TABLET
+========================= */
+
+@media (max-width: 900px) {
+    .login-page {
+        padding: 15px;
+        align-items: flex-start;
+    }
+
+    .login-layout {
+        width: min(760px, 100%);
+
+        min-height: auto;
+
+        height: auto;
+
+        max-height: none;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 12px;
+
+        align-items: center;
+
+        justify-content: flex-start;
+    }
+
+    .login-animation-side {
+        width: 100%;
+
+        height: 170px;
+
+        min-height: 170px;
+
+        flex-shrink: 0;
+    }
+
+    .login-animation-side::before {
+        width: 210px;
+        height: 210px;
+    }
+
+    .login-animation-side::after {
+        width: 170px;
+        height: 170px;
+
+        border-width: 1.5px;
+    }
+
+    .animation-lines {
+        width: 190px;
+        height: 190px;
+    }
+
+    .animation-circle {
+        width: 155px;
+        height: 155px;
+    }
+
+    .login-animation {
+        width: 155px;
+        height: 155px;
+    }
+
+    .login-animation dotlottie-wc {
+        width: 155px;
+        height: 155px;
+    }
+
+    .login-card {
+        width: min(470px, 100%);
+
+        max-height: none;
+
+        padding:
+            25px
+            30px
+            22px;
+    }
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width: 576px) {
+    .login-page {
+        min-height: 100vh;
+
+        height: auto;
+
+        padding:
+            8px
+            10px
+            15px;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        align-items: flex-start;
+    }
+
+    .login-layout {
+        width: 100%;
+
+        min-height: auto;
+
+        height: auto;
+
+        gap: 7px;
+
+        justify-content: flex-start;
+    }
+
+    .login-animation-side {
+        height: 125px;
+
+        min-height: 125px;
+    }
+
+    .login-animation-side::before {
+        width: 155px;
+        height: 155px;
+    }
+
+    .login-animation-side::after {
+        width: 125px;
+        height: 125px;
+
+        box-shadow:
+            0 0 0 9px rgba(214, 178, 148, 0.11),
+            0 0 0 20px rgba(214, 178, 148, 0.06);
+    }
+
+    .animation-lines {
+        width: 140px;
+        height: 140px;
+    }
+
+    .animation-circle {
+        width: 115px;
+        height: 115px;
+    }
+
+    .login-animation {
+        width: 115px;
+        height: 115px;
+
+        animation-duration: 4.5s;
+    }
+
+    .login-animation dotlottie-wc {
+        width: 115px;
+        height: 115px;
+    }
+
+    .login-card {
+        width: 100%;
+
+        padding:
+            22px
+            18px
+            18px;
+
+        border-radius: 22px;
+    }
+
+    .logo-brand {
+        width: 82px;
+
+        margin-bottom: 7px;
+    }
+
+    .icon-box {
+        width: 60px;
+        height: 60px;
+
+        font-size: 1.6rem;
+
+        margin-bottom: 10px;
+    }
+
+    .login-title {
+        font-size: 1.25rem;
+
+        margin-bottom: 8px;
+    }
+
+    .check-email-text {
+        font-size: 0.75rem;
+
+        margin-bottom: 16px;
+    }
+
+    .btn-brown {
+        height: 43px;
+
+        border-radius: 12px !important;
+
+        font-size: 0.8rem;
+    }
+}
+
+/* =========================
+VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 380px) {
+    .login-page {
+        padding:
+            5px
+            7px
+            10px;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .login-layout {
+        gap: 5px;
+    }
+
+    .login-animation-side {
+        height: 105px;
+
+        min-height: 105px;
+    }
+
+    .login-animation-side::before {
+        width: 130px;
+        height: 130px;
+    }
+
+    .login-animation-side::after {
+        width: 105px;
+        height: 105px;
+    }
+
+    .animation-lines {
+        width: 115px;
+        height: 115px;
+    }
+
+    .animation-circle {
+        width: 95px;
+        height: 95px;
+    }
+
+    .login-animation {
+        width: 95px;
+        height: 95px;
+    }
+
+    .login-animation dotlottie-wc {
+        width: 95px;
+        height: 95px;
+    }
+
+    .login-card {
+        padding:
+            17px
+            14px
+            15px;
+
+        border-radius: 19px;
+    }
+
+    .logo-brand {
+        width: 72px;
+    }
+
+    .login-title {
+        font-size: 1.1rem;
+    }
+
+    .check-email-text {
+        font-size: 0.7rem;
+    }
 }

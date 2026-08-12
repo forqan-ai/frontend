@@ -1,224 +1,195 @@
 @let circle = details();
 
-<article class="details-summary">
-  @if (circle.isArchived) {
-    <div class="archived-notice" role="status">
-      <i class="bi bi-archive-fill" aria-hidden="true"></i>
-      <div>
-        <strong>هذه الحلقة مؤرشفة</strong>
-        <p>
-          يمكنك مراجعة معلوماتها والمحتوى القديم المتاح لك، لكن جميع
-          عمليات التعديل والإدارة متوقفة.
-        </p>
-      </div>
-    </div>
-  }
+<article class="details-summary" [class.is-archived]="circle.isArchived">
+  <div class="cover-wrap">
+    <app-circle-geometric-cover
+      [circleId]="circle.circleId"
+      [circleName]="circle.name"
+    />
 
-  <header class="summary-header">
-    <div class="subject-visual" aria-hidden="true">
-      <span>{{ subjectInitial(circle.subject) }}</span>
-      <i class="bi bi-journal-bookmark-fill"></i>
-    </div>
-
-    <div class="heading-content">
-      <div class="badges">
-        <span class="subject-badge">{{ circle.subject }}</span>
-
-        @if (circle.isArchived) {
-          <span class="status-badge archived-badge">مؤرشفة</span>
-        } @else if (circle.isOpenForJoin) {
-          <span class="status-badge open-badge">
-            متاحة للانضمام
-          </span>
-        } @else {
-          <span class="status-badge invitation-badge">
-            <i class="bi bi-envelope-lock" aria-hidden="true"></i>
-            الانضمام بدعوة فقط
-          </span>
-        }
-
-        @if (roleLabel(circle.currentUserRole); as role) {
-          <span class="role-badge">{{ role }}</span>
-        }
-      </div>
-
-      <h1>{{ circle.name }}</h1>
-      <p class="description">{{ circle.description }}</p>
-    </div>
-  </header>
-
-  <section class="teacher-section" aria-labelledby="circle-teacher-title">
-    @if (circle.teacher.profileImageUrl) {
-      <img
-        [src]="circle.teacher.profileImageUrl"
-        [alt]="'صورة المعلم ' + circle.teacher.fullName"
-      />
-    } @else {
-      <span class="teacher-placeholder" aria-hidden="true">
-        <i class="bi bi-person-fill"></i>
+    @if (circle.isArchived) {
+      <span class="cover-state">
+        <i class="bi bi-archive-fill" aria-hidden="true"></i>
+        حلقة مؤرشفة
       </span>
     }
+  </div>
 
-    <div>
-      <span id="circle-teacher-title">معلم الحلقة</span>
-      <strong>{{ circle.teacher.fullName }}</strong>
-    </div>
-  </section>
-
-  <dl class="statistics" aria-label="إحصائيات الحلقة">
-    <div>
-      <dt>
-        <i class="bi bi-people-fill" aria-hidden="true"></i>
-        الأعضاء
-      </dt>
-      <dd>{{ circle.membersCount }}</dd>
-    </div>
-
-    <div>
-      <dt>
-        <i class="bi bi-file-post-fill" aria-hidden="true"></i>
-        المنشورات
-      </dt>
-      <dd>{{ circle.postsCount }}</dd>
-    </div>
-  </dl>
-
-  <dl class="dates" aria-label="تواريخ الحلقة">
-    <div>
-      <dt>تاريخ الإنشاء</dt>
-      <dd>
-        <time [attr.datetime]="circle.createdAt">
-          {{ circle.createdAt | date: 'dd/MM/yyyy' }}
-        </time>
-      </dd>
-    </div>
-
-    <div>
-      <dt>آخر تحديث</dt>
-      <dd>
-        <time [attr.datetime]="circle.updatedAt">
-          {{ circle.updatedAt | date: 'dd/MM/yyyy' }}
-        </time>
-      </dd>
-    </div>
-
-    <div>
-      <dt>آخر نشاط</dt>
-      <dd>
-        <time [attr.datetime]="circle.lastActivityAt">
-          {{ circle.lastActivityAt | date: 'dd/MM/yyyy' }}
-        </time>
-      </dd>
-    </div>
-
-    @if (circle.archivedAt) {
-      <div>
-        <dt>تاريخ الأرشفة</dt>
-        <dd>
-          <time [attr.datetime]="circle.archivedAt">
-            {{ circle.archivedAt | date: 'dd/MM/yyyy' }}
-          </time>
-        </dd>
+  <div class="summary-content">
+    <header class="identity-row">
+      <div class="subject-visual" aria-hidden="true">
+        <span>{{ subjectInitial(circle.subject) }}</span>
+        <i class="bi bi-journal-bookmark-fill"></i>
       </div>
-    }
-  </dl>
 
-  @if (!circle.isArchived) {
-    <section class="access-context">
-      @if (circle.isMember && (
-        circle.permissions.canViewMembers ||
-        circle.permissions.canViewPosts
-      )) {
+      <div class="heading-content">
+        <div class="badges">
+          <span class="subject-badge">{{ circle.subject }}</span>
+
+          @if (circle.isArchived) {
+            <span class="status-badge archived-badge">مؤرشفة</span>
+          } @else if (circle.joinPolicy === CircleJoinPolicy.Automatic) {
+            <span class="status-badge open-badge">
+              <i class="bi bi-globe2" aria-hidden="true"></i>
+              متاحة للانضمام
+            </span>
+          } @else if (circle.joinPolicy === CircleJoinPolicy.RequiresApproval) {
+            <span class="status-badge open-badge">
+              <i class="bi bi-person-check" aria-hidden="true"></i>
+              الانضمام يتطلب موافقة
+            </span>
+          } @else {
+            <span class="status-badge invitation-badge">
+              <i class="bi bi-envelope-lock" aria-hidden="true"></i>
+              الانضمام بدعوة فقط
+            </span>
+          }
+
+          @if (roleLabel(circle.currentUserRole); as role) {
+            <span class="role-badge">
+              <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+              {{ role }}
+            </span>
+          }
+        </div>
+
+        <h1>{{ circle.name }}</h1>
+        <p class="description">{{ circle.description }}</p>
+
+        <div class="community-meta" aria-label="ملخص الحلقة">
+          <span>
+            <i class="bi bi-people-fill" aria-hidden="true"></i>
+            <strong>{{ circle.membersCount }}</strong> عضو
+          </span>
+          <span>
+            <i class="bi bi-file-post-fill" aria-hidden="true"></i>
+            <strong>{{ circle.postsCount }}</strong> منشور
+          </span>
+          <span class="teacher-inline">
+            @if (circle.teacher.profileImageUrl) {
+              <img
+                [src]="circle.teacher.profileImageUrl"
+                [alt]="'صورة المعلم ' + circle.teacher.fullName"
+              />
+            } @else {
+              <i class="bi bi-person-circle" aria-hidden="true"></i>
+            }
+            بإشراف <strong>{{ circle.teacher.fullName }}</strong>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    @if (circle.isArchived) {
+      <div class="archived-notice" role="status">
+        <i class="bi bi-archive-fill" aria-hidden="true"></i>
+        <div>
+          <strong>هذه الحلقة للقراءة فقط</strong>
+          <p>يمكنك مراجعة معلوماتها والمحتوى القديم، لكن عمليات الإدارة والتعديل متوقفة.</p>
+        </div>
+      </div>
+    } @else if (circle.isMember && (
+      circle.permissions.canViewMembers || circle.permissions.canViewPosts
+    )) {
+      <div class="access-context member-context">
         <i class="bi bi-shield-check" aria-hidden="true"></i>
         <div>
           <strong>أنت عضو في هذه الحلقة</strong>
-          <p>
-            صلاحيات المحتوى والإدارة تعتمد على دورك داخل الحلقة.
-          </p>
+          <p>يمكنك الوصول إلى محتوى الحلقة حسب الصلاحيات المرتبطة بدورك.</p>
         </div>
-      } @else if (circle.isMember) {
+      </div>
+    } @else if (circle.isMember) {
+      <div class="access-context" role="status">
         <i class="bi bi-shield-lock" aria-hidden="true"></i>
         <div>
           <strong>الوصول إلى المحتوى غير متاح حاليًا</strong>
-          <p>
-            عضويتك موجودة، لكن حسابك الحالي لا يملك صلاحيات عرض محتوى
-            الأعضاء.
-          </p>
+          <p>عضويتك موجودة، لكن حسابك لا يملك صلاحيات عرض محتوى الأعضاء.</p>
         </div>
-      } @else if (!circle.isOpenForJoin) {
+      </div>
+    } @else if (circle.joinPolicy === CircleJoinPolicy.InviteOnly) {
+      <div class="access-context" role="status">
         <i class="bi bi-envelope-lock" aria-hidden="true"></i>
         <div>
           <strong>الانضمام عن طريق الدعوة فقط</strong>
-          <p>
-            لا تستقبل هذه الحلقة طلبات انضمام مباشرة.
-          </p>
+          <p>لا تستقبل هذه الحلقة طلبات انضمام مباشرة.</p>
         </div>
-      } @else if (!circle.permissions.canJoin) {
-        <i class="bi bi-info-circle" aria-hidden="true"></i>
-        <div>
-          <strong>معلومات الحلقة متاحة للعرض</strong>
-          <p>
-            الانضمام المباشر غير متاح لحسابك الحالي.
-          </p>
+      </div>
+    }
+
+    @if (!circle.isArchived && (
+      circle.permissions.canJoin ||
+      circle.permissions.canRequestToJoin ||
+      circle.permissions.canCancelJoinRequest ||
+      circle.permissions.canLeave ||
+      circle.permissions.canEditCircle ||
+      circle.permissions.canArchiveCircle
+    )) {
+      <footer class="summary-actions">
+        <div class="main-actions">
+          @if (circle.permissions.canJoin) {
+            <button
+              type="button"
+              class="primary-button"
+              [disabled]="actionPending()"
+              (click)="joinRequested.emit()"
+            >
+              <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
+              انضم مجانًا
+            </button>
+          }
+
+          @if (circle.permissions.canRequestToJoin) {
+            <button type="button" class="primary-button" [disabled]="actionPending()" (click)="joinRequestSubmitted.emit()">
+              <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
+              إرسال طلب انضمام
+            </button>
+          }
+
+          @if (circle.permissions.canCancelJoinRequest) {
+            <button type="button" class="text-button" [disabled]="actionPending()" (click)="joinRequestCancelled.emit()">
+              إلغاء طلب الانضمام
+            </button>
+          }
+
+          @if (circle.permissions.canEditCircle) {
+            <button
+              type="button"
+              class="secondary-button"
+              [disabled]="actionPending()"
+              (click)="editRequested.emit()"
+            >
+              <i class="bi bi-pencil-square" aria-hidden="true"></i>
+              تعديل الحلقة
+            </button>
+          }
         </div>
-      }
-    </section>
-  }
 
-  @if (!circle.isArchived && (
-    circle.permissions.canJoin ||
-    circle.permissions.canLeave ||
-    circle.permissions.canEditCircle ||
-    circle.permissions.canArchiveCircle
-  )) {
-    <footer class="summary-actions">
-      @if (circle.permissions.canJoin) {
-        <button
-          type="button"
-          class="primary-button"
-          [disabled]="actionPending()"
-          (click)="joinRequested.emit()"
-        >
-          <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
-          انضم مجانًا
-        </button>
-      }
+        <div class="quiet-actions">
+          @if (circle.permissions.canLeave) {
+            <button
+              type="button"
+              class="text-button"
+              [disabled]="actionPending()"
+              (click)="leaveRequested.emit()"
+            >
+              <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+              مغادرة الحلقة
+            </button>
+          }
 
-      @if (circle.permissions.canLeave) {
-        <button
-          type="button"
-          class="secondary-button"
-          [disabled]="actionPending()"
-          (click)="leaveRequested.emit()"
-        >
-          <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-          مغادرة الحلقة
-        </button>
-      }
-
-      @if (circle.permissions.canEditCircle) {
-        <button
-          type="button"
-          class="secondary-button"
-          [disabled]="actionPending()"
-          (click)="editRequested.emit()"
-        >
-          <i class="bi bi-pencil-square" aria-hidden="true"></i>
-          تعديل الحلقة
-        </button>
-      }
-
-      @if (circle.permissions.canArchiveCircle) {
-        <button
-          type="button"
-          class="archive-button"
-          [disabled]="actionPending()"
-          (click)="archiveRequested.emit()"
-        >
-          <i class="bi bi-archive" aria-hidden="true"></i>
-          أرشفة الحلقة
-        </button>
-      }
-    </footer>
-  }
+          @if (circle.permissions.canArchiveCircle) {
+            <button
+              type="button"
+              class="text-button"
+              [disabled]="actionPending()"
+              (click)="archiveRequested.emit()"
+            >
+              <i class="bi bi-archive" aria-hidden="true"></i>
+              أرشفة الحلقة
+            </button>
+          }
+        </div>
+      </footer>
+    }
+  </div>
 </article>
