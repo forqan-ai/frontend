@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 import { StatisticsComponent } from '../../components/statistics/statistics.component';
@@ -8,6 +8,7 @@ import { TeacherService } from '../../services/teacher.service';
 import { TeacherDashboard } from '../../models/teacher-dashboard.model';
 import { TeacherProfile } from '../../models/teacher-profile.model';
 import { PointsBalanceComponent } from '../../components/points-balance/points-balance.component';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -16,7 +17,9 @@ import { PointsBalanceComponent } from '../../components/points-balance/points-b
     ProfileCardComponent,
     StatisticsComponent,
     PointsBalanceComponent,
+    ScrollRevealDirective
   ],
+   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
