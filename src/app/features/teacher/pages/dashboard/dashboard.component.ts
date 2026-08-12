@@ -17,11 +17,9 @@ import { PointsBalanceComponent } from '../../components/points-balance/points-b
   selector: 'app-teacher-dashboard',
   standalone: true,
   imports: [
-    SidebarComponent,
     HeaderComponent,
     ProfileCardComponent,
     StatisticsComponent,
-    QuickActionsComponent,
     PointsBalanceComponent,
     RouterLink,
     // RecentCoursesComponent
