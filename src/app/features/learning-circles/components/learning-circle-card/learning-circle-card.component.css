@@ -30,6 +30,8 @@
 
 .card-cover {
   position: relative;
+  max-height: 104px;
+  overflow: visible;
 }
 
 .teacher-avatar-wrapper {
@@ -64,7 +66,7 @@
 }
 
 .card-content {
-  padding: 48px 20px 16px;
+  padding: 44px 20px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,10 +76,10 @@
 }
 
 .circle-title {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-size: 18px;
   font-weight: 800;
-  line-height: 1.4;
+  line-height: 1.35;
   color: var(--text);
   display: -webkit-box;
   overflow: hidden;
@@ -88,9 +90,9 @@
 }
 
 .teacher-subtitle {
-  margin-bottom: 14px;
-  font-size: 13px;
-  line-height: 1.5;
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.4;
   color: var(--text-muted);
   display: -webkit-box;
   overflow: hidden;
@@ -112,19 +114,19 @@
 
 .status-row {
   min-height: 28px;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
 }
 
 .status-badge,
 .role-badge {
   min-height: 26px;
-  padding: 4px 12px;
+  padding: 3px 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -132,6 +134,11 @@
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
+  max-width: 100%;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 
 .member-status {
@@ -161,12 +168,12 @@
 }
 
 .card-meta-grid {
-  margin-top: auto;
-  padding-top: 14px;
+  margin-top: 4px;
+  padding-top: 12px;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
   text-align: center;
   border-top: 1px solid var(--border);
 }
@@ -185,24 +192,26 @@
 }
 
 .meta-label {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   font-weight: 500;
 }
 
 .meta-value {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--text);
 }
 
 .card-actions {
-  padding: 14px 20px 20px;
+  padding: 12px 18px 18px;
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
   gap: 10px;
   width: 100%;
+  margin-top: auto;
 }
 
 .card-actions button {
@@ -219,6 +228,7 @@
   font-weight: 700;
   white-space: normal;
   overflow-wrap: anywhere;
+  line-height: 1.3;
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;

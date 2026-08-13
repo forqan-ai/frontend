@@ -9,11 +9,12 @@
     />
 
     <div class="teacher-avatar-wrapper">
-      @if (item.teacher.profileImageUrl) {
+      @if (hasValidImage()) {
         <img
           [src]="item.teacher.profileImageUrl"
           [alt]="'صورة المعلم ' + item.teacher.fullName"
           class="teacher-avatar"
+          (error)="onImageError()"
         />
       } @else {
         <div class="teacher-avatar teacher-placeholder" aria-hidden="true">

@@ -1,89 +1,39 @@
-<div class="certificate-page">
-  <div class="certificate-frame">
-    <div class="certificate" id="certificate" #certificateRef>
-      <span class="corner corner-tr"></span>
-      <span class="corner corner-tl"></span>
-      <span class="corner corner-br"></span>
-      <span class="corner corner-bl"></span>
-
-      <div class="certificate-header">
-        <div class="logo">
-          <img src="/images/logo2.png" alt="فرقان" />
-        </div>
-      </div>
-
-      <h1 class="title">شهادة إتمام دورة</h1>
-      <p class="subtitle">تشهد منصة <strong>فرقان</strong> بأن الطالب/ة</p>
-
-      <div class="content-columns">
-        <div class="col col-right">
-          <h2 class="student-name">{{ certificate().studentName }}</h2>
-          <p class="text">قد أتم بنجاح جميع متطلبات دورة</p>
-
-          <div class="course-box">
-            {{ certificate().courseTitle }}
-          </div>
-
-          <p class="teacher-title">بإشراف</p>
-          <h3 class="teacher-name">
-            {{ certificate().teacherName }}
-          </h3>
-        </div>
-
-        <div class="col-divider"></div>
-
-        <div class="col col-left">
-          <div class="verse">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
-           <div class="verse">﴿ يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ ﴾ </div>
-
-          <p class="footer">
-            هذه الشهادة صادرة إلكترونيًا من منصة <strong>فرقان</strong>
-            ويمكن التحقق من صحتها باستخدام رمز التحقق.
-          </p>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="signatures">
-        <div class="signature">
-          <span class="sign-line"></span>
-          <span class="sign-label">إسم المسؤول وإمضائه</span>
-        </div>
-
-        <div class="seal">
-          <div class="seal-inner">
-           
-              <img src="/images/logo2.png" alt="فرقان" />
-
-          </div>
-        </div>
-
-        <div class="signature">
-          <span class="sign-line"></span>
-          <span class="sign-label">إسم المسؤول وإمضائه</span>
-        </div>
-      </div>
-      <div class="info-section">
-        <div class="info-card">
-          <span class="label">تاريخ الإصدار</span>
-          <span class="value">
-            {{ certificate().issuedAt | date: 'dd MMMM yyyy' }}
-          </span>
-        </div>
-
-        <div class="info-card">
-          <span class="label">رمز التحقق</span>
-          <span class="value code">
-            {{ certificate().verificationCode }}
-          </span>
-        </div>
+<main class="certificate-page" dir="rtl">
+  @if (isLoading()) {
+    <section class="page-state" role="status" aria-live="polite">
+      <span class="spinner-border" aria-hidden="true"></span>
+      <p>جارٍ تحميل الشهادة...</p>
+    </section>
+  } @else if (hasError()) {
+    <section class="page-state error-state" role="alert">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      <h1>تعذر تحميل الشهادة</h1>
+      <p>تحقق من اتصالك ثم حاول مرة أخرى.</p>
+      <button type="button" class="retry-btn" (click)="loadCertificate()">
+        إعادة المحاولة
+      </button>
+    </section>
+  } @else if (certificate(); as certificateData) {
+    <div class="certificate-viewer">
+      <div class="certificate-frame">
+        <app-certificate-document [certificate]="certificateData" />
       </div>
     </div>
 
-    
-  </div>
-  <button type="button" class="download-btn" (click)="downloadPdf()">
-      <i class="bi bi-download"></i>
-      تحميل الشهادة PDF
+    <button
+      type="button"
+      class="download-btn"
+      [disabled]="isDownloading()"
+      [attr.aria-busy]="isDownloading()"
+      (click)="downloadPdf()"
+    >
+      @if (isDownloading()) {
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        جارٍ إعداد الملف...
+      } @else {
+        <i class="bi bi-download" aria-hidden="true"></i>
+        تحميل الشهادة PDF
+      }
     </button>
-</div>
+  }
+</main>
