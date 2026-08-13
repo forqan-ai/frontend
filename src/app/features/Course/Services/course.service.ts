@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, Service } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICourseDetailsDto } from '../Models/course-details-dto.interface';
 import { ICourseModuleDto } from '../Models/course-module-dto.interface';
@@ -47,15 +47,19 @@ export class CourseService {
     );
   }
   markLessonCompleted(lessonId: string): Observable<boolean> {
-    return this.http.post<boolean>(
-      `${this.baseUrl}/lessons/${lessonId}/complete`,
-      {}
-    );
-  }
+  return this.http.post<boolean>(
+    `${this.baseUrl}/lessons/${lessonId}/complete`,
+    {}
+  );
+}
   getCertificate(courseId: string): Observable<ICertificate> {
     return this.http.get<ICertificate>(
       `${this.baseUrl}/${courseId}/certificate`
     );
+  }
+
+  getCertificates(): Observable<ICertificate[]> {
+    return this.http.get<ICertificate[]>(`${this.baseUrl}/certificates`);
   }
 
   submitCourseForReview(courseId: string): Observable<boolean> {

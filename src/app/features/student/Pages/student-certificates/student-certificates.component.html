@@ -1,1 +1,89 @@
-<p>student-certificates works!</p>
+<main class="certificates-page" dir="rtl">
+  <div class="certificates-container">
+    <header class="page-header">
+      <div class="heading-copy">
+        <h1>شهاداتي</h1>
+        <p>جميع الشهادات التي حصلت عليها بعد إتمام دوراتك بنجاح.</p>
+      </div>
+
+      <div class="certificate-count" aria-live="polite">
+        <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+        <span>{{ certificateCount() }}</span>
+        <span>شهادات</span>
+      </div>
+    </header>
+
+    @if (isLoading()) {
+      <section
+        class="certificates-grid skeleton-grid"
+        aria-busy="true"
+        aria-label="جارٍ تحميل الشهادات"
+      >
+        @for (item of skeletonItems; track item) {
+          <article class="skeleton-card" role="status">
+            <span class="visually-hidden">جارٍ تحميل الشهادة...</span>
+            <div class="skeleton-preview skeleton-shimmer"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-line skeleton-title skeleton-shimmer"></div>
+              <div class="skeleton-line skeleton-text skeleton-shimmer"></div>
+              <div class="skeleton-line skeleton-date skeleton-shimmer"></div>
+              <div class="skeleton-button skeleton-shimmer"></div>
+            </div>
+          </article>
+        }
+      </section>
+    } @else if (hasError()) {
+      <section class="state-panel error-state" role="alert">
+        <span class="state-icon error-icon" aria-hidden="true">
+          <i class="bi bi-exclamation-circle"></i>
+        </span>
+        <h2>تعذر تحميل شهاداتك</h2>
+        <p>حدث خطأ أثناء الاتصال. تحقق من اتصالك ثم حاول مرة أخرى.</p>
+        <button type="button" class="primary-action" (click)="loadCertificates()">
+          <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+          إعادة المحاولة
+        </button>
+      </section>
+    } @else if (certificates().length === 0) {
+      <section class="state-panel empty-state">
+        <div class="empty-illustration" aria-hidden="true">
+          <div class="illustration-paper">
+            <span class="illustration-corner corner-top-right"></span>
+            <span class="illustration-corner corner-top-left"></span>
+            <span class="illustration-line line-short"></span>
+            <span class="illustration-line line-long"></span>
+            <span class="illustration-line line-medium"></span>
+            <span class="illustration-seal"></span>
+          </div>
+        </div>
+
+        <h2>لا توجد شهادات حتى الآن</h2>
+        <p>
+          ستظهر هنا شهادات الدورات التي تكملها بنجاح.<br />
+          ابدأ رحلتك التعليمية الآن للحصول على أولى شهاداتك.
+        </p>
+        <a class="primary-action" routerLink="/dashboard/student/courses">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          استكشف الدورات
+        </a>
+      </section>
+    } @else {
+      <section class="certificates-grid" aria-label="قائمة الشهادات">
+        @for (certificate of certificates(); track certificate.certificateId) {
+          <app-certificate-gallery-card
+            [certificate]="certificate"
+            [downloading]="downloadingCertificateId() === certificate.certificateId"
+            [downloadDisabled]="downloadingCertificateId() !== null"
+            (downloadRequested)="downloadCertificate($event)"
+          />
+        }
+      </section>
+    }
+  </div>
+
+  @if (selectedCertificateForExport(); as certificate) {
+    <div class="certificate-export-host" aria-hidden="true">
+      <app-certificate-document [certificate]="certificate" />
+    </div>
+  }
+</main>
