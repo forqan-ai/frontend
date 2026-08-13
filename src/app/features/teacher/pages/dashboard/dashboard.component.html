@@ -24,10 +24,12 @@
       </div>
     </div>
 
-    <div class="hero-focus-card" aria-label="ملخص سريع">
-      <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
-      <strong>{{ dashboardLoading() ? '...' : (dashboard()?.totalCourses ?? 0) }}</strong>
-      <p>دورة ضمن مساحة التدريس</p>
+    <div class="hero-animation">
+      <dotlottie-wc
+        src="/Animations/grd9ZeHlWx.lottie"
+        autoplay
+        loop>
+      </dotlottie-wc>
     </div>
   </section>
 
@@ -39,7 +41,17 @@
   }
 
   <section class="dashboard-insights" aria-label="تنظيم العمل">
-    <article class="insight-card primary">
+    <article class="insight-card primary" appScrollReveal="0" aria-label="ملخص سريع">
+      <div class="insight-icon">
+        <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
+      </div>
+      <div>
+        <span>دورة ضمن مساحة التدريس</span>
+        <strong>{{ dashboardLoading() ? '...' : (dashboard()?.totalCourses ?? 0) }}</strong>
+      </div>
+    </article>
+
+    <article class="insight-card" appScrollReveal="100">
       <div class="insight-icon">
         <i class="bi bi-pencil-square" aria-hidden="true"></i>
       </div>
@@ -49,7 +61,7 @@
       </div>
     </article>
 
-    <article class="insight-card">
+    <article class="insight-card" appScrollReveal="200">
       <div class="insight-icon">
         <i class="bi bi-archive" aria-hidden="true"></i>
       </div>
@@ -59,7 +71,7 @@
       </div>
     </article>
 
-    <article class="insight-card">
+    <article class="insight-card" appScrollReveal="300">
       <div class="insight-icon">
         <i class="bi bi-mortarboard-fill" aria-hidden="true"></i>
       </div>
@@ -79,12 +91,12 @@
         <span></span>
       </div>
     } @else {
-      <app-statistics [dashboard]="dashboard()"></app-statistics>
+      <app-statistics appScrollReveal="0" [dashboard]="dashboard()"></app-statistics>
     }
 
     <div class="dashboard-side-grid">
-      <app-profile-card [teacher]="profile()"></app-profile-card>
-      <app-points-balance />
+      <app-profile-card appScrollReveal="100" [teacher]="profile()"></app-profile-card>
+      <app-points-balance appScrollReveal="200" />
     </div>
   </section>
 </main>

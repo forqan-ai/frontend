@@ -1,0 +1,95 @@
+<main class="history-page" dir="rtl">
+  <div class="page-head">
+    <div>
+      <a routerLink="/teacher/wallet" class="back-link">
+        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+        العودة إلى المحفظة
+      </a>
+      <h2>طلبات السحب</h2>
+    </div>
+    <a routerLink="/teacher/wallet/withdraw" class="btn-withdraw">
+      <i class="bi bi-plus-lg" aria-hidden="true"></i>
+      طلب جديد
+    </a>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      {{ error() }}
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else if (withdrawals().length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-inbox" aria-hidden="true"></i>
+      <p>لم تقم بأي طلب سحب بعد.</p>
+      <a routerLink="/teacher/wallet/withdraw" class="btn-withdraw">
+        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+        أنشئ طلبك الأول
+      </a>
+    </div>
+  } @else {
+    <div class="table-responsive">
+      <table class="table history-table align-middle">
+        <thead>
+          <tr>
+            <th>المبلغ</th>
+            <th>طريقة الاستلام</th>
+            <th>التفاصيل</th>
+            <th>الحالة</th>
+            <th>تاريخ الطلب</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (w of withdrawals(); track w.id) {
+            <tr>
+              <td class="amount">{{ w.amount.toLocaleString('en-EG') }} جنيه</td>
+              <td>{{ payoutMethodLabel(w.payoutMethod) }}</td>
+              <td class="muted">{{ maskDetails(w) || '—' }}</td>
+              <td><app-status-badge [status]="w.status" /></td>
+              <td class="muted">{{ w.requestedAt | date: 'short' }}</td>
+              <td class="text-end">
+                @if (canCancel(w)) {
+                  <button
+                    type="button"
+                    class="btn-cancel"
+                    [disabled]="cancelingId() === w.id"
+                    (click)="cancelWithdrawal(w.id)"
+                  >
+                    @if (cancelingId() === w.id) {
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    } @else {
+                      إلغاء
+                    }
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (currentPage() > 1 || hasNextPage()) {
+      <div class="pagination-bar">
+        <button type="button" class="btn btn-outline-secondary" [disabled]="currentPage() === 1" (click)="prevPage()">
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          السابق
+        </button>
+        <span>صفحة {{ currentPage() }}</span>
+        <button type="button" class="btn btn-outline-secondary" [disabled]="!hasNextPage()" (click)="nextPage()">
+          التالي
+          <i class="bi bi-chevron-left" aria-hidden="true"></i>
+        </button>
+      </div>
+    }
+  }
+</main>

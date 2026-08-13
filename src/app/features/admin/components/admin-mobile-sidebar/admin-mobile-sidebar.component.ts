@@ -65,6 +65,8 @@ export class MobileSidebarComponent {
       this.activeRoute = 'teaching-requests';
     } else if (url.includes('my-courses')) {
       this.activeRoute = 'my-courses';
+    } else if (url.includes('withdrawals')) {
+      this.activeRoute = 'withdrawals';
     }
   }
 

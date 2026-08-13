@@ -1,5 +1,5 @@
 import { Component, inject, input, output, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarItem } from '../../models/sidebar-item';
 import { ButtonComponent } from "../../../../shared/components/button/button.component";
 import { AuthService } from '../../../../core/services/auth.service';
@@ -13,6 +13,8 @@ import { AuthService } from '../../../../core/services/auth.service';
 })
 export class SidebarComponent {
   opened = input(false);
+  authservice = inject(AuthService);
+  router = inject(Router);
 
   close = output<void>();
 
@@ -43,14 +45,14 @@ export class SidebarComponent {
       route: '/teacher/circles',
     },
     {
+      title: 'المحفظة',
+      icon: 'bi bi-wallet2',
+      route: '/teacher/wallet',
+    },
+    {
       title: 'الملف الشخصي',
       icon: 'bi bi-person-fill',
       route: '/teacher/profile',
-    },
-    {
-      title: 'الرجوع الي لوحة الطالب',
-      icon: 'bi bi-arrow-right  ',
-      route: '/student/home',
     },
   ]);
 
@@ -58,6 +60,5 @@ export class SidebarComponent {
     this.close.emit();
   }
 
-  authService = inject(AuthService);
-  
+
 }

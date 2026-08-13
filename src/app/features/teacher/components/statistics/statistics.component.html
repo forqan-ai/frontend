@@ -1,5 +1,5 @@
 <section class="statistics" dir="rtl" aria-label="إحصاءات المعلم">
-  <article class="stat-card students">
+  <article class="stat-card students" appScrollReveal="0">
     <i class="bi bi-people-fill" aria-hidden="true"></i>
     <div>
       <h2>{{ dashboard()?.totalStudents ?? 0 }}</h2>
@@ -7,7 +7,7 @@
     </div>
   </article>
 
-  <article class="stat-card courses">
+  <article class="stat-card courses" appScrollReveal="100">
     <i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>
     <div>
       <h2>{{ dashboard()?.totalCourses ?? 0 }}</h2>
@@ -15,7 +15,7 @@
     </div>
   </article>
 
-  <article class="stat-card rating">
+  <article class="stat-card rating" appScrollReveal="200">
     <i class="bi bi-star-fill" aria-hidden="true"></i>
     <div>
       <h2>{{ dashboard()?.rating ?? 0 }}</h2>
@@ -23,7 +23,7 @@
     </div>
   </article>
 
-  <article class="stat-card circles">
+  <article class="stat-card circles" appScrollReveal="300">
     <i class="bi bi-chat-square-text-fill" aria-hidden="true"></i>
     <div>
       <h2>{{ dashboard()?.learningCirclesCount ?? 0 }}</h2>

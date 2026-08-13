@@ -1,0 +1,217 @@
+<main class="admin-withdrawals-page" dir="rtl">
+  <header class="page-head">
+    <div class="page-head-icon" aria-hidden="true">
+      <i class="bi bi-wallet2"></i>
+    </div>
+    <div>
+      <h2>إدارة السحوبات</h2>
+      <p>راجع طلبات سحب الأرباح واعتمدها أو ارفضها</p>
+    </div>
+  </header>
+
+  <div class="status-tabs" role="tablist" aria-label="تصفية حسب الحالة">
+    @for (tab of tabs; track tab.label) {
+      <button
+        type="button"
+        class="status-tab"
+        role="tab"
+        [attr.aria-selected]="selectedStatus() === tab.value"
+        [class.active]="selectedStatus() === tab.value"
+        (click)="selectTab(tab.value)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      {{ error() }}
+    </div>
+  }
+
+  @if (actionError() && !rejectTarget()) {
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      {{ actionError() }}
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="ledger-card">
+      <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line w-40"></div>
+          <div class="skeleton-line w-60"></div>
+        </div>
+        <div class="skeleton-line w-20"></div>
+      </div>
+    </div>
+  } @else if (withdrawals().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon"><i class="bi bi-inbox" aria-hidden="true"></i></div>
+      <p>لا توجد طلبات سحب في هذه الحالة</p>
+      <span class="empty-hint">ستظهر هنا أي طلبات سحب جديدة فور تقديمها</span>
+    </div>
+  } @else {
+    <div class="ledger-card">
+      <table class="withdrawals-table align-middle">
+        <thead>
+          <tr>
+            <th>المعلم</th>
+            <th>المبلغ</th>
+            <th>طريقة الاستلام</th>
+            <th>الحالة</th>
+            <th>تاريخ الطلب</th>
+            <th class="actions-col">الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (w of withdrawals(); track w.id) {
+            <tr [class.row-busy]="isBusy(w)">
+              <td>
+                <div class="teacher-cell">
+                  <span class="teacher-avatar-wrap">
+                    <img [src]="teacherImage(w)" alt="" class="teacher-avatar" />
+                  </span>
+                  <div class="teacher-meta">
+                    <strong>{{ w.teacherName }}</strong>
+                    <span class="muted">{{ w.teacherEmail }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="amount-chip">
+                  <i class="bi bi-coin" aria-hidden="true"></i>
+                  {{ w.amount.toLocaleString('en-EG') }}
+                  <small>جنيه</small>
+                </span>
+              </td>
+              <td>
+                <span class="payout-method">
+                  <i class="bi bi-credit-card-2-front" aria-hidden="true"></i>
+                  {{ payoutMethodLabel(w.payoutMethod) }}
+                </span>
+              </td>
+              <td><app-status-badge [status]="w.status" /></td>
+              <td class="muted">{{ w.requestedAt | date: 'short' }}</td>
+              <td>
+                <div class="actions-cell">
+                  @if (w.status === WithdrawalStatus.Pending) {
+                    <button
+                      type="button"
+                      class="btn-action btn-action-approve"
+                      [disabled]="isBusy(w)"
+                      (click)="approve(w)"
+                      title="اعتماد الطلب"
+                    >
+                      @if (isBusy(w)) {
+                        <span class="btn-spinner" aria-hidden="true"></span>
+                      } @else {
+                        <i class="bi bi-check-lg" aria-hidden="true"></i>
+                      }
+                      اعتماد
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-action btn-action-reject"
+                      [disabled]="isBusy(w)"
+                      (click)="openReject(w)"
+                      title="رفض الطلب"
+                    >
+                      <i class="bi bi-x-lg" aria-hidden="true"></i>
+                      رفض
+                    </button>
+                  } @else if (w.status === WithdrawalStatus.Approved) {
+                    <button
+                      type="button"
+                      class="btn-action btn-action-transfer"
+                      [disabled]="isBusy(w)"
+                      (click)="completeTransfer(w)"
+                      title="تأكيد التحويل"
+                    >
+                      @if (isBusy(w)) {
+                        <span class="btn-spinner" aria-hidden="true"></span>
+                      } @else {
+                        <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                      }
+                      تأكيد التحويل
+                    </button>
+                  }
+
+                  <a routerLink="/admin/withdrawals/{{ w.id }}" class="btn-action btn-action-details" title="عرض التفاصيل">
+                    <i class="bi bi-eye" aria-hidden="true"></i>
+                    التفاصيل
+                  </a>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (currentPage() > 1 || hasNextPage()) {
+      <div class="pagination-bar">
+        <button type="button" class="page-btn" [disabled]="currentPage() === 1" (click)="prevPage()">
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          السابق
+        </button>
+        <span class="page-indicator">صفحة {{ currentPage() }}</span>
+        <button type="button" class="page-btn" [disabled]="!hasNextPage()" (click)="nextPage()">
+          التالي
+          <i class="bi bi-chevron-left" aria-hidden="true"></i>
+        </button>
+      </div>
+    }
+  }
+
+  @if (rejectTarget(); as target) {
+    <div class="reject-dialog" role="dialog" aria-modal="true" aria-labelledby="reject-dialog-title">
+      <div class="dialog-content">
+        <div class="dialog-perforation" aria-hidden="true"></div>
+
+        <div class="dialog-body">
+          <h3 id="reject-dialog-title">رفض طلب السحب</h3>
+          <p class="dialog-hint">
+            طلب <strong>{{ target.amount.toLocaleString('en-EG') }} جنيه</strong> للمعلم
+            <strong>{{ target.teacherName }}</strong>
+          </p>
+
+          <label class="dialog-label" for="rejection-reason">سبب الرفض</label>
+          <textarea
+            id="rejection-reason"
+            rows="4"
+            placeholder="اكتب سبب الرفض الذي سيظهر للمعلم..."
+            [value]="rejectionReason()"
+            [disabled]="isBusy(target)"
+            (input)="onRejectionReasonChange($event)"
+          ></textarea>
+
+          @if (actionError()) {
+            <div class="alert alert-danger py-2 px-3" role="alert">{{ actionError() }}</div>
+          }
+
+          <div class="dialog-actions">
+            <button type="button" class="btn-cancel" [disabled]="isBusy(target)" (click)="closeReject()">إلغاء</button>
+            <button
+              type="button"
+              class="btn-confirm"
+              [disabled]="isBusy(target) || !rejectionReason().trim()"
+              (click)="reject()"
+            >
+              @if (isBusy(target)) {
+                <span class="btn-spinner" aria-hidden="true"></span>
+                جاري الرفض...
+              } @else {
+                تأكيد الرفض
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</main>

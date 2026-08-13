@@ -54,10 +54,10 @@ export class PlacementResultComponent implements OnInit {
   }
 
   goToCourse(courseId: string): void {
-    this.router.navigate(['/dashboard/student/courses', courseId]);
+    this.router.navigate(['/student/courses', courseId]);
   }
 
   retakeTest(): void {
-    this.router.navigate(['/dashboard/student/placement-test/quiz']);
+    this.router.navigate(['/student/placement-test/quiz']);
   }
 }

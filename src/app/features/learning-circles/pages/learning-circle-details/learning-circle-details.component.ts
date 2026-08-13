@@ -181,7 +181,7 @@ export class LearningCircleDetailsComponent implements OnInit {
   // void this.router.navigate([
   //   this.isTeacher
   //     ? '/teacher/circles'
-  //     : '/dashboard/student/learning-circles',
+  //     : '/student/learning-circles',
   // ]);
 
 

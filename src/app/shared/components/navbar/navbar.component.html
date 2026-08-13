@@ -49,8 +49,8 @@
           الدخول </a> -->
         @if(this.authService.isLoggedIn())
         {
-        <a routerLink="/student/home" style="position: relative; ">
-          <app-avatar [size]=45 [src]="userImg ?? 'images/avatar.webp'"></app-avatar>
+        <a (click)="this.routingService.routeToHome()" style="position: relative; ">
+          <app-avatar [size]=45 [src]="userimg()"></app-avatar>
         </a>
         <!-- <span class="user-name">
           {{ user()?.fullName }}

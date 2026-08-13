@@ -27,10 +27,10 @@ export class PlacementIntroComponent implements OnInit {
   }
 
   startTest(): void {
-    this.router.navigate(['/dashboard/student/placement-test/quiz']);
+    this.router.navigate(['/student/placement-test/quiz']);
   }
 
   viewResult(): void {
-    this.router.navigate(['/dashboard/student/placement-test/result']);
+    this.router.navigate(['/student/placement-test/result']);
   }
 }

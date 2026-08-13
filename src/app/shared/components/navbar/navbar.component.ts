@@ -3,8 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { ButtonComponent } from "../button/button.component";
 import { AvatarComponent } from "../avatar/avatar.component";
-import { SettingsService } from '../../../features/student/Services/settings.service';
-import { UserDto } from '../../../core/models/auth.models';
+import { RoutingService } from '../../../core/services/routing.service';
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink, RouterLinkActive, ButtonComponent, AvatarComponent],
@@ -15,11 +14,19 @@ import { UserDto } from '../../../core/models/auth.models';
 export class NavbarComponent {
 
   private router = inject(Router);
-
-
-
+  routingService = inject(RoutingService)
   authService = inject(AuthService);
-  userImg = localStorage.getItem('userImg');
+
+  userimg = signal<string>('');
+
+  ngOnInit() {
+    const imgUrl = localStorage.getItem('userImg');
+    if (imgUrl === 'null') {
+      this.userimg.set('images/avatar.webp');
+    } else {
+      this.userimg.set(localStorage.getItem('userImg') || 'images/avatar.webp');
+    }
+  }
 
 
 

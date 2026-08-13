@@ -11,7 +11,6 @@ import { CoursesBrowseComponent } from './features/courses-browse/pages/courses-
 import { TeachersBrowseComponent } from './features/teacher/pages/teachers-browse/teachers-browse.component';
 import { AboutUsComponent } from './features/home/pages/about-us/about-us.component';
 import { TeacherDetailsComponent } from './features/teacher/pages/teacher-details/teacher-details.component';
-import { DashboardLayoutComponent } from './Layout/dashboard_layout/dashboard-layout/dashboard-layout.component';
 import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
 import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
 import { StudentDashboardComponent } from './Layout/dashboard_layout/student-dashboard/student-dashboard.component';

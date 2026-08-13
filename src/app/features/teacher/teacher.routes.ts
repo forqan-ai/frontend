@@ -90,12 +90,22 @@ export const TEACHER_ROUTES: Routes = [
             .then(c => c.OptionBuilderComponent),
       },
 
-      {
-        path: 'lesson-content/:moduleId/:lessonId',
-        loadComponent: () =>
-          import('./pages/lesson-content/lesson-content.component')
-            .then(c => c.LessonContentComponent),
-      },
+  {
+    path: 'lesson-content/:moduleId/:lessonId',
+    loadComponent: () =>
+      import('./pages/lesson-content/lesson-content.component').then(
+        (c) => c.LessonContentComponent,
+      ),
+  },
+  {
+    path: 'wallet',
+    loadChildren: () =>
+      import('../wallet/wallet.routes').then((m) => m.WALLET_ROUTES),
+  },
+  // {
+  //   path: 'my-courses',
+  //   component: MyCoursesComponent
+  // },
 
     ]
   },

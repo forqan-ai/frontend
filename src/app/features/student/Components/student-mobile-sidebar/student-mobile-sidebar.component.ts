@@ -62,17 +62,17 @@ export class StudentMobileSidebarComponent {
   }
 
   private updateActiveRoute(url: string): void {
-    if (url.includes('/dashboard/home')) {
+    if (url.includes('d/home')) {
       this.activeRoute = 'home';
-    } else if (url.includes('/dashboard/my-courses')) {
+    } else if (url.includes('/my-courses')) {
       this.activeRoute = 'my-courses';
-    } else if (url.includes('/dashboard/learning-circles')) {
+    } else if (url.includes('/learning-circles')) {
       this.activeRoute = 'learning-circles';
-    } else if (url.includes('/dashboard/teachers')) {
+    } else if (url.includes('/teachers')) {
       this.activeRoute = 'teachers';
-    } else if (url.includes('/dashboard/courses')) {
+    } else if (url.includes('/courses')) {
       this.activeRoute = 'courses';
-    } else if (url.includes('/dashboard/settings')) {
+    } else if (url.includes('/settings')) {
       this.activeRoute = 'settings';
     } else if (url.includes('teacher')) {
       this.activeRoute = 'teacher'

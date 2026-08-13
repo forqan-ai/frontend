@@ -1,0 +1,249 @@
+<main class="admin-withdrawal-details-page" dir="rtl">
+  <div class="page-head">
+    <a routerLink="/admin/withdrawals" class="back-link">
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      العودة إلى إدارة السحوبات
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else if (error()) {
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+      {{ error() }}
+    </div>
+  } @else if (withdrawal(); as w) {
+    <section class="hero-card">
+      <div class="hero-main">
+        <div class="hero-icon"><i class="bi bi-cash-stack" aria-hidden="true"></i></div>
+        <div>
+          <h2>طلب سحب</h2>
+          <p class="hero-amount" dir="ltr">{{ w.amount.toLocaleString('en-EG') }} <span>جنيه</span></p>
+        </div>
+      </div>
+      <div class="hero-side">
+        <app-status-badge [status]="w.status" />
+        <div class="hero-meta">
+          <span><i class="bi bi-calendar3" aria-hidden="true"></i> تاريخ الطلب</span>
+          <strong>{{ formatDate(w.requestedAt) }}</strong>
+        </div>
+      </div>
+    </section>
+
+    @if (actionError()) {
+      <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+        {{ actionError() }}
+      </div>
+    }
+
+    @if (w.rejectionReason) {
+      <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+        <i class="bi bi-exclamation-triangle-fill mt-1" aria-hidden="true"></i>
+        <span><strong>سبب الرفض:</strong> {{ w.rejectionReason }}</span>
+      </div>
+    }
+
+    @if (w.transferReference) {
+      <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+        <span><strong>مرجع التحويل:</strong> {{ w.transferReference }}</span>
+      </div>
+    }
+
+    <section class="card">
+      <h3 class="card-title">
+        <i class="bi bi-person" aria-hidden="true"></i>
+        بيانات المعلم
+      </h3>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-label">المعلم</span>
+          <span class="info-value">{{ w.teacherName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">البريد الإلكتروني</span>
+          <span class="info-value" dir="ltr">{{ w.teacherEmail }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="card-title">
+        <i class="bi bi-wallet2" aria-hidden="true"></i>
+        بيانات الاستلام
+      </h3>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-label">طريقة الاستلام</span>
+          <span class="info-value">{{ payoutMethodLabel(w.payoutMethod) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">تفاصيل الاستلام</span>
+          <span class="info-value" dir="ltr">{{ w.payoutDetailsMasked || '—' }}</span>
+        </div>
+        @if (isBank(w)) {
+          <div class="info-row">
+            <span class="info-label">اسم البنك</span>
+            <span class="info-value">{{ w.bankName || '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">صاحب الحساب</span>
+            <span class="info-value">{{ w.accountHolderName || '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">رقم الحساب</span>
+            <span class="info-value" dir="ltr">{{ w.bankAccountNumber || '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">الآيبان</span>
+            <span class="info-value" dir="ltr">{{ w.bankIBAN || '—' }}</span>
+          </div>
+        } @else {
+          <div class="info-row">
+            <span class="info-label">المحفظة</span>
+            <span class="info-value">{{ w.walletProvider || '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">رقم المحفظة</span>
+            <span class="info-value" dir="ltr">{{ w.walletNumber || '—' }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    @if (w.status !== WithdrawalStatus.Pending) {
+      <section class="card">
+        <h3 class="card-title">
+          <i class="bi bi-clock-history" aria-hidden="true"></i>
+          متابعة الطلب
+        </h3>
+        <div class="info-rows">
+          <div class="info-row">
+            <span class="info-label">تاريخ الاعتماد</span>
+            <span class="info-value">{{ formatDate(w.approvedAt) }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">تاريخ التحويل</span>
+            <span class="info-value">{{ formatDate(w.transferredAt) }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">المراجعة بواسطة</span>
+            <span class="info-value">{{ w.reviewedBy || '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">التحويل بواسطة</span>
+            <span class="info-value">{{ w.transferredBy || '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">الرفض بواسطة</span>
+            <span class="info-value">{{ w.rejectedBy || '—' }}</span>
+          </div>
+        </div>
+      </section>
+    }
+
+    <section class="card">
+      <h3 class="card-title">
+        <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
+        الأرباح المخصصة لهذا الطلب
+      </h3>
+      @if (w.allocatedEarnings.length === 0) {
+        <p class="empty-note">لا توجد أرباح مخصصة.</p>
+      } @else {
+        <div class="table-responsive">
+          <table class="table earnings-table align-middle">
+            <thead>
+              <tr>
+                <th>الدورة</th>
+                <th class="th-num">الصافي</th>
+                <th class="th-num">التاريخ</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (e of w.allocatedEarnings; track e.earningId) {
+                <tr>
+                  <td>{{ e.courseTitle || 'دورة' }}</td>
+                  <td class="amount" dir="ltr">{{ e.netAmount.toLocaleString('en-EG') }} <span class="currency">جنيه</span></td>
+                  <td class="cell-muted">{{ formatDate(e.createdAt) }}</td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>الإجمالي المطلوب</th>
+                <td class="amount total" dir="ltr">{{ w.amount.toLocaleString('en-EG') }} <span class="currency">جنيه</span></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      }
+    </section>
+
+    <section class="actions-card">
+      @if (w.status === WithdrawalStatus.Pending) {
+        <div class="actions-buttons">
+          <button type="button" class="btn-action btn-action-approve" [disabled]="submitting()" (click)="approve()">
+            @if (submitting()) {
+              <span class="btn-spinner" aria-hidden="true"></span>
+            } @else {
+              <i class="bi bi-check-lg" aria-hidden="true"></i>
+            }
+            اعتماد الطلب
+          </button>
+          <button type="button" class="btn-action btn-action-reject" [disabled]="submitting()" (click)="openRejectForm()">
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+            رفض الطلب
+          </button>
+        </div>
+
+        @if (showRejectForm()) {
+          <div class="reject-box">
+            <label class="dialog-label" for="rejectReason">سبب الرفض</label>
+            <textarea
+              id="rejectReason"
+              rows="3"
+              [(ngModel)]="rejectionReason"
+              placeholder="اكتب سبب الرفض الذي سيظهر للمعلم..."
+            ></textarea>
+            <div class="d-flex gap-2 mt-2">
+              <button type="button" class="btn-confirm" [disabled]="!rejectionReason().trim() || submitting()" (click)="reject()">
+                @if (submitting()) {
+                  <span class="btn-spinner" aria-hidden="true"></span>
+                  جاري الرفض...
+                } @else {
+                  تأكيد الرفض
+                }
+              </button>
+              <button type="button" class="btn-cancel" [disabled]="submitting()" (click)="closeRejectForm()">إلغاء</button>
+            </div>
+          </div>
+        }
+      }
+
+      @if (w.status === WithdrawalStatus.Approved) {
+        <p class="actions-note">تم اعتماد الطلب. بعد تنفيذ التحويل يدويًا، قم بتأكيده لتسجيله في النظام.</p>
+        <div class="actions-buttons">
+          <button type="button" class="btn-action btn-action-transfer" [disabled]="submitting()" (click)="completeTransfer()">
+            @if (submitting()) {
+              <span class="btn-spinner" aria-hidden="true"></span>
+            } @else {
+              <i class="bi bi-check2-circle" aria-hidden="true"></i>
+            }
+            تأكيد اكتمال التحويل
+          </button>
+        </div>
+      }
+
+      @if (w.status === WithdrawalStatus.Transferred || w.status === WithdrawalStatus.Rejected) {
+        <p class="actions-note">لا توجد إجراءات متاحة لهذا الطلب.</p>
+      }
+    </section>
+  }
+</main>
