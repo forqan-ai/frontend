@@ -1,89 +1,74 @@
 import {
-  ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  OnInit,
+  ElementRef,
   ViewChild,
   inject,
-  signal,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
+import { DatePipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { ToastService } from '../../../../core/services/toast.service';
-import { CertificateDocumentComponent } from '../../Components/certificate-document/certificate-document.component';
-import { ICertificate } from '../../Models/certificate.interface';
-import { CertificatePdfService } from '../../Services/certificate-pdf.service';
+import html2pdf from 'html2pdf.js';
+
 import { CourseService } from '../../Services/course.service';
+import { ICertificate } from '../../Models/certificate.interface';
 
 @Component({
   selector: 'app-certificate',
   standalone: true,
-  imports: [CertificateDocumentComponent],
+  imports: [DatePipe],
   templateUrl: './certificate.component.html',
   styleUrl: './certificate.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificateComponent implements OnInit {
+export class CertificateComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly courseService = inject(CourseService);
-  private readonly pdfService = inject(CertificatePdfService);
-  private readonly toastService = inject(ToastService);
-  private readonly destroyRef = inject(DestroyRef);
 
-  private readonly courseId = this.route.snapshot.paramMap.get('courseId') ?? '';
+  private readonly courseId =
+    this.route.snapshot.paramMap.get('courseId')!;
 
-  readonly certificate = signal<ICertificate | null>(null);
-  readonly isLoading = signal(true);
-  readonly hasError = signal(false);
-  readonly isDownloading = signal(false);
+  @ViewChild('certificateRef')
+  certificateRef!: ElementRef<HTMLDivElement>;
 
-  @ViewChild(CertificateDocumentComponent)
-  private readonly certificateDocument?: CertificateDocumentComponent;
-
-  ngOnInit(): void {
-    this.loadCertificate();
-  }
-
-  loadCertificate(): void {
-    this.isLoading.set(true);
-    this.hasError.set(false);
-
-    this.courseService
-      .getCertificate(this.courseId)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isLoading.set(false)),
-      )
-      .subscribe({
-        next: (certificate) => this.certificate.set(certificate),
-        error: () => {
-          this.certificate.set(null);
-          this.hasError.set(true);
-        },
-      });
-  }
-
-  async downloadPdf(): Promise<void> {
-    const certificate = this.certificate();
-    const element = this.certificateDocument?.element;
-
-    if (!certificate || !element || this.isDownloading()) {
-      return;
+  certificate = toSignal(
+    this.courseService.getCertificate(this.courseId),
+    {
+      initialValue: {
+        studentName: '',
+        courseTitle: '',
+        teacherName: '',
+        issuedAt: '',
+        verificationCode: '',
+        logoUrl: '',
+      } as ICertificate,
     }
+  );
 
-    this.isDownloading.set(true);
-    try {
-      await this.pdfService.download(
-        element,
-        certificate.courseTitle,
-        certificate.courseId,
-      );
-    } catch {
-      this.toastService.show('تعذر تحميل الشهادة. حاول مرة أخرى.', 'error');
-    } finally {
-      this.isDownloading.set(false);
-    }
+  downloadPdf(): void {
+   const options = {
+  margin: [20, 0, 0, 0] as [number, number, number, number],
+  filename: 'Furqan-Certificate.pdf',
+
+  image: {
+    type: 'jpeg' as const,
+    quality: 1,
+  },
+
+  html2canvas: {
+    scale: 3,
+    useCORS: true,
+  },
+
+  jsPDF: {
+    unit: 'mm' as const,
+    format: 'a4' as const,
+    orientation: 'landscape' as const,
+  },
+};
+
+    html2pdf()
+      .set(options)
+      .from(this.certificateRef.nativeElement)
+      .save();
   }
 }

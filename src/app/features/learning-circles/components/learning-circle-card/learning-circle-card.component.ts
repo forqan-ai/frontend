@@ -1,12 +1,9 @@
 import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  inject,
   input,
   output,
-  signal,
 } from '@angular/core';
 import {
   CircleRole,
@@ -23,8 +20,6 @@ import { CircleGeometricCoverComponent } from '../circle-geometric-cover/circle-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LearningCircleCardComponent {
-  private readonly cdr = inject(ChangeDetectorRef);
-
   readonly circle = input.required<LearningCircleListItem>();
   readonly actionPending = input(false);
 
@@ -45,27 +40,7 @@ export class LearningCircleCardComponent {
 
   readonly CircleJoinPolicy = CircleJoinPolicy;
 
-  private readonly failedUrls = signal<Set<string>>(new Set());
 
-  hasValidImage(): boolean {
-    const url = this.circle()?.teacher?.profileImageUrl;
-    if (!url || !url.trim()) {
-      return false;
-    }
-    return !this.failedUrls().has(url);
-  }
-
-  onImageError(): void {
-    const url = this.circle()?.teacher?.profileImageUrl;
-    if (url) {
-      this.failedUrls.update((set) => {
-        const next = new Set(set);
-        next.add(url);
-        return next;
-      });
-      this.cdr.markForCheck();
-    }
-  }
 
   roleLabel(role: CircleRole | null): string | null {
     switch (role) {
