@@ -256,3 +256,19 @@ nav .d-flex.flex-column.gap-2 > a {
         transform: none;
     }
 }
+
+
+.offcanvas-close {
+  position: relative;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.offcanvas-close i {
+  pointer-events: none;
+}

@@ -1,11 +1,7 @@
-<div
-  class="offcanvas offcanvas-start bg-grey-dark"
-  tabindex="-1"
-  id="studentMobileSidebar"
-  style="width: 260px; background-color: var(--primary-hover)"
->
-  <a data-bs-dismiss="offcanvas">
-    <i class="bi bi-x-lg exit" style="color: var(--primary-light)"></i>
+<div class="offcanvas offcanvas-start bg-grey-dark" tabindex="-1" id="studentMobileSidebar"
+  style="width: 260px; background-color: var(--primary-hover)">
+  <a href="#" data-bs-dismiss="offcanvas" aria-label="Close" class="offcanvas-close">
+    <i class="bi bi-x-lg exit"></i>
   </a>
   <div class="p-3 border-bottom-side text-center">
     <div class="d-flex flex-column align-items-center gap-2">
@@ -20,116 +16,73 @@
   <div class="offcanvas-body p-0 d-flex flex-column bg-grey-dark">
     <nav class="grow p-3">
       <div class="d-flex flex-column gap-2">
-        <a
-          routerLink="home"
-          (click)="setActiveRoute('home')"
-          [class.secondary-white-anchor]="isActive('home')"
-          [class.white-anchor]="!isActive('home')"
-          style="--nav-index: 0"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-          data-bs-dismiss="offcanvas"
-        >
+        <a routerLink="home" (click)="setActiveRoute('home')" [class.secondary-white-anchor]="isActive('home')"
+          [class.white-anchor]="!isActive('home')" style="--nav-index: 0"
+          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none" data-bs-dismiss="offcanvas">
           <i class="bi bi-grid-1x2-fill"></i> الرئيسية
         </a>
 
-        <a
-          routerLink="my-courses"
-          (click)="setActiveRoute('my-courses')"
-          [class.secondary-white-anchor]="isActive('my-courses')"
-          [class.white-anchor]="!isActive('my-courses')"
-          style="--nav-index: 1"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-          data-bs-dismiss="offcanvas"
-        >
+        <a routerLink="my-courses" (click)="setActiveRoute('my-courses')"
+          [class.secondary-white-anchor]="isActive('my-courses')" [class.white-anchor]="!isActive('my-courses')"
+          style="--nav-index: 1" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+          data-bs-dismiss="offcanvas">
           <i class="bi bi-book"></i> دوراتي
         </a>
 
-        <a
-          routerLink="learning-circles"
-          (click)="setActiveRoute('learning-circles')"
+        <a routerLink="learning-circles" (click)="setActiveRoute('learning-circles')"
           [class.secondary-white-anchor]="isActive('learning-circles')"
-          [class.white-anchor]="!isActive('learning-circles')"
-          style="--nav-index: 2"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-          data-bs-dismiss="offcanvas"
-        >
+          [class.white-anchor]="!isActive('learning-circles')" style="--nav-index: 2"
+          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none" data-bs-dismiss="offcanvas">
           <i class="bi bi-bounding-box-circles"></i>
           حلقات العلم
         </a>
 
-        <a
-          routerLink="teachers"
-          (click)="setActiveRoute('teachers')"
-          [class.secondary-white-anchor]="isActive('teachers')"
-          [class.white-anchor]="!isActive('teachers')"
-          style="--nav-index: 3"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-          data-bs-dismiss="offcanvas"
-        >
+        <a routerLink="teachers" (click)="setActiveRoute('teachers')"
+          [class.secondary-white-anchor]="isActive('teachers')" [class.white-anchor]="!isActive('teachers')"
+          style="--nav-index: 3" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+          data-bs-dismiss="offcanvas">
           <span class="material-symbols-outlined"> groups </span>
           المعلمون
         </a>
 
-        <a
-          routerLink="courses"
-          (click)="setActiveRoute('courses')"
-          [class.secondary-white-anchor]="isActive('courses')"
-          [class.white-anchor]="!isActive('courses')"
-          style="--nav-index: 4"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-          data-bs-dismiss="offcanvas"
-        >
+        <a routerLink="courses" (click)="setActiveRoute('courses')" [class.secondary-white-anchor]="isActive('courses')"
+          [class.white-anchor]="!isActive('courses')" style="--nav-index: 4"
+          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none" data-bs-dismiss="offcanvas">
           <i class="bi bi-collection-play"></i>
           الدورات
         </a>
 
-        <a
-          routerLink="wishlist"
-          (click)="setActiveRoute('wishlist')"
-          [class.secondary-white-anchor]="isActive('wishlist')"
-          [class.white-anchor]="!isActive('wishlist')"
-          style="--nav-index: 5"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-        >
+        <a routerLink="wishlist" (click)="setActiveRoute('wishlist')"
+          [class.secondary-white-anchor]="isActive('wishlist')" [class.white-anchor]="!isActive('wishlist')"
+          style="--nav-index: 5" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
           <i class="bi bi-heart"></i>
           مفضلتي
         </a>
 
-        <a
-          routerLink="settings"
-          (click)="setActiveRoute('settings')"
-          [class.secondary-white-anchor]="isActive('settings')"
-          [class.white-anchor]="!isActive('settings')"
-          style="--nav-index: 6"
-          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-          data-bs-dismiss="offcanvas"
-        >
+        <a routerLink="settings" (click)="setActiveRoute('settings')"
+          [class.secondary-white-anchor]="isActive('settings')" [class.white-anchor]="!isActive('settings')"
+          style="--nav-index: 6" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+          data-bs-dismiss="offcanvas">
           <i class="bi bi-person-gear"></i> إدارة حسابك
         </a>
       </div>
     </nav>
 
     <div class="p-3 border-top-side d-flex flex-column gap-2">
-      <a
-        routerLink="/teacher"
-        (click)="setActiveRoute('teacher')"
-        data-bs-dismiss="offcanvas"
-        class="role-switch-btn text-decoration-none"
-      >
+      @if(this.authService.getRole() === 'Teacher'){
+      <a routerLink="/teacher" (click)="setActiveRoute('teacher')" data-bs-dismiss="offcanvas"
+        class="role-switch-btn text-decoration-none">
         <span class="role-switch-icon"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></span>
         لوحة المعلم
         <i class="bi bi-arrow-left role-switch-arrow" aria-hidden="true"></i>
       </a>
-      <a
-        href="#"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 white-anchor text-decoration-none"
-      >
+      }
+
+      <!-- <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 white-anchor text-decoration-none">
         Help & Support
-      </a>
-      <a
-        (click)="logout()"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 white-anchor text-decoration-none"
-      >
+      </a> -->
+      <a (click)="logout()"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 white-anchor text-decoration-none">
         <i class="bi bi-box-arrow-left"></i> تسجيل خروج
       </a>
     </div>
