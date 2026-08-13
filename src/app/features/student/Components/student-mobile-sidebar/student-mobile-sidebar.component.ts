@@ -13,7 +13,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 export class StudentMobileSidebarComponent {
 
   private settingsService = inject(SettingsService);
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   private router = inject(Router);
 
   apiUrl = 'https://localhost:7054';

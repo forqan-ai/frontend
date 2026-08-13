@@ -4,7 +4,6 @@ import { RouterLink, Router, NavigationEnd, RouterLinkActive } from '@angular/ro
 import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
-import { single } from 'rxjs';
 
 @Component({
   selector: 'app-student-sidebar',
@@ -15,7 +14,7 @@ import { single } from 'rxjs';
 })
 export class StudentSidebarComponent implements OnInit {
   private settingsService = inject(SettingsService);
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   private router = inject(Router);
   apiUrl = 'https://localhost:7054';
   activeRoute: string = '';

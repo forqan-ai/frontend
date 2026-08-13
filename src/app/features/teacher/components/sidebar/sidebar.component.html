@@ -20,8 +20,14 @@
     }
   </nav>
 
+  <a routerLink="/student" class="role-switch-btn text-decoration-none ">
+    <span class="role-switch-icon"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></span>
+    لوحة الطالب
+    <i class="bi bi-arrow-left role-switch-arrow" aria-hidden="true"></i>
+  </a>
+
   <app-button (btnClick)="authservice.logout()" variant="secondary"
-    customClass="w-100 d-flex align-items-center justify-content-start gap-2">
+    customClass="w-100 d-flex align-items-center justify-content-start">
     <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
     تسجيل الخروج
   </app-button>
