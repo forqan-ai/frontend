@@ -1,0 +1,80 @@
+<main class="error-page">
+
+    <!-- Decorative background -->
+    <div class="bg-circle bg-circle--one"></div>
+    <div class="bg-circle bg-circle--two"></div>
+    <div class="bg-circle bg-circle--three"></div>
+
+
+    <div class="error-container">
+
+        <!-- =====================================================
+           FORQAN
+      ====================================================== -->
+
+        <section class="forqan-section" aria-label="فُرقان يبحث عن الصفحة">
+
+            <!-- Ground shadow -->
+            <div class="ground"></div>
+
+
+
+
+            <!--
+          Replace this with your Forqan image.
+
+          Recommended:
+          /assets/forqan-404.png
+
+          You can also use your original Forqan image:
+          /assets/forqan.png
+        -->
+
+            <img class="forqan" src="images/errors/404.webp" alt="فُرقان" />
+
+        </section>
+
+
+        <!-- =====================================================
+           ERROR CONTENT
+      ====================================================== -->
+
+        <section class="error-content">
+
+            <div class="error-number" aria-label="خطأ 404">
+                404
+            </div>
+
+            <h1 class="error-title">
+                عذراً، الصفحة غير موجودة!
+            </h1>
+
+            <p class="error-description">
+                يبدو أن الصفحة التي تبحث عنها قد تم نقلها أو حذفها،
+                أو ربما كتبت الرابط بشكل غير صحيح.
+                لا تقلق، فُرقان سيساعدك على العودة إلى المكان الصحيح.
+            </p>
+
+            <!-- <a href="/" class="home-button"> -->
+            <app-button (btnClick)="this.routingService.routeToHome()">
+                <span class="home-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 3.2 3 10.4V21h6.2v-6.2h5.6V21H21V10.4L12 3.2Zm6.8 15.8h-2v-6.2H7.2V19h-2v-7.65L12 6.1l6.8 5.25V19Z" />
+                    </svg>
+                </span>
+                <span>
+                    العودة إلى الصفحة الرئيسية
+                </span>
+            </app-button>
+            <!-- </a> -->
+
+            <div class="error-hint">
+                يمكنك استخدام القائمة الرئيسية للوصول إلى بقية أقسام الموقع.
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
