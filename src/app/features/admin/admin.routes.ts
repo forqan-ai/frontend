@@ -43,6 +43,13 @@ export const ADMIN_ROUTES: Routes = [
                     import('../live-sessions/Pages/admin-bookings/admin-bookings.component')
                         .then(m => m.AdminBookingsComponent),
                 title: 'إدارة الحجوزات',
+            },
+            {
+                path:'withdrawals',
+                loadComponent: () =>
+                    import('./pages/admin-withdrawals/admin-withdrawals.component')
+                        .then(m=>m.AdminWithdrawalsComponent),
+                title: 'طلبات السحب'
             }
         ]
     }
