@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { SettingsService } from '../../../student/Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
+import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -22,9 +22,7 @@ export class AdminSidebarComponent implements OnInit {
 
   user = this.settingsService.user;
 
-  studentImage = computed(() =>
-    this.getStudentImage(this.user()?.profileImageURL)
-  );
+  studentImage = computed(() => this.getStudentImage(this.user()?.profileImageURL));
 
   ngOnInit(): void {
     // Load user data
@@ -44,7 +42,7 @@ export class AdminSidebarComponent implements OnInit {
     this.updateActiveRoute(currentUrl);
 
     // Then listen for changes
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
         this.updateActiveRoute(url);
@@ -56,6 +54,10 @@ export class AdminSidebarComponent implements OnInit {
   private updateActiveRoute(url: string): void {
     if (url.includes('teaching-requests')) {
       this.activeRoute = 'teaching-requests';
+    } else if (url.includes('courses-review')) {
+      this.activeRoute = 'courses-review';
+    } else if (url.includes('profile-change-requests')) {
+      this.activeRoute = 'profile-change-requests';
     } else if (url.includes('my-courses')) {
       this.activeRoute = 'my-courses';
     } else if (url.includes('withdrawals')) {

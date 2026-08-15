@@ -1,4 +1,12 @@
-import { Component, DestroyRef, inject, OnInit, signal, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 
 import { RouterLink } from '@angular/router';
 import {
@@ -17,12 +25,12 @@ import { ICategory } from '../../models/category.interface';
 import { CoursesBrowseService } from '../../services/courses-browse.service';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { IPaginatedResult } from '../../models/paginated-result.interface';
-import { CoursesBrowseCardComponent } from "../../components/courses-browse-card/courses-browse-card.component";
+import { CoursesBrowseCardComponent } from '../../components/courses-browse-card/courses-browse-card.component';
 import { CourseService } from '../../../Course/Services/course.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
-import { CourseDetailsComponent } from "../../../Course/Pages/course-details/course-details.component";
-import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
+import { CourseDetailsComponent } from '../../../Course/Pages/course-details/course-details.component';
+import { CourseCardComponent } from '../../../Course/Components/course-card/course-card.component';
 
 @Component({
   selector: 'app-courses-browse',
@@ -35,13 +43,12 @@ export class CoursesBrowseComponent implements OnInit {
 
   private readonly courseService = inject(CourseService);
   private readonly authService = inject(AuthService);
-  
+
   private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('recommendedSlider') recommendedSliderRef!: ElementRef<HTMLDivElement>;
 
-  private readonly refreshCourses$ =
-    new Subject<void>();
+  private readonly refreshCourses$ = new Subject<void>();
 
   readonly searchInput = signal('');
 
@@ -63,14 +70,11 @@ export class CoursesBrowseComponent implements OnInit {
 
   readonly totalCount = signal(0);
 
-  readonly isLoadingCourses =
-    signal(false);
+  readonly isLoadingCourses = signal(false);
 
-  readonly coursesError =
-    signal('');
+  readonly coursesError = signal('');
 
-  readonly categoriesError =
-    signal('');
+  readonly categoriesError = signal('');
 
   readonly recommendedCourses = signal<ICourseCardDto[]>([]);
   readonly isLoggedIn = signal(false);
@@ -87,11 +91,12 @@ export class CoursesBrowseComponent implements OnInit {
   }
 
   private loadRecommendedCourses(): void {
-    this.courseService.getRecommendedCourses()
+    this.courseService
+      .getRecommendedCourses()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => this.recommendedCourses.set(res),
-        error: () => { }
+        error: () => {},
       });
   }
 
@@ -106,60 +111,45 @@ export class CoursesBrowseComponent implements OnInit {
 
     this.coursesBrowseService
       .getCategories()
-      .pipe(
-        takeUntilDestroyed(
-          this.destroyRef,
-        ),
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (categories) => {
           this.categories.set(categories);
         },
         error: () => {
           this.categories.set([]);
-          this.categoriesError.set(
-            'تعذر تحميل التصنيفات.',
-          );
+          this.categoriesError.set('تعذر تحميل التصنيفات.');
         },
       });
   }
 
   private listenToCoursesRequests(): void {
-    this.refreshCourses$.pipe(
-      switchMap(() => {
-        this.isLoadingCourses.set(true);
-        this.coursesError.set('');
+    this.refreshCourses$
+      .pipe(
+        switchMap(() => {
+          this.isLoadingCourses.set(true);
+          this.coursesError.set('');
 
-        return this.coursesBrowseService
-          .getCourses({
-            pageNumber:
-              this.pageNumber(),
-            pageSize:
-              this.pageSize,
-            search:
-              this.searchQuery(),
-            categoryId:
-              this.selectedCategoryId()
-              ?? undefined,
-          })
-          .pipe(
-            catchError(() => {
-              this.coursesError.set(
-                'حدث خطأ أثناء تحميل الدورات. حاول مرة أخرى.',
-              );
+          return this.coursesBrowseService
+            .getCourses({
+              pageNumber: this.pageNumber(),
+              pageSize: this.pageSize,
+              search: this.searchQuery(),
+              categoryId: this.selectedCategoryId() ?? undefined,
+            })
+            .pipe(
+              catchError(() => {
+                this.coursesError.set('حدث خطأ أثناء تحميل الدورات. حاول مرة أخرى.');
 
-              return of(null);
-            }),
-            finalize(() => {
-              this.isLoadingCourses
-                .set(false);
-            }),
-          );
-      }),
-      takeUntilDestroyed(
-        this.destroyRef,
-      ),
-    )
+                return of(null);
+              }),
+              finalize(() => {
+                this.isLoadingCourses.set(false);
+              }),
+            );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe((result) => {
         if (result === null) {
           this.courses.set([]);
@@ -192,32 +182,22 @@ export class CoursesBrowseComponent implements OnInit {
       });
   }
 
-  private applyCoursesResult(
-    result:
-      IPaginatedResult<ICourseCardDto>,
-  ): void {
+  private applyCoursesResult(result: IPaginatedResult<ICourseCardDto>): void {
+    console.log('API RESULT:', result);
+    console.log('ITEMS:', result.items);
+    console.log('ITEM COUNT:', result.items?.length);
+
     this.courses.set(result.items);
-    this.totalCount.set(
-      result.totalCount,
-    );
-    this.totalPages.set(
-      result.totalPages,
-    );
+    this.totalCount.set(result.totalCount);
+    this.totalPages.set(result.totalPages);
   }
 
-  selectCategory(
-    categoryId: string | null,
-  ): void {
-    if (
-      this.selectedCategoryId()
-      === categoryId
-    ) {
+  selectCategory(categoryId: string | null): void {
+    if (this.selectedCategoryId() === categoryId) {
       return;
     }
 
-    this.selectedCategoryId.set(
-      categoryId,
-    );
+    this.selectedCategoryId.set(categoryId);
 
     this.pageNumber.set(1);
     this.requestCourses();
@@ -232,11 +212,7 @@ export class CoursesBrowseComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    if (
-      page < 1 ||
-      page > this.totalPages() ||
-      page === this.pageNumber()
-    ) {
+    if (page < 1 || page > this.totalPages() || page === this.pageNumber()) {
       return;
     }
 
@@ -258,43 +234,23 @@ export class CoursesBrowseComponent implements OnInit {
   }
 
   pageNumbers(): number[] {
-    const total =
-      this.totalPages();
+    const total = this.totalPages();
 
-    const current =
-      this.pageNumber();
+    const current = this.pageNumber();
 
     if (total <= 5) {
-      return Array.from(
-        { length: total },
-        (_, index) => index + 1,
-      );
+      return Array.from({ length: total }, (_, index) => index + 1);
     }
 
-    let start = Math.max(
-      1,
-      current - 2,
-    );
+    let start = Math.max(1, current - 2);
 
-    let end = Math.min(
-      total,
-      start + 4,
-    );
+    let end = Math.min(total, start + 4);
 
-    start = Math.max(
-      1,
-      end - 4,
-    );
+    start = Math.max(1, end - 4);
 
-    end = Math.min(
-      total,
-      start + 4,
-    );
+    end = Math.min(total, start + 4);
 
-    return Array.from(
-      { length: end - start + 1 },
-      (_, index) => start + index,
-    );
+    return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
 
   private requestCourses(): void {

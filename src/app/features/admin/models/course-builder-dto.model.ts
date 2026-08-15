@@ -22,4 +22,5 @@ export interface LessonBuilderDto {
   contentType: string;
   durationSeconds: number;
   orderIndex: number;
+  contentURL: string;
 }
