@@ -23,6 +23,10 @@ import { ToastComponent } from '../../../../shared/components/toast/toast.compon
 
 import { RouterLink } from '@angular/router';
 
+// ==========================================
+// Strong Password Validator
+// ==========================================
+
 function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value ?? '';
 
@@ -38,6 +42,10 @@ function strongPasswordValidator(control: AbstractControl): ValidationErrors | n
 
   return valid ? null : { weakPassword: true };
 }
+
+// ==========================================
+// Same Password Validator
+// ==========================================
 
 const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
   const currentPassword = group.get('currentPassword')?.value;
@@ -58,18 +66,26 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
 
   standalone: true,
 
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, ToastComponent, RouterLink],
 
   templateUrl: './student-settings.component.html',
 
   styleUrls: ['./student-settings.component.css'],
 })
 export class StudentSettingsComponent implements OnInit {
+  // ==========================================
+  // Dependencies
+  // ==========================================
+
   private fb = inject(FormBuilder);
 
   private settingsService = inject(SettingsService);
 
   private toast = inject(ToastService);
+
+  // ==========================================
+  // State
+  // ==========================================
 
   loading = signal(false);
 
@@ -81,9 +97,17 @@ export class StudentSettingsComponent implements OnInit {
 
   selectedFile: File | null = null;
 
+  // ==========================================
+  // Profile Form
+  // ==========================================
+
   profileForm = this.fb.nonNullable.group({
     fullName: ['', Validators.required],
   });
+
+  // ==========================================
+  // Password Form
+  // ==========================================
 
   passwordForm = this.fb.nonNullable.group(
     {
@@ -97,13 +121,25 @@ export class StudentSettingsComponent implements OnInit {
     },
   );
 
+  // ==========================================
+  // Init
+  // ==========================================
+
   ngOnInit(): void {
     this.loadUser();
   }
 
+  // ==========================================
+  // Toggle Section
+  // ==========================================
+
   toggleSection(section: string) {
     this.openSection.update((current) => (current === section ? null : section));
   }
+
+  // ==========================================
+  // Load User
+  // ==========================================
 
   loadUser() {
     this.loading.set(true);
@@ -129,23 +165,34 @@ export class StudentSettingsComponent implements OnInit {
     });
   }
 
-  // onImageSelected(event: Event) {
-  //   const input = event.target as HTMLInputElement;
+  // ==========================================
+  // Select Image
+  // ==========================================
 
-  //   if (!input.files || input.files.length === 0) {
-  //     return;
-  //   }
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
 
-  //   this.selectedFile = input.files[0];
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
 
-  //   const reader = new FileReader();
+    this.selectedFile = input.files[0];
 
-  //   reader.onload = () => {
-  //     this.imagePreview.set(reader.result as string);
-  //   };
+    // Preview فقط
+    // لا يتم رفع الصورة هنا
 
-  //   reader.readAsDataURL(this.selectedFile);
-  // }
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.imagePreview.set(reader.result as string);
+    };
+
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  // ==========================================
+  // Submit Profile Changes
+  // ==========================================
 
   saveProfile() {
     if (this.profileForm.invalid) {
@@ -157,6 +204,10 @@ export class StudentSettingsComponent implements OnInit {
     }
 
     const fullName = this.profileForm.getRawValue().fullName;
+
+    // ======================================
+    // Check if there is actually a change
+    // ======================================
 
     const currentUser = this.user();
 
@@ -174,12 +225,25 @@ export class StudentSettingsComponent implements OnInit {
       return;
     }
 
+    // ======================================
+    // Send Request
+    // ======================================
+
     this.loading.set(true);
 
     this.settingsService.createProfileChangeRequest(fullName, this.selectedFile).subscribe({
       next: () => {
         this.loading.set(false);
+
         this.toast.show('تم إرسال طلب تعديل البيانات إلى الإدارة للمراجعة');
+
+        // ==================================
+        // مهم:
+        // لا نغير user
+        // ولا نغير الاسم الحقيقي
+        // ولا نغير الصورة الحقيقية
+        // ==================================
+
         this.selectedFile = null;
       },
 
@@ -196,6 +260,10 @@ export class StudentSettingsComponent implements OnInit {
       },
     });
   }
+
+  // ==========================================
+  // Change Password
+  // ==========================================
 
   changePassword() {
     if (this.passwordForm.hasError('samePassword')) {
@@ -242,16 +310,5 @@ export class StudentSettingsComponent implements OnInit {
         this.toast.show(error?.description || 'حدث خطأ أثناء تغيير كلمة المرور', 'error');
       },
     });
-  }
-
-  onImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-    this.selectedFile = input.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview.set(reader.result as string);
-    };
-    reader.readAsDataURL(this.selectedFile);
   }
 }

@@ -1,5 +1,9 @@
 <div class="page-layout">
   <div class="dashboard">
+    <!-- ========================================= -->
+    <!-- Hero -->
+    <!-- ========================================= -->
+
     <section class="hero-card">
       <div class="profile-info">
         <div class="avatar">
@@ -16,7 +20,15 @@
       </div>
     </section>
 
+    <!-- ========================================= -->
+    <!-- Settings -->
+    <!-- ========================================= -->
+
     <section class="settings-list">
+      <!-- ===================================== -->
+      <!-- Profile Information -->
+      <!-- ===================================== -->
+
       <div class="setting-card">
         <div class="setting-header" (click)="toggleSection('profile')">
           <div class="setting-title">
@@ -35,6 +47,10 @@
 
         @if (openSection() === 'profile') {
           <div class="setting-body">
+            <!-- ================================= -->
+            <!-- Name -->
+            <!-- ================================= -->
+
             <div class="form-group">
               <label> الاسم بالكامل </label>
 
@@ -47,6 +63,10 @@
                 <small class="text-danger"> الاسم بالكامل مطلوب </small>
               }
             </div>
+
+            <!-- ================================= -->
+            <!-- Profile Image -->
+            <!-- ================================= -->
 
             <div class="form-group">
               <label> الصورة الشخصية </label>
@@ -99,6 +119,10 @@
               </app-button>
             </div>
 
+            <!-- ================================= -->
+            <!-- Information -->
+            <!-- ================================= -->
+
             <div class="review-info">
               <i class="bi bi-info-circle"></i>
 
@@ -109,6 +133,10 @@
           </div>
         }
       </div>
+
+      <!-- ========================================= -->
+      <!-- Password -->
+      <!-- ========================================= -->
 
       <div class="setting-card">
         <div class="setting-header" (click)="toggleSection('password')">
@@ -174,6 +202,10 @@
           </div>
         }
       </div>
+
+      <!-- ========================================= -->
+      <!-- Bottom Buttons -->
+      <!-- ========================================= -->
 
       <div class="row">
         <div class="col-6">
