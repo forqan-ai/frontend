@@ -58,6 +58,10 @@ export class CourseService {
     );
   }
 
+  getCertificates(): Observable<ICertificate[]> {
+    return this.http.get<ICertificate[]>(`${this.baseUrl}/certificates`);
+  }
+
   submitCourseForReview(courseId: string): Observable<boolean> {
     return this.http.patch<boolean>(
       `${this.baseUrl}/${courseId}/submit-review`,

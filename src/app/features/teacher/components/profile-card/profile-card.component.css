@@ -7,10 +7,12 @@
   padding: 24px;
   overflow: hidden;
   position: relative;
-  background: #fff;
-  border: 1px solid #eadfd4;
+  isolation: isolate;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(52, 27, 22, 0.07);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .profile-card::before {
@@ -19,7 +21,39 @@
   inset-inline: 0;
   top: 0;
   height: 5px;
-  background: linear-gradient(90deg, #341b16, #0b6e4f);
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  transform: scaleX(0.4);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.profile-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--primary-light), transparent 60%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--primary-light);
+  box-shadow: 0 20px 40px rgba(52, 27, 22, 0.13);
+}
+
+.profile-card:hover::before {
+  transform: scaleX(1);
+}
+
+.profile-card:hover::after {
+  opacity: 1;
+}
+
+.profile-card:hover .avatar-frame {
+  transform: scale(1.05);
+  border-color: var(--primary-light);
 }
 
 .profile-top {
@@ -34,9 +68,10 @@
   height: 86px;
   padding: 4px;
   overflow: hidden;
-  background: #f8f3ed;
-  border: 1px solid #eadfd4;
+  background: var(--secondary);
+  border: 1px solid var(--border);
   border-radius: 50%;
+  transition: transform 0.35s ease, border-color 0.35s ease;
 }
 
 .avatar {
@@ -52,9 +87,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #0b6e4f;
-  background: rgba(11, 110, 79, 0.08);
-  border: 1px solid rgba(11, 110, 79, 0.16);
+  color: var(--primary);
+  background: var(--primary-light);
+  border: 1px solid var(--primary-light);
   border-radius: 999px;
   font-size: 12px;
   font-weight: 900;
@@ -63,7 +98,7 @@
 
 .profile-card h2 {
   margin: 16px 0 8px;
-  color: #341b16;
+  color: var(--text);
   font-size: 22px;
   line-height: 1.45;
   word-break: break-word;
@@ -72,13 +107,13 @@
 .profile-card p {
   min-height: 76px;
   margin: 0 0 16px;
-  color: #6f5850;
+  color: var(--text-light);
   font-size: 14px;
   line-height: 1.85;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .rating {
@@ -87,20 +122,20 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #6f5850;
-  background: #fbf8f2;
-  border: 1px solid #eadfd4;
+  color: var(--text-light);
+  background: var(--secondary);
+  border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 13px;
   font-weight: 900;
 }
 
 .rating i {
-  color: #ffb800;
+  color: var(--primary);
 }
 
 .rating strong {
-  color: #341b16;
+  color: var(--text);
   direction: ltr;
   unicode-bidi: isolate;
 }
@@ -116,12 +151,39 @@
   max-width: 100%;
   padding: 6px 10px;
   overflow: hidden;
-  color: #341b16;
-  background: #f8f3ed;
-  border: 1px solid #eadfd4;
+  color: var(--text);
+  background: var(--secondary);
+  border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 12px;
   font-weight: 900;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.specialties span:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+}
+
+
+.reveal-init {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
 }

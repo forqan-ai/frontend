@@ -129,23 +129,23 @@ export class StudentSettingsComponent implements OnInit {
     });
   }
 
-  onImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
+  // onImageSelected(event: Event) {
+  //   const input = event.target as HTMLInputElement;
 
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
+  //   if (!input.files || input.files.length === 0) {
+  //     return;
+  //   }
 
-    this.selectedFile = input.files[0];
+  //   this.selectedFile = input.files[0];
 
-    const reader = new FileReader();
+  //   const reader = new FileReader();
 
-    reader.onload = () => {
-      this.imagePreview.set(reader.result as string);
-    };
+  //   reader.onload = () => {
+  //     this.imagePreview.set(reader.result as string);
+  //   };
 
-    reader.readAsDataURL(this.selectedFile);
-  }
+  //   reader.readAsDataURL(this.selectedFile);
+  // }
 
   saveProfile() {
     if (this.profileForm.invalid) {
@@ -242,5 +242,16 @@ export class StudentSettingsComponent implements OnInit {
         this.toast.show(error?.description || 'حدث خطأ أثناء تغيير كلمة المرور', 'error');
       },
     });
+  }
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+    this.selectedFile = input.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview.set(reader.result as string);
+    };
+    reader.readAsDataURL(this.selectedFile);
   }
 }

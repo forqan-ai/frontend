@@ -1,75 +1,187 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="course-form">
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="course-form"
+>
   <div class="row">
-    <div class="form-group">
-      <label>عنوان الدورة</label>
 
-      <input type="text" formControlName="title" placeholder="مثال : تعلم تفسير القرآن" />
+    <div class="form-group">
+      <label for="title">عنوان الدورة</label>
+
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="مثال: تعلم تفسير القرآن"
+        [class.invalid]="isInvalid('title')"
+      />
+
+      @if (isInvalid('title')) {
+        <span class="error-message">
+          {{ getErrorMessage('title') }}
+        </span>
+      }
     </div>
 
     <div class="form-group">
-      <label>العنوان الفرعي</label>
+      <label for="subtitle">العنوان الفرعي</label>
 
-      <input type="text" formControlName="subtitle" placeholder="اكتب عنواناً فرعياً" />
+      <input
+        id="subtitle"
+        type="text"
+        formControlName="subtitle"
+        placeholder="اكتب عنواناً فرعياً"
+        [class.invalid]="isInvalid('subtitle')"
+      />
+
+      @if (isInvalid('subtitle')) {
+        <span class="error-message">
+          {{ getErrorMessage('subtitle') }}
+        </span>
+      }
     </div>
+
   </div>
 
   <div class="form-group">
-    <label>وصف الدورة</label>
+    <label for="description">وصف الدورة</label>
 
-    <textarea rows="6" formControlName="description" placeholder="اكتب وصف الدورة"> </textarea>
+    <textarea
+      id="description"
+      rows="6"
+      formControlName="description"
+      placeholder="اكتب وصف الدورة"
+      [class.invalid]="isInvalid('description')"
+    ></textarea>
+
+    @if (isInvalid('description')) {
+      <span class="error-message">
+        {{ getErrorMessage('description') }}
+      </span>
+    }
   </div>
 
   <div class="row">
-    <div class="form-group">
-      <label>التصنيف</label>
 
-      <select formControlName="categoryId">
+    <div class="form-group">
+      <label for="categoryId">التصنيف</label>
+
+      <select
+        id="categoryId"
+        formControlName="categoryId"
+        [class.invalid]="isInvalid('categoryId')"
+      >
         <option value="">اختر التصنيف</option>
 
-        @for (category of categories(); track category.categoryID) {
+        @for (
+          category of categories();
+          track category.categoryID
+        ) {
           <option [value]="category.categoryID">
             {{ category.name }}
           </option>
         }
       </select>
+
+      @if (isInvalid('categoryId')) {
+        <span class="error-message">
+          {{ getErrorMessage('categoryId') }}
+        </span>
+      }
     </div>
 
     <div class="form-group">
-      <label>المستوى</label>
+      <label for="level">المستوى</label>
 
-      <select formControlName="level">
+      <select
+        id="level"
+        formControlName="level"
+      >
         <option [value]="0">Beginner</option>
-
         <option [value]="1">Intermediate</option>
-
         <option [value]="2">Advanced</option>
       </select>
     </div>
+
   </div>
 
   <div class="row">
+
     <div class="form-group">
-      <label>اللغة</label>
+      <label for="language">اللغة</label>
 
-      <select formControlName="language">
+      <select
+        id="language"
+        formControlName="language"
+      >
         <option [value]="0">العربية</option>
-
         <option [value]="1">English</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label>السعر</label>
+      <label for="price">السعر</label>
 
-      <input type="number" formControlName="price" />
+      <input
+        id="price"
+        type="number"
+        min="0"
+        formControlName="price"
+        [class.invalid]="isInvalid('price')"
+      />
+
+      @if (isInvalid('price')) {
+        <span class="error-message">
+          {{ getErrorMessage('price') }}
+        </span>
+      }
     </div>
+
   </div>
 
   <div class="form-group">
-    <label>صورة الدورة</label>
 
-    <input type="file" accept="image/*" (change)="onThumbnailSelected($event)" />
+    <label for="thumbnail">صورة الدورة</label>
+
+    <div
+      class="file-upload"
+      [class.invalid]="isInvalid('thumbnail')"
+    >
+      <input
+        id="thumbnail"
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        (change)="onThumbnailSelected($event)"
+      />
+
+      <div class="file-content">
+        <span class="upload-icon">↑</span>
+
+        <span class="upload-title">
+          {{ thumbnail ? thumbnail.name : 'اختر صورة الدورة' }}
+        </span>
+
+        <span class="upload-hint">
+          PNG, JPG أو WEBP — الحد الأقصى 5MB
+        </span>
+      </div>
+    </div>
+
+    @if (isInvalid('thumbnail')) {
+      <span class="error-message">
+        {{ getErrorMessage('thumbnail') }}
+      </span>
+    }
+
   </div>
 
-  <button class="save-btn" type="submit">إنشاء الدورة</button>
+  <button
+    class="save-btn"
+    type="submit"
+    [class.loading]="submitted() && form.valid"
+  >
+    <span class="btn-icon">✓</span>
+    <span>إنشاء الدورة</span>
+  </button>
+
 </form>

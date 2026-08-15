@@ -7,14 +7,15 @@
   padding: 24px;
   overflow: hidden;
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background:
-    linear-gradient(145deg, #ffffff, #fbf8f2);
-  border: 1px solid #eadfd4;
+  background: linear-gradient(145deg, var(--surface), var(--secondary));
+  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(52, 27, 22, 0.07);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .balance-card::before {
@@ -23,7 +24,10 @@
   inset-inline: 0;
   top: 0;
   height: 5px;
-  background: linear-gradient(90deg, #0b6e4f, #341b16);
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  transform: scaleX(0.4);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .balance-card::after {
@@ -33,10 +37,33 @@
   bottom: -26px;
   width: 132px;
   height: 132px;
-  background: #0b6e4f;
+  background: var(--primary);
   border-radius: 50%;
   opacity: 0.05;
+  z-index: -1;
+  transition: transform 0.4s ease, opacity 0.4s ease;
   pointer-events: none;
+}
+
+.balance-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--primary-light);
+  box-shadow: 0 20px 40px rgba(52, 27, 22, 0.13);
+}
+
+.balance-card:hover::before {
+  transform: scaleX(1);
+}
+
+.balance-card:hover::after {
+  transform: scale(1.15);
+  opacity: 0.09;
+}
+
+.balance-card:hover .icon-wrapper {
+  transform: scale(1.08);
+  background: var(--primary);
+  color: var(--surface);
 }
 
 .card-header {
@@ -54,10 +81,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0b6e4f;
-  background: rgba(11, 110, 79, 0.08);
-  border: 1px solid rgba(11, 110, 79, 0.16);
+  color: var(--primary);
+  background: var(--primary-light);
+  border: 1px solid var(--primary-light);
   border-radius: 16px;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .icon-wrapper i {
@@ -66,9 +94,9 @@
 
 .badge {
   padding: 6px 12px;
-  color: #0b6e4f;
-  background: rgba(11, 110, 79, 0.08);
-  border: 1px solid rgba(11, 110, 79, 0.16);
+  color: var(--primary);
+  background: var(--primary-light);
+  border: 1px solid var(--primary-light);
   border-radius: 999px;
   font-size: 12px;
   font-weight: 900;
@@ -89,7 +117,7 @@
 }
 
 .amount {
-  color: #341b16;
+  color: var(--text);
   font-size: 44px;
   font-weight: 900;
   line-height: 1;
@@ -98,7 +126,7 @@
 }
 
 .unit {
-  color: #0b6e4f;
+  color: var(--primary);
   font-size: 15px;
   font-weight: 900;
 }
@@ -108,14 +136,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #7a635d;
+  color: var(--text-light);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.7;
 }
 
 .hint i {
-  color: #0b6e4f;
+  color: var(--primary);
   font-size: 15px;
 }
 
@@ -123,7 +151,7 @@
   width: min(70%, 220px);
   height: 54px;
   border-radius: 14px;
-  background: linear-gradient(90deg, #f4eee7 25%, #eadfd4 50%, #f4eee7 75%);
+  background: linear-gradient(90deg, var(--secondary) 25%, var(--border) 50%, var(--secondary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
 }
@@ -135,5 +163,27 @@
 
   100% {
     background-position: -200% 0;
+  }
+}
+
+
+
+.reveal-init {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init {
+    transition: none;
+    opacity: 1;
+    transform: none;
   }
 }

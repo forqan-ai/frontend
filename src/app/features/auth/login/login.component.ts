@@ -168,9 +168,6 @@ export class LoginComponent implements AfterViewInit {
         next: (res) => {
           this.settingsService.setUser(res.data.user);
           this.isSubmitting.set(false);
-
-
-
           if (res.succeeded) {
             if (this.authService.hasRole(Role.Teacher)) {
               this.router.navigate(['/teacher']);
@@ -190,7 +187,6 @@ export class LoginComponent implements AfterViewInit {
         },
         error: (err: HttpErrorResponse) => {
           this.isSubmitting.set(false);
-
           this.handleApiErrors(
             err.error?.errors as ApiError[]
           );

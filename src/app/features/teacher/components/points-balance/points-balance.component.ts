@@ -1,9 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { BookingsService } from '../../../live-sessions/Services/bookings.service';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-points-balance',
   standalone: true,
+  imports: [ScrollRevealDirective],
   templateUrl: './points-balance.component.html',
   styleUrl: './points-balance.component.css'
 })

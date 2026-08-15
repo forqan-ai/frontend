@@ -1,0 +1,522 @@
+    /* =========================================================
+       YOUR WEBSITE VARIABLES
+    ========================================================= */
+
+    :root {
+      --primary: #341b16;
+      --primary-hover: #4a2620;
+      --primary-light: #e9d4bf;
+
+      --secondary: #f8f3ed;
+      --surface: #ffffff;
+
+      --text: #341b16;
+      --text-light: #7a635d;
+      --text-muted: #7c7267;
+
+      --border: #e8ddd2;
+
+      --cream: #fdf8f2;
+      --sand: #e7cda9;
+      --sand-dark: #c69f6b;
+    }
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "IBM Plex Sans Arabic", sans-serif;
+      background: var(--secondary);
+      color: var(--text);
+      direction: rtl;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* =========================================================
+       PAGE
+    ========================================================= */
+
+    .error-page {
+      min-height: 100vh;
+      min-height: 100svh;
+
+      position: relative;
+      overflow: hidden;
+
+      display: flex;
+      align-items: center;
+
+      background:
+        radial-gradient(
+          circle at 20% 50%,
+          rgba(233, 212, 191, 0.35),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(233, 212, 191, 0.3),
+          transparent 25%
+        ),
+        var(--secondary);
+    }
+
+    /* Decorative background circles */
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .bg-circle--one {
+      width: 420px;
+      height: 420px;
+      left: -220px;
+      bottom: -180px;
+      background: rgba(233, 212, 191, 0.25);
+    }
+
+    .bg-circle--two {
+      width: 300px;
+      height: 300px;
+      right: -150px;
+      bottom: -120px;
+      background: rgba(233, 212, 191, 0.2);
+    }
+
+    .bg-circle--three {
+      width: 180px;
+      height: 180px;
+      left: 12%;
+      top: 10%;
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    /* =========================================================
+       CONTAINER
+    ========================================================= */
+
+    .error-container {
+      width: min(90%, 1320px);
+      margin-inline: auto;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+
+      gap: 50px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    /* =========================================================
+       FORQAN SIDE
+    ========================================================= */
+
+    .forqan-section {
+      position: relative;
+
+      min-height: 650px;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    /* Ground */
+
+    .ground {
+      position: absolute;
+
+      width: 470px;
+      height: 75px;
+
+      bottom: 38px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(198, 159, 107, 0.55),
+          rgba(198, 159, 107, 0.08) 65%,
+          transparent 70%
+        );
+
+      border-radius: 50%;
+    }
+
+    /* Forqan */
+
+    .forqan {
+      position: relative;
+
+      height: 600px;
+      width: auto;
+
+      object-fit: contain;
+
+      z-index: 2;
+
+      filter: drop-shadow(
+        0 25px 20px rgba(52, 27, 22, 0.08)
+      );
+
+      animation: float 5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .error-content {
+      max-width: 600px;
+
+      padding-block: 40px;
+    }
+
+    .error-number {
+      font-family: Arial, sans-serif;
+
+      font-size: clamp(110px, 13vw, 210px);
+
+      line-height: 0.85;
+
+      letter-spacing: -10px;
+
+      font-weight: 800;
+
+      color: var(--primary);
+
+      margin-bottom: 30px;
+    }
+
+    .error-title {
+      font-size: clamp(28px, 3vw, 46px);
+
+      line-height: 1.35;
+
+      font-weight: 700;
+
+      color: var(--primary);
+
+      margin-bottom: 18px;
+    }
+
+    .error-description {
+      max-width: 540px;
+
+      font-size: clamp(17px, 1.5vw, 21px);
+
+      line-height: 2;
+
+      font-weight: 500;
+
+      color: var(--text-light);
+
+      margin-bottom: 35px;
+    }
+
+    /* =========================================================
+       BUTTON
+    ========================================================= */
+
+    .home-button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 12px;
+
+      min-height: 58px;
+
+      padding: 0 30px;
+
+      border-radius: 15px;
+
+      background: var(--primary);
+
+      color: white;
+
+      font-size: 17px;
+      font-weight: 600;
+
+      box-shadow:
+        0 10px 25px rgba(52, 27, 22, 0.15);
+
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .home-button:hover {
+      background: var(--primary-hover);
+
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 15px 30px rgba(52, 27, 22, 0.2);
+    }
+
+    .home-button:active {
+      transform: translateY(0);
+    }
+
+    .home-icon {
+      width: 22px;
+      height: 22px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .home-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    /* =========================================================
+       SMALL MESSAGE
+    ========================================================= */
+
+    .error-hint {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-top: 25px;
+
+      font-size: 14px;
+
+      color: var(--text-muted);
+    }
+
+    .error-hint::before {
+      content: "";
+
+      width: 7px;
+      height: 7px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background: var(--primary-light);
+    }
+
+    /* =========================================================
+       TABLET
+    ========================================================= */
+
+    @media (max-width: 1000px) {
+      .error-container {
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 20px;
+      }
+
+      .forqan-section {
+        min-height: 550px;
+      }
+
+      .forqan {
+        height: 520px;
+      }
+
+      .error-number {
+        font-size: clamp(100px, 14vw, 160px);
+      }
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 720px) {
+      .error-page {
+        min-height: auto;
+
+        padding-block: 45px 60px;
+      }
+
+      .error-container {
+        width: min(92%, 520px);
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 10px;
+
+        text-align: center;
+      }
+
+      /* Put content first on mobile */
+
+      .error-content {
+        order: 1;
+
+        width: 100%;
+
+        padding-block: 0;
+      }
+
+      .forqan-section {
+        order: 2;
+
+        width: 100%;
+
+        min-height: 390px;
+
+        margin-top: 15px;
+      }
+
+      .error-number {
+        font-size: clamp(90px, 25vw, 130px);
+
+        letter-spacing: -5px;
+
+        margin-bottom: 20px;
+      }
+
+      .error-title {
+        font-size: 27px;
+
+        margin-bottom: 12px;
+      }
+
+      .error-description {
+        font-size: 16px;
+
+        line-height: 1.9;
+
+        margin-bottom: 25px;
+      }
+
+      .home-button {
+        width: 100%;
+
+        min-height: 56px;
+
+        border-radius: 13px;
+      }
+
+      .error-hint {
+        justify-content: center;
+
+        margin-top: 18px;
+
+        font-size: 13px;
+      }
+
+      .forqan {
+        height: 380px;
+      }
+
+      .ground {
+        width: 330px;
+
+        bottom: 15px;
+      }
+     
+      .bg-circle--one {
+        width: 250px;
+        height: 250px;
+
+        left: -150px;
+        bottom: -80px;
+      }
+
+      .bg-circle--two {
+        width: 200px;
+        height: 200px;
+
+        right: -100px;
+        bottom: -80px;
+      }
+    }
+
+    /* =========================================================
+       VERY SMALL MOBILE
+    ========================================================= */
+
+    @media (max-width: 400px) {
+      .error-page {
+        padding-block: 35px 40px;
+      }
+
+      .error-number {
+        font-size: 90px;
+      }
+
+      .error-title {
+        font-size: 24px;
+      }
+
+      .error-description {
+        font-size: 15px;
+      }
+
+      .forqan-section {
+        min-height: 340px;
+      }
+
+      .forqan {
+        height: 330px;
+      }
+
+   
+    }
+
+    /* =========================================================
+       ACCESSIBILITY
+    ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }

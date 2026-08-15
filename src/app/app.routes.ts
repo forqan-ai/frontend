@@ -11,14 +11,14 @@ import { CoursesBrowseComponent } from './features/courses-browse/pages/courses-
 import { TeachersBrowseComponent } from './features/teacher/pages/teachers-browse/teachers-browse.component';
 import { AboutUsComponent } from './features/home/pages/about-us/about-us.component';
 import { TeacherDetailsComponent } from './features/teacher/pages/teacher-details/teacher-details.component';
-import { StudentprofileComponent } from './features/student/Pages/studentprofile/studentprofile.component';
-import { StudentSettingsComponent } from './features/student/Pages/student-settings/student-settings.component';
-import { TeachingRequestComponent } from './features/student/Pages/teaching-request/teaching-request.component';
 import { CheckoutComponent } from './features/points/pages/checkout/checkout.component';
-
 import { TeacherLayoutComponent } from './Layout/teacher_layout/teacher-layout/teacher-layout.component';
 import { StudentDashboardComponent } from './Layout/dashboard_layout/student-dashboard/student-dashboard.component';
 import { AdminDashboardComponent } from './Layout/dashboard_layout/admin-dashboard/admin-dashboard.component';
+import { NotFoundComponent } from './shared/pages/not-found/not-found.component';
+import { UnauthorizedComponent } from './shared/pages/unauthorized/unauthorized.component';
+import { adminGuard } from './core/guards/admin-guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -133,6 +133,21 @@ export const routes: Routes = [
       },
     ],
   },
+  // {
+  //   path: 'dashboard',
+  //   component: DashboardLayoutComponent,
+  //   children: [
+  //     {
+  //       path: 'student',
+  //       loadChildren: () =>
+  //         import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
+  //     },
+  //     {
+  //       path: 'admin',
+  //       loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+  //     },
+  //   ],
+  // },
   {
     path: 'chat',
     loadComponent: () =>
@@ -166,15 +181,13 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () =>
-          import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
+        loadChildren: () => import('./features/teacher/teacher.routes').then((m) => m.TEACHER_ROUTES),
       },
     ],
   },
   {
     path: '',
-    loadComponent: () =>
-      import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'course-details/:id/:teacherid',
@@ -261,5 +274,13 @@ export const routes: Routes = [
     path: 'checkout/:id',
     component: CheckoutComponent,
     title: 'متابعة عملية الدفع'
+  },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   },
 ];
