@@ -6,17 +6,26 @@ import { PlacementResultComponent } from './pages/placement-result/placement-res
 export const PLACEMENT_ROUTES: Routes = [
   {
     path: '',
-    component: PlacementIntroComponent,
+    // component: PlacementIntroComponent,
+    loadComponent: () =>
+      import('../placement-test/pages/placement-intro/placement-intro.component')
+        .then(m => m.PlacementIntroComponent),
     title: 'اختبار تحديد المستوى | الفرقان',
   },
   {
     path: 'quiz',
-    component: PlacementQuizComponent,
+    // component: PlacementQuizComponent,
+    loadComponent: () =>
+      import('../placement-test/pages/placement-quiz/placement-quiz.component')
+        .then(m => m.PlacementQuizComponent),
     title: 'الاختبار | الفرقان',
   },
   {
     path: 'result',
-    component: PlacementResultComponent,
+    // component: PlacementResultComponent,
+    loadComponent: () =>
+      import('../placement-test/pages/placement-result/placement-result.component')
+        .then(m => m.PlacementResultComponent),
     title: 'نتائج اختبار تحديد المستوى | الفرقان',
   },
 ];

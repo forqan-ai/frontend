@@ -16,6 +16,7 @@ import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teache
 import { CheckoutComponent } from '../points/pages/checkout/checkout.component';
 import { CourseCheckoutComponent } from '../Course/Pages/checkout/course-checkout.component';
 import { studentGuard } from '../../core/guards/student-guard';
+import { WishlistComponent } from './Pages/wishlist/wishlist.component';
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -52,7 +53,6 @@ export const STUDENT_ROUTES: Routes = [
         component: TeachingRequestComponent,
         title: 'طلب الانضمام كمعلم',
       },
-
       {
         path: 'settings/my-certificates',
         component: StudentCertificatesComponent,
@@ -151,9 +151,10 @@ export const STUDENT_ROUTES: Routes = [
 
       {
         path: 'wishlist',
-        loadComponent: () =>
-          import('./Pages/wishlist/wishlist.component')
-            .then((m) => m.WishlistComponent),
+        component: WishlistComponent,
+        // loadComponent: () =>
+        //   import('./Pages/wishlist/wishlist.component')
+        //     .then((m) => m.WishlistComponent),
         title: 'مفضلتي',
       },
 

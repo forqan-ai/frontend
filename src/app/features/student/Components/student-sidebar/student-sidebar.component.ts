@@ -4,11 +4,12 @@ import { RouterLink, Router, NavigationEnd, RouterLinkActive } from '@angular/ro
 import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
+import { PlacementService } from '../../../placement-test/services/placement.service';
 
 @Component({
   selector: 'app-student-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvatarComponent, RouterLinkActive],
+  imports: [CommonModule, RouterLink, AvatarComponent],
   templateUrl: './student-sidebar.component.html',
   styleUrl: './student-sidebar.component.css',
 })
@@ -21,11 +22,12 @@ export class StudentSidebarComponent implements OnInit {
 
   user = this.settingsService.user;
 
-  
+
 
   studentImage = computed(() =>
     this.getStudentImage(this.user()?.profileImageURL)
   );
+
 
   ngOnInit(): void {
     // Load user data
@@ -38,7 +40,6 @@ export class StudentSidebarComponent implements OnInit {
         error: (err) => console.error('Sidebar error:', err),
       });
     }
-
     // Set active route based on current URL
     // First, set it immediately on load
     const currentUrl = this.router.url;
@@ -71,6 +72,8 @@ export class StudentSidebarComponent implements OnInit {
       this.activeRoute = 'teacher'
     } else if (url.includes('wishlist')) {
       this.activeRoute = 'wishlist'
+    } else if (url.includes('placement-test')) {
+      this.activeRoute = 'placement-test'
     }
 
   }

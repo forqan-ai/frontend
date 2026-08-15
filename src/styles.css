@@ -20,55 +20,12 @@ html {
 }
 body {
   font-family: 'IBM Plex Sans Arabic', sans-serif;
+  background-color: var(--secondary);
   color: var(--text);
   overflow-x: hidden;
   direction: rtl;
   min-height: 100vh;
   position: relative;
-  background:
-    radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.62), transparent 32%),
-    radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.42), transparent 30%),
-    radial-gradient(circle at 75% 75%, rgba(214, 178, 148, 0.22), transparent 40%),
-    linear-gradient(160deg, #f8eee5 0%, #f5e8dc 45%, #f1e0d1 100%);
-  background-attachment: fixed;
-}
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.11;
-  z-index: 0;
-  background-image:
-    repeating-linear-gradient(45deg, rgba(83, 49, 39, 0.55) 0, rgba(83, 49, 39, 0.55) 1px, transparent 1px, transparent 42px),
-    repeating-linear-gradient(-45deg, rgba(83, 49, 39, 0.55) 0, rgba(83, 49, 39, 0.55) 1px, transparent 1px, transparent 42px);
-}
-body::after {
-  content: "";
-  position: fixed;
-  width: 380px;
-  height: 380px;
-  top: -130px;
-  right: -100px;
-  border-radius: 50%;
-  filter: blur(45px);
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(circle, rgba(181, 140, 105, 0.22), rgba(214, 178, 148, 0.08), transparent 72%);
-  animation: drift 16s ease-in-out infinite;
-}
-@keyframes drift {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-18px, 22px) scale(1.06);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  body::after {
-    animation: none;
-  }
 }
 h1,
 h2,

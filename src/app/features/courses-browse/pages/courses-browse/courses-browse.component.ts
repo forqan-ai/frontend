@@ -23,10 +23,12 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
 import { CourseDetailsComponent } from "../../../Course/Pages/course-details/course-details.component";
 import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
+import { ButtonComponent } from "../../../../shared/components/button/button.component";
+import { PlacementService } from '../../../placement-test/services/placement.service';
 
 @Component({
   selector: 'app-courses-browse',
-  imports: [RouterLink, CoursesBrowseCardComponent, CourseDetailsComponent, CourseCardComponent],
+  imports: [RouterLink, CoursesBrowseCardComponent, CourseDetailsComponent, CourseCardComponent, ButtonComponent],
   templateUrl: './courses-browse.component.html',
   styleUrl: './courses-browse.component.css',
 })
@@ -35,8 +37,12 @@ export class CoursesBrowseComponent implements OnInit {
 
   private readonly courseService = inject(CourseService);
   private readonly authService = inject(AuthService);
-  
+
   private readonly destroyRef = inject(DestroyRef);
+
+  placementTestTaken = signal<boolean>(true);
+  placementTestResultLoading = signal<boolean>(true);
+  placementTestService = inject(PlacementService);
 
   @ViewChild('recommendedSlider') recommendedSliderRef!: ElementRef<HTMLDivElement>;
 
@@ -83,6 +89,17 @@ export class CoursesBrowseComponent implements OnInit {
     this.requestCourses();
     if (this.isLoggedIn()) {
       this.loadRecommendedCourses();
+      this.placementTestService.hasTakenTest().subscribe({
+        next: (res) => {
+          this.placementTestTaken.set(res);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          this.placementTestResultLoading.set(false);
+        }
+      })
     }
   }
 

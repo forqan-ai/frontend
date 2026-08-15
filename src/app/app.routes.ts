@@ -26,7 +26,11 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
+        // component: HomeComponent,
+        loadComponent: () =>
+          import('./features/home/pages/home/home.component').then(
+            (m) => m.HomeComponent,
+          ),
       },
       {
         path: 'login',
@@ -53,7 +57,11 @@ export const routes: Routes = [
       },
       {
         path: 'courses',
-        component: CoursesBrowseComponent,
+        // component: CoursesBrowseComponent,
+        loadComponent: () =>
+          import('./features/courses-browse/pages/courses-browse/courses-browse.component').then(
+            (m) => m.CoursesBrowseComponent,
+          ),
         title: 'تصفح الدورات المقدمة من منصة الفرقان',
       },
       {
@@ -76,7 +84,10 @@ export const routes: Routes = [
       },
       {
         path: 'about',
-        component: AboutUsComponent,
+        // component: AboutUsComponent,
+        loadComponent: () =>
+          import('./features/home/pages/about-us/about-us.component')
+            .then(m => m.AboutUsComponent),
         title: 'من نحن | تعرف علي فريق الفرقان',
       },
       {
@@ -113,41 +124,37 @@ export const routes: Routes = [
       },
       {
         path: 'confirm-email',
-        component: ConfirmEmailComponent,
+        loadComponent: () =>
+          import('./features/auth/confirm-email/confirm-email.component')
+            .then(m => m.ConfirmEmailComponent),
         title: 'تأكيد البريد الإلكتروني',
       },
       {
         path: 'forgot-password',
-        component: ResetPasswordComponent,
+        // component: ResetPasswordComponent,
+        loadComponent: () =>
+          import('./features/auth/reset-password/reset-password.component')
+            .then(m => m.ResetPasswordComponent),
         title: 'نسيت كلمة المرور',
       },
       {
         path: 'reset-password',
-        component: ResetPasswordComponent,
+        // component: ResetPasswordComponent,
+        loadComponent: () =>
+          import('./features/auth/reset-password/reset-password.component')
+            .then(m => m.ResetPasswordComponent),
         title: 'إعادة تعيين كلمة المرور',
       },
       {
         path: 'check-email',
-        component: CheckEmailComponent,
+        // component: CheckEmailComponent,
+        loadComponent: () =>
+          import('./features/auth/check-email/check-email.component')
+            .then(m => m.CheckEmailComponent),
         title: 'التحقق من البريد الإلكتروني',
       },
     ],
   },
-  // {
-  //   path: 'dashboard',
-  //   component: DashboardLayoutComponent,
-  //   children: [
-  //     {
-  //       path: 'student',
-  //       loadChildren: () =>
-  //         import('./features/student/student.routes').then((m) => m.STUDENT_ROUTES),
-  //     },
-  //     {
-  //       path: 'admin',
-  //       loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
-  //     },
-  //   ],
-  // },
   {
     path: 'chat',
     loadComponent: () =>
@@ -157,6 +164,9 @@ export const routes: Routes = [
   {
     path: 'student',
     component: StudentDashboardComponent,
+    // loadComponent: () =>
+    //   import('./Layout/dashboard_layout/student-dashboard/student-dashboard.component')
+    //     .then(m => m.StudentDashboardComponent),
     children: [
       {
         path: '',
@@ -167,7 +177,10 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminDashboardComponent,
+    // component: AdminDashboardComponent,
+    loadComponent: () =>
+      import('./Layout/dashboard_layout/admin-dashboard/admin-dashboard.component')
+        .then(m => m.AdminDashboardComponent),
     children: [
       {
         path: '',
@@ -177,7 +190,10 @@ export const routes: Routes = [
   },
   {
     path: 'teacher',
-    component: TeacherLayoutComponent,
+    loadComponent: () =>
+      import('./Layout/teacher_layout/teacher-layout/teacher-layout.component')
+        .then(m => m.TeacherLayoutComponent),
+    // component: TeacherLayoutComponent,
     children: [
       {
         path: '',
@@ -229,13 +245,16 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/live-sessions/live-sessions.routes').then((m) => m.LIVE_SESSIONS_ROUTES),
   },
-  { path: 'confirm-email', component: ConfirmEmailComponent },
-  { path: 'forgot-password', component: ResetPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'check-email', component: CheckEmailComponent },
+  // { path: 'confirm-email', component: ConfirmEmailComponent },
+  // { path: 'forgot-password', component: ResetPasswordComponent },
+  // { path: 'reset-password', component: ResetPasswordComponent },
+  // { path: 'check-email', component: CheckEmailComponent },
   {
     path: 'pointPackages',
-    component: PointPackagesComponent,
+    loadComponent: () =>
+      import('./features/points/pages/point-packages/point-packages.component')
+        .then(m => m.PointPackagesComponent),
+    // component: PointPackagesComponent,
     title: 'شراء نقاط'
   },
   {
@@ -272,15 +291,24 @@ export const routes: Routes = [
   },
   {
     path: 'checkout/:id',
-    component: CheckoutComponent,
+    loadComponent: () =>
+      import('./features/points/pages/checkout/checkout.component')
+        .then(m => m.CheckoutComponent),
+    // component: CheckoutComponent,
     title: 'متابعة عملية الدفع'
   },
   {
     path: 'unauthorized',
-    component: UnauthorizedComponent
+    // component: UnauthorizedComponent
+    loadComponent: () =>
+      import('./shared/pages/unauthorized/unauthorized.component')
+        .then(m => m.UnauthorizedComponent),
   },
   {
     path: '**',
-    component: NotFoundComponent
+    // component: NotFoundComponent,
+    loadComponent: () =>
+      import('./shared/pages/not-found/not-found.component')
+        .then(m => m.NotFoundComponent),
   },
 ];

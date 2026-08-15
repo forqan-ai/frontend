@@ -52,6 +52,13 @@
         <i class="bi bi-heart"></i>
         مفضلتي
       </a>
+      <a routerLink="placement-test" (click)="setActiveRoute('placement-test')"
+        [class.secondary-white-anchor]="isActive('placement-test')" [class.white-anchor]="!isActive('placement-test')"
+        style="--nav-index: 5" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
+        <i class="bi bi-signpost-split"></i>
+        مساري التعليمي
+      </a>
+
 
       <a routerLink="settings" (click)="setActiveRoute('settings')"
         [class.secondary-white-anchor]="isActive('settings')" [class.white-anchor]="!isActive('settings')"

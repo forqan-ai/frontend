@@ -13,7 +13,7 @@ import { TeacherService } from '../../services/teacher.service';
 @Component({
   selector: 'app-create-course',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, QuickActionsComponent, CreateCourseFormComponent],
+  imports: [CreateCourseFormComponent],
   templateUrl: './create-course.component.html',
   styleUrl: './create-course.component.css',
 })

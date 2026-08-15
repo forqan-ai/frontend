@@ -55,6 +55,33 @@
         }
       </div>
 
+      @if(!placementTestResultLoading() && !placementTestTaken()){
+      <!-- Placement Test -->
+      <section class="placement-test-card">
+        <div class="placement-test-content">
+          <span class="placement-test-label">
+            <i class="bi bi-stars"></i>
+            مسارك التعليمي
+          </span>
+
+          <h2>اكتشف المسار التعليمي المناسب لك</h2>
+
+          <p>
+            أجب عن 16 سؤالًا قصيرًا لتحديد مستواك والحصول على مسار تعليمي
+            مخصص يساعدك على اختيار الدورات المناسبة لك.
+          </p>
+
+          <app-button routerLink="/student/placement-test" type="button" class="placement-test-button">
+            ابدأ اختبار تحديد المستوى
+            <i class="bi bi-arrow-left"></i>
+          </app-button>
+        </div>
+
+        <div class="placement-test-icon">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+      </section>
+      }
       <section class="courses-results">
         <div class="results-header">
           <p>
