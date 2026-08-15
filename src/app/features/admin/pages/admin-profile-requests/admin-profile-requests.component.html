@@ -1,0 +1,177 @@
+<div class="profile-requests-page">
+  <h2 class="page-title">مراجعة بيانات الطلاب</h2>
+
+  @if (loading()) {
+    <div class="loading">جاري تحميل الطلبات...</div>
+  } @else {
+    @if (requests().length === 0) {
+      <div class="empty-state">
+        <h3>لا توجد طلبات معلقة</h3>
+        <p>لا يوجد حاليًا أي طلبات لتعديل بيانات الطلاب.</p>
+      </div>
+    } @else {
+      <div class="requests-list">
+        @for (request of requests(); track request.id) {
+          <div class="request-card">
+            <div class="student-info">
+              <div class="avatar">
+                @if (request.CurrentProfileImageURL) {
+                  <img [src]="request.CurrentProfileImageURL" alt="Student" />
+                } @else {
+                  <i class="bi bi-person"></i>
+                }
+              </div>
+
+              <div>
+                <h3>
+                  {{ request.CurrentFullName }}
+                </h3>
+
+                <p>
+                  {{ request.userEmail }}
+                </p>
+
+                <span> طلب تعديل بيانات </span>
+              </div>
+            </div>
+
+            <div class="request-actions">
+              <app-button (btnClick)="openRequest(request)"> مراجعة الطلب </app-button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- Review Modal -->
+
+  @if (selectedRequest(); as request) {
+    <div class="review-overlay">
+      <div class="review-modal">
+        <div class="review-header">
+          <div>
+            <h2>مراجعة بيانات الطالب</h2>
+
+            <p>
+              {{ request.userEmail }}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="close-button"
+            [disabled]="actionLoading()"
+            (click)="closeRequest()"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="review-body">
+          <!-- Current Data -->
+
+
+          <!-- Requested Data -->
+
+          <section class="data-section">
+            <h3>البيانات المطلوبة</h3>
+
+            <div class="profile-data">
+              <div class="image-container">
+                @if (request.newProfileImageURL) {
+                  <img [src]="request.newProfileImageURL" alt="New profile" />
+                } @else {
+                  <div class="no-change">لم يتم تغيير الصورة</div>
+                }
+              </div>
+
+              <div class="data-item">
+                <span> الاسم الجديد </span>
+
+                <strong>
+                  {{ request.newFullName || 'لم يتم تغيير الاسم' }}
+                </strong>
+              </div>
+            </div>
+          </section>
+
+          <div class="request-date">
+            <span> تاريخ الطلب: </span>
+
+            {{ request.createdAt | date: 'medium' }}
+          </div>
+        </div>
+
+        <!-- Actions -->
+
+        <div class="review-footer">
+          <button
+            type="button"
+            class="cancel-button"
+            [disabled]="actionLoading()"
+            (click)="closeRequest()"
+          >
+            إغلاق
+          </button>
+
+          <button
+            type="button"
+            class="reject-button"
+            [disabled]="actionLoading()"
+            (click)="openRejectDialog()"
+          >
+            رفض الطلب
+          </button>
+
+          <button
+            type="button"
+            class="approve-button"
+            [disabled]="actionLoading()"
+            (click)="approveRequest()"
+          >
+            @if (actionLoading()) {
+              جاري التنفيذ...
+            } @else {
+              قبول التعديل
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Reject Dialog -->
+
+  @if (rejectDialog()) {
+    <div class="reject-dialog">
+      <div class="dialog-content">
+        <h3>رفض طلب تعديل البيانات</h3>
+
+        <textarea
+          rows="5"
+          placeholder="اكتب سبب رفض الطلب..."
+          [value]="rejectionReason()"
+          [disabled]="actionLoading()"
+          (input)="onRejectionReasonChange($event)"
+        ></textarea>
+
+        <div class="dialog-actions">
+          <button type="button" (click)="closeRejectDialog()">إلغاء</button>
+
+          <button
+            type="button"
+            [disabled]="actionLoading() || !rejectionReason().trim()"
+            (click)="rejectRequest()"
+          >
+            @if (actionLoading()) {
+              جاري الرفض...
+            } @else {
+              تأكيد الرفض
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
