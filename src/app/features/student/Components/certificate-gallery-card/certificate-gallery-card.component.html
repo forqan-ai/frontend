@@ -1,0 +1,59 @@
+<article class="certificate-card">
+  <a
+    class="preview-link"
+    [routerLink]="['/student/certificate', certificate().courseId]"
+    [attr.aria-label]="'عرض شهادة دورة ' + certificate().courseTitle"
+  >
+    <div class="certificate-preview" aria-hidden="true">
+      <div class="preview-border">
+        <span class="preview-corner preview-corner-tr"></span>
+        <span class="preview-corner preview-corner-tl"></span>
+
+        <img class="preview-logo" src="/images/logo2.png" alt="" />
+        <p class="preview-heading">شهادة إتمام دورة</p>
+        <p class="preview-copy">تشهد منصة فرقان بأن الطالب/ة</p>
+        <strong class="preview-student">{{ certificate().studentName }}</strong>
+        <p class="preview-copy">قد أتم بنجاح دورة</p>
+        <strong class="preview-course">{{ certificate().courseTitle }}</strong>
+
+        <div class="preview-footer">
+          <span>
+            <small>رمز التحقق</small>
+            {{ certificate().verificationCode }}
+          </span>
+          <span>
+            <small>بإشراف</small>
+            {{ teacherName() }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <div class="card-body">
+    <h2 class="course-title" [title]="certificate().courseTitle">
+      {{ certificate().courseTitle }}
+    </h2>
+    <p class="teacher-name" [title]="teacherName()">بإشراف: {{ teacherName() }}</p>
+    <time class="issued-date" [attr.datetime]="certificate().issuedAt">
+      {{ certificate().issuedAt | date: 'dd/MM/yyyy' }}
+    </time>
+
+    <button
+      type="button"
+      class="download-button"
+      [disabled]="downloadDisabled()"
+      [attr.aria-busy]="downloading()"
+      [attr.aria-label]="'تحميل شهادة دورة ' + certificate().courseTitle"
+      (click)="requestDownload()"
+    >
+      @if (downloading()) {
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        جارٍ إعداد الملف...
+      } @else {
+        <i class="bi bi-download" aria-hidden="true"></i>
+        تحميل الشهادة
+      }
+    </button>
+  </div>
+</article>
