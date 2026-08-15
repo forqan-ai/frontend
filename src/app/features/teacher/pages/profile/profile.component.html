@@ -1,11 +1,26 @@
 <div class="dashboard">
   <div class="content">
+
     <div class="profile-grid">
-      <app-profile-summary [teacher]="profile()" (imageSelected)="onImageSelected($event)">
+
+      <app-profile-summary
+        [teacher]="profile()"
+        (imageSelected)="onImageSelected($event)"
+      >
       </app-profile-summary>
 
-      <app-profile-form [teacher]="profile()" (save)="updateProfile($event)"> </app-profile-form>
+      <app-profile-form
+        [teacher]="profile()"
+        (save)="updateProfile($event)"
+      >
+      </app-profile-form>
+
     </div>
+
+    <app-profile-statistics
+      [dashboard]="dashboard()"
+    >
+    </app-profile-statistics>
 
     <app-specialties-card
       [specialties]="specialties()"
@@ -14,6 +29,6 @@
       (save)="saveSpecialties($event)"
     >
     </app-specialties-card>
-    <app-profile-statistics [dashboard]="dashboard()"> </app-profile-statistics>
+
   </div>
 </div>

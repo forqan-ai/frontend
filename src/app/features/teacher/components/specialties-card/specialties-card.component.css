@@ -1,145 +1,887 @@
-.card {
-  background: #fff;
-
-  border-radius: 18px;
-
-  padding: 24px;
-
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-}
-
-/* Header */
-
-.card-header h2 {
-  margin: 0;
-
-  font-size: 24px;
-
-  color: #222;
-}
-
-.card-header p {
-  margin-top: 8px;
-
-  color: #777;
-
-  font-size: 14px;
-
-  line-height: 1.6;
-}
-
-/* Select */
-
-.specialties-select {
-  margin-top: 20px;
-}
-
-/* Button */
-
-.save-btn {
-  width: 100%;
-
-  margin-top: 20px;
-
-  padding: 14px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: #0f766e;
-
-  color: #fff;
-
-  font-size: 15px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s;
-}
-
-.save-btn:hover {
-  background: #115e59;
-}
-
-/* Current Specialties */
-
-.current-specialties {
-  margin-top: 30px;
-
-  border-top: 1px solid #ececec;
-
-  padding-top: 24px;
-}
-
-.current-specialties h4 {
-  margin-bottom: 18px;
-
-  font-size: 17px;
-
-  color: #444;
-}
-
-/* Chips */
-
-.chips {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 12px;
-}
-
-.chip {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  padding: 10px 16px;
-
-  border-radius: 30px;
-
-  background: #ecfdf5;
-
-  color: #0f766e;
-
-  font-weight: 600;
-
-  border: 1px solid #d1fae5;
-
-  transition: 0.25s;
-}
-
-.chip:hover {
-  transform: translateY(-2px);
-
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.15);
-}
-
-.chip .material-symbols-outlined {
-  font-size: 18px;
-}
-
-/* Empty */
-
-.empty-state {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  padding: 20px;
-
-  border-radius: 12px;
-
-  background: #f8fafc;
-
-  color: #888;
-
-  font-size: 14px;
+:host { 
+  display: block; 
+  width: 100%; 
+} 
+ 
+.card { 
+  position: relative; 
+  overflow: visible; 
+ 
+  margin-top: 30px; 
+  padding: 30px; 
+ 
+  border: 1px solid rgba(214, 178, 148, 0.3); 
+  border-radius: 22px; 
+ 
+  background: 
+    radial-gradient( 
+      circle at 10% 15%, 
+      rgba(239, 220, 202, 0.34), 
+      transparent 30% 
+    ), 
+    radial-gradient( 
+      circle at 90% 85%, 
+      rgba(231, 207, 185, 0.22), 
+      transparent 30% 
+    ), 
+    linear-gradient( 
+      135deg, 
+      rgba(255, 255, 255, 0.98), 
+      rgba(252, 247, 242, 0.98), 
+      rgba(255, 255, 255, 0.98) 
+    ); 
+ 
+  background-size: 
+    180% 180%, 
+    180% 180%, 
+    220% 220%; 
+ 
+  background-position: 
+    0% 0%, 
+    100% 100%, 
+    0% 50%; 
+ 
+  box-shadow: 
+    0 20px 45px rgba(52, 27, 22, 0.08), 
+    0 6px 18px rgba(52, 27, 22, 0.04); 
+ 
+  animation: 
+    card-enter 0.55s ease both, 
+    background-move 14s ease-in-out infinite; 
+ 
+  transition: 
+    box-shadow 0.35s ease, 
+    border-color 0.35s ease; 
+} 
+ 
+.card::before { 
+  content: ""; 
+ 
+  position: absolute; 
+  inset: 0; 
+ 
+  border-radius: 22px; 
+  padding: 1px; 
+ 
+  background: 
+    linear-gradient( 
+      120deg, 
+      rgba(214, 178, 148, 0.55), 
+      rgba(255, 255, 255, 0.9), 
+      rgba(214, 178, 148, 0.25), 
+      rgba(255, 255, 255, 0.9) 
+    ); 
+ 
+  background-size: 300% 300%; 
+ 
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0); 
+ 
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0); 
+ 
+  -webkit-mask-composite: xor; 
+  mask-composite: exclude; 
+ 
+  pointer-events: none; 
+ 
+  animation: border-flow 8s linear infinite; 
+} 
+ 
+.card::after { 
+  content: ""; 
+ 
+  position: absolute; 
+ 
+  width: 190px; 
+  height: 190px; 
+ 
+  top: -100px; 
+  left: -70px; 
+ 
+  border-radius: 50%; 
+ 
+  background: 
+    radial-gradient( 
+      circle, 
+      rgba(214, 178, 148, 0.18), 
+      transparent 70% 
+    ); 
+ 
+  filter: blur(12px); 
+ 
+  pointer-events: none; 
+ 
+  animation: card-light 9s ease-in-out infinite; 
+} 
+ 
+.card > * { 
+  position: relative; 
+  z-index: 1; 
+} 
+ 
+.card-header { 
+  animation: content-enter 0.6s ease both; 
+} 
+ 
+.card-header h2 { 
+  margin: 0; 
+ 
+  color: #3f302a; 
+ 
+  font-size: 22px; 
+  font-weight: 800; 
+ 
+  line-height: 1.5; 
+} 
+ 
+.card-header p { 
+  margin: 8px 0 0; 
+ 
+  color: #766861; 
+ 
+  font-size: 13px; 
+  font-weight: 500; 
+ 
+  line-height: 1.8; 
+} 
+ 
+.specialties-select { 
+  display: block; 
+ 
+  margin-top: 20px; 
+ 
+  animation: 
+    content-enter 0.65s ease 0.08s both; 
+ 
+  transition: 
+    margin-bottom 0.25s ease; 
+} 
+ 
+.specialties-select.ng-select-opened { 
+  margin-bottom: 270px; 
+} 
+ 
+:host ::ng-deep .specialties-select .ng-select-container { 
+  min-height: 52px; 
+ 
+  border: 1px solid #dfd0c4 !important; 
+  border-radius: 14px !important; 
+ 
+  background: 
+    rgba(255, 252, 249, 0.92) !important; 
+ 
+  box-shadow: none !important; 
+ 
+  transition: 
+    border-color 0.25s ease, 
+    box-shadow 0.25s ease, 
+    background-color 0.25s ease, 
+    transform 0.25s ease; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select:hover 
+.ng-select-container { 
+  border-color: #cdb29d !important; 
+ 
+  background: #fff !important; 
+ 
+  transform: translateY(-1px); 
+} 
+ 
+:host ::ng-deep 
+.specialties-select.ng-select-focused 
+.ng-select-container { 
+  border-color: #8c6251 !important; 
+ 
+  background: #fff !important; 
+ 
+  box-shadow: 
+    0 0 0 4px rgba(196, 160, 132, 0.15), 
+    0 8px 20px rgba(140, 98, 81, 0.08) !important; 
+ 
+  transform: translateY(-2px); 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-placeholder { 
+  color: #8a7669 !important; 
+ 
+  font-size: 13px; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-value { 
+  color: #3f302a !important; 
+ 
+  font-size: 13px; 
+  font-weight: 600; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-value-container { 
+  padding-right: 14px !important; 
+  padding-left: 10px !important; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-arrow-wrapper { 
+  padding-left: 12px; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-arrow { 
+  border-color: 
+    #786b64 
+    transparent 
+    transparent !important; 
+ 
+  transition: 
+    transform 0.25s ease; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select.ng-select-opened 
+.ng-arrow { 
+  transform: rotate(180deg); 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-clear-wrapper { 
+  color: #786b64; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-value { 
+  display: inline-flex; 
+ 
+  align-items: center; 
+  gap: 5px; 
+ 
+  margin: 3px 4px 3px 0; 
+  padding: 5px 9px; 
+ 
+  border: 1px solid #ead8c8; 
+  border-radius: 9px; 
+ 
+  background: #f7eee7 !important; 
+ 
+  color: #4a2620 !important; 
+ 
+  transition: 
+    transform 0.2s ease, 
+    background-color 0.2s ease; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-value:hover { 
+  background: #f0e2d5 !important; 
+ 
+  transform: translateY(-1px); 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-value-icon { 
+  color: #8c6251 !important; 
+ 
+  border-left: none !important; 
+ 
+  transition: 
+    color 0.2s ease, 
+    transform 0.2s ease; 
+} 
+ 
+:host ::ng-deep 
+.specialties-select 
+.ng-value-icon:hover { 
+  background: transparent !important; 
+ 
+  color: #4a2620 !important; 
+ 
+  transform: scale(1.1); 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel { 
+  overflow: hidden; 
+ 
+  margin-top: 6px !important; 
+  margin-bottom: 0 !important; 
+ 
+  max-height: 260px; 
+ 
+  border: 1px solid #e2d3c7 !important; 
+  border-radius: 14px !important; 
+ 
+  background: #fffdfb !important; 
+ 
+  box-shadow: 
+    0 16px 35px rgba(52, 27, 22, 0.12), 
+    0 4px 12px rgba(52, 27, 22, 0.05) !important; 
+ 
+  z-index: 1000 !important; 
+ 
+  animation: 
+    dropdown-enter 0.2s ease both; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-dropdown-panel-items { 
+  max-height: 250px; 
+ 
+  scrollbar-width: thin; 
+ 
+  scrollbar-color: 
+    #d5bca7 
+    transparent; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-dropdown-panel-items::-webkit-scrollbar { 
+  width: 6px; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-dropdown-panel-items::-webkit-scrollbar-thumb { 
+  border-radius: 10px; 
+ 
+  background: #d5bca7; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-option { 
+  padding: 11px 14px !important; 
+ 
+  color: #4d3b34 !important; 
+ 
+  background: transparent !important; 
+ 
+  font-size: 13px; 
+  font-weight: 500; 
+ 
+  transition: 
+    background-color 0.2s ease, 
+    color 0.2s ease, 
+    padding-right 0.2s ease; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-option:hover { 
+  padding-right: 18px !important; 
+ 
+  color: #4a2620 !important; 
+ 
+  background: #f7eee7 !important; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-option-selected { 
+  color: #4a2620 !important; 
+ 
+  background: #f1e3d7 !important; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-option-marked { 
+  color: #4a2620 !important; 
+ 
+  background: #f8f0e9 !important; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-input { 
+  padding: 10px !important; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-input 
+input { 
+  padding: 10px 12px !important; 
+ 
+  border: 1px solid #dfd0c4 !important; 
+  border-radius: 10px !important; 
+ 
+  background: #fff !important; 
+ 
+  color: #3f302a !important; 
+ 
+  outline: none !important; 
+ 
+  box-shadow: none !important; 
+} 
+ 
+:host ::ng-deep 
+.ng-dropdown-panel 
+.ng-input 
+input:focus { 
+  border-color: #8c6251 !important; 
+ 
+  box-shadow: 
+    0 0 0 3px rgba(196, 160, 132, 0.12) !important; 
+} 
+ 
+.save-btn { 
+  width: 100%; 
+ 
+  margin-top: 20px; 
+ 
+  min-height: 50px; 
+ 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+ 
+  color: var(--surface); 
+ 
+  background: 
+    linear-gradient( 
+      135deg, 
+      var(--primary), 
+      var(--primary-hover) 
+    ); 
+ 
+  border: 1px solid var(--primary-hover); 
+  border-radius: 14px; 
+ 
+  cursor: pointer; 
+ 
+  padding: 13px 18px; 
+ 
+  font-family: inherit; 
+  font-size: 14px; 
+  font-weight: 900; 
+ 
+  box-shadow: 
+    0 10px 22px rgba(52, 27, 22, 0.16); 
+ 
+  position: relative; 
+  overflow: hidden; 
+ 
+  transition: 
+    transform 0.3s ease, 
+    box-shadow 0.3s ease, 
+    filter 0.3s ease, 
+    background 0.3s ease; 
+ 
+  animation: 
+    content-enter 0.7s ease 0.14s both; 
+} 
+ 
+.save-btn::before { 
+  content: ""; 
+ 
+  position: absolute; 
+ 
+  top: 0; 
+  left: -120%; 
+ 
+  width: 70%; 
+  height: 100%; 
+ 
+  background: 
+    linear-gradient( 
+      110deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.22), 
+      transparent 
+    ); 
+ 
+  transform: skewX(-20deg); 
+ 
+  transition: 
+    left 0.6s ease; 
+ 
+  pointer-events: none; 
+} 
+ 
+.save-btn:hover { 
+  transform: translateY(-3px); 
+ 
+  filter: brightness(1.06); 
+ 
+  box-shadow: 
+    0 16px 30px rgba(52, 27, 22, 0.22); 
+} 
+ 
+.save-btn:hover::before { 
+  left: 140%; 
+} 
+ 
+.save-btn:active { 
+  transform: translateY(-1px) scale(0.98); 
+ 
+  box-shadow: 
+    0 7px 15px rgba(52, 27, 22, 0.15); 
+} 
+ 
+.save-btn:focus-visible { 
+  outline: none; 
+ 
+  box-shadow: 
+    0 0 0 4px var(--teacher-accent-soft), 
+    0 10px 22px rgba(52, 27, 22, 0.16); 
+} 
+ 
+.current-specialties { 
+  margin-top: 30px; 
+ 
+  padding-top: 24px; 
+ 
+  border-top: 1px solid #eaded5; 
+ 
+  animation: 
+    content-enter 0.75s ease 0.2s both; 
+} 
+ 
+.current-specialties h4 { 
+  margin: 0 0 18px; 
+ 
+  color: #4a3932; 
+ 
+  font-size: 16px; 
+  font-weight: 800; 
+} 
+ 
+.chips { 
+  display: flex; 
+ 
+  flex-wrap: wrap; 
+ 
+  gap: 10px; 
+} 
+ 
+.chip { 
+  display: inline-flex; 
+ 
+  align-items: center; 
+  gap: 7px; 
+ 
+  padding: 9px 14px; 
+ 
+  border: 1px solid #ead8c8; 
+  border-radius: 30px; 
+ 
+  background: 
+    linear-gradient( 
+      135deg, 
+      #f8efe8, 
+      #f3e5da 
+    ); 
+ 
+  color: #5b3429; 
+ 
+  font-size: 13px; 
+  font-weight: 700; 
+ 
+  box-shadow: 
+    0 4px 12px rgba(74, 38, 32, 0.05); 
+ 
+  transition: 
+    transform 0.25s ease, 
+    box-shadow 0.25s ease, 
+    background-color 0.25s ease; 
+} 
+ 
+.chip:hover { 
+  transform: translateY(-3px); 
+ 
+  background: 
+    linear-gradient( 
+      135deg, 
+      #f3e5da, 
+      #eedccf 
+    ); 
+ 
+  box-shadow: 
+    0 8px 18px rgba(74, 38, 32, 0.1); 
+} 
+ 
+.chip .material-symbols-outlined { 
+  display: inline-flex; 
+ 
+  align-items: center; 
+  justify-content: center; 
+ 
+  width: 24px; 
+  height: 24px; 
+ 
+  border-radius: 50%; 
+ 
+  background: 
+    rgba(74, 38, 32, 0.08); 
+ 
+  color: #8c6251; 
+ 
+  font-size: 17px; 
+ 
+  transition: 
+    transform 0.25s ease, 
+    background-color 0.25s ease; 
+} 
+ 
+.chip:hover 
+.material-symbols-outlined { 
+  transform: 
+    rotate(-6deg) 
+    scale(1.08); 
+ 
+  background: 
+    rgba(74, 38, 32, 0.12); 
+} 
+ 
+.empty-state { 
+  display: flex; 
+ 
+  align-items: center; 
+  gap: 10px; 
+ 
+  padding: 17px 18px; 
+ 
+  border: 1px solid #eaded5; 
+  border-radius: 13px; 
+ 
+  background: 
+    linear-gradient( 
+      135deg, 
+      #fbf7f3, 
+      #f7eee8 
+    ); 
+ 
+  color: #8a7669; 
+ 
+  font-size: 13px; 
+  font-weight: 500; 
+ 
+  animation: 
+    empty-enter 0.4s ease both; 
+} 
+ 
+.empty-state 
+.material-symbols-outlined { 
+  color: #a8794f; 
+ 
+  font-size: 19px; 
+} 
+ 
+@keyframes card-enter { 
+  from { 
+    opacity: 0; 
+    transform: translateY(16px); 
+  } 
+ 
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  } 
+} 
+ 
+@keyframes content-enter { 
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  } 
+ 
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  } 
+} 
+ 
+@keyframes background-move { 
+  0% { 
+    background-position: 
+      0% 0%, 
+      100% 100%, 
+      0% 50%; 
+  } 
+ 
+  50% { 
+    background-position: 
+      35% 25%, 
+      65% 75%, 
+      100% 50%; 
+  } 
+ 
+  100% { 
+    background-position: 
+      0% 0%, 
+      100% 100%, 
+      0% 50%; 
+  } 
+} 
+ 
+@keyframes border-flow { 
+  0% { 
+    background-position: 0% 50%; 
+  } 
+ 
+  50% { 
+    background-position: 100% 50%; 
+  } 
+ 
+  100% { 
+    background-position: 0% 50%; 
+  } 
+} 
+ 
+@keyframes card-light { 
+  0%, 
+  100% { 
+    transform: 
+      translate(0, 0) 
+      scale(1); 
+  } 
+ 
+  50% { 
+    transform: 
+      translate(300px, 260px) 
+      scale(1.2); 
+  } 
+} 
+ 
+@keyframes dropdown-enter { 
+  from { 
+    opacity: 0; 
+    transform: translateY(-5px); 
+  } 
+ 
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  } 
+} 
+ 
+@keyframes empty-enter { 
+  from { 
+    opacity: 0; 
+    transform: translateY(5px); 
+  } 
+ 
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  } 
+} 
+ 
+@media (max-width: 768px) { 
+  .card { 
+    margin-top: 22px; 
+ 
+    padding: 24px 20px; 
+ 
+    border-radius: 20px; 
+  } 
+ 
+  .card-header h2 { 
+    font-size: 20px; 
+  } 
+ 
+  .card-header p { 
+    font-size: 12px; 
+  } 
+ 
+  .save-btn { 
+    min-height: 48px; 
+  } 
+ 
+  .specialties-select.ng-select-opened { 
+    margin-bottom: 250px; 
+  } 
+ 
+  :host ::ng-deep 
+  .ng-dropdown-panel { 
+    max-height: 240px; 
+  } 
+ 
+  :host ::ng-deep 
+  .ng-dropdown-panel 
+  .ng-dropdown-panel-items { 
+    max-height: 220px; 
+  } 
+} 
+ 
+@media (max-width: 480px) { 
+  .card { 
+    padding: 20px 16px; 
+ 
+    border-radius: 18px; 
+  } 
+ 
+  .specialties-select.ng-select-opened { 
+    margin-bottom: 230px; 
+  } 
+ 
+  .current-specialties { 
+    margin-top: 24px; 
+ 
+    padding-top: 20px; 
+  } 
+ 
+  .chip { 
+    padding: 8px 11px; 
+ 
+    font-size: 12px; 
+  } 
+ 
+  .empty-state { 
+    padding: 14px; 
+ 
+    font-size: 12px; 
+  } 
+ 
+  .save-btn { 
+    min-height: 48px; 
+ 
+    font-size: 13px; 
+  } 
+} 
+ 
+@media (prefers-reduced-motion: reduce) { 
+  .card, 
+  .card::before, 
+  .card::after, 
+  .card-header, 
+  .specialties-select, 
+  .save-btn, 
+  .current-specialties, 
+  .empty-state { 
+    animation: none !important; 
+  } 
+ 
+  .card, 
+  .save-btn, 
+  .chip, 
+  .specialties-select, 
+  .specialties-select .ng-select-container { 
+    transition: none !important; 
+  } 
+ 
+  .save-btn:hover { 
+    transform: none; 
+  } 
+ 
+  .card { 
+    transform: none; 
+  } 
 }
