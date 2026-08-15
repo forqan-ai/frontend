@@ -8,8 +8,6 @@ import { ExploreLearningCirclesComponent } from '../learning-circles/pages/explo
 import { LearningCircleDetailsComponent } from '../learning-circles/pages/learning-circle-details/learning-circle-details.component';
 import { MyLearningCirclesComponent } from '../learning-circles/pages/my-learning-circles/my-learning-circles.component';
 import { StudentCoursesComponent } from './Pages/student-courses/student-courses.component';
-import { TeachingRequestComponent } from './Pages/teaching-request/teaching-request.component';
-import { StudentFeedbackComponent } from "../Rating/pages/student-feedback/student-feedback.component";
 import { PointPackagesComponent } from '../points/pages/point-packages/point-packages.component';
 import { CourseDetailsComponent } from '../Course/Pages/course-details/course-details.component';
 import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teacher-details.component';
@@ -50,7 +48,10 @@ export const STUDENT_ROUTES: Routes = [
 
       {
         path: 'settings/teaching-request',
-        component: TeachingRequestComponent,
+        // component: TeachingRequestComponent,
+        loadComponent: () =>
+          import('./Pages/teaching-request/teaching-request.component')
+            .then((m) => m.TeachingRequestComponent),
         title: 'طلب الانضمام كمعلم',
       },
       {
@@ -160,7 +161,11 @@ export const STUDENT_ROUTES: Routes = [
 
       {
         path: 'my-courses/course-feedback',
-        component: StudentFeedbackComponent,
+        // component: StudentFeedbackComponent,
+        loadComponent: () =>
+          import('../../features/Rating/pages/student-feedback/student-feedback.component')
+            .then((m) => m.StudentFeedbackComponent),
+
         title: 'تقييم الدورة',
       },
 

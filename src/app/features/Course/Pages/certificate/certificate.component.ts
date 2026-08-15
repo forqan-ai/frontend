@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import html2pdf from 'html2pdf.js';
+// import html2pdf from 'html2pdf.js';
 
 import { CourseService } from '../../Services/course.service';
 import { ICertificate } from '../../Models/certificate.interface';
@@ -44,31 +44,116 @@ export class CertificateComponent {
     }
   );
 
-  downloadPdf(): void {
-   const options = {
-  margin: [20, 0, 0, 0] as [number, number, number, number],
-  filename: 'Furqan-Certificate.pdf',
+  async downloadPdf(): Promise<void> {
+    // //only download the package when needed
+    // const { default: html2pdf } = await import('html2pdf.js');
 
-  image: {
-    type: 'jpeg' as const,
-    quality: 1,
-  },
+    // const options = {
+    //   margin: [20, 0, 0, 0] as [number, number, number, number],
+    //   filename: 'Furqan-Certificate.pdf',
 
-  html2canvas: {
-    scale: 3,
-    useCORS: true,
-  },
+    //   image: {
+    //     type: 'jpeg' as const,
+    //     quality: 1,
+    //   },
 
-  jsPDF: {
-    unit: 'mm' as const,
-    format: 'a4' as const,
-    orientation: 'landscape' as const,
-  },
-};
+    //   html2canvas: {
+    //     scale: 3,
+    //     useCORS: true,
+    //   },
 
-    html2pdf()
-      .set(options)
-      .from(this.certificateRef.nativeElement)
-      .save();
+    //   jsPDF: {
+    //     unit: 'mm' as const,
+    //     format: 'a4' as const,
+    //     orientation: 'landscape' as const,
+    //   },
+    // };
+    //  html2pdf()
+    //   .set(options)
+    //   .from(this.certificateRef.nativeElement)
+    //   .save();
+
+
+
+    // const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+    //   import('html2canvas'),
+    //   import('jspdf'),
+    // ]);
+    // const canvas = await html2canvas(this.certificateRef.nativeElement, {
+    //   scale: 2,
+    //   useCORS: true,
+    // });
+
+    // const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    // const pdf = new jsPDF({
+    //   orientation: 'landscape',
+    //   unit: 'mm',
+    //   format: 'a4',
+    // });
+
+    // pdf.addImage(imgData, 'JPEG', 0, 0, 297, 210);
+    // pdf.save('Furqan-Certificate.pdf');
+
+
+    const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+      import('html2canvas'),
+      import('jspdf'),
+    ]);
+
+    const element = this.certificateRef.nativeElement;
+
+    const canvas = await html2canvas(element, {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+    });
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    const pdfWidth = 297;
+    const pdfHeight = 210;
+
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a4',
+    });
+
+    const certificateRatio = canvas.width / canvas.height;
+    const pdfRatio = pdfWidth / pdfHeight;
+
+    let width: number;
+    let height: number;
+    let x: number;
+    let y: number;
+
+    if (certificateRatio > pdfRatio) {
+      width = pdfWidth;
+      height = width / certificateRatio;
+      x = 0;
+      y = (pdfHeight - height) / 2;
+    } else {
+      height = pdfHeight;
+      width = height * certificateRatio;
+      x = (pdfWidth - width) / 2;
+      y = 0;
+    }
+
+    pdf.addImage(
+      imgData,
+      'JPEG',
+      x,
+      y,
+      width,
+      height,
+      undefined,
+      'FAST'
+    );
+
+    pdf.save('Furqan-Certificate.pdf');
+
+
+
   }
 }

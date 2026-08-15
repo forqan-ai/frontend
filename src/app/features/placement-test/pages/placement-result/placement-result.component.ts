@@ -1,4 +1,4 @@
-import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PlacementService } from '../../services/placement.service';
@@ -15,14 +15,14 @@ export class PlacementResultComponent implements OnInit {
   result: PlacementResult | null = null;
   loading = true;
 
-  constructor(private placementService: PlacementService, private router: Router,private cdr: ChangeDetectorRef) {}
+  constructor(private placementService: PlacementService, private router: Router, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     const cached = localStorage.getItem('placementResult');
     if (cached) {
       this.result = JSON.parse(cached);
       this.loading = false;
-      localStorage.removeItem('placementResult');
+      // localStorage.removeItem('placementResult');
       this.cdr.detectChanges();
       return;
     }
@@ -31,8 +31,13 @@ export class PlacementResultComponent implements OnInit {
         this.result = res;
         this.loading = false;
         this.cdr.detectChanges();
+        localStorage.setItem(
+          'placementResult',
+          JSON.stringify(res)
+        );
       },
       error: () => (this.loading = false),
+
 
     });
   }

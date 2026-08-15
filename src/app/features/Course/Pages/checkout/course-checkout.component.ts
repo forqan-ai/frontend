@@ -4,14 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../Services/course.service';
 import { ICourseDetailsDto } from '../../Models/course-details-dto.interface';
 import { PaymentService } from '../../../../core/services/payment.service';
-import { StudentSidebarComponent } from '../../../student/Components/student-sidebar/student-sidebar.component';
 
 declare const Pixel: any;
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, StudentSidebarComponent],
+  imports: [CommonModule],
   templateUrl: './course-checkout.component.html',
   styleUrl: './course-checkout.component.css',
 })

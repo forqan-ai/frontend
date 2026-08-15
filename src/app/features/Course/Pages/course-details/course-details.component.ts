@@ -8,13 +8,9 @@ import { CourseService } from '../../Services/course.service';
 import { ICourseCardDto } from '../../Models/course-card-dto.interface';
 import { ICourseModuleDto } from '../../Models/course-module-dto.interface';
 import { ICourseOwnership } from '../../Models/course-ownership.interface';
-import { CoursesBrowseCardComponent } from "../../../courses-browse/components/courses-browse-card/courses-browse-card.component";
 import { AuthService } from '../../../../core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
 import { WishlistService } from '../../../student/Services/wishlist.service';
-import { NotExpr } from '@angular/compiler';
-import { WishlistComponent } from '../../../student/Pages/wishlist/wishlist.component';
 import { ButtonComponent } from "../../../../shared/components/button/button.component";
 
 
@@ -24,7 +20,6 @@ import { ButtonComponent } from "../../../../shared/components/button/button.com
     CommonModule,
     CourseCardComponent,
     RouterLink,
-    CoursesBrowseCardComponent,
     ButtonComponent
   ],
   templateUrl: './course-details.component.html',

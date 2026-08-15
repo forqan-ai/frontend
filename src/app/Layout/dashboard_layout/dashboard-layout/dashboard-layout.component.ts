@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
 import { StudentMobileSidebarComponent } from '../../../features/student/Components/student-mobile-sidebar/student-mobile-sidebar.component';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { StudentSidebarComponent } from '../../../features/student/Components/student-sidebar/student-sidebar.component';
 import { StudentMobileNavbarComponent } from '../../../features/student/Components/student-mobile-navbar/student-mobile-navbar.component';
 import { MobileSidebarComponent } from '../../../features/admin/components/admin-mobile-sidebar/admin-mobile-sidebar.component';
@@ -17,7 +16,6 @@ import { Role } from '../../../core/models/auth.models';
     StudentSidebarComponent,
     RouterOutlet,
     ToastComponent,
-    NavbarComponent,
     StudentSidebarComponent,
     StudentMobileNavbarComponent,
     StudentMobileSidebarComponent,

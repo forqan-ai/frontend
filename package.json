@@ -34,7 +34,8 @@
     "@ng-select/ng-select": "^23.2.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
-    "html2pdf.js": "^0.14.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "jwt-decode": "^4.0.0",
     "lottie-web": "^5.13.0",
     "marked": "^18.0.9",
@@ -49,7 +50,6 @@
     "@angular/compiler-cli": "^22.0.6",
     "@types/bootstrap": "^5.2.11",
     "@types/google.accounts": "^0.0.18",
-    "@types/html2pdf.js": "^0.10.0",
     "jsdom": "^27.1.0",
     "typescript": "~6.0.3",
     "vitest": "^4.0.8"

@@ -10,13 +10,11 @@ import {
 } from '@angular/forms';
 import { ToastService } from '../../../../core/services/toast.service';
 import {
-  IUserSettings,
   UpdateProfileRequest,
   ChangePasswordRequest,
 } from '../../Models/settings.interface';
 import { SettingsService } from '../../Services/settings.service';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { RouterLink } from '@angular/router';
 
 function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
@@ -43,7 +41,7 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, ToastComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, RouterLink],
   templateUrl: './student-settings.component.html',
   styleUrls: ['./student-settings.component.css'],
 })

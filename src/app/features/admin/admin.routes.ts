@@ -1,7 +1,4 @@
 import { Routes } from "@angular/router";
-import { AdminTeachingRequestsComponent } from "./pages/admin-teaching-requests/admin-teaching-requests.component";
-import { AdminCoursesReviewComponent } from "./pages/admin-courses-review/admin-courses-review.component";
-import { AdminTeachingRequestDetailsComponent } from "./pages/admin-teaching-request-details/admin-teaching-request-details.component";
 import { adminGuard } from "../../core/guards/admin-guard";
 export const ADMIN_ROUTES: Routes = [
     {

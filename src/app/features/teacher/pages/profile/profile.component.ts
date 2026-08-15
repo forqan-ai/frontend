@@ -1,7 +1,5 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 
-import { HeaderComponent } from '../../components/header/header.component';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 import { TeacherService } from '../../services/teacher.service';
 import { TeacherProfile } from '../../models/teacher-profile.model';
@@ -10,7 +8,6 @@ import { ProfileFormComponent } from '../../components/profile-form/profile-form
 import { TeacherDashboard } from '../../models/teacher-dashboard.model';
 import { SpecialtiesCardComponent } from '../../components/specialties-card/specialties-card.component';
 import { ProfileStatisticsComponent } from '../../components/profile-statistics/profile-statistics.component';
-import { QuickActionsComponent } from '../../components/quick-actions/quick-actions.component';
 import { Specialty } from '../../models/specialty.model';
 import { ToastService } from '../../../../core/services/toast.service';
 
@@ -18,13 +15,10 @@ import { ToastService } from '../../../../core/services/toast.service';
   selector: 'app-profile',
   standalone: true,
   imports: [
-    SidebarComponent,
-    HeaderComponent,
     ProfileSummaryComponent,
     ProfileFormComponent,
     SpecialtiesCardComponent,
     ProfileStatisticsComponent,
-    QuickActionsComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
