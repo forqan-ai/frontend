@@ -1,7 +1,58 @@
-<div class="dashboard">
-  <div class="content">
-    <div class="page">
-      <app-create-course-form (save)="saveCourse($event)"> </app-create-course-form>
+<main class="create-course-page" dir="rtl">
+
+  <section class="create-course-hero">
+    <div class="hero-copy">
+      <span class="page-eyebrow">
+        <i class="bi bi-journal-plus" aria-hidden="true"></i>
+        مساحة المعلم
+      </span>
+
+      <h1>إنشاء دورة جديدة</h1>
+
+      <p>
+        أضف دورة تعليمية جديدة وشارك معرفتك مع الطلاب من خلال منصة الفرقان.
+      </p>
+
+      <div class="hero-badges">
+        <span>
+          <i class="bi bi-person-check" aria-hidden="true"></i>
+          {{ profile()?.fullName || dashboard()?.fullName || 'مساحة المعلم' }}
+        </span>
+
+        <span>
+          <i class="bi bi-bookmark-check-fill" aria-hidden="true"></i>
+          إنشاء محتوى تعليمي
+        </span>
+      </div>
     </div>
-  </div>
-</div>
+
+    <div class="hero-icon">
+      <div class="icon-circle">
+        <i class="bi bi-journal-plus" aria-hidden="true"></i>
+      </div>
+    </div>
+  </section>
+
+  <section class="course-form-section" appScrollReveal="100">
+
+    <div class="section-heading">
+      <div class="section-heading-icon">
+        <i class="bi bi-pencil-square" aria-hidden="true"></i>
+      </div>
+
+      <div>
+        <span>بيانات الدورة</span>
+        <h2>أدخل تفاصيل الدورة</h2>
+        <p>
+          املأ البيانات التالية لإنشاء دورة جديدة.
+        </p>
+      </div>
+    </div>
+
+    <app-create-course-form
+      (save)="saveCourse($event)">
+    </app-create-course-form>
+
+  </section>
+
+</main>
