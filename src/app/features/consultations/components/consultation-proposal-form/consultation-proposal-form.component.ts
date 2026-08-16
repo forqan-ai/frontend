@@ -19,7 +19,7 @@ export class ConsultationProposalFormComponent {
 
   readonly form = this.fb.nonNullable.group({
     teacherResponseText: ['', [Validators.required, Validators.maxLength(2000), this.nonWhitespace]],
-    pointsPrice: [1, [Validators.required, Validators.min(1), Validators.max(1_000_000)]],
+    pointsPrice: [1, [Validators.required, Validators.min(0), Validators.max(1_000_000)]],
     durationMinutes: [30, [Validators.required, Validators.min(1), Validators.max(1440)]],
     startTimes: this.fb.array<FormControl<string>>([]),
   });

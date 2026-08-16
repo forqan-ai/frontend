@@ -43,7 +43,7 @@
           <section class="content-card confirmed-card">
             <div class="section-heading"><span class="section-icon"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span><h2>الاستشارة مؤكدة</h2></div>
             @if (details.selectedSlot) { <div class="confirmed-appointment"><span>الموعد المؤكد</span><strong>{{ formatDate(details.selectedSlot.startTime) }}</strong></div> }
-            <div class="confirmed-summary"><span><i class="bi bi-clock"></i> {{ details.durationMinutes }} دقيقة</span><span><i class="bi bi-coin"></i> {{ details.pointsPrice }} نقطة</span></div>
+            <div class="confirmed-summary"><span><i class="bi bi-clock"></i> {{ details.durationMinutes }} دقيقة</span><span><i class="bi bi-coin"></i> @if (details.pointsPrice === 0) { مجانية } @else { {{ details.pointsPrice }} نقطة }</span></div>
           </section>
         }
 
@@ -75,7 +75,7 @@
             <div><dt>الطالب</dt><dd>{{ details.studentName }}</dd></div><div><dt>الحالة</dt><dd>{{ statusLabel(details.status) }}</dd></div><div><dt>تاريخ الطلب</dt><dd>{{ formatDate(details.createdAt) }}</dd></div>
             @if (details.respondedAt) { <div><dt>تاريخ إرسال المقترح</dt><dd>{{ formatDate(details.respondedAt) }}</dd></div> }
             @if (details.acceptedAt) { <div><dt>تاريخ التأكيد</dt><dd>{{ formatDate(details.acceptedAt) }}</dd></div> }
-            @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>{{ details.pointsPrice }} نقطة</dd></div> }
+            @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>@if (details.pointsPrice === 0) { مجانية } @else { {{ details.pointsPrice }} نقطة }</dd></div> }
             @if (details.durationMinutes !== null) { <div><dt>المدة</dt><dd>{{ details.durationMinutes }} دقيقة</dd></div> }
             @if (details.selectedSlot) { <div><dt>الموعد المختار</dt><dd>{{ formatDate(details.selectedSlot.startTime) }}</dd></div> }
           </dl>
@@ -86,7 +86,7 @@
             <h2 id="actions-title">إجراءات الاستشارة</h2>
             @if (details.actions.canComplete) { <button type="button" class="complete-action" (click)="openAction('complete')" [disabled]="submitting() !== null"><i class="bi bi-check2-circle"></i>إنهاء الاستشارة</button> }
             @if (details.actions.canReject) { <button type="button" class="danger-action" (click)="openAction('reject')" [disabled]="submitting() !== null"><i class="bi bi-x-circle"></i>رفض الطلب</button> }
-            @if (details.actions.canCancel) { <button type="button" class="danger-action" (click)="openAction('cancel')" [disabled]="submitting() !== null"><i class="bi bi-slash-circle"></i>إلغاء ورد النقاط</button> }
+            @if (details.actions.canCancel) { <button type="button" class="danger-action" (click)="openAction('cancel')" [disabled]="submitting() !== null"><i class="bi bi-slash-circle"></i>{{ details.pointsPrice === 0 ? 'إلغاء الاستشارة' : 'إلغاء ورد النقاط' }}</button> }
           </section>
         }
       </aside>

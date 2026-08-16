@@ -92,7 +92,7 @@
               @if (consultation.pointsPrice !== null) {
                 <div>
                   <dt><i class="bi bi-coin" aria-hidden="true"></i> السعر</dt>
-                  <dd>{{ consultation.pointsPrice }} نقطة</dd>
+                  <dd>@if (consultation.pointsPrice === 0) { مجانية } @else { {{ consultation.pointsPrice }} نقطة }</dd>
                 </div>
               }
 
