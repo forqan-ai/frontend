@@ -1,98 +1,80 @@
-<div class="dashboard-wrapper p-3 p-md-4 rounded-4" style="background-color: var(--secondary); min-height: calc(100vh - 100px); color: var(--text)">
-  
+<div class="result-wrapper p-3 p-md-4">
   <div class="container py-4" *ngIf="!loading && result">
 
-    <div class="text-center mb-5">
-      <div class="icon-circle shadow-sm mx-auto mb-4" style="background-color: #f0f4e8; color: #55733d; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 2.5rem;">
+    <div class="hero-section text-center mb-5">
+      <div class="award-icon mb-4">
         <i class="bi bi-award-fill"></i>
       </div>
       <h2 class="fw-bold mb-2" style="color: var(--primary)">نتائج اختبار تحديد المستوى</h2>
       <p class="fs-5" style="color: var(--text-muted)">إليك تقييم مستواك في العلوم الإسلامية ومسارك المقترح</p>
     </div>
 
-
-    <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 p-md-5" style="background-color: var(--surface);">
-      <h4 class="fw-bold mb-4" style="color: var(--primary);">
-        <i class="bi bi-bar-chart-line-fill me-2"></i>مستواك في كل مجال
+    <div class="section-card mb-4">
+      <h4 class="section-title">
+        <i class="bi bi-bar-chart-line-fill fs-4"></i>مستواك في كل مجال
       </h4>
       <div class="row g-4">
         <div class="col-12 col-md-6" *ngFor="let score of result!.categoryScores">
-          <div class="p-3 rounded-3" style="background-color: var(--secondary); border: 1px solid var(--border);">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="fw-bold fs-6" style="color: var(--text)">{{ score.categoryName }}</span>
-              <span class="badge" [style.background-color]="getLevelColor(score.level)" style="color: white; font-size: 0.85rem;">
+          <div class="score-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="score-label">{{ score.categoryName }}</span>
+              <span class="level-badge" [style.background-color]="getLevelColor(score.level)">
                 {{ score.level }}
               </span>
             </div>
-            <div class="progress mb-2" style="height: 8px; background-color: var(--surface);">
-              <div class="progress-bar rounded-pill" 
+            <div class="score-track">
+              <div class="score-fill"
                    [style.width.%]="score.scorePct"
                    [style.background-color]="getLevelColor(score.level)">
               </div>
             </div>
             <div class="text-end">
-              <span class="fw-bold" [style.color]="getLevelColor(score.level)">{{ score.scorePct }}%</span>
+              <span class="score-pct" [style.color]="getLevelColor(score.level)">{{ score.scorePct }}%</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
-    <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 p-md-5" style="background-color: var(--primary-light);">
-      <h4 class="fw-bold mb-4" style="color: var(--primary);">
-        <i class="bi bi-lightbulb-fill me-2 text-warning"></i>مسار التعلم المخصص لك
+    <div class="section-card path-card mb-4">
+      <h4 class="section-title">
+        <i class="bi bi-lightbulb-fill fs-4 text-warning"></i>مسار التعلم المخصص لك
       </h4>
-      <p class="fs-5 mb-0" style="color: var(--text); line-height: 1.8;">
+      <p class="learning-path-text mb-0">
         {{ result!.learningPath }}
       </p>
     </div>
 
-
-    <div class="card border-0 shadow-sm rounded-4 mb-5 p-4 p-md-5" style="background-color: var(--surface);" *ngIf="result!.suggestedCourses.length > 0">
-      <h4 class="fw-bold mb-4" style="color: var(--primary);">
-        <i class="bi bi-book-half me-2"></i>الدورات الموصى بها
+    <div class="section-card mb-5" *ngIf="result!.suggestedCourses.length > 0">
+      <h4 class="section-title">
+        <i class="bi bi-book-half fs-4"></i>الدورات الموصى بها
       </h4>
       <div class="d-flex flex-column gap-3">
-        <div class="card border-0 shadow-sm rounded-3 cursor-pointer overflow-hidden" 
-             style="background-color: var(--secondary); transition: transform 0.2s;"
+        <div class="course-item p-3 d-flex align-items-center"
              *ngFor="let course of result!.suggestedCourses; let i = index"
-             (click)="goToCourse(course.courseID)"
-             onmouseover="this.style.transform='translateX(-5px)';"
-             onmouseout="this.style.transform='translateX(0)';">
-          <div class="d-flex align-items-center p-3">
-            <div class="fw-bold fs-4 me-3 ms-2" style="color: var(--primary-light);">{{ i + 1 }}</div>
-            <img *ngIf="course.thumbnailURL" [src]="course.thumbnailURL" alt="course" 
-                 class="rounded-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
-            <div *ngIf="!course.thumbnailURL" class="rounded-3 shadow-sm d-flex align-items-center justify-content-center" 
-                 style="width: 80px; height: 80px; background-color: var(--surface); color: var(--primary);">
-              <i class="bi bi-journal-text fs-2"></i>
-            </div>
-            <div class="ms-3 flex-grow-1">
-              <span class="badge mb-1" style="background-color: var(--primary-light); color: var(--primary);">
-                {{ course.categoryName }}
-              </span>
-              <h5 class="fw-bold mb-0" style="color: var(--text);">{{ course.courseTitle }}</h5>
-            </div>
-            <i class="bi bi-chevron-left fs-4" style="color: var(--text-muted);"></i>
+             (click)="goToCourse(course.courseID)">
+          <div class="course-number me-2">{{ i + 1 }}</div>
+          <img *ngIf="course.thumbnailURL" [src]="course.thumbnailURL" alt="course" class="course-thumb ms-2 me-3">
+          <div *ngIf="!course.thumbnailURL" class="course-thumb-placeholder ms-2 me-3">
+            <i class="bi bi-journal-text"></i>
           </div>
+          <div class="flex-grow-1">
+            <span class="course-category-badge">{{ course.categoryName }}</span>
+            <h5 class="course-title">{{ course.courseTitle }}</h5>
+          </div>
+          <i class="bi bi-chevron-left fs-4" style="color: var(--text-muted); opacity: 0.6;"></i>
         </div>
       </div>
     </div>
 
-
     <div class="text-center">
-      <button class="btn px-4 py-2 rounded-3 fw-bold" 
-              style="border: 2px solid var(--primary); color: var(--primary); background: transparent;" 
-              (click)="retakeTest()"
-              onmouseover="this.style.backgroundColor='var(--primary)'; this.style.color='white';"
-              onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--primary)';">
+      <button class="btn-retake" (click)="retakeTest()">
         <i class="bi bi-arrow-clockwise me-2"></i>إعادة الاختبار
       </button>
     </div>
   </div>
 
-  <div class="d-flex flex-column align-items-center justify-content-center h-100" *ngIf="loading" style="min-height: 50vh;">
+  <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="loading" style="min-height: 60vh;">
     <div class="spinner-border mb-3" style="color: var(--primary); width: 3rem; height: 3rem;" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
