@@ -1,0 +1,46 @@
+<form class="consultation-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="form-heading">
+    <div><span>عرض الاستشارة</span><h3>{{ consultation().status === 'Requested' ? 'إنشاء مقترح' : 'تعديل المقترح' }}</h3></div>
+    <i class="bi bi-send-check" aria-hidden="true"></i>
+  </div>
+
+  <label class="field full-field">
+    <span>ردك على طلب الاستشارة</span>
+    <textarea formControlName="teacherResponseText" rows="5" maxlength="2000" placeholder="اكتب ردًا واضحًا للطالب وخطة الاستشارة..."></textarea>
+    @if (form.controls.teacherResponseText.touched && form.controls.teacherResponseText.invalid) {
+      <small class="field-error">الرد مطلوب وبحد أقصى 2000 حرف.</small>
+    }
+  </label>
+
+  <div class="numeric-grid">
+    <label class="field"><span>سعر الاستشارة بالنقاط</span><input type="number" formControlName="pointsPrice" min="1" max="1000000" /></label>
+    <label class="field"><span>مدة الاستشارة (بالدقائق)</span><input type="number" formControlName="durationMinutes" min="1" max="1440" /></label>
+  </div>
+  @if ((form.controls.pointsPrice.touched && form.controls.pointsPrice.invalid) || (form.controls.durationMinutes.touched && form.controls.durationMinutes.invalid)) {
+    <small class="field-error">أدخل سعرًا من 1 إلى 1,000,000 ومدة من 1 إلى 1440 دقيقة.</small>
+  }
+
+  <fieldset formArrayName="startTimes">
+    <legend>المواعيد المتاحة</legend>
+    <p class="field-hint">أضف موعدًا مستقبليًا واحدًا على الأقل. تُحوّل المواعيد تلقائيًا إلى UTC عند الإرسال.</p>
+    <div class="slots-list">
+      @for (control of startTimes.controls; track control; let index = $index) {
+        <div class="slot-row">
+          <input type="datetime-local" [formControlName]="index" [min]="minimumLocalDateTime()" [attr.aria-label]="'الموعد المقترح ' + (index + 1)" />
+          <button type="button" class="remove-slot" (click)="removeSlot(index)" [disabled]="submitting()" aria-label="حذف الموعد">
+            <i class="bi bi-trash3" aria-hidden="true"></i>
+          </button>
+        </div>
+      }
+    </div>
+    @if (slotsError()) { <small class="field-error">{{ slotsError() }}</small> }
+    <button type="button" class="add-slot" (click)="addSlot()" [disabled]="submitting() || startTimes.length >= 100">
+      <i class="bi bi-plus-circle" aria-hidden="true"></i>إضافة موعد
+    </button>
+  </fieldset>
+
+  <button type="submit" class="submit-button" [disabled]="submitting()">
+    @if (submitting()) { <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>جارٍ الحفظ... }
+    @else { <i class="bi bi-check2-circle" aria-hidden="true"></i>{{ consultation().status === 'Requested' ? 'إرسال المقترح' : 'حفظ التعديلات' }} }
+  </button>
+</form>

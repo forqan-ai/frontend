@@ -240,3 +240,10 @@ nav .d-flex.flex-column.gap-2 > a {
         transform: none;
     }
 }
+
+.student-notification-bell {
+    position: absolute;
+    z-index: 2;
+    inset-inline-start: 10px;
+    top: 10px;
+}

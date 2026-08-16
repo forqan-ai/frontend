@@ -1,0 +1,11 @@
+<form class="meeting-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="form-heading"><div><span>بيانات اللقاء</span><h3>{{ consultation().meetingLink ? 'تحديث رابط الاجتماع' : 'إضافة رابط الاجتماع' }}</h3></div><i class="bi bi-camera-video" aria-hidden="true"></i></div>
+  <label class="field"><span>المنصة</span><input type="text" formControlName="platform" maxlength="50" placeholder="مثال: Zoom أو Google Meet" /></label>
+  @if (form.controls.platform.touched && form.controls.platform.invalid) { <small class="field-error">اسم المنصة مطلوب وبحد أقصى 50 حرفًا.</small> }
+  <label class="field link-field"><span>رابط الاجتماع</span><input type="url" dir="ltr" formControlName="meetingLink" maxlength="500" placeholder="https://..." /></label>
+  @if (form.controls.meetingLink.touched && form.controls.meetingLink.invalid) { <small class="field-error">أدخل رابط HTTP أو HTTPS صحيحًا.</small> }
+  <button type="submit" [disabled]="submitting()">
+    @if (submitting()) { <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>جارٍ الحفظ... }
+    @else { <i class="bi bi-link-45deg" aria-hidden="true"></i>حفظ رابط الاجتماع }
+  </button>
+</form>
