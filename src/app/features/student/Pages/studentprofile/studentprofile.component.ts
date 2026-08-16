@@ -415,7 +415,7 @@ export class StudentprofileComponent implements OnInit, AfterViewInit, OnDestroy
 
       const slider = this.coursesSlider?.nativeElement;
 
-      if (slider && this.recommendedCourses().length > 0) {
+      if (slider && this.recommendedCourses().length > 10) {
         const halfWidth = slider.scrollWidth / 2;
 
         if (halfWidth > slider.clientWidth) {
