@@ -16,6 +16,8 @@ import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teache
 import { CheckoutComponent } from '../points/pages/checkout/checkout.component';
 import { CourseCheckoutComponent } from '../Course/Pages/checkout/course-checkout.component';
 import { studentGuard } from '../../core/guards/student-guard';
+import { StudentConsultationsComponent } from '../consultations/pages/student-consultations/student-consultations.component';
+import { StudentConsultationDetailsComponent } from '../consultations/pages/student-consultation-details/student-consultation-details.component';
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -26,6 +28,18 @@ export const STUDENT_ROUTES: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'home',
+      },
+
+      {
+        path: 'consultations/:consultationId',
+        component: StudentConsultationDetailsComponent,
+        title: 'تفاصيل الاستشارة',
+      },
+
+      {
+        path: 'consultations',
+        component: StudentConsultationsComponent,
+        title: 'استشاراتي',
       },
 
       {

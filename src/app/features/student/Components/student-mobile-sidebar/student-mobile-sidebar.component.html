@@ -37,9 +37,17 @@
           حلقات العلم
         </a>
 
+        <a routerLink="consultations" (click)="setActiveRoute('consultations')"
+          [class.secondary-white-anchor]="isActive('consultations')"
+          [class.white-anchor]="!isActive('consultations')" style="--nav-index: 3"
+          class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none" data-bs-dismiss="offcanvas">
+          <i class="bi bi-chat-dots"></i>
+          الاستشارات
+        </a>
+
         <a routerLink="teachers" (click)="setActiveRoute('teachers')"
           [class.secondary-white-anchor]="isActive('teachers')" [class.white-anchor]="!isActive('teachers')"
-          style="--nav-index: 3" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
+          style="--nav-index: 4" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
           data-bs-dismiss="offcanvas">
           <span class="material-symbols-outlined"> groups </span>
           المعلمون

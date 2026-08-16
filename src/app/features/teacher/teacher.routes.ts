@@ -8,6 +8,8 @@ import { EditLearningCircleComponent } from '../learning-circles/pages/edit-lear
 import { LearningCircleDetailsComponent } from '../learning-circles/pages/learning-circle-details/learning-circle-details.component';
 import { MyLearningCirclesComponent } from '../learning-circles/pages/my-learning-circles/my-learning-circles.component';
 import { teacherGuard } from '../../core/guards/teacher-guard';
+import { TeacherConsultationsComponent } from '../consultations/pages/teacher-consultations/teacher-consultations.component';
+import { TeacherConsultationDetailsComponent } from '../consultations/pages/teacher-consultation-details/teacher-consultation-details.component';
 
 export const TEACHER_ROUTES: Routes = [
   {
@@ -17,6 +19,18 @@ export const TEACHER_ROUTES: Routes = [
       {
         path: '',
         component: DashboardComponent,
+      },
+
+      {
+        path: 'consultations/:consultationId',
+        component: TeacherConsultationDetailsComponent,
+        title: 'تفاصيل طلب الاستشارة',
+      },
+
+      {
+        path: 'consultations',
+        component: TeacherConsultationsComponent,
+        title: 'إدارة الاستشارات',
       },
 
       {

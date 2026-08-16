@@ -1,0 +1,103 @@
+<div
+  class="consultation-modal-backdrop"
+  role="presentation"
+  (click)="requestClose()"
+>
+  <section
+    class="consultation-modal"
+    dir="rtl"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="consultation-modal-title"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      type="button"
+      class="close-button"
+      aria-label="إغلاق نافذة حجز الاستشارة"
+      [disabled]="isSubmitting()"
+      (click)="requestClose()"
+    >
+      <i class="bi bi-x-lg" aria-hidden="true"></i>
+    </button>
+
+    <div class="modal-heading">
+      <span class="modal-icon" aria-hidden="true">
+        <i class="bi bi-chat-square-text"></i>
+      </span>
+      <div>
+        <h2 id="consultation-modal-title">حجز استشارة</h2>
+        <p>
+          أرسل طلبك إلى المعلم
+          <strong>{{ teacherName() }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <form [formGroup]="consultationForm" novalidate (ngSubmit)="submit()">
+      <div class="form-field">
+        <div class="field-heading">
+          <label for="consultation-request-text">اكتب طلب الاستشارة</label>
+          <span aria-hidden="true">
+            {{ requestTextControl.value.length }}/{{ requestTextMaxLength }}
+          </span>
+        </div>
+
+        <textarea
+          #requestTextArea
+          id="consultation-request-text"
+          rows="6"
+          maxlength="2000"
+          formControlName="requestText"
+          placeholder="اكتب باختصار الموضوع الذي ترغب في مناقشته مع المعلم..."
+          [attr.aria-invalid]="showRequestTextError"
+          [attr.aria-describedby]="
+            showRequestTextError ? 'consultation-request-error' : 'consultation-request-hint'
+          "
+        ></textarea>
+
+        <p id="consultation-request-hint" class="field-hint">
+          وضّح موضوع طلبك باختصار حتى يتمكن المعلم من مراجعته.
+        </p>
+
+        @if (showRequestTextError) {
+          <p id="consultation-request-error" class="field-error" role="alert">
+            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+            {{ requestTextErrorMessage }}
+          </p>
+        }
+      </div>
+
+      @if (apiError()) {
+        <div class="submission-error" role="alert">
+          <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+          <span>{{ apiError() }}</span>
+        </div>
+      }
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="isSubmitting()"
+          (click)="requestClose()"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            جارٍ الإرسال...
+          } @else {
+            إرسال الطلب
+          }
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

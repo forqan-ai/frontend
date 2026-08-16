@@ -1,0 +1,129 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  padding: 18px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+.confirmation-modal {
+  width: min(100%, 500px);
+  max-height: calc(100vh - 36px);
+  padding: 27px;
+  overflow-y: auto;
+  position: relative;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 20px 55px color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.close-button {
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  inset-block-start: 13px;
+  inset-inline-end: 13px;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  background: transparent;
+  border-radius: 50%;
+}
+
+.close-button:hover:not(:disabled) { background: var(--secondary); }
+
+.modal-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+.confirmation-modal h2 { margin: 0 0 7px; font-size: 21px; }
+.confirmation-modal > p { margin: 0; color: var(--text-light); line-height: 1.7; }
+.confirmation-modal > p strong { color: var(--text); }
+
+.confirmation-summary {
+  margin: 19px 0 0;
+  display: grid;
+  gap: 8px;
+  text-align: start;
+}
+
+.confirmation-summary > div {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+.confirmation-summary dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.confirmation-summary dt i { color: var(--primary); }
+.confirmation-summary dd { margin: 0; color: var(--text); font-size: 13px; font-weight: 800; text-align: end; }
+
+.debit-notice {
+  margin-top: 13px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: start;
+  color: #73572d;
+  background: #f6edda;
+  border: 1px solid #ead8b5;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.debit-notice i { margin-top: 3px; }
+
+.modal-actions { margin-top: 21px; display: flex; gap: 9px; }
+
+.modal-actions button {
+  min-height: 42px;
+  padding: 9px 17px;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.modal-actions button:disabled,
+.close-button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.back-button { color: var(--primary); background: var(--surface); border: 1px solid var(--border); }
+.back-button:hover:not(:disabled) { background: var(--secondary); }
+.confirm-button { color: #fff; background: var(--primary); }
+.confirm-button:hover:not(:disabled) { background: var(--primary-hover); }
+
+@media (max-width: 480px) {
+  .modal-backdrop { padding: 10px; }
+  .confirmation-modal { max-height: calc(100vh - 20px); padding: 23px 18px; }
+  .modal-actions { flex-direction: column-reverse; }
+  .confirmation-summary > div { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .confirmation-summary dd { text-align: start; }
+}

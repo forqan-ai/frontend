@@ -1,4 +1,5 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { TeacherService } from '../../services/teacher.service';
@@ -8,10 +9,29 @@ import {
 } from '../../models/teacher-details-dto.interface';
 import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
 import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
+import { AuthService } from '../../../../core/services/auth.service';
+import { Role } from '../../../../core/models/auth.models';
+import { BookConsultationModalComponent } from '../../../consultations/components/book-consultation-modal/book-consultation-modal.component';
+import { finalize } from 'rxjs';
+import { LearningCirclesGridComponent } from '../../../learning-circles/components/learning-circles-grid/learning-circles-grid.component';
+import { LearningCirclesPaginationComponent } from '../../../learning-circles/components/learning-circles-pagination/learning-circles-pagination.component';
+import { MembershipConfirmationModalComponent } from '../../../learning-circles/components/membership-confirmation-modal/membership-confirmation-modal.component';
+import { CircleJoinPolicy, LearningCircleListItem } from '../../../learning-circles/models/learning-circle.models';
+import { LearningCirclesService } from '../../../learning-circles/services/learning-circles.service';
+import { CircleJoinRequestsService } from '../../../learning-circles/services/circle-join-requests.service';
+import { CircleActionErrorService } from '../../../learning-circles/services/circle-action-error.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-teacher-details',
-  imports: [RouterLink, CourseCardComponent],
+  imports: [
+    RouterLink,
+    CourseCardComponent,
+    BookConsultationModalComponent,
+    LearningCirclesGridComponent,
+    LearningCirclesPaginationComponent,
+    MembershipConfirmationModalComponent,
+  ],
   templateUrl: './teacher-details.component.html',
   styleUrl: './teacher-details.component.css',
 })
@@ -20,10 +40,28 @@ export class TeacherDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly authService = inject(AuthService);
+  private readonly circlesService = inject(LearningCirclesService);
+  private readonly joinRequestsService = inject(CircleJoinRequestsService);
+  private readonly circleActionError = inject(CircleActionErrorService);
+  private readonly toast = inject(ToastService);
 
   readonly teacher = signal<ITeacherDetailsDto | null>(null);
   readonly isLoading = signal(false);
   readonly errorMessage = signal('');
+  readonly consultationModalOpen = signal(false);
+  readonly teacherCirclesOpen = signal(false);
+  readonly teacherCircles = signal<LearningCircleListItem[]>([]);
+  readonly circlesLoading = signal(false);
+  readonly circlesLoadFailed = signal(false);
+  readonly circlesPage = signal(1);
+  readonly circlesTotalPages = signal(0);
+  readonly circleActionId = signal<string | null>(null);
+  readonly selectedCircle = signal<LearningCircleListItem | null>(null);
+  readonly circlesPageSize = 6;
+  readonly canBookConsultation = computed(
+    () => this.authService.isLoggedIn() && this.authService.hasRole(Role.Student),
+  );
 
   ngOnInit(): void {
     const teacherId = this.route.snapshot.paramMap.get('teacherid');
@@ -34,6 +72,122 @@ export class TeacherDetailsComponent implements OnInit {
     }
 
     this.loadTeacherDetails(teacherId);
+  }
+
+  openConsultationModal(): void {
+    if (this.canBookConsultation()) {
+      this.consultationModalOpen.set(true);
+    }
+  }
+
+  closeConsultationModal(): void {
+    this.consultationModalOpen.set(false);
+  }
+
+  openTeacherCircles(): void {
+    const teacherId = this.teacher()?.teacherID;
+    if (!teacherId || !this.canBookConsultation()) return;
+    this.teacherCirclesOpen.set(true);
+    this.loadTeacherCircles();
+  }
+
+  closeTeacherCircles(): void {
+    if (this.circleActionId() === null) this.teacherCirclesOpen.set(false);
+  }
+
+  loadTeacherCircles(): void {
+    const teacherId = this.teacher()?.teacherID;
+    if (!teacherId || this.circlesLoading()) return;
+    this.circlesLoading.set(true);
+    this.circlesLoadFailed.set(false);
+    this.circlesService.getByTeacher(teacherId, {
+      pageNumber: this.circlesPage(),
+      pageSize: this.circlesPageSize,
+    }).pipe(
+      finalize(() => this.circlesLoading.set(false)),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
+      next: (page) => {
+        this.teacherCircles.set(page.items);
+        this.circlesTotalPages.set(page.totalPages);
+      },
+      error: () => {
+        this.teacherCircles.set([]);
+        this.circlesTotalPages.set(0);
+        this.circlesLoadFailed.set(true);
+      },
+    });
+  }
+
+  changeCirclesPage(page: number): void {
+    if (page === this.circlesPage()) return;
+    this.circlesPage.set(page);
+    this.loadTeacherCircles();
+  }
+
+  showCircleDetails(circle: LearningCircleListItem): void {
+    void this.router.navigate(['/student/learning-circles', circle.circleId]);
+  }
+
+  openCircleJoin(circle: LearningCircleListItem): void {
+    if (!circle.isMember && circle.joinPolicy === CircleJoinPolicy.Automatic) {
+      this.selectedCircle.set(circle);
+    }
+  }
+
+  closeCircleJoin(): void {
+    if (this.circleActionId() === null) this.selectedCircle.set(null);
+  }
+
+  confirmCircleJoin(): void {
+    const circle = this.selectedCircle();
+    if (!circle || this.circleActionId() !== null) return;
+    this.circleActionId.set(circle.circleId);
+    this.circlesService.join(circle.circleId).pipe(
+      finalize(() => this.circleActionId.set(null)),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
+      next: (joined) => {
+        if (!joined) {
+          this.toast.show('تعذر الانضمام إلى حلقة التعلم.', 'error');
+          return;
+        }
+        this.selectedCircle.set(null);
+        this.toast.show('تم الانضمام إلى حلقة التعلم بنجاح.');
+        this.loadTeacherCircles();
+      },
+      error: (error: HttpErrorResponse) => this.toast.show(this.circleActionError.getMessage(error, 'join'), 'error'),
+    });
+  }
+
+  requestCircleJoin(circle: LearningCircleListItem): void {
+    if (this.circleActionId() !== null) return;
+    this.circleActionId.set(circle.circleId);
+    this.joinRequestsService.create(circle.circleId).pipe(
+      finalize(() => this.circleActionId.set(null)),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
+      next: () => {
+        this.toast.show('تم إرسال طلب الانضمام إلى الحلقة.');
+        this.loadTeacherCircles();
+      },
+      error: () => this.toast.show('تعذر إرسال طلب الانضمام.', 'error'),
+    });
+  }
+
+  cancelCircleJoinRequest(circle: LearningCircleListItem): void {
+    if (this.circleActionId() !== null) return;
+    this.circleActionId.set(circle.circleId);
+    this.joinRequestsService.cancel(circle.circleId).pipe(
+      finalize(() => this.circleActionId.set(null)),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
+      next: () => {
+        this.toast.show('تم إلغاء طلب الانضمام.');
+        this.loadTeacherCircles();
+      },
+      error: () => this.toast.show('تعذر إلغاء طلب الانضمام.', 'error'),
+    });
   }
 
   retry(): void {

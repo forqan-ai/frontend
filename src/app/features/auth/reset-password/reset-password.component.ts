@@ -30,6 +30,8 @@ export class ResetPasswordComponent implements OnInit {
 
   isResetMode = false;
 
+  emailSent = false;
+
   status: 'idle' | 'loading' | 'success' | 'error' = 'idle';
 
   errorMessage = '';
@@ -47,29 +49,49 @@ export class ResetPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.route.queryParams.subscribe(params => {
 
       const urlEmail = params['email'];
       let urlToken = params['token'];
 
       if (urlEmail && urlToken) {
+
         this.email = urlEmail;
+
         this.token = urlToken.replace(/ /g, '+');
+
         this.isResetMode = true;
+
+        this.emailSent = false;
+
+      } else {
+
+        this.isResetMode = false;
+
+        this.emailSent = false;
+
       }
 
     });
+
   }
 
   handleForgotPassword(): void {
 
     if (!this.email) {
+
       this.status = 'error';
-      this.errorMessage = 'الرجاء إدخال البريد الإلكتروني.';
+
+      this.errorMessage =
+        'الرجاء إدخال البريد الإلكتروني.';
+
       return;
     }
 
     this.status = 'loading';
+
+    this.emailSent = false;
 
     const apiUrl =
       `${environment.apiUrl}/api/auth/forgot-password`;
@@ -79,83 +101,94 @@ export class ResetPasswordComponent implements OnInit {
     }).subscribe({
 
       next: () => {
+
         this.status = 'success';
+
+        this.emailSent = true;
+
         this.cdr.detectChanges();
+
       },
 
-      error: (err) => {
+   error: (err) => {
+  console.error('RESET PASSWORD ERROR:', err);
+  console.error('ERROR BODY:', err.error);
 
-        console.error(err);
+  this.status = 'error';
 
-        this.status = 'error';
+  this.errorMessage =
+    err.error?.message ||
+    err.error?.errors?.[0]?.description ||
+    'فشل إعادة تعيين كلمة المرور، قد يكون الرابط منتهي الصلاحية.';
 
-        this.errorMessage =
-          'فشل إرسال رابط استعادة كلمة المرور.';
-
-        this.cdr.detectChanges();
-      }
+  this.cdr.detectChanges();
+}
 
     });
+
   }
 
   handleResetPassword(): void {
 
-    if (!this.newPassword || !this.confirmPassword) {
-
-      this.status = 'error';
-
-      this.errorMessage =
-        'الرجاء ملء جميع الحقول.';
-
-      return;
-    }
-
-    if (this.newPassword !== this.confirmPassword) {
-
-      this.status = 'error';
-
-      this.errorMessage =
-        'كلمتا المرور غير متطابقتين.';
-
-      return;
-    }
-
-    this.status = 'loading';
-
-    const apiUrl =
-      `${environment.apiUrl}/api/auth/reset-password`;
-
-    const payload = {
-      email: this.email,
-      token: this.token,
-      newPassword: this.newPassword
-    };
-
-    this.http.post(apiUrl, payload).subscribe({
-
-      next: () => {
-
-        this.status = 'success';
-
-        this.cdr.detectChanges();
-      },
-
-      error: (err) => {
-
-        console.error(err);
-
-        this.status = 'error';
-
-        this.errorMessage =
-          'فشل إعادة تعيين كلمة المرور، قد يكون الرابط منتهي الصلاحية.';
-
-        this.cdr.detectChanges();
-      }
-
-    });
+  if (!this.newPassword || !this.confirmPassword) {
+    this.status = 'error';
+    this.errorMessage = 'الرجاء ملء جميع الحقول.';
+    return;
   }
+
+  if (this.newPassword !== this.confirmPassword) {
+    this.status = 'error';
+    this.errorMessage = 'كلمتا المرور غير متطابقتين.';
+    return;
+  }
+
+  this.status = 'loading';
+
+  const apiUrl = `${environment.apiUrl}/api/auth/reset-password`;
+
+  const payload = {
+    email: this.email,
+    token: this.token,
+    newPassword: this.newPassword
+  };
+
+  console.log('RESET PASSWORD PAYLOAD:', {
+    email: this.email,
+    token: this.token,
+    newPassword: this.newPassword
+  });
+
+  this.http.post(apiUrl, payload).subscribe({
+
+    next: (response) => {
+
+      console.log('RESET PASSWORD SUCCESS:', response);
+
+      this.status = 'success';
+
+      this.cdr.detectChanges();
+    },
+
+    error: (err) => {
+
+      console.error('RESET PASSWORD ERROR:', err);
+      console.error('ERROR BODY:', err.error);
+
+      this.status = 'error';
+
+      this.errorMessage =
+        err.error?.message ||
+        err.error?.errors?.[0]?.description ||
+        'فشل إعادة تعيين كلمة المرور، قد يكون الرابط منتهي الصلاحية.';
+
+      this.cdr.detectChanges();
+    }
+
+  });
+}
 
   goToLogin(): void {
     this.router.navigate(['/login']);
   }
+
 }
