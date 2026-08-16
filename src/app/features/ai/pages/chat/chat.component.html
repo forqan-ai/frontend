@@ -25,62 +25,88 @@
           </div>
         }
 
-        <div class="message" [innerHTML]="parseMarkdown(message.content)"></div>
+        <div style="display: flex; flex-direction: column; gap: 8px; max-width: 70%;">
+          <div class="message" style="max-width: 100%;" [innerHTML]="parseMarkdown(message.content)"></div>
+
+          <!-- References -->
+          @if (message.references?.length) {
+            <div class="references-container">
+              <div class="references-header">
+                <div class="references-title-wrapper">
+                  <div class="references-title-icon">
+                    <i class="bi bi-bookmark-fill"></i>
+                  </div>
+
+                  <div>
+                    <span class="references-title"> المصادر المستخدمة </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="references-list">
+                @for (ref of message.references; track $index) {
+                  <button
+                    type="button"
+                    class="reference-item"
+                    (click)="goToReference(ref.timestamp)"
+                    [disabled]="ref.timestamp === undefined"
+                    [attr.aria-label]="'تشغيل الفيديو من ' + formatTimestamp(ref.timestamp)"
+                    title="الانتقال إلى الفيديو من هذا الوقت"
+                  >
+                    <!-- Number -->
+                    <span class="reference-number">
+                      {{ $index + 1 }}
+                    </span>
+
+                    <!-- Information -->
+                    <span class="reference-content">
+                      <span class="reference-label"> من الدرس </span>
+
+                      <span class="reference-time">
+                        {{ formatTimestamp(ref.timestamp) }}
+                      </span>
+                    </span>
+
+                    <!-- Action -->
+                    <span class="reference-action"> تشغيل </span>
+
+                    <i class="bi bi-chevron-left reference-arrow"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Recommended Courses -->
+          @if (message.recommendedCourses?.length) {
+            <div class="course-recommendations">
+              <span class="course-recommendations-title">كورسات مقترحة من المحتوى المتاح</span>
+
+              <div class="course-recommendations-list">
+                @for (course of message.recommendedCourses; track course.courseId) {
+                  <a class="course-recommendation" [routerLink]="['/courses', course.courseId]">
+                    @if (course.thumbnailURL) {
+                      <img [src]="course.thumbnailURL" [alt]="course.title" />
+                    }
+
+                    <span>
+                      <strong>{{ course.title }}</strong>
+                      @if (course.description) {
+                        <small>{{ course.description }}</small>
+                      }
+                    </span>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+        </div>
 
         @if (isUser(message.role)) {
           <div class="avatar">
             <i class="bi bi-person-fill"></i>
           </div>
         }
-      </div>
-    }
-
-    <!-- References -->
-    @if (references()?.length) {
-      <div class="references-container">
-        <div class="references-header">
-          <div class="references-title-wrapper">
-            <div class="references-title-icon">
-              <i class="bi bi-bookmark-fill"></i>
-            </div>
-
-            <div>
-              <span class="references-title"> المصادر المستخدمة </span>
-            </div>
-          </div>
-        </div>
-
-        <div class="references-list">
-          @for (ref of references(); track $index) {
-            <button
-              type="button"
-              class="reference-item"
-              (click)="goToReference(ref.timestamp)"
-              [disabled]="ref.timestamp === undefined"
-              [attr.aria-label]="'تشغيل الفيديو من ' + formatTimestamp(ref.timestamp)"
-              title="الانتقال إلى الفيديو من هذا الوقت"
-            >
-              <!-- Number -->
-              <span class="reference-number">
-                {{ $index + 1 }}
-              </span>
-
-              <!-- Information -->
-              <span class="reference-content">
-                <span class="reference-label"> من الدرس </span>
-
-                <span class="reference-time">
-                  {{ formatTimestamp(ref.timestamp) }}
-                </span>
-              </span>
-
-              <!-- Action -->
-              <span class="reference-action"> تشغيل </span>
-
-              <i class="bi bi-chevron-left reference-arrow"></i>
-            </button>
-          }
-        </div>
       </div>
     }
 

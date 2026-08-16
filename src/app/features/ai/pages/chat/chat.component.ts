@@ -16,17 +16,19 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Marked } from 'marked';
+import { RouterLink } from '@angular/router';
 
 import { ChatService } from '../../services/chat.service';
 import { MessageRole } from '../../enums/message-role';
 import { IChatMessage } from '../../models/chat-message.interface';
 import { IChatRequest } from '../../models/chat-request.interface';
 import { IReference } from '../../models/reference.interface';
+import { ICourseRecommendation } from '../../models/course-recommendation.interface';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
@@ -55,31 +57,27 @@ export class ChatComponent implements OnInit, OnChanges {
 
   references = signal<IReference[] | undefined>([]);
 
-  private markdown = new Marked();
+  recommendedCourses = signal<ICourseRecommendation[]>([]);
 
-  // =========================================================
-  // Lifecycle
-  // =========================================================
+  private markdown = new Marked();
 
   ngOnInit(): void {
     if (this.lessonId) {
-      this.loadChatHistory();
+      this.messages = [];
+      this.conversationId = undefined;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['lessonId'] && !changes['lessonId'].firstChange && this.lessonId) {
-      this.loadChatHistory();
+      this.messages = [];
+      this.conversationId = undefined;
     }
   }
 
-  // =========================================================
-  // Load Chat History
-  // =========================================================
-
   private loadChatHistory(): void {
-    // Clear old references immediately
     this.references.set([]);
+    this.recommendedCourses.set([]);
 
     this.chatService.getHistory(this.lessonId).subscribe({
       next: (history) => {
@@ -89,8 +87,6 @@ export class ChatComponent implements OnInit, OnChanges {
 
         this.cdr.detectChanges();
 
-        // Wait until Angular finishes rendering
-        // the messages before scrolling.
         setTimeout(() => {
           this.scrollToBottom();
         }, 0);
@@ -104,6 +100,7 @@ export class ChatComponent implements OnInit, OnChanges {
         this.conversationId = undefined;
 
         this.references.set([]);
+        this.recommendedCourses.set([]);
 
         this.cdr.detectChanges();
 
@@ -114,10 +111,6 @@ export class ChatComponent implements OnInit, OnChanges {
     });
   }
 
-  // =========================================================
-  // Message Role
-  // =========================================================
-
   isUser(role: any): boolean {
     return role === MessageRole.User || role === 0 || role === 'User' || role === 'user';
   }
@@ -127,10 +120,6 @@ export class ChatComponent implements OnInit, OnChanges {
       role === MessageRole.Assistant || role === 1 || role === 'Assistant' || role === 'assistant'
     );
   }
-
-  // =========================================================
-  // Send Message
-  // =========================================================
 
   sendMessage(): void {
     if (!this.question.trim() || this.loading) {
@@ -145,59 +134,50 @@ export class ChatComponent implements OnInit, OnChanges {
       conversationId: this.conversationId,
     };
 
-    // Add user message
     this.messages.push({
       role: MessageRole.User,
       content: userQuestion,
       createdAt: new Date().toISOString(),
     });
 
-    // Clear input
     this.question = '';
 
-    // Show loading
     this.loading = true;
 
     this.cdr.detectChanges();
 
-    // Scroll after user message appears
     setTimeout(() => {
       this.scrollToBottom();
     }, 0);
 
-    // Send request
     this.chatService.sendMessage(request).subscribe({
       next: (response) => {
         console.log(response);
 
-        // Add AI response
         this.messages.push({
           role: MessageRole.Assistant,
           content: response.answer,
           createdAt: new Date().toISOString(),
+          references: response.source?.references ?? [],
+          recommendedCourses: response.recommendedCourses ?? [],
         });
 
-        // Update references
         this.references.set(response.source?.references ?? []);
+        this.recommendedCourses.set(response.recommendedCourses ?? []);
 
-        // Update conversation
         this.conversationId = response.conversationId;
 
-        // Hide loading
         this.loading = false;
 
         this.cdr.detectChanges();
 
-        // Important:
-        // Wait until the message + references
-        // are rendered before scrolling.
         setTimeout(() => {
           this.scrollToBottom();
         }, 0);
       },
 
       error: (error) => {
-        console.error('Error sending message:', error);
+        console.error('Error sending message:', error.error?.error ?? error.message);
 
         this.loading = false;
 
@@ -209,10 +189,6 @@ export class ChatComponent implements OnInit, OnChanges {
       },
     });
   }
-
-  // =========================================================
-  // Scroll To Bottom
-  // =========================================================
 
   private scrollToBottom(): void {
     const container = this.messagesContainer?.nativeElement;
@@ -227,10 +203,6 @@ export class ChatComponent implements OnInit, OnChanges {
     });
   }
 
-  // =========================================================
-  // Reference
-  // =========================================================
-
   goToReference(timestamp: number | undefined): void {
     if (timestamp === undefined) {
       return;
@@ -238,10 +210,6 @@ export class ChatComponent implements OnInit, OnChanges {
 
     this.referenceClicked.emit(timestamp);
   }
-
-  // =========================================================
-  // Format Timestamp
-  // =========================================================
 
   formatTimestamp(seconds: number | undefined): string {
     if (seconds === undefined) {

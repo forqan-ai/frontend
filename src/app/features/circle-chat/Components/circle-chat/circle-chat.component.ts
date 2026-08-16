@@ -20,6 +20,7 @@ import {
 } from '../../Services/circle-chat-signalr.service';
 
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-circle-chat',
@@ -157,17 +158,25 @@ export class CircleChatComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
+  authService = inject(AuthService);
+
   private subscribeToRealtimeEvents(): void {
     this.signalrService.messageReceived$
       .pipe(takeUntil(this.destroy$))
       .subscribe((message) => {
         if (message.circleId !== this.circleId) return;
         if (this.messages.some((m) => m.id === message.id)) return;
-        this.messages = [...this.messages, message];
+
+        const messageWithMineStatus: CircleMessage = {
+          ...message,
+          isMine: message.senderId === this.authService.getUserId(),
+        };
+
+        this.messages = [...this.messages, messageWithMineStatus];
         this.shouldScrollToBottom = true;
+
         this.cdr.detectChanges();
       });
-
     this.signalrService.messageEdited$
       .pipe(takeUntil(this.destroy$))
       .subscribe((message) => {

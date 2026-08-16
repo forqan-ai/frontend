@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminCourseService } from '../../services/admin-course.service';
 import { TeacherCourse } from '../../../teacher/models/teacher-course.model';
-import { CourseBuilderDto } from '../../models/course-builder-dto.model';
+import { CourseBuilderDto, LessonBuilderDto } from '../../models/course-builder-dto.model';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
@@ -18,6 +18,8 @@ export class AdminCoursesReviewComponent implements OnInit {
   courses = signal<TeacherCourse[]>([]);
 
   selectedCourse = signal<CourseBuilderDto | null>(null);
+
+  selectedLesson = signal<any | null>(null);
 
   loading = signal(false);
 
@@ -60,26 +62,38 @@ export class AdminCoursesReviewComponent implements OnInit {
 
     this.adminCourseService.getPendingCourse(courseId).subscribe({
       next: (course) => {
-        console.log('Course details received:', course);
+        console.log('========== ADMIN COURSE ==========');
+        console.log(course);
+
+        course.modules.forEach((module) => {
+          console.log('MODULE:', module.title);
+
+          module.lessons.forEach((lesson) => {
+            console.log('LESSON:', lesson);
+            console.log('CONTENT URL:', lesson.contentURL);
+          });
+        });
+
+        console.log('==================================');
 
         this.selectedCourse.set(course);
-
         this.detailsLoading.set(false);
       },
 
       error: (err) => {
         console.error('Error loading course details:', err);
-
         this.detailsLoading.set(false);
       },
     });
   }
 
+  selectLesson(lesson: LessonBuilderDto): void {
+    this.selectedLesson.set(lesson);
+  }
   closeReview(): void {
     this.selectedCourse.set(null);
-
+    this.selectedLesson.set(null);
     this.rejectDialog.set(false);
-
     this.rejectionReason.set('');
   }
 

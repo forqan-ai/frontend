@@ -109,16 +109,18 @@
 
                   <div class="lessons">
                     @for (lesson of module.lessons; track lesson.lessonID) {
-                      <div class="lesson-item">
+                      <div
+                        class="lesson-item"
+                        [class.selected]="selectedLesson()?.lessonID === lesson.lessonID"
+                        (click)="selectLesson(lesson)"
+                      >
                         <div class="lesson-info">
                           <span class="lesson-number">
                             {{ lesson.orderIndex + 1 }}
                           </span>
 
                           <div>
-                            <h5>
-                              {{ lesson.title }}
-                            </h5>
+                            <h5>{{ lesson.title }}</h5>
 
                             <span class="lesson-type">
                               {{ lesson.contentType }}
@@ -128,6 +130,42 @@
 
                         <span class="lesson-duration"> {{ lesson.durationSeconds }} ثانية </span>
                       </div>
+
+                      @if (selectedLesson()?.lessonID === lesson.lessonID) {
+                        <div class="lesson-preview">
+                          @if (!lesson.contentURL) {
+                            <div class="no-content">
+                              <i class="bi bi-file-earmark-x"></i>
+                              <p>لا يوجد محتوى لهذا الدرس.</p>
+                            </div>
+
+                          } @else if (lesson.contentType === 'Video') {
+                            <video class="review-video" controls preload="metadata">
+                              <source [src]="lesson.contentURL" type="video/mp4" />
+                            </video>
+
+                          } @else if (lesson.contentType === 'Audio') {
+                            <div class="review-audio">
+                              <i class="bi bi-music-note-beamed"></i>
+
+                              <div>
+                                <h4>{{ lesson.title }}</h4>
+
+                                <audio controls preload="metadata">
+                                  <source [src]="lesson.contentURL" />
+                                </audio>
+                              </div>
+                            </div>
+
+                          } @else if (lesson.contentType === 'Reading') {
+                            <iframe
+                              class="review-reading"
+                              [src]="lesson.contentURL"
+                              frameborder="0"
+                            ></iframe>
+                          }
+                        </div>
+                      }
                     }
                   </div>
                 </div>

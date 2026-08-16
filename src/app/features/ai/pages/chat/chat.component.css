@@ -380,6 +380,60 @@
   gap: 8px;
 }
 
+.course-recommendations {
+  width: 100%;
+  direction: rtl;
+  margin-top: 12px;
+  padding: 4px;
+}
+
+.course-recommendations-title {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.course-recommendations-list {
+  display: grid;
+  gap: 8px;
+}
+
+.course-recommendation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--primary) 14%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 4%, var(--surface));
+  color: var(--text);
+  text-decoration: none;
+}
+
+.course-recommendation:hover {
+  border-color: var(--primary);
+}
+
+.course-recommendation img {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.course-recommendation span {
+  display: grid;
+  gap: 3px;
+}
+
+.course-recommendation small {
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
 
 /* =========================================================
    Reference Item
