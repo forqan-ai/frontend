@@ -1,0 +1,73 @@
+@if (open()) {
+  <div class="modal-backdrop" role="presentation" (click)="requestClose()">
+    <section
+      class="confirmation-modal"
+      dir="rtl"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="accept-consultation-title"
+      aria-describedby="accept-consultation-description"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-button"
+        aria-label="إغلاق نافذة تأكيد الاستشارة"
+        [disabled]="loading()"
+        (click)="requestClose()"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-icon" aria-hidden="true">
+        <i class="bi bi-calendar2-check"></i>
+      </div>
+
+      <h2 id="accept-consultation-title">تأكيد حجز الاستشارة</h2>
+      <p id="accept-consultation-description">
+        راجع بيانات الموعد قبل تأكيد الحجز مع المعلم <strong>{{ teacherName() }}</strong>.
+      </p>
+
+      <dl class="confirmation-summary">
+        <div>
+          <dt><i class="bi bi-calendar-event" aria-hidden="true"></i> الموعد</dt>
+          <dd>{{ appointment() }}</dd>
+        </div>
+        <div>
+          <dt><i class="bi bi-clock" aria-hidden="true"></i> المدة</dt>
+          <dd>{{ durationMinutes() }} دقيقة</dd>
+        </div>
+        <div>
+          <dt><i class="bi bi-coin" aria-hidden="true"></i> السعر</dt>
+          <dd>@if (pointsPrice() === 0) { مجانية } @else { {{ pointsPrice() }} نقطة }</dd>
+        </div>
+      </dl>
+
+      @if (pointsPrice() === 0) {
+        <div class="debit-notice">
+          <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+          <span>هذه الاستشارة مجانية، لن يتم خصم أي نقاط من رصيدك عند تأكيد هذا الموعد.</span>
+        </div>
+      } @else {
+        <div class="debit-notice">
+          <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+          <span>سيتم خصم {{ pointsPrice() }} نقطة من رصيدك عند تأكيد هذا الموعد.</span>
+        </div>
+      }
+
+      <div class="modal-actions">
+        <button type="button" class="back-button" [disabled]="loading()" (click)="requestClose()">
+          رجوع
+        </button>
+        <button type="button" class="confirm-button" [disabled]="loading()" (click)="confirm()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            جارٍ التأكيد...
+          } @else {
+            تأكيد الحجز
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

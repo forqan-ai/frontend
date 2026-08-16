@@ -62,7 +62,9 @@ export class StudentMobileSidebarComponent {
   }
 
   private updateActiveRoute(url: string): void {
-    if (url.includes('d/home')) {
+    if (url.includes('consultations')) {
+      this.activeRoute = 'consultations';
+    } else if (url.includes('d/home')) {
       this.activeRoute = 'home';
     } else if (url.includes('/my-courses')) {
       this.activeRoute = 'my-courses';

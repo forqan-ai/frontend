@@ -9,12 +9,15 @@
         </div>
 
         <!-- toggler for mobile -->
-        <button class="toggler bg-white bg-opacity-10 " type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#studentMobileSidebar" aria-controls="studentMobileSidebar" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <!-- <span style="width: 32px;" class="navbar-toggler-icon"></span> -->
-            <i class="fa-solid fa-bars" style="font-size: 24px; color: var(--primary-light);"></i>
-        </button>
+        <div class="mobile-actions">
+            <app-notification-bell theme="dark" />
+            <button class="toggler bg-white bg-opacity-10 " type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#studentMobileSidebar" aria-controls="mainNavbar" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <!-- <span style="width: 32px;" class="navbar-toggler-icon"></span> -->
+                <i class="fa-solid fa-bars" style="font-size: 24px; color: var(--primary-light);"></i>
+            </button>
+        </div>
 
     </div>
 </nav>

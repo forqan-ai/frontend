@@ -4,12 +4,13 @@ import { RouterLink, Router, NavigationEnd, RouterLinkActive } from '@angular/ro
 import { SettingsService } from '../../Services/settings.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AvatarComponent } from "../../../../shared/components/avatar/avatar.component";
+import { NotificationBellComponent } from '../../../../shared/components/notification-bell/notification-bell.component';
 import { PlacementService } from '../../../placement-test/services/placement.service';
 
 @Component({
   selector: 'app-student-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvatarComponent],
+  imports: [CommonModule, RouterLink, AvatarComponent, RouterLinkActive, NotificationBellComponent],
   templateUrl: './student-sidebar.component.html',
   styleUrl: './student-sidebar.component.css',
 })
@@ -56,7 +57,9 @@ export class StudentSidebarComponent implements OnInit {
   }
 
   private updateActiveRoute(url: string): void {
-    if (url.includes('home')) {
+    if (url.includes('consultations')) {
+      this.activeRoute = 'consultations';
+    } else if (url.includes('home')) {
       this.activeRoute = 'home';
     } else if (url.includes('my-courses')) {
       this.activeRoute = 'my-courses';

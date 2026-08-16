@@ -7,6 +7,7 @@ import { QuickActionsComponent } from '../../../features/teacher/components/quic
 
 import { TeacherProfile } from '../../../features/teacher/models/teacher-profile.model';
 import { TeacherService } from '../../../features/teacher/services/teacher.service';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-teacher-layout',
@@ -16,6 +17,7 @@ import { TeacherService } from '../../../features/teacher/services/teacher.servi
     SidebarComponent,
     HeaderComponent,
     QuickActionsComponent,
+    ToastComponent,
   ],
   templateUrl: './teacher-layout.component.html',
   styleUrls: ['./teacher-layout.component.css'],
