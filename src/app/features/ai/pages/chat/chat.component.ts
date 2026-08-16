@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit, OnChanges {
   lessonId!: string;
 
   @Output()
-  referenceClicked = new EventEmitter<number>();
+  referenceClicked = new EventEmitter<IReference>();
 
   @ViewChild('messagesContainer')
   private messagesContainer!: ElementRef<HTMLDivElement>;
@@ -203,12 +203,12 @@ export class ChatComponent implements OnInit, OnChanges {
     });
   }
 
-  goToReference(timestamp: number | undefined): void {
-    if (timestamp === undefined) {
+  goToReference(ref: IReference): void {
+    if (ref.timestamp === undefined && ref.pageNumber === undefined) {
       return;
     }
 
-    this.referenceClicked.emit(timestamp);
+    this.referenceClicked.emit(ref);
   }
 
   formatTimestamp(seconds: number | undefined): string {

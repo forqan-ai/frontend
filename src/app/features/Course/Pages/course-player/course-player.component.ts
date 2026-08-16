@@ -6,6 +6,7 @@ import { CourseService } from '../../Services/course.service';
 import { ICoursePlayer, ILesson } from '../../Models/course-player.interface';
 import { SafeUrlPipe } from '../../../../shared/pipes/safe-url-pipe';
 import { ChatComponent } from '../../../ai/pages/chat/chat.component';
+import { IReference } from '../../../ai/models/reference.interface';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
@@ -90,15 +91,23 @@ export class CoursePlayerComponent implements OnInit {
   /*
    * Called when the user clicks a reference from the AI chat.
    */
-  seekVideo(seconds: number): void {
-    console.log('Reference clicked:', seconds);
+  seekVideo(ref: IReference): void {
+    console.log('Reference clicked:', ref);
 
     this.scrollToPlayer();
 
-    // Save the requested timestamp
-    this.pendingSeekTime = seconds;
-
     const lessonType = this.selectedLesson()?.contentType;
+
+    if (lessonType === 'Reading') {
+      if (ref.pageNumber) {
+        console.log('PDF Page:', ref.pageNumber);
+      }
+      return;
+    }
+
+    if (ref.timestamp === undefined) return;
+
+    this.pendingSeekTime = ref.timestamp;
 
     if (lessonType === 'Video' && !this.videoStarted()) {
       this.videoStarted.set(true);
