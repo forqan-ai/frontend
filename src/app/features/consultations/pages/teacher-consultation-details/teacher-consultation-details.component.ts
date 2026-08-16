@@ -122,10 +122,10 @@ export class TeacherConsultationDetailsComponent implements OnInit {
       successMessage = 'تم رفض طلب الاستشارة.';
     } else if (event.action === 'cancel' && details.actions.canCancel) {
       request$ = this.consultationService.cancelConsultation(this.consultationId, { reason: event.reason });
-      successMessage = 'تم إلغاء الاستشارة وإعادة النقاط للطالب.';
+      successMessage = details.pointsPrice === 0 ? 'تم إلغاء الاستشارة.' : 'تم إلغاء الاستشارة وإعادة النقاط للطالب.';
     } else if (event.action === 'complete' && details.actions.canComplete) {
       request$ = this.consultationService.completeConsultation(this.consultationId);
-      successMessage = 'تم إنهاء الاستشارة بنجاح وإضافة نقاطها إلى رصيدك.';
+      successMessage = details.pointsPrice === 0 ? 'تم إنهاء الاستشارة بنجاح.' : 'تم إنهاء الاستشارة بنجاح وإضافة نقاطها إلى رصيدك.';
     } else {
       return;
     }

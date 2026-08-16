@@ -179,7 +179,7 @@
             }
             <div class="confirmed-summary">
               <span><i class="bi bi-clock" aria-hidden="true"></i> {{ details.durationMinutes }} دقيقة</span>
-              <span><i class="bi bi-coin" aria-hidden="true"></i> {{ details.pointsPrice }} نقطة</span>
+              <span><i class="bi bi-coin" aria-hidden="true"></i> @if (details.pointsPrice === 0) { مجانية } @else { {{ details.pointsPrice }} نقطة }</span>
             </div>
           </section>
         }
@@ -246,7 +246,7 @@
           <div><dt>تاريخ الطلب</dt><dd>{{ formatDate(details.createdAt) }}</dd></div>
           @if (details.respondedAt) { <div><dt>تاريخ رد المعلم</dt><dd>{{ formatDate(details.respondedAt) }}</dd></div> }
           @if (details.acceptedAt) { <div><dt>تاريخ التأكيد</dt><dd>{{ formatDate(details.acceptedAt) }}</dd></div> }
-          @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>{{ details.pointsPrice }} نقطة</dd></div> }
+          @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>@if (details.pointsPrice === 0) { مجانية } @else { {{ details.pointsPrice }} نقطة }</dd></div> }
           @if (details.durationMinutes !== null) { <div><dt>المدة</dt><dd>{{ details.durationMinutes }} دقيقة</dd></div> }
           @if (details.selectedSlot) { <div><dt>الموعد المختار</dt><dd>{{ formatDate(details.selectedSlot.startTime) }}</dd></div> }
         </dl>

@@ -35,11 +35,6 @@ export class SidebarComponent {
       route: '/teacher/my-courses',
     },
     {
-      title: 'الطلاب',
-      icon: 'bi bi-people-fill',
-      route: '/teacher/students',
-    },
-    {
       title: 'حلقات العلم',
       icon: 'bi bi-bounding-box-circles',
       route: '/teacher/circles',

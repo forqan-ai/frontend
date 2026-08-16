@@ -6,11 +6,19 @@
     @if (action() === 'reject') {
       <p>سيتم رفض طلب الطالب <strong>{{ studentName() }}</strong> ولن يعود متاحًا لإنشاء مقترح.</p>
     } @else if (action() === 'complete') {
-      <p>عند إنهاء الاستشارة سيتم اعتمادها كمكتملة وإضافة <strong>{{ pointsPrice() ?? 0 }} نقطة</strong> إلى رصيدك وفق التسوية المعتمدة.</p>
+      @if (pointsPrice() === 0) {
+        <p>عند إنهاء الاستشارة سيتم اعتمادها كمكتملة.</p>
+      } @else {
+        <p>عند إنهاء الاستشارة سيتم اعتمادها كمكتملة وإضافة <strong>{{ pointsPrice() ?? 0 }} نقطة</strong> إلى رصيدك وفق التسوية المعتمدة.</p>
+      }
     } @else if (isStudentRequestCancel()) {
       <p>هل تريد إلغاء طلب الاستشارة؟ لن تتمكن من متابعة هذا الطلب بعد إلغائه.</p>
     } @else {
-      <div class="refund-warning"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i><p>هذه الاستشارة مؤكدة. عند الإلغاء سيعيد النظام <strong>{{ pointsPrice() ?? 0 }} نقطة</strong> إلى الطالب تلقائيًا.</p></div>
+      @if (pointsPrice() === 0) {
+        <div class="refund-warning"><i class="bi bi-slash-circle" aria-hidden="true"></i><p>هذه الاستشارة مؤكدة ومجانية. عند الإلغاء سيتم تغيير حالة الاستشارة إلى ملغاة.</p></div>
+      } @else {
+        <div class="refund-warning"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i><p>هذه الاستشارة مؤكدة. عند الإلغاء سيعيد النظام <strong>{{ pointsPrice() ?? 0 }} نقطة</strong> إلى الطالب تلقائيًا.</p></div>
+      }
     }
 
     @if (needsReason()) {

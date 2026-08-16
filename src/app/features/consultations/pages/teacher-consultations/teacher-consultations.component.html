@@ -71,7 +71,7 @@
                 <dd><time [attr.datetime]="consultation.createdAt">{{ formatDate(consultation.createdAt) }}</time></dd>
               </div>
               @if (consultation.pointsPrice !== null) {
-                <div><dt><i class="bi bi-coin" aria-hidden="true"></i> السعر</dt><dd>{{ consultation.pointsPrice }} نقطة</dd></div>
+                <div><dt><i class="bi bi-coin" aria-hidden="true"></i> السعر</dt><dd>@if (consultation.pointsPrice === 0) { مجانية } @else { {{ consultation.pointsPrice }} نقطة }</dd></div>
               }
               @if (consultation.durationMinutes !== null) {
                 <div><dt><i class="bi bi-clock" aria-hidden="true"></i> المدة</dt><dd>{{ consultation.durationMinutes }} دقيقة</dd></div>
