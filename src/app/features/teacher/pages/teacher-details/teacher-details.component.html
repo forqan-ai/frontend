@@ -57,8 +57,69 @@
           }
         </div>
         }
+
+        @if (canBookConsultation()) {
+        <div class="teacher-actions">
+          <button type="button" class="consultation-button" (click)="openConsultationModal()">
+            <i class="bi bi-chat-square-text" aria-hidden="true"></i>
+            حجز استشارة
+          </button>
+          <button type="button" class="circle-button" (click)="openTeacherCircles()">
+            <i class="bi bi-bounding-box-circles" aria-hidden="true"></i>
+            الانضمام لحلقة العلم
+          </button>
+        </div>
+        }
       </div>
     </section>
+
+    @if (teacherCirclesOpen()) {
+      <section class="teacher-circles-section" aria-labelledby="teacher-circles-title">
+        <div class="circle-section-heading">
+          <div>
+            <span class="teacher-kicker">حلقات العلم</span>
+            <h2 id="teacher-circles-title">حلقات {{ teacherDetails.teacherName }}</h2>
+            <p>استعرض حلقات هذا المعلم وانضم إلى الحلقة المناسبة.</p>
+          </div>
+          <button type="button" class="close-circles" (click)="closeTeacherCircles()" [disabled]="circleActionId() !== null" aria-label="إغلاق حلقات المعلم">
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        @if (circlesLoadFailed() && !circlesLoading()) {
+          <div class="circle-state" role="alert">
+            <i class="bi bi-wifi-off" aria-hidden="true"></i>
+            <p>تعذر تحميل حلقات هذا المعلم.</p>
+            <button type="button" (click)="loadTeacherCircles()">إعادة المحاولة</button>
+          </div>
+        } @else if (!circlesLoading() && teacherCircles().length === 0) {
+          <div class="circle-state">
+            <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+            <p>لا توجد حلقات علم متاحة لهذا المعلم حاليًا.</p>
+          </div>
+        } @else {
+          <app-learning-circles-grid
+            [circles]="teacherCircles()"
+            [loading]="circlesLoading()"
+            [actionCircleId]="circleActionId()"
+            [allowJoin]="true"
+            [showMemberMetadata]="false"
+            [allowLeaveActions]="false"
+            [allowManageActions]="false"
+            (joinRequested)="openCircleJoin($event)"
+            (joinRequestSubmitted)="requestCircleJoin($event)"
+            (joinRequestCancelled)="cancelCircleJoinRequest($event)"
+            (detailsRequested)="showCircleDetails($event)"
+          />
+          <app-learning-circles-pagination
+            [currentPage]="circlesPage()"
+            [totalPages]="circlesTotalPages()"
+            [disabled]="circlesLoading()"
+            (pageChanged)="changeCirclesPage($event)"
+          />
+        }
+      </section>
+    }
 
     <section class="teacher-stats-grid" aria-label="إحصاءات المعلم">
       <div class="stat-card">
@@ -154,6 +215,24 @@
       </div>
       }
     </section>
+
+    @if (consultationModalOpen()) {
+    <app-book-consultation-modal
+      [teacherId]="teacherDetails.teacherID"
+      [teacherName]="teacherDetails.teacherName"
+      (closed)="closeConsultationModal()"
+      (created)="closeConsultationModal()"
+    />
+    }
+
+    <app-membership-confirmation-modal
+      action="join"
+      [open]="selectedCircle() !== null"
+      [circleName]="selectedCircle()?.name ?? ''"
+      [loading]="circleActionId() !== null"
+      (closed)="closeCircleJoin()"
+      (confirmed)="confirmCircleJoin()"
+    />
     }
   </div>
 </main>

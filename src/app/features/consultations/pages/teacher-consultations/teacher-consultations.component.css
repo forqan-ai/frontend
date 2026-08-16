@@ -1,0 +1,6 @@
+@import '../student-consultations/student-consultations.component.css';
+
+.consultations-page {
+  min-height: auto;
+  background: transparent;
+}

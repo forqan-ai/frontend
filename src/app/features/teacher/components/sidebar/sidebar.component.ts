@@ -45,6 +45,11 @@ export class SidebarComponent {
       route: '/teacher/circles',
     },
     {
+      title: 'الاستشارات',
+      icon: 'bi bi-chat-dots',
+      route: '/teacher/consultations',
+    },
+    {
       title: 'المحفظة',
       icon: 'bi bi-wallet2',
       route: '/teacher/wallet',

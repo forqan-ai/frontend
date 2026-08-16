@@ -1,0 +1,99 @@
+<main class="details-page" dir="rtl">
+  <nav class="breadcrumb" aria-label="مسار الصفحة"><ol><li><a routerLink="../">الاستشارات</a></li><li aria-current="page">إدارة الاستشارة</li></ol></nav>
+  <div class="page-toolbar"><a class="back-button" routerLink="../"><i class="bi bi-arrow-right" aria-hidden="true"></i>العودة إلى الاستشارات</a></div>
+
+  @if (loading()) {
+    <section class="details-skeleton" aria-busy="true" aria-label="جارٍ تحميل تفاصيل الاستشارة">
+      <div class="skeleton-hero skeleton-shimmer"></div><div class="skeleton-layout"><div class="skeleton-main"><div class="skeleton-card skeleton-shimmer"></div><div class="skeleton-card skeleton-shimmer"></div></div><div class="skeleton-side skeleton-shimmer"></div></div>
+    </section>
+  } @else if (loadError(); as error) {
+    <section class="state-panel" role="alert">
+      <span class="state-icon"><i class="bi" [class.bi-wifi-off]="error.retryable" [class.bi-shield-lock]="!error.retryable" aria-hidden="true"></i></span>
+      <h1>{{ error.title }}</h1><p>{{ error.message }}</p>
+      <div class="state-actions">@if (error.retryable) { <button type="button" (click)="loadConsultation()">إعادة المحاولة</button> }<a class="secondary-action" routerLink="../">العودة إلى الاستشارات</a></div>
+    </section>
+  } @else if (consultation(); as details) {
+    <header class="details-hero">
+      <div class="teacher-heading"><span class="teacher-icon" aria-hidden="true"><i class="bi bi-person-fill"></i></span><div><span>طلب استشارة من الطالب</span><h1>{{ details.studentName }}</h1></div></div>
+      <span class="status-badge" [class]="statusClass(details.status)">{{ statusLabel(details.status) }}</span>
+    </header>
+
+    @if (actionError()) { <div class="action-error" role="alert"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i><span>{{ actionError() }}</span></div> }
+
+    <div class="details-layout">
+      <div class="main-column">
+        <section class="content-card" aria-labelledby="request-title">
+          <div class="section-heading"><span class="section-icon"><i class="bi bi-chat-right-text" aria-hidden="true"></i></span><h2 id="request-title">طلب الطالب</h2></div>
+          <p class="long-text">{{ details.requestText }}</p>
+        </section>
+
+        @if (details.actions.canEditProposal) {
+          <app-consultation-proposal-form [consultation]="details" [submitting]="submitting() !== null" (submitted)="saveProposal($event)" />
+        } @else if (details.teacherResponseText) {
+          <section class="content-card">
+            <div class="section-heading"><span class="section-icon"><i class="bi bi-reply" aria-hidden="true"></i></span><h2>المقترح المرسل</h2></div>
+            <p class="long-text">{{ details.teacherResponseText }}</p>
+            @if (details.slots.length > 0) {
+              <div class="proposed-slots">@for (slot of details.slots; track slot.slotId) { <span [class.selected]="slot.isSelected"><i class="bi bi-calendar-event" aria-hidden="true"></i>{{ formatDate(slot.startTime) }}</span> }</div>
+            }
+          </section>
+        }
+
+        @if (details.status === 'Confirmed') {
+          <section class="content-card confirmed-card">
+            <div class="section-heading"><span class="section-icon"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span><h2>الاستشارة مؤكدة</h2></div>
+            @if (details.selectedSlot) { <div class="confirmed-appointment"><span>الموعد المؤكد</span><strong>{{ formatDate(details.selectedSlot.startTime) }}</strong></div> }
+            <div class="confirmed-summary"><span><i class="bi bi-clock"></i> {{ details.durationMinutes }} دقيقة</span><span><i class="bi bi-coin"></i> {{ details.pointsPrice }} نقطة</span></div>
+          </section>
+        }
+
+        @if (details.actions.canSetMeetingLink) {
+          <app-meeting-link-form [consultation]="details" [submitting]="submitting() !== null" (submitted)="saveMeetingLink($event)" />
+        } @else if ((details.status === 'Confirmed' || details.status === 'Completed') && details.meetingLink) {
+          <section class="content-card meeting-card">
+            <div class="section-heading"><span class="section-icon"><i class="bi bi-camera-video"></i></span><h2>رابط الاجتماع</h2></div>
+            @if (details.platform) { <p class="platform-name">المنصة: <strong>{{ details.platform }}</strong></p> }
+            <a class="meeting-link" [href]="details.meetingLink" target="_blank" rel="noopener noreferrer">فتح رابط الاجتماع<i class="bi bi-box-arrow-up-left"></i></a>
+          </section>
+        }
+
+        @if (details.status === 'Rejected') {
+          <section class="content-card final-state-card rejected-card"><div class="section-heading"><span class="section-icon"><i class="bi bi-x-circle"></i></span><h2>تم رفض الطلب</h2></div>@if (details.rejectedAt) { <p>تاريخ الرفض: <strong>{{ formatDate(details.rejectedAt) }}</strong></p> }@if (details.rejectionReason) { <p class="long-text">{{ details.rejectionReason }}</p> }</section>
+        }
+        @if (details.status === 'Cancelled') {
+          <section class="content-card final-state-card cancelled-card"><div class="section-heading"><span class="section-icon"><i class="bi bi-slash-circle"></i></span><h2>تم إلغاء الاستشارة</h2></div>@if (details.cancelledAt) { <p>تاريخ الإلغاء: <strong>{{ formatDate(details.cancelledAt) }}</strong></p> }@if (details.cancellationReason) { <p class="long-text">{{ details.cancellationReason }}</p> }</section>
+        }
+        @if (details.status === 'Completed') {
+          <section class="content-card final-state-card completed-card"><div class="section-heading"><span class="section-icon"><i class="bi bi-check-circle"></i></span><h2>اكتملت الاستشارة</h2></div>@if (details.completedAt) { <p>تاريخ الإكمال: <strong>{{ formatDate(details.completedAt) }}</strong></p> }</section>
+        }
+      </div>
+
+      <aside class="side-column">
+        <section class="information-card" aria-labelledby="consultation-information-title">
+          <div class="section-heading"><span class="section-icon"><i class="bi bi-info-lg"></i></span><h2 id="consultation-information-title">معلومات الاستشارة</h2></div>
+          <dl class="information-list">
+            <div><dt>الطالب</dt><dd>{{ details.studentName }}</dd></div><div><dt>الحالة</dt><dd>{{ statusLabel(details.status) }}</dd></div><div><dt>تاريخ الطلب</dt><dd>{{ formatDate(details.createdAt) }}</dd></div>
+            @if (details.respondedAt) { <div><dt>تاريخ إرسال المقترح</dt><dd>{{ formatDate(details.respondedAt) }}</dd></div> }
+            @if (details.acceptedAt) { <div><dt>تاريخ التأكيد</dt><dd>{{ formatDate(details.acceptedAt) }}</dd></div> }
+            @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>{{ details.pointsPrice }} نقطة</dd></div> }
+            @if (details.durationMinutes !== null) { <div><dt>المدة</dt><dd>{{ details.durationMinutes }} دقيقة</dd></div> }
+            @if (details.selectedSlot) { <div><dt>الموعد المختار</dt><dd>{{ formatDate(details.selectedSlot.startTime) }}</dd></div> }
+          </dl>
+        </section>
+
+        @if (details.actions.canReject || details.actions.canComplete || details.actions.canCancel) {
+          <section class="management-actions" aria-labelledby="actions-title">
+            <h2 id="actions-title">إجراءات الاستشارة</h2>
+            @if (details.actions.canComplete) { <button type="button" class="complete-action" (click)="openAction('complete')" [disabled]="submitting() !== null"><i class="bi bi-check2-circle"></i>إنهاء الاستشارة</button> }
+            @if (details.actions.canReject) { <button type="button" class="danger-action" (click)="openAction('reject')" [disabled]="submitting() !== null"><i class="bi bi-x-circle"></i>رفض الطلب</button> }
+            @if (details.actions.canCancel) { <button type="button" class="danger-action" (click)="openAction('cancel')" [disabled]="submitting() !== null"><i class="bi bi-slash-circle"></i>إلغاء ورد النقاط</button> }
+          </section>
+        }
+      </aside>
+    </div>
+
+    @if (actionModal(); as action) {
+      <app-teacher-consultation-action-modal [action]="action" [studentName]="details.studentName" [pointsPrice]="details.pointsPrice" [loading]="submitting() === action" (closed)="closeAction()" (confirmed)="confirmAction($event)" />
+    }
+  }
+</main>

@@ -1,0 +1,284 @@
+<main class="details-page" dir="rtl">
+  <nav class="breadcrumb" aria-label="مسار الصفحة">
+    <ol>
+      <li><a routerLink="../">الاستشارات</a></li>
+      <li aria-current="page">تفاصيل الاستشارة</li>
+    </ol>
+  </nav>
+
+  <div class="page-toolbar">
+    <a class="back-button" routerLink="../">
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      العودة إلى الاستشارات
+    </a>
+  </div>
+
+  @if (loading()) {
+    <section class="details-skeleton" aria-busy="true" aria-label="جارٍ تحميل تفاصيل الاستشارة">
+      <div class="skeleton-hero skeleton-shimmer"></div>
+      <div class="skeleton-layout">
+        <div class="skeleton-main">
+          <div class="skeleton-card skeleton-shimmer"></div>
+          <div class="skeleton-card skeleton-shimmer"></div>
+        </div>
+        <div class="skeleton-side skeleton-shimmer"></div>
+      </div>
+    </section>
+  } @else if (loadError(); as error) {
+    <section class="state-panel" role="alert">
+      <span class="state-icon">
+        <i
+          class="bi"
+          [class.bi-wifi-off]="error.retryable"
+          [class.bi-shield-lock]="!error.retryable"
+          aria-hidden="true"
+        ></i>
+      </span>
+      <h1>{{ error.title }}</h1>
+      <p>{{ error.message }}</p>
+      <div class="state-actions">
+        @if (error.retryable) {
+          <button type="button" (click)="loadConsultation()">إعادة المحاولة</button>
+        }
+        <a class="secondary-action" routerLink="../">العودة إلى الاستشارات</a>
+      </div>
+    </section>
+  } @else if (consultation(); as details) {
+    <header class="details-hero">
+      <div class="teacher-heading">
+        <span class="teacher-icon" aria-hidden="true"><i class="bi bi-person-video3"></i></span>
+        <div>
+          <span>استشارة مع المعلم</span>
+          <h1>{{ details.teacherName }}</h1>
+        </div>
+      </div>
+
+      <span class="status-badge" [class]="statusClass(details.status)">
+        {{ statusLabel(details.status) }}
+      </span>
+    </header>
+
+    @if (acceptError()) {
+      <div class="action-error" role="alert">
+        <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+        <span>{{ acceptError() }}</span>
+      </div>
+    }
+
+    <div class="details-layout">
+      <div class="main-column">
+        <section class="content-card" aria-labelledby="request-title">
+          <div class="section-heading">
+            <span class="section-icon"><i class="bi bi-chat-right-text" aria-hidden="true"></i></span>
+            <h2 id="request-title">طلب الاستشارة</h2>
+          </div>
+          <p class="long-text">{{ details.requestText }}</p>
+        </section>
+
+        <section class="content-card" aria-labelledby="teacher-response-title">
+          <div class="section-heading">
+            <span class="section-icon"><i class="bi bi-reply" aria-hidden="true"></i></span>
+            <h2 id="teacher-response-title">رد المعلم</h2>
+          </div>
+
+          @if (details.teacherResponseText) {
+            <p class="long-text">{{ details.teacherResponseText }}</p>
+          } @else if (details.status === 'Requested') {
+            <div class="calm-state">
+              <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+              <span>لم يرسل المعلم رده بعد.</span>
+            </div>
+          } @else {
+            <p class="muted-text">لا يوجد رد مكتوب من المعلم.</p>
+          }
+        </section>
+
+        @if (isStudentActor() && details.actions.canCancel) {
+          <section class="content-card cancel-request-card" aria-labelledby="cancel-request-title">
+            <div class="section-heading">
+              <span class="section-icon"><i class="bi bi-slash-circle" aria-hidden="true"></i></span>
+              <div>
+                <h2 id="cancel-request-title">إلغاء طلب الاستشارة</h2>
+                <p>يمكنك إلغاء الطلب قبل تأكيد الموعد. لم تُخصم أي نقاط بعد.</p>
+              </div>
+            </div>
+            <button type="button" class="accept-button cancel-request-button" [disabled]="actionBusy()" (click)="openCancelConfirmation()">
+              <i class="bi bi-x-circle" aria-hidden="true"></i>
+              إلغاء طلب الاستشارة
+            </button>
+          </section>
+        }
+
+        @if (details.status === 'Proposed') {
+          <section class="content-card proposal-card" aria-labelledby="slot-selection-title">
+            <div class="section-heading">
+              <span class="section-icon"><i class="bi bi-calendar2-week" aria-hidden="true"></i></span>
+              <div>
+                <h2 id="slot-selection-title">اختر الموعد المناسب</h2>
+                <p>اختر موعدًا واحدًا من المواعيد التي اقترحها المعلم.</p>
+              </div>
+            </div>
+
+            @if (details.actions.canAccept) {
+              @if (availableSlots().length > 0) {
+                <fieldset class="slot-options" [disabled]="actionBusy()">
+                  <legend class="visually-hidden">المواعيد المتاحة للاستشارة</legend>
+                  @for (slot of availableSlots(); track slot.slotId) {
+                    <label class="slot-option" [class.selected]="selectedSlotId() === slot.slotId">
+                      <input
+                        type="radio"
+                        name="consultationSlot"
+                        [value]="slot.slotId"
+                        [checked]="selectedSlotId() === slot.slotId"
+                        (change)="selectSlot(slot.slotId)"
+                      />
+                      <span class="radio-mark" aria-hidden="true"></span>
+                      <span class="slot-copy">
+                        <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                        <time [attr.datetime]="slot.startTime">{{ formatDate(slot.startTime) }}</time>
+                      </span>
+                    </label>
+                  }
+                </fieldset>
+
+                <button
+                  type="button"
+                  class="accept-button"
+                  [disabled]="!selectedSlot() || actionBusy() || !details.actions.canAccept"
+                  (click)="openConfirmation()"
+                >
+                  <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                  تأكيد الموعد المختار
+                </button>
+              } @else {
+                <div class="calm-state">
+                  <i class="bi bi-calendar-x" aria-hidden="true"></i>
+                  <span>لا توجد مواعيد متاحة في هذا العرض حاليًا.</span>
+                </div>
+              }
+            } @else {
+              <div class="calm-state">
+                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                <span>لا يمكن تأكيد هذا العرض حاليًا. حدّث الصفحة لمراجعة أحدث البيانات.</span>
+              </div>
+            }
+          </section>
+        }
+
+        @if (details.status === 'Confirmed') {
+          <section class="content-card confirmed-card" aria-labelledby="confirmed-title">
+            <div class="section-heading">
+              <span class="section-icon"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span>
+              <h2 id="confirmed-title">تم تأكيد الاستشارة</h2>
+            </div>
+            @if (details.selectedSlot) {
+              <div class="confirmed-appointment">
+                <span>الموعد المؤكد</span>
+                <strong>{{ formatDate(details.selectedSlot.startTime) }}</strong>
+              </div>
+            }
+            <div class="confirmed-summary">
+              <span><i class="bi bi-clock" aria-hidden="true"></i> {{ details.durationMinutes }} دقيقة</span>
+              <span><i class="bi bi-coin" aria-hidden="true"></i> {{ details.pointsPrice }} نقطة</span>
+            </div>
+          </section>
+        }
+
+        @if (details.status === 'Rejected') {
+          <section class="content-card final-state-card rejected-card">
+            <div class="section-heading"><span class="section-icon"><i class="bi bi-x-circle" aria-hidden="true"></i></span><h2>تم رفض الطلب</h2></div>
+            @if (details.rejectedAt) { <p>تاريخ الرفض: <strong>{{ formatDate(details.rejectedAt) }}</strong></p> }
+            @if (details.rejectionReason) { <p class="long-text">{{ details.rejectionReason }}</p> }
+          </section>
+        }
+
+        @if (details.status === 'Cancelled') {
+          <section class="content-card final-state-card cancelled-card">
+            <div class="section-heading"><span class="section-icon"><i class="bi bi-slash-circle" aria-hidden="true"></i></span><h2>تم إلغاء الاستشارة</h2></div>
+            @if (details.cancelledAt) { <p>تاريخ الإلغاء: <strong>{{ formatDate(details.cancelledAt) }}</strong></p> }
+            @if (details.cancellationReason) { <p class="long-text">{{ details.cancellationReason }}</p> }
+          </section>
+        }
+
+        @if (details.status === 'Completed') {
+          <section class="content-card final-state-card completed-card">
+            <div class="section-heading"><span class="section-icon"><i class="bi bi-check-circle" aria-hidden="true"></i></span><h2>اكتملت الاستشارة</h2></div>
+            @if (details.selectedSlot) { <p>موعد الاستشارة: <strong>{{ formatDate(details.selectedSlot.startTime) }}</strong></p> }
+            @if (details.completedAt) { <p>تاريخ الإكمال: <strong>{{ formatDate(details.completedAt) }}</strong></p> }
+          </section>
+        }
+
+        @if (details.status === 'Confirmed' || details.status === 'Completed') {
+          <section class="content-card meeting-card" aria-labelledby="meeting-title">
+            <div class="section-heading">
+              <span class="section-icon"><i class="bi bi-camera-video" aria-hidden="true"></i></span>
+              <h2 id="meeting-title">رابط الاجتماع</h2>
+            </div>
+            @if (details.meetingLink) {
+              @if (details.platform) { <p class="platform-name">المنصة: <strong>{{ details.platform }}</strong></p> }
+              <a
+                class="meeting-link"
+                [href]="details.meetingLink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                فتح رابط الاجتماع
+                <i class="bi bi-box-arrow-up-left" aria-hidden="true"></i>
+              </a>
+            } @else {
+              <div class="calm-state">
+                <i class="bi bi-link-45deg" aria-hidden="true"></i>
+                <span>سيظهر رابط الاجتماع هنا بعد أن يضيفه المعلم.</span>
+              </div>
+            }
+          </section>
+        }
+      </div>
+
+      <aside class="information-card" aria-labelledby="consultation-information-title">
+        <div class="section-heading">
+          <span class="section-icon"><i class="bi bi-info-lg" aria-hidden="true"></i></span>
+          <h2 id="consultation-information-title">معلومات الاستشارة</h2>
+        </div>
+
+        <dl class="information-list">
+          <div><dt>الحالة</dt><dd>{{ statusLabel(details.status) }}</dd></div>
+          <div><dt>تاريخ الطلب</dt><dd>{{ formatDate(details.createdAt) }}</dd></div>
+          @if (details.respondedAt) { <div><dt>تاريخ رد المعلم</dt><dd>{{ formatDate(details.respondedAt) }}</dd></div> }
+          @if (details.acceptedAt) { <div><dt>تاريخ التأكيد</dt><dd>{{ formatDate(details.acceptedAt) }}</dd></div> }
+          @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>{{ details.pointsPrice }} نقطة</dd></div> }
+          @if (details.durationMinutes !== null) { <div><dt>المدة</dt><dd>{{ details.durationMinutes }} دقيقة</dd></div> }
+          @if (details.selectedSlot) { <div><dt>الموعد المختار</dt><dd>{{ formatDate(details.selectedSlot.startTime) }}</dd></div> }
+        </dl>
+      </aside>
+    </div>
+
+    @if (
+      selectedSlot(); as slot
+    ) {
+      @if (details.pointsPrice !== null && details.durationMinutes !== null) {
+        <app-accept-consultation-confirmation-modal
+          [open]="confirmationOpen()"
+          [teacherName]="details.teacherName"
+          [appointment]="formatDate(slot.startTime)"
+          [durationMinutes]="details.durationMinutes"
+          [pointsPrice]="details.pointsPrice"
+          [loading]="accepting()"
+          (closed)="closeConfirmation()"
+          (confirmed)="acceptConsultation()"
+        />
+      }
+    }
+
+    @if (cancelConfirmationOpen()) {
+      <app-teacher-consultation-action-modal
+        action="cancel"
+        cancelContext="student-request"
+        [studentName]="details.studentName"
+        [loading]="cancelling()"
+        (closed)="closeCancelConfirmation()"
+        (confirmed)="cancelConsultation($event)"
+      />
+    }
+  }
+</main>
