@@ -16,6 +16,8 @@
     border-color: color-mix(in oklab, var(--primary-light) , transparent) !important;
 }
 
+.mobile-actions { display: flex; align-items: center; gap: 9px; }
+
 
 
 /* 

@@ -46,6 +46,16 @@ export class LearningCirclesService {
     );
   }
 
+  getByTeacher(
+    teacherId: string,
+    query: SearchPaginationQuery,
+  ): Observable<PagedResult<LearningCircleListItem>> {
+    return this.http.get<PagedResult<LearningCircleListItem>>(
+      `${this.baseUrl}/teacher/${teacherId}`,
+      { params: this.createSearchParams(query) },
+    );
+  }
+
   getDetails(circleId: string): Observable<LearningCircleDetails> {
     return this.http.get<LearningCircleDetails>(
       `${this.baseUrl}/${circleId}`,

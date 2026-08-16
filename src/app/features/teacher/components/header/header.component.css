@@ -3,6 +3,8 @@
 }
 
 .header {
+  position: relative;
+  z-index: 50;
   width: min(100%, 1240px);
   min-height: 92px;
   margin: 18px auto 0;

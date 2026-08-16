@@ -216,6 +216,13 @@
         </aside>
       </section>
 
+      @if ((course.progressPercentage ?? 0) >= 100) {
+        <app-button type="button" [size]="'large'" (click)="goToFeedback()">
+          تقييم الكورس
+          <i class="bi bi-star-fill"></i>
+        </app-button>
+      }
+
       <section class="chat-column">
         <app-chat
           [lessonId]="selectedLesson()?.lessonID ?? ''"

@@ -7,11 +7,12 @@ import { ICoursePlayer, ILesson } from '../../Models/course-player.interface';
 import { SafeUrlPipe } from '../../../../shared/pipes/safe-url-pipe';
 import { ChatComponent } from '../../../ai/pages/chat/chat.component';
 import { IReference } from '../../../ai/models/reference.interface';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-course-player',
   standalone: true,
-  imports: [DecimalPipe, SafeUrlPipe, ChatComponent],
+  imports: [DecimalPipe, SafeUrlPipe, ChatComponent, ButtonComponent],
   templateUrl: './course-player.component.html',
   styleUrls: ['./course-player.component.css'],
 })
@@ -337,5 +338,19 @@ export class CoursePlayerComponent implements OnInit {
         (module as HTMLDetailsElement).open = false;
       }
     });
+  }
+
+  goToCourseFeedback(): void {
+    const course = this.coursePlayer();
+
+    if (!course) {
+      return;
+    }
+
+    this.router.navigate(['/student', 'my-courses', 'course-feedback']);
+  }
+
+  goToFeedback(): void {
+    this.router.navigate(['/student', 'my-courses', 'course-feedback', this.courseId]);
   }
 }
