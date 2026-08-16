@@ -48,10 +48,10 @@
                   <button
                     type="button"
                     class="reference-item"
-                    (click)="goToReference(ref.timestamp)"
-                    [disabled]="ref.timestamp === undefined"
-                    [attr.aria-label]="'تشغيل الفيديو من ' + formatTimestamp(ref.timestamp)"
-                    title="الانتقال إلى الفيديو من هذا الوقت"
+                    (click)="goToReference(ref)"
+                    [disabled]="ref.timestamp === undefined && ref.pageNumber === undefined"
+                    [attr.aria-label]="ref.pageNumber ? 'عرض الصفحة ' + ref.pageNumber : 'تشغيل الفيديو من ' + formatTimestamp(ref.timestamp)"
+                    [title]="ref.pageNumber ? 'الانتقال إلى هذه الصفحة' : 'الانتقال إلى الفيديو من هذا الوقت'"
                   >
                     <!-- Number -->
                     <span class="reference-number">
@@ -63,12 +63,22 @@
                       <span class="reference-label"> من الدرس </span>
 
                       <span class="reference-time">
-                        {{ formatTimestamp(ref.timestamp) }}
+                        @if (ref.pageNumber) {
+                          صفحة {{ ref.pageNumber }}
+                        } @else {
+                          {{ formatTimestamp(ref.timestamp) }}
+                        }
                       </span>
                     </span>
 
                     <!-- Action -->
-                    <span class="reference-action"> تشغيل </span>
+                    <span class="reference-action"> 
+                      @if (ref.pageNumber) {
+                        عرض
+                      } @else {
+                        تشغيل
+                      }
+                    </span>
 
                     <i class="bi bi-chevron-left reference-arrow"></i>
                   </button>

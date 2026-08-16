@@ -6,11 +6,13 @@ import { CourseService } from '../../Services/course.service';
 import { ICoursePlayer, ILesson } from '../../Models/course-player.interface';
 import { SafeUrlPipe } from '../../../../shared/pipes/safe-url-pipe';
 import { ChatComponent } from '../../../ai/pages/chat/chat.component';
+import { IReference } from '../../../ai/models/reference.interface';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-course-player',
   standalone: true,
-  imports: [DecimalPipe, SafeUrlPipe, ChatComponent],
+  imports: [DecimalPipe, SafeUrlPipe, ChatComponent, ButtonComponent],
   templateUrl: './course-player.component.html',
   styleUrls: ['./course-player.component.css'],
 })
@@ -89,15 +91,23 @@ export class CoursePlayerComponent implements OnInit {
   /*
    * Called when the user clicks a reference from the AI chat.
    */
-  seekVideo(seconds: number): void {
-    console.log('Reference clicked:', seconds);
+  seekVideo(ref: IReference): void {
+    console.log('Reference clicked:', ref);
 
     this.scrollToPlayer();
 
-    // Save the requested timestamp
-    this.pendingSeekTime = seconds;
-
     const lessonType = this.selectedLesson()?.contentType;
+
+    if (lessonType === 'Reading') {
+      if (ref.pageNumber) {
+        console.log('PDF Page:', ref.pageNumber);
+      }
+      return;
+    }
+
+    if (ref.timestamp === undefined) return;
+
+    this.pendingSeekTime = ref.timestamp;
 
     if (lessonType === 'Video' && !this.videoStarted()) {
       this.videoStarted.set(true);
@@ -328,5 +338,19 @@ export class CoursePlayerComponent implements OnInit {
         (module as HTMLDetailsElement).open = false;
       }
     });
+  }
+
+  goToCourseFeedback(): void {
+    const course = this.coursePlayer();
+
+    if (!course) {
+      return;
+    }
+
+    this.router.navigate(['/student', 'my-courses', 'course-feedback']);
+  }
+
+  goToFeedback(): void {
+    this.router.navigate(['/student', 'my-courses', 'course-feedback', this.courseId]);
   }
 }

@@ -1,9 +1,6 @@
 <div class="dashboard-wrapper p-3 p-md-4 rounded-4">
 
-  <div
-    class="card border-0 shadow-sm rounded-4 mb-4 welcome-card-container"
-    appScrollReveal="0"
-  >
+  <div class="card border-0 shadow-sm rounded-4 mb-4 welcome-card-container" appScrollReveal="0">
     <div class="welcome-card card-body welcome-content">
 
       <div class="row align-items-center gy-3">
@@ -12,11 +9,8 @@
 
           <div class="student-profile">
 
-            <app-avatar
-              [src]="getStudentImage(student()?.profileImageURL)"
-              alt="Student Profile Picture"
-              class="rounded-circle border-2 shadow-sm"
-            ></app-avatar>
+            <app-avatar [src]="getStudentImage(student()?.profileImageURL)" alt="Student Profile Picture"
+              class="rounded-circle border-2 shadow-sm"></app-avatar>
 
             <div>
 
@@ -69,11 +63,7 @@
 
                 <div class="streak-avatar-wrapper">
 
-                  <img
-                    [src]="getStreakAvatar(streak())"
-                    class="streak-avatar"
-                    alt=""
-                  />
+                  <img [src]="getStreakAvatar(streak())" class="streak-avatar" alt="" />
 
                 </div>
 
@@ -81,39 +71,34 @@
 
               @if (rewardProgress()) {
 
-                <div
-                  class="col-5 pe-5 d-none d-md-flex flex-column justify-content-center"
-                >
+              <div class="col-5 pe-5 d-none d-md-flex flex-column justify-content-center">
 
-                  <div class="reward-title">
+                <div class="reward-title">
 
-                    <i class="bi bi-gift-fill"></i>
-                    الجائزة القادمة
-
-                  </div>
-
-                  <div class="progress reward-progress mt-2">
-
-                    <div
-                      class="reward-progress-bar"
-                      [style.width.%]="progressPercentage()"
-                    ></div>
-
-                  </div>
-
-                  <div class="reward-footer">
-
-                    <span>
-                      +{{ rewardProgress()!.nextRewardPoints }} نقطة
-                    </span>
-
-                    <span>
-                      باقي {{ remainingDays() }} يوم
-                    </span>
-
-                  </div>
+                  <i class="bi bi-gift-fill"></i>
+                  الجائزة القادمة
 
                 </div>
+
+                <div class="progress reward-progress mt-2">
+
+                  <div class="reward-progress-bar" [style.width.%]="progressPercentage()"></div>
+
+                </div>
+
+                <div class="reward-footer">
+
+                  <span>
+                    +{{ rewardProgress()!.nextRewardPoints }} نقطة
+                  </span>
+
+                  <span>
+                    باقي {{ remainingDays() }} يوم
+                  </span>
+
+                </div>
+
+              </div>
 
               }
 
@@ -134,10 +119,7 @@
 
     <div class="col-6 col-md-3">
 
-      <div
-        class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card"
-        appScrollReveal="0"
-      >
+      <div class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card" appScrollReveal="0">
 
         <div class="d-flex align-items-center gap-3">
 
@@ -166,10 +148,7 @@
 
     <div class="col-6 col-md-3">
 
-      <div
-        class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card"
-        appScrollReveal="100"
-      >
+      <div class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card" appScrollReveal="100">
 
         <div class="d-flex align-items-center gap-3">
 
@@ -198,10 +177,7 @@
 
     <div class="col-6 col-md-3">
 
-      <div
-        class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card"
-        appScrollReveal="200"
-      >
+      <div class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card" appScrollReveal="200">
 
         <div class="d-flex align-items-center gap-3">
 
@@ -230,10 +206,7 @@
 
     <div class="col-6 col-md-3">
 
-      <div
-        class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card"
-        appScrollReveal="300"
-      >
+      <div class="card border-0 shadow-sm rounded-3 p-3 h-100 stat-mini-card" appScrollReveal="300">
 
         <div class="d-flex align-items-center gap-3">
 
@@ -264,87 +237,74 @@
 
   @if (currentCourse(); as current) {
 
-    <div
-      class="current-course-card mb-4 shadow-sm"
-      appScrollReveal="0"
-    >
+  <div class="current-course-card mb-4 shadow-sm" appScrollReveal="0">
 
-      <div class="row align-items-center gy-3">
+    <div class="row align-items-center gy-3">
 
-        <div class="col-12 col-lg-9">
+      <div class="col-12 col-lg-9">
 
-          <span class="badge-pill mb-3">
+        <span class="badge-pill mb-3">
 
-            <i class="bi bi-stars text-warning"></i>
-            الدورة الحالية
+          <i class="bi bi-stars text-warning"></i>
+          الدورة الحالية
 
-          </span>
+        </span>
 
-          <h3 class="current-course-title mb-2">
-            {{ current.title }}
-          </h3>
+        <h3 class="current-course-title mb-2">
+          {{ current.title }}
+        </h3>
 
-          <p class="course-desc mb-4">
-            استمر في التعلم وأكمل رحلتك داخل هذه الدورة.
-          </p>
+        <p class="course-desc mb-4">
+          استمر في التعلم وأكمل رحلتك داخل هذه الدورة.
+        </p>
 
-          <div class="mb-4">
+        <div class="mb-4">
 
-            <div class="d-flex justify-content-between small mb-2 opacity-90">
+          <div class="d-flex justify-content-between small mb-2 opacity-90">
 
-              <span>
-                نسبة التقدم
-              </span>
+            <span>
+              نسبة التقدم
+            </span>
 
-              <span class="fw-bold">
-                {{ current.progressPercent }}%
-              </span>
-
-            </div>
-
-            <div class="course-progress">
-
-              <div
-                class="progress-bar"
-                role="progressbar"
-                [style.width.%]="current.progressPercent"
-              ></div>
-
-            </div>
+            <span class="fw-bold">
+              {{ current.progressPercent }}%
+            </span>
 
           </div>
 
-          <button
-            type="button"
-            class="btn-continue shadow-sm"
-            [routerLink]="['/student/course-player', current.courseID]"
-          >
+          <div class="course-progress">
 
-            متابعة التعلم
+            <div class="progress-bar" role="progressbar" [style.width.%]="current.progressPercent"></div>
 
-            <i class="bi bi-play-fill"></i>
-
-          </button>
+          </div>
 
         </div>
 
+        <button type="button" class="btn-continue shadow-sm"
+          [routerLink]="['/student/course-player', current.courseID]">
 
-        <div class="col-12 col-lg-3 text-center d-flex justify-content-center">
+          متابعة التعلم
 
-          <div class="course-icon-circle shadow">
+          <i class="bi bi-play-fill"></i>
 
-            <img
-              [src]="getCourseImage(current.thumbnailURL)"
-              [alt]="current.title"
-            />
+        </button>
 
-          </div>
+      </div>
+
+
+      <div class="col-12 col-lg-3 text-center d-flex justify-content-center">
+
+        <div class="course-icon-circle shadow">
+
+          <img [src]="getCourseImage(current.thumbnailURL)" [alt]="current.title" />
 
         </div>
 
       </div>
 
     </div>
+
+  </div>
 
   }
 
@@ -353,14 +313,10 @@
 
     <div class="col-12 col-lg-8">
 
-      <div
-        class="card border-0 shadow-sm rounded-4 mb-4 section-card"
-        appScrollReveal="0"
-      >
+      <div class="card border-0 shadow-sm rounded-4 mb-4 section-card" appScrollReveal="0">
 
         <div
-          class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center"
-        >
+          class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
 
           <h5 class="section-title">
 
@@ -380,52 +336,43 @@
           <div class="d-flex flex-column gap-3">
 
             @for (
-              course of courses();
-              track course.courseID
+            course of courses();
+            track course.courseID
             ) {
 
-              <div
-                class="course-item"
-                [routerLink]="['/course-details', course.courseID]"
-              >
+            <div class="course-item" [routerLink]="['/course-details', course.courseID]">
 
-                <div
-                  class="d-flex justify-content-between align-items-center mb-2"
-                >
+              <div class="d-flex justify-content-between align-items-center mb-2">
 
-                  <h6 class="course-item-title mb-0">
-                    {{ course.title }}
-                  </h6>
+                <h6 class="course-item-title mb-0">
+                  {{ course.title }}
+                </h6>
 
-                  <span class="course-item-percent">
-                    %{{ course.progressPercent }}
-                  </span>
-
-                </div>
-
-                <div class="progress course-item-progress">
-
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    [style.width.%]="course.progressPercent"
-                  ></div>
-
-                </div>
+                <span class="course-item-percent">
+                  %{{ course.progressPercent }}
+                </span>
 
               </div>
+
+              <div class="progress course-item-progress">
+
+                <div class="progress-bar" role="progressbar" [style.width.%]="course.progressPercent"></div>
+
+              </div>
+
+            </div>
 
             } @empty {
 
-              <div class="text-center py-4 empty-state">
+            <div class="text-center py-4 empty-state">
 
-                <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
+              <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
 
-                <p class="mb-0">
-                  لا توجد دورات مسجلة حتى الآن.
-                </p>
+              <p class="mb-0">
+                لا توجد دورات مسجلة حتى الآن.
+              </p>
 
-              </div>
+            </div>
 
             }
 
@@ -436,10 +383,7 @@
       </div>
 
 
-      <div
-        class="card border-0 shadow-sm rounded-4 section-card"
-        appScrollReveal="100"
-      >
+      <div class="card border-0 shadow-sm rounded-4 section-card" appScrollReveal="100">
 
         <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
 
@@ -456,65 +400,56 @@
 
           @if (categories().length) {
 
-            <div class="row g-3">
+          <div class="row g-3">
 
-              @for (
-                category of categories();
-                track category.categoryID
-              ) {
+            @for (
+            category of categories();
+            track category.categoryID
+            ) {
 
-                <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6">
 
-                  <div class="category-mini-card">
+              <div class="category-mini-card">
 
-                    <div
-                      class="d-flex justify-content-between align-items-center mb-2"
-                    >
+                <div class="d-flex justify-content-between align-items-center mb-2">
 
-                      <h6 class="category-name mb-0">
-                        {{ category.categoryName }}
-                      </h6>
+                  <h6 class="category-name mb-0">
+                    {{ category.categoryName }}
+                  </h6>
 
-                      <span class="category-score">
-                        {{ category.averageScorePct }}%
-                      </span>
-
-                    </div>
-
-                    <div class="progress category-progress mb-3">
-
-                      <div
-                        class="progress-bar"
-                        [style.width.%]="category.averageScorePct"
-                      ></div>
-
-                    </div>
-
-                    <button
-                      type="button"
-                      class="btn-placement-test"
-                      routerLink="/student/placement-test"
-                    >
-
-                      إجراء الاختبار
-
-                      <i class="bi bi-pencil-square ms-1"></i>
-
-                    </button>
-
-                  </div>
+                  <span class="category-score">
+                    {{ category.averageScorePct }}%
+                  </span>
 
                 </div>
 
-              }
+                <div class="progress category-progress mb-3">
+
+                  <div class="progress-bar" [style.width.%]="category.averageScorePct"></div>
+
+                </div>
+
+                <button type="button" class="btn-placement-test" routerLink="/student/placement-test">
+
+                  إجراء الاختبار
+
+                  <i class="bi bi-pencil-square ms-1"></i>
+
+                </button>
+
+              </div>
 
             </div>
 
+            }
+
+          </div>
+
           } @else {
 
-            <p class="text-center py-3 mb-0 empty-state">
-              لا يوجد تقدم حتى الآن.
-            </p>
+          <p class="text-center py-3 mb-0 empty-state">
+            لا يوجد تقدم حتى الآن.
+          </p>
 
           }
 
@@ -527,10 +462,7 @@
 
     <div class="col-12 col-lg-4">
 
-      <div
-        class="points-card border-0 shadow-lg rounded-4 mb-4"
-        appScrollReveal="0"
-      >
+      <div class="points-card border-0 shadow-lg rounded-4 mb-4" appScrollReveal="0">
 
         <div class="p-4 position-relative">
 
@@ -552,10 +484,7 @@
               استخدم نقاطك لفتح الدورات والحصول على المكافآت.
             </p>
 
-            <app-button
-              size="large"
-              routerLink="pointPackages"
-            >
+            <app-button size="large" routerLink="pointPackages">
 
               <i class="bi bi-plus-circle-fill me-2"></i>
               شراء نقاط جديدة
@@ -569,10 +498,7 @@
       </div>
 
 
-      <div
-        class="card border-0 shadow-sm rounded-4 section-card"
-        appScrollReveal="100"
-      >
+      <div class="card border-0 shadow-sm rounded-4 section-card" appScrollReveal="100">
 
         <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
 
@@ -589,56 +515,55 @@
 
           @if (latestActivities().length) {
 
-            <div class="list-group list-group-flush">
+          <div class="list-group list-group-flush">
 
-              @for (
-                activity of latestActivities();
-                track $index
-              ) {
+            @for (
+            activity of latestActivities();
+            track $index
+            ) {
 
-                <div
-                  class="list-group-item px-0 d-flex align-items-center justify-content-between border-bottom activity-row"
-                >
+            <div
+              class="list-group-item px-0 d-flex align-items-center justify-content-between border-bottom activity-row">
 
-                  <div class="d-flex align-items-center gap-2">
+              <div class="d-flex align-items-center gap-2">
 
-                    <div class="activity-icon">
-                      <i class="bi bi-lightning-charge-fill"></i>
-                    </div>
+                <div class="activity-icon">
+                  <i class="bi bi-lightning-charge-fill"></i>
+                </div>
 
-                    <div>
+                <div>
 
-                      <p class="activity-name mb-0">
-                        {{ activity.activityType }}
-                      </p>
+                  <p class="activity-name mb-0">
+                    {{ activity.activityType }}
+                  </p>
 
-                      <small class="activity-date">
-                        {{ activity.createdAt | date: 'dd MMM yyyy' }}
-                      </small>
-
-                    </div>
-
-                  </div>
-
-                  @if (activity.pointsEarned > 0) {
-
-                    <span class="activity-points">
-                      +{{ activity.pointsEarned }}
-                    </span>
-
-                  }
+                  <small class="activity-date">
+                    {{ activity.createdAt | date: 'dd MMM yyyy' }}
+                  </small>
 
                 </div>
+
+              </div>
+
+              @if (activity.pointsEarned > 0) {
+
+              <span class="activity-points">
+                +{{ activity.pointsEarned }}
+              </span>
 
               }
 
             </div>
 
+            }
+
+          </div>
+
           } @else {
 
-            <p class="text-center py-3 mb-0 empty-state">
-              لا يوجد نشاط حتى الآن.
-            </p>
+          <p class="text-center py-3 mb-0 empty-state">
+            لا يوجد نشاط حتى الآن.
+          </p>
 
           }
 
@@ -653,21 +578,17 @@
 
   @if (recommendedCourses().length > 0) {
 
+  <div class="card border-0 shadow-sm rounded-4 mb-4 mt-4 recommended-card" appScrollReveal="0">
+
     <div
-      class="card border-0 shadow-sm rounded-4 mb-4 mt-4 recommended-card"
-      appScrollReveal="0"
-    >
+      class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center recommended-header">
 
-      <div
-        class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center recommended-header"
-      >
+      <h5 class="section-title mb-0">
 
-        <h5 class="section-title mb-0">
+        <i class="bi bi-star-fill"></i>
+        مقترحة لك
 
-          <i class="bi bi-star-fill"></i>
-          مقترحة لك
-
-        </h5>
+      </h5>
 
 
         <a
@@ -677,56 +598,51 @@
           تصفح الكل
         </a>
 
-      </div>
+    </div>
 
 
-      <div class="card-body p-4">
+    <div class="card-body p-4">
 
-        <div
-          #coursesSlider
-          class="courses-slider"
-        >
+      <div #coursesSlider class="courses-slider">
 
-          <div class="courses-track">
+        <div class="courses-track">
 
-            @for (
-              course of recommendedCourses();
-              track $index
-            ) {
+          @for (
+          course of recommendedCourses();
+          track $index
+          ) {
 
-              <div class="slider-card-wrapper">
+          <div class="slider-card-wrapper">
 
-                <app-course-card
-                  [course]="course"
-                ></app-course-card>
-
-              </div>
-
-            }
-
-
-            @for (
-              course of recommendedCourses();
-              track 'duplicate-' + $index
-            ) {
-
-              <div class="slider-card-wrapper">
-
-                <app-course-card
-                  [course]="course"
-                ></app-course-card>
-
-              </div>
-
-            }
+            <app-course-card [course]="course"></app-course-card>
 
           </div>
+
+          }
+
+
+          @if (recommendedCourses().length >= 10) {
+          @for (
+          course of recommendedCourses();
+          track 'duplicate-' + $index
+          ) {
+
+          <div class="slider-card-wrapper">
+
+            <app-course-card [course]="course"></app-course-card>
+
+          </div>
+
+          }
+          }
 
         </div>
 
       </div>
 
     </div>
+
+  </div>
 
   }
 
@@ -735,11 +651,7 @@
 
 @if (reward()) {
 
-  <app-reward-popup
-    [reward]="reward()!"
-    [loading]="claimLoading"
-    (claim)="claimReward()"
-    (close)="reward.set(null)"
-  ></app-reward-popup>
+<app-reward-popup [reward]="reward()!" [loading]="claimLoading" (claim)="claimReward()"
+  (close)="reward.set(null)"></app-reward-popup>
 
 }
