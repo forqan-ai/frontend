@@ -1,83 +1,265 @@
 <div class="result-wrapper p-3 p-md-4">
-  <div class="container py-4" *ngIf="!loading && result">
+  <div
+    class="dashboard-wrapper p-3 p-md-4 rounded-4"
+    style="
+      background-color: var(--secondary);
+      min-height: calc(100vh - 100px);
+      color: var(--text);
+    "
+  >
 
-    <div class="hero-section text-center mb-5">
-      <div class="award-icon mb-4">
-        <i class="bi bi-award-fill"></i>
+    <!-- ==================== RESULT ==================== -->
+    <div class="container py-4" *ngIf="!loading && result">
+
+      <!-- Hero Section -->
+      <div class="hero-section text-center mb-5">
+        <div class="icon-circle shadow-sm mx-auto mb-4"
+          style="
+            background-color: #f0f4e8;
+            color: #55733d;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 2.5rem;
+          "
+        >
+          <i class="bi bi-award-fill"></i>
+        </div>
+
+        <h2 class="fw-bold mb-2" style="color: var(--primary)">
+          نتائج اختبار تحديد المستوى
+        </h2>
+
+        <p class="fs-5" style="color: var(--text-muted)">
+          إليك تقييم مستواك في العلوم الإسلامية ومسارك المقترح
+        </p>
       </div>
-      <h2 class="fw-bold mb-2" style="color: var(--primary)">نتائج اختبار تحديد المستوى</h2>
-      <p class="fs-5" style="color: var(--text-muted)">إليك تقييم مستواك في العلوم الإسلامية ومسارك المقترح</p>
-    </div>
 
-    <div class="section-card mb-4">
-      <h4 class="section-title">
-        <i class="bi bi-bar-chart-line-fill fs-4"></i>مستواك في كل مجال
-      </h4>
-      <div class="row g-4">
-        <div class="col-12 col-md-6" *ngFor="let score of result!.categoryScores">
-          <div class="score-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-              <span class="score-label">{{ score.categoryName }}</span>
-              <span class="level-badge" [style.background-color]="getLevelColor(score.level)">
-                {{ score.level }}
-              </span>
-            </div>
-            <div class="score-track">
-              <div class="score-fill"
-                   [style.width.%]="score.scorePct"
-                   [style.background-color]="getLevelColor(score.level)">
+      <!-- ==================== CATEGORY SCORES ==================== -->
+      <div class="section-card mb-4">
+        <h4 class="section-title">
+          <i class="bi bi-bar-chart-line-fill fs-4"></i>
+          مستواك في كل مجال
+        </h4>
+
+        <div class="row g-4">
+
+          <div
+            class="col-12 col-md-6"
+            *ngFor="let score of result.categoryScores"
+          >
+            <div
+              class="p-3 rounded-3"
+              style="
+                background-color: var(--secondary);
+                border: 1px solid var(--border);
+              "
+            >
+
+              <!-- Category + Level -->
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <span
+                  class="fw-bold fs-6"
+                  style="color: var(--text)"
+                >
+                  {{ score.categoryName }}
+                </span>
+
+                <span
+                  class="badge"
+                  [style.background-color]="getLevelColor(score.level)"
+                  style="color: white; font-size: 0.85rem;"
+                >
+                  {{ score.level }}
+                </span>
               </div>
-            </div>
-            <div class="text-end">
-              <span class="score-pct" [style.color]="getLevelColor(score.level)">{{ score.scorePct }}%</span>
+
+              <!-- Progress -->
+              <div
+                class="progress mb-2"
+                style="height: 8px; background-color: var(--surface);"
+              >
+                <div
+                  class="progress-bar rounded-pill"
+                  [style.width.%]="score.scorePct"
+                  [style.background-color]="getLevelColor(score.level)"
+                ></div>
+              </div>
+
+              <!-- Percentage -->
+              <div class="text-end">
+                <span
+                  class="score-pct"
+                  [style.color]="getLevelColor(score.level)"
+                >
+                  {{ score.scorePct }}%
+                </span>
+              </div>
+
             </div>
           </div>
+
         </div>
       </div>
-    </div>
 
-    <div class="section-card path-card mb-4">
-      <h4 class="section-title">
-        <i class="bi bi-lightbulb-fill fs-4 text-warning"></i>مسار التعلم المخصص لك
-      </h4>
-      <p class="learning-path-text mb-0">
-        {{ result!.learningPath }}
-      </p>
-    </div>
+      <!-- ==================== LEARNING PATH ==================== -->
+      <div class="section-card path-card mb-4">
 
-    <div class="section-card mb-5" *ngIf="result!.suggestedCourses.length > 0">
-      <h4 class="section-title">
-        <i class="bi bi-book-half fs-4"></i>الدورات الموصى بها
-      </h4>
-      <div class="d-flex flex-column gap-3">
-        <div class="course-item p-3 d-flex align-items-center"
-             *ngFor="let course of result!.suggestedCourses; let i = index"
-             (click)="goToCourse(course.courseID)">
-          <div class="course-number me-2">{{ i + 1 }}</div>
-          <img *ngIf="course.thumbnailURL" [src]="course.thumbnailURL" alt="course" class="course-thumb ms-2 me-3">
-          <div *ngIf="!course.thumbnailURL" class="course-thumb-placeholder ms-2 me-3">
-            <i class="bi bi-journal-text"></i>
-          </div>
-          <div class="flex-grow-1">
-            <span class="course-category-badge">{{ course.categoryName }}</span>
-            <h5 class="course-title">{{ course.courseTitle }}</h5>
-          </div>
-          <i class="bi bi-chevron-left fs-4" style="color: var(--text-muted); opacity: 0.6;"></i>
-        </div>
+        <h4 class="section-title">
+          <i class="bi bi-lightbulb-fill fs-4 text-warning"></i>
+          مسار التعلم المخصص لك
+        </h4>
+
+        <div
+          class="fs-5 mb-0"
+          style="color: var(--text); line-height: 1.8;"
+          [innerHTML]="result.learningPath"
+        ></div>
+
       </div>
+
+      <!-- ==================== RECOMMENDED COURSES ==================== -->
+      <div
+        class="card border-0 shadow-sm rounded-4 mb-5 p-4 p-md-5"
+        style="background-color: var(--surface);"
+        *ngIf="result.suggestedCourses.length > 0"
+      >
+
+        <h4
+          class="fw-bold mb-4"
+          style="color: var(--primary);"
+        >
+          <i class="bi bi-book-half me-2"></i>
+          الدورات الموصى بها
+        </h4>
+
+        <div class="learning-courses">
+
+          @for (
+            course of result.suggestedCourses;
+            track course.courseID;
+            let i = $index
+          ) {
+
+            <div
+              class="course-card"
+              (click)="goToCourse(course.courseID)"
+              role="button"
+              tabindex="0"
+              (keydown.enter)="goToCourse(course.courseID)"
+            >
+
+              <!-- Course Number -->
+              <div class="course-number">
+                <span>
+                  {{ (i + 1).toString().padStart(2, '0') }}
+                </span>
+              </div>
+
+              <!-- Thumbnail -->
+              <div class="course-thumbnail">
+
+                @if (course.thumbnailURL) {
+
+                  <img
+                    [src]="course.thumbnailURL"
+                    [alt]="course.courseTitle"
+                    loading="lazy"
+                  />
+
+                } @else {
+
+                  <div class="thumbnail-placeholder">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                  </div>
+
+                }
+
+              </div>
+
+              <!-- Content -->
+              <div class="course-content">
+
+                <span class="course-category">
+                  {{ course.categoryName }}
+                </span>
+
+                <h5 class="course-title">
+                  {{ course.courseTitle }}
+                </h5>
+
+                <div class="course-action">
+                  <span>ابدأ التعلم</span>
+                  <i class="bi bi-arrow-left"></i>
+                </div>
+
+              </div>
+
+              <!-- Arrow -->
+              <div class="course-arrow">
+                <i class="bi bi-chevron-left"></i>
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- ==================== RETAKE BUTTON ==================== -->
+      <div class="text-center">
+
+        <button
+          type="button"
+          class="btn px-4 py-2 rounded-3 fw-bold"
+          style="
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+          "
+          (click)="retakeTest()"
+        >
+          <i class="bi bi-arrow-clockwise me-2"></i>
+          إعادة الاختبار
+        </button>
+
+      </div>
+
     </div>
 
-    <div class="text-center">
-      <button class="btn-retake" (click)="retakeTest()">
-        <i class="bi bi-arrow-clockwise me-2"></i>إعادة الاختبار
-      </button>
-    </div>
-  </div>
+    <!-- ==================== LOADING ==================== -->
+    <div
+      class="d-flex flex-column align-items-center justify-content-center"
+      *ngIf="loading"
+      style="min-height: 50vh;"
+    >
 
-  <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="loading" style="min-height: 60vh;">
-    <div class="spinner-border mb-3" style="color: var(--primary); width: 3rem; height: 3rem;" role="status">
-      <span class="visually-hidden">Loading...</span>
+      <div
+        class="spinner-border mb-3"
+        style="
+          color: var(--primary);
+          width: 3rem;
+          height: 3rem;
+        "
+        role="status"
+      >
+        <span class="visually-hidden">
+          Loading...
+        </span>
+      </div>
+
+      <h5 style="color: var(--text-muted);">
+        جارٍ تحميل نتائجك...
+      </h5>
+
     </div>
-    <h5 style="color: var(--text-muted);">جارٍ تحميل نتائجك...</h5>
+
   </div>
 </div>

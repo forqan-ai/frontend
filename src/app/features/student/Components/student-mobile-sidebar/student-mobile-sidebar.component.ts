@@ -80,6 +80,8 @@ export class StudentMobileSidebarComponent {
       this.activeRoute = 'teacher'
     } else if (url.includes('wishlist')) {
       this.activeRoute = 'wishlist'
+    } else if (url.includes('placement-test')) {
+      this.activeRoute = 'placement-test'
     }
   }
 

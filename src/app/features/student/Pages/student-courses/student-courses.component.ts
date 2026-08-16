@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment.development';
 
@@ -9,7 +9,7 @@ import { environment } from '../../../../../environments/environment.development
 @Component({
   selector: 'app-student-courses',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './student-courses.component.html',
   styleUrl: './student-courses.component.css'
 })

@@ -18,6 +18,7 @@ import { CourseCheckoutComponent } from '../Course/Pages/checkout/course-checkou
 import { studentGuard } from '../../core/guards/student-guard';
 import { StudentConsultationsComponent } from '../consultations/pages/student-consultations/student-consultations.component';
 import { StudentConsultationDetailsComponent } from '../consultations/pages/student-consultation-details/student-consultation-details.component';
+import { WishlistComponent } from './Pages/wishlist/wishlist.component';
 
 export const STUDENT_ROUTES: Routes = [
   {
@@ -62,10 +63,12 @@ export const STUDENT_ROUTES: Routes = [
 
       {
         path: 'settings/teaching-request',
-        component: TeachingRequestComponent,
+        // component: TeachingRequestComponent,
+        loadComponent: () =>
+          import('./Pages/teaching-request/teaching-request.component')
+            .then((m) => m.TeachingRequestComponent),
         title: 'طلب الانضمام كمعلم',
       },
-
       {
         path: 'settings/my-certificates',
         component: StudentCertificatesComponent,
@@ -172,8 +175,11 @@ export const STUDENT_ROUTES: Routes = [
       },
 
       {
-        path: 'my-courses/course-feedback/:courseId',
-        component: StudentFeedbackComponent,
+        path: 'my-courses/course-feedback',
+        // component: StudentFeedbackComponent,
+        loadComponent: () =>
+          import('../../features/Rating/pages/student-feedback/student-feedback.component')
+            .then((m) => m.StudentFeedbackComponent),
         title: 'تقييم الدورة',
       },
 

@@ -1,15 +1,11 @@
 import { Component, inject, Signal, signal } from '@angular/core';
-// import { SidebarComponent } from '../../../student/components/sidebar/sidebar.component';
 import { PointsService } from '../../services/points.service';
 import { pointPakcage } from '../../models/PointPackages';
 import { Router, RouterLink } from '@angular/router';
-import { SidebarComponent } from '../../../teacher/components/sidebar/sidebar.component';
-import { StudentSidebarComponent } from '../../../student/Components/student-sidebar/student-sidebar.component';
 
 @Component({
   selector: 'app-point-packages',
-  // imports: [SidebarComponent],
-  imports: [StudentSidebarComponent, RouterLink],
+  imports: [RouterLink],
   standalone: true,
   templateUrl: './point-packages.component.html',
   styleUrl: './point-packages.component.css',

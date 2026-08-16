@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment-failed',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './payment-failed.component.html',
   styleUrl: './payment-failed.component.css',
 })

@@ -13,7 +13,9 @@ import {
 
 import { ToastService } from '../../../../core/services/toast.service';
 
-import { IUserSettings, ChangePasswordRequest } from '../../Models/settings.interface';
+  
+import { IUserSettings, ChangePasswordRequest,  UpdateProfileRequest} from '../../Models/settings.interface';
+
 
 import { SettingsService } from '../../Services/settings.service';
 
@@ -65,9 +67,7 @@ const samePasswordValidator: ValidatorFn = (group: AbstractControl): ValidationE
   selector: 'app-settings',
 
   standalone: true,
-
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, ToastComponent, RouterLink],
-
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, RouterLink],
   templateUrl: './student-settings.component.html',
 
   styleUrls: ['./student-settings.component.css'],

@@ -24,7 +24,6 @@ import { environment } from '../../../../../environments/environment.development
 import { PointsService } from '../../../points/services/points.service';
 import { CourseService } from '../../../Course/Services/course.service';
 
-import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
 
 import { Reward } from '../../../Reward/models/Reward';
 import { RewardService } from '../../../Reward/Services/reward.service';
@@ -58,7 +57,6 @@ const streakImages = {
     CommonModule,
     DatePipe,
     RouterLink,
-    CoursesBrowseCardComponent,
     ScrollRevealDirective,
     RewardPopupComponent,
     ButtonComponent,

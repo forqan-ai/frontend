@@ -19,9 +19,6 @@ import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reve
   selector: 'app-create-course',
   standalone: true,
   imports: [
-    SidebarComponent,
-    HeaderComponent,
-    QuickActionsComponent,
     CreateCourseFormComponent,
     ScrollRevealDirective
   ],

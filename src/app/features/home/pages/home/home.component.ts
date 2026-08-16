@@ -2,8 +2,6 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { CoursesBrowseService } from '../../../courses-browse/services/courses-browse.service';
-import { ICourseListItem } from '../../../courses-browse/models/course-list-item.interface';
-import { CoursesBrowseCardComponent } from '../../../courses-browse/components/courses-browse-card/courses-browse-card.component';
 import { ICourseCardDto } from '../../../Course/Models/course-card-dto.interface';
 import { CourseCardComponent } from "../../../Course/Components/course-card/course-card.component";
 
@@ -32,7 +30,7 @@ interface FeaturedTeacher {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CoursesBrowseCardComponent, CourseCardComponent],
+  imports: [RouterLink, CourseCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 
 import { environment } from '../../../../environments/environment.development';
 
-import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,7 +19,6 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
   imports: [
     CommonModule,
     FormsModule,
-    ButtonComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './reset-password.component.html',

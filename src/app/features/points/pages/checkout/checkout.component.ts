@@ -5,7 +5,6 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentSidebarComponent } from '../../../student/Components/student-sidebar/student-sidebar.component';
 import { pointPakcage } from '../../models/PointPackages';
 import { PointsService } from '../../services/points.service';
 import { PaymentService } from '../../../../core/services/payment.service';
@@ -26,7 +25,7 @@ interface PixelOptions {
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [StudentSidebarComponent],
+  imports: [],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css',
 })

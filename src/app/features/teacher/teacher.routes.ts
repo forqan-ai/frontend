@@ -18,7 +18,10 @@ export const TEACHER_ROUTES: Routes = [
     children: [
       {
         path: '',
-        component: DashboardComponent,
+        loadComponent: () =>
+          import('../teacher/pages/dashboard/dashboard.component')
+            .then(m => m.DashboardComponent),
+        // component: DashboardComponent,
       },
 
       {
@@ -35,43 +38,64 @@ export const TEACHER_ROUTES: Routes = [
 
       {
         path: 'profile',
-        component: ProfileComponent,
+        loadComponent: () =>
+          import('../teacher/pages/profile/profile.component')
+            .then(m => m.ProfileComponent),
+        // component: ProfileComponent,
       },
 
       {
         path: 'create-course',
-        component: CreateCourseComponent,
+        loadComponent: () =>
+          import('../teacher/pages/create-course/create-course.component')
+            .then(m => m.CreateCourseComponent),
+        // component: CreateCourseComponent,
       },
 
       {
         path: 'circles/mine',
-        component: MyLearningCirclesComponent,
+        loadComponent: () =>
+          import('../learning-circles/pages/my-learning-circles/my-learning-circles.component')
+            .then(m => m.MyLearningCirclesComponent),
+        // component: MyLearningCirclesComponent,
         data: { circleContext: 'management' },
         title: 'حلقاتي',
       },
 
       {
         path: 'circles/create',
-        component: CreateLearningCircleComponent,
+        loadComponent: () =>
+          import('../learning-circles/pages/create-learning-circle/create-learning-circle.component')
+            .then(m => m.CreateLearningCircleComponent),
+        // component: CreateLearningCircleComponent,
         title: 'إنشاء حلقة تعلم',
       },
 
       {
         path: 'circles/:circleId/edit',
-        component: EditLearningCircleComponent,
+        loadComponent: () =>
+          import('../learning-circles/pages/edit-learning-circle/edit-learning-circle.component')
+            .then(m => m.EditLearningCircleComponent),
+        // component: EditLearningCircleComponent,
         title: 'تعديل حلقة التعلم',
       },
 
       {
         path: 'circles/:circleId',
-        component: LearningCircleDetailsComponent,
+        loadComponent: () =>
+          import('../learning-circles/pages/learning-circle-details/learning-circle-details.component')
+            .then(m => m.LearningCircleDetailsComponent),
+        // component: LearningCircleDetailsComponent,
         data: { circleContext: 'management' },
         title: 'تفاصيل حلقة التعلم',
       },
 
       {
         path: 'circles',
-        component: MyLearningCirclesComponent,
+        loadComponent: () =>
+          import('../learning-circles/pages/my-learning-circles/my-learning-circles.component')
+            .then(m => m.MyLearningCirclesComponent),
+        // component: MyLearningCirclesComponent,
         data: { circleContext: 'management' },
         title: 'إدارة حلقات العلم',
       },
@@ -104,22 +128,22 @@ export const TEACHER_ROUTES: Routes = [
             .then(c => c.OptionBuilderComponent),
       },
 
-  {
-    path: 'lesson-content/:moduleId/:lessonId',
-    loadComponent: () =>
-      import('./pages/lesson-content/lesson-content.component').then(
-        (c) => c.LessonContentComponent,
-      ),
-  },
-  {
-    path: 'wallet',
-    loadChildren: () =>
-      import('../wallet/wallet.routes').then((m) => m.WALLET_ROUTES),
-  },
-  // {
-  //   path: 'my-courses',
-  //   component: MyCoursesComponent
-  // },
+      {
+        path: 'lesson-content/:moduleId/:lessonId',
+        loadComponent: () =>
+          import('./pages/lesson-content/lesson-content.component').then(
+            (c) => c.LessonContentComponent,
+          ),
+      },
+      {
+        path: 'wallet',
+        loadChildren: () =>
+          import('../wallet/wallet.routes').then((m) => m.WALLET_ROUTES),
+      },
+      // {
+      //   path: 'my-courses',
+      //   component: MyCoursesComponent
+      // },
 
     ]
   },
