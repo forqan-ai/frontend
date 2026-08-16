@@ -9,7 +9,7 @@ import { LearningCircleDetailsComponent } from '../learning-circles/pages/learni
 import { MyLearningCirclesComponent } from '../learning-circles/pages/my-learning-circles/my-learning-circles.component';
 import { StudentCoursesComponent } from './Pages/student-courses/student-courses.component';
 import { TeachingRequestComponent } from './Pages/teaching-request/teaching-request.component';
-import { StudentFeedbackComponent } from "../Rating/pages/student-feedback/student-feedback.component";
+import { StudentFeedbackComponent } from '../Rating/pages/student-feedback/student-feedback.component';
 import { PointPackagesComponent } from '../points/pages/point-packages/point-packages.component';
 import { CourseDetailsComponent } from '../Course/Pages/course-details/course-details.component';
 import { TeacherDetailsComponent } from '../teacher/pages/teacher-details/teacher-details.component';
@@ -22,7 +22,6 @@ export const STUDENT_ROUTES: Routes = [
     path: '',
     canActivateChild: [studentGuard],
     children: [
-
       {
         path: '',
         pathMatch: 'full',
@@ -131,15 +130,17 @@ export const STUDENT_ROUTES: Routes = [
       {
         path: 'course-player/:id',
         loadComponent: () =>
-          import('../../features/Course/Pages/course-player/course-player.component')
-            .then((m) => m.CoursePlayerComponent),
+          import('../../features/Course/Pages/course-player/course-player.component').then(
+            (m) => m.CoursePlayerComponent,
+          ),
       },
 
       {
         path: 'certificate/:courseId',
         loadComponent: () =>
-          import('../../features/Course/Pages/certificate/certificate.component')
-            .then((m) => m.CertificateComponent),
+          import('../../features/Course/Pages/certificate/certificate.component').then(
+            (m) => m.CertificateComponent,
+          ),
         title: 'شهادة إتمام الدورة',
       },
 
@@ -152,13 +153,12 @@ export const STUDENT_ROUTES: Routes = [
       {
         path: 'wishlist',
         loadComponent: () =>
-          import('./Pages/wishlist/wishlist.component')
-            .then((m) => m.WishlistComponent),
+          import('./Pages/wishlist/wishlist.component').then((m) => m.WishlistComponent),
         title: 'مفضلتي',
       },
 
       {
-        path: 'my-courses/course-feedback',
+        path: 'my-courses/course-feedback/:courseId',
         component: StudentFeedbackComponent,
         title: 'تقييم الدورة',
       },
@@ -166,11 +166,9 @@ export const STUDENT_ROUTES: Routes = [
       {
         path: 'placement-test',
         loadChildren: () =>
-          import('../placement-test/placement-test.routes')
-            .then((m) => m.PLACEMENT_ROUTES),
+          import('../placement-test/placement-test.routes').then((m) => m.PLACEMENT_ROUTES),
         title: 'اختبار تحديد المستوى',
       },
-
     ],
   },
 ];
