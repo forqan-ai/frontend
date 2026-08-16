@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <form novalidate (ngSubmit)="submit()">
+    <form [formGroup]="consultationForm" novalidate (ngSubmit)="submit()">
       <div class="form-field">
         <div class="field-heading">
           <label for="consultation-request-text">اكتب طلب الاستشارة</label>

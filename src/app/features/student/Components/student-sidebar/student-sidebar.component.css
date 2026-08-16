@@ -194,6 +194,8 @@ nav .d-flex.flex-column.gap-2 > a {
 }
 
 .p-3.border-bottom-side {
+    position: relative;
+    z-index: 10;
     animation: fadeDown 0.5s ease 0.05s both;
 }
 
@@ -243,7 +245,7 @@ nav .d-flex.flex-column.gap-2 > a {
 
 .student-notification-bell {
     position: absolute;
-    z-index: 2;
+    z-index: 10;
     inset-inline-start: 10px;
     top: 10px;
 }

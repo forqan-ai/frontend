@@ -77,26 +77,22 @@ export class NotificationService {
   }
 
   open(notification: AppNotification): void {
-    const navigate = () => {
-      const destination = this.destinationFor(notification);
-      if (destination) void this.router.navigate(destination);
-    };
-
-    if (notification.isRead) {
-      navigate();
-      return;
+    if (!notification.isRead) {
+      this.notifications.update((items) =>
+        items.map((item) =>
+          item.notificationId === notification.notificationId ? { ...item, isRead: true } : item,
+        ),
+      );
+      this.unreadCount.update((count) => Math.max(0, count - 1));
+      this.markAsRead(notification.notificationId).subscribe({
+        error: (err) => console.error('Failed to mark notification as read:', err),
+      });
     }
 
-    this.markAsRead(notification.notificationId).subscribe({
-      next: () => {
-        this.notifications.update((items) => items.map((item) =>
-          item.notificationId === notification.notificationId ? { ...item, isRead: true } : item,
-        ));
-        this.unreadCount.update((count) => Math.max(0, count - 1));
-        navigate();
-      },
-      error: navigate,
-    });
+    const destination = this.destinationFor(notification);
+    if (destination) {
+      void this.router.navigate(destination);
+    }
   }
 
   clearSession(): void {
@@ -112,8 +108,8 @@ export class NotificationService {
     }
 
     const role = this.authService.getRole();
-    if (role === Role.Student) return ['/student/consultations', notification.referenceId];
-    if (role === Role.Teacher) return ['/teacher/consultations', notification.referenceId];
+    if (role === Role.Student) return ['/student', 'consultations', notification.referenceId];
+    if (role === Role.Teacher) return ['/teacher', 'consultations', notification.referenceId];
     return null;
   }
 }
