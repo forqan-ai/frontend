@@ -4,21 +4,27 @@ import {
   Input,
   Output,
   inject,
+  signal,
 } from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
 import { QuizService } from '../../../../../services/quiz.service';
-
-
 
 @Component({
   selector: 'app-add-quiz-dialog',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './add-quiz-dialog.component.html',
+  styleUrl: './add-quiz-dialog.component.css',
 })
 export class AddQuizDialogComponent {
-  private quizService = inject(QuizService);
+  private readonly fb = inject(FormBuilder);
+  private readonly quizService = inject(QuizService);
 
   @Input({ required: true })
   moduleId!: string;
@@ -26,32 +32,123 @@ export class AddQuizDialogComponent {
   @Output()
   saved = new EventEmitter<void>();
 
-  title = '';
+  readonly loading = signal(false);
+  readonly errorMsg = signal<string | null>(null);
+  readonly successMsg = signal<string | null>(null);
 
-  type = 0;
+  readonly form = this.fb.nonNullable.group({
+    title: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(200),
+      ],
+    ],
 
-  timeLimitMin = 20;
+    type: [
+      0,
+      Validators.required,
+    ],
 
-  passingScore = 70;
+    timeLimitMin: [
+      20,
+      [
+        Validators.required,
+        Validators.min(1),
+      ],
+    ],
 
-  save() {
+    passingScore: [
+      70,
+      [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+      ],
+    ],
+  });
+
+  getControl(controlName: string) {
+    return this.form.get(controlName);
+  }
+
+  isInvalid(controlName: string): boolean {
+    const control = this.getControl(controlName);
+
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched)
+    );
+  }
+
+  isValid(controlName: string): boolean {
+    const control = this.getControl(controlName);
+
+    return !!(
+      control &&
+      control.valid &&
+      (control.dirty || control.touched)
+    );
+  }
+
+  clearError(): void {
+    this.errorMsg.set(null);
+  }
+
+  clearSuccess(): void {
+    this.successMsg.set(null);
+  }
+
+  save(): void {
+    this.form.markAllAsTouched();
+
+    if (this.form.invalid) {
+      this.errorMsg.set('يرجى مراجعة البيانات المطلوبة.');
+      return;
+    }
+
+    this.loading.set(true);
+
+    this.errorMsg.set(null);
+    this.successMsg.set(null);
+
+    const value = this.form.getRawValue();
+
     const body = {
-      title: this.title,
-      type: Number(this.type),
-      timeLimitMin: Number(this.timeLimitMin),
-      passingScore: Number(this.passingScore),
+      title: value.title.trim(),
+      type: Number(value.type),
+      timeLimitMin: Number(value.timeLimitMin),
+      passingScore: Number(value.passingScore),
     };
 
     this.quizService.create(this.moduleId, body).subscribe({
       next: () => {
-        this.saved.emit();
+        this.loading.set(false);
 
-        this.title = '';
-        this.type = 0;
-        this.timeLimitMin = 20;
-        this.passingScore = 70;
+        this.successMsg.set(
+          'تمت إضافة الاختبار بنجاح.'
+        );
+
+        this.form.reset({
+          title: '',
+          type: 0,
+          timeLimitMin: 20,
+          passingScore: 70,
+        });
+
+        this.saved.emit();
       },
-      error: (err) => console.log(err),
+
+      error: (err) => {
+        this.loading.set(false);
+
+        this.errorMsg.set(
+          err?.error?.message ||
+          err?.error ||
+          'حدث خطأ أثناء إضافة الاختبار.'
+        );
+      },
     });
   }
 }

@@ -1,92 +1,479 @@
-<div class="container py-4">
-  <h2 class="mb-4">{{ lesson()?.title }}</h2>
+<div class="lesson-page">
 
-  @if (lesson()?.contentType === 0) {
-  <div class="card p-4">
-    <h5 class="mb-3">Upload Video</h5>
-
-    <input type="file" class="form-control mb-3" accept="video/*" (change)="selectVideo($event)" />
-
-    <button class="btn btn-primary" (click)="uploadVideo()" [disabled]="isUploading()">
-      @if (isUploading()) {
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Uploading...
-      } @else {
-      Upload Video
-      }
-    </button>
-  </div>
-
-  @if (lesson()?.contentURL) {
-  <div class="card mt-4">
-    <div class="card-header">Uploaded Video</div>
-
-    <div class="card-body">
-      <video controls class="w-100">
-        <source [src]="lesson()!.contentURL" type="video/mp4" />
-      </video>
+  @if (isLoading()) {
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <span>جاري تحميل بيانات الدرس...</span>
     </div>
-  </div>
   }
-  }
-  @if (lesson()?.contentType === 2) {
-  <div class="card p-4">
-    <h5 class="mb-3">Upload PDF</h5>
 
-    <input type="file" class="form-control mb-3" accept=".pdf" (change)="selectPdf($event)" />
-
-    <button class="btn btn-danger" (click)="uploadPdf()" [disabled]="isUploading()">
-      @if (isUploading()) {
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Uploading...
-      } @else {
-      Upload PDF
-      }
-    </button>
-  </div>
-
-  @if (lesson()?.contentURL) {
-  <div class="card mt-4">
-    <div class="card-header">Uploaded PDF</div>
-
-    <div class="card-body">
-      <iframe [src]="getSafeUrl(lesson()?.contentURL)" width="100%" height="700"> </iframe>
-
-      <div class="mt-3">
-        <a class="btn btn-outline-danger" [href]="lesson()!.contentURL" target="_blank">
-          Open PDF
-        </a>
+  @if (lessonError()) {
+    <div class="page-error">
+      <div class="error-icon">
+        <i class="bi bi-exclamation-triangle"></i>
       </div>
+
+      <div>
+        <strong>حدث خطأ</strong>
+        <span>{{ lessonError() }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="retry-button"
+        (click)="loadLesson()"
+      >
+        إعادة المحاولة
+      </button>
     </div>
-  </div>
   }
+
+  @if (lesson() && !isLoading()) {
+
+    <header class="lesson-header">
+
+      <div class="header-icon">
+        <i class="bi bi-play-circle"></i>
+      </div>
+
+      <div class="header-content">
+        <span class="eyebrow">محتوى الدرس</span>
+
+        <h1>
+          {{ lesson()?.title }}
+        </h1>
+
+        <p>
+          قم برفع محتوى الدرس أو معاينة الملف المرفوع.
+        </p>
+      </div>
+
+    </header>
+
+    @if (lesson()?.contentType === 0) {
+
+      <section class="content-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon video-icon">
+            <i class="bi bi-camera-video"></i>
+          </div>
+
+          <div>
+            <h2>محتوى الفيديو</h2>
+            <p>ارفع فيديو الدرس ليتمكن الطلاب من مشاهدته.</p>
+          </div>
+
+        </div>
+
+        <div class="upload-box">
+
+          <div class="upload-icon">
+            <i class="bi bi-cloud-arrow-up"></i>
+          </div>
+
+          <div class="upload-content">
+            <h3>رفع فيديو الدرس</h3>
+
+            <p>
+              اختر ملف فيديو من جهازك لرفعه إلى الدرس.
+            </p>
+
+            <label
+              class="file-picker"
+              for="video-file"
+            >
+              <i class="bi bi-folder2-open"></i>
+              اختيار الفيديو
+            </label>
+
+            <input
+              id="video-file"
+              type="file"
+              accept="video/*"
+              hidden
+              (change)="selectVideo($event)"
+            >
+
+            @if (videoFile()) {
+              <div class="selected-file">
+                <div class="selected-file-icon">
+                  <i class="bi bi-file-earmark-play"></i>
+                </div>
+
+                <div class="selected-file-info">
+                  <strong>
+                    {{ videoFile()?.name }}
+                  </strong>
+
+                  <span>
+                    {{ (videoFile()?.size ?? 0) / 1024 / 1024 | number:'1.0-2' }}
+                    MB
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  class="remove-file"
+                  (click)="videoFile.set(null)"
+                >
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+            }
+
+            @if (videoError()) {
+              <div class="field-error">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>{{ videoError() }}</span>
+              </div>
+            }
+
+            <button
+              type="button"
+              class="upload-button video-button"
+              (click)="uploadVideo()"
+              [disabled]="isUploadingVideo()"
+            >
+              @if (isUploadingVideo()) {
+                <span class="button-spinner"></span>
+                جاري رفع الفيديو...
+              } @else {
+                <i class="bi bi-cloud-upload"></i>
+                رفع الفيديو
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+        @if (lesson()?.contentURL) {
+
+          <div class="preview-card">
+
+            <div class="preview-header">
+              <div>
+                <span>المحتوى الحالي</span>
+                <h3>الفيديو المرفوع</h3>
+              </div>
+
+              <span class="status-badge">
+                <i class="bi bi-check-circle"></i>
+                مرفوع
+              </span>
+            </div>
+
+            <div class="video-preview">
+              <video
+                controls
+                preload="metadata"
+              >
+                <source
+                  [src]="lesson()!.contentURL"
+                  type="video/mp4"
+                >
+              </video>
+            </div>
+
+          </div>
+
+        }
+
+      </section>
+    }
+
+    @if (lesson()?.contentType === 1) {
+
+      <section class="content-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon audio-icon">
+            <i class="bi bi-music-note-beamed"></i>
+          </div>
+
+          <div>
+            <h2>محتوى الصوت</h2>
+            <p>ارفع الملف الصوتي الخاص بالدرس.</p>
+          </div>
+
+        </div>
+
+        <div class="upload-box">
+
+          <div class="upload-icon">
+            <i class="bi bi-headphones"></i>
+          </div>
+
+          <div class="upload-content">
+
+            <h3>رفع الملف الصوتي</h3>
+
+            <p>
+              اختر ملف صوتي من جهازك لرفعه إلى الدرس.
+            </p>
+
+            <label
+              class="file-picker"
+              for="audio-file"
+            >
+              <i class="bi bi-folder2-open"></i>
+              اختيار الملف الصوتي
+            </label>
+
+            <input
+              id="audio-file"
+              type="file"
+              accept="audio/*"
+              hidden
+              (change)="selectAudio($event)"
+            >
+
+            @if (audioFile()) {
+              <div class="selected-file">
+
+                <div class="selected-file-icon">
+                  <i class="bi bi-file-earmark-music"></i>
+                </div>
+
+                <div class="selected-file-info">
+                  <strong>
+                    {{ audioFile()?.name }}
+                  </strong>
+
+                  <span>
+                    {{ (audioFile()?.size ?? 0) / 1024 / 1024 | number:'1.0-2' }}
+                    MB
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  class="remove-file"
+                  (click)="audioFile.set(null)"
+                >
+                  <i class="bi bi-x"></i>
+                </button>
+
+              </div>
+            }
+
+            @if (audioError()) {
+              <div class="field-error">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>{{ audioError() }}</span>
+              </div>
+            }
+
+            <button
+              type="button"
+              class="upload-button audio-button"
+              (click)="uploadAudio()"
+              [disabled]="isUploadingAudio()"
+            >
+              @if (isUploadingAudio()) {
+                <span class="button-spinner"></span>
+                جاري رفع الملف...
+              } @else {
+                <i class="bi bi-cloud-upload"></i>
+                رفع الملف الصوتي
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+        @if (lesson()?.contentURL) {
+
+          <div class="preview-card">
+
+            <div class="preview-header">
+              <div>
+                <span>المحتوى الحالي</span>
+                <h3>الملف الصوتي المرفوع</h3>
+              </div>
+
+              <span class="status-badge">
+                <i class="bi bi-check-circle"></i>
+                مرفوع
+              </span>
+            </div>
+
+            <div class="audio-preview">
+              <div class="audio-icon-large">
+                <i class="bi bi-music-note-beamed"></i>
+              </div>
+
+              <audio
+                controls
+                preload="metadata"
+              >
+                <source
+                  [src]="lesson()!.contentURL"
+                >
+              </audio>
+            </div>
+
+          </div>
+
+        }
+
+      </section>
+    }
+
+    @if (lesson()?.contentType === 2) {
+
+      <section class="content-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon pdf-icon">
+            <i class="bi bi-file-earmark-pdf"></i>
+          </div>
+
+          <div>
+            <h2>محتوى PDF</h2>
+            <p>ارفع ملف PDF الخاص بالدرس.</p>
+          </div>
+
+        </div>
+
+        <div class="upload-box">
+
+          <div class="upload-icon">
+            <i class="bi bi-file-earmark-arrow-up"></i>
+          </div>
+
+          <div class="upload-content">
+
+            <h3>رفع ملف PDF</h3>
+
+            <p>
+              اختر ملف PDF من جهازك لرفعه إلى الدرس.
+            </p>
+
+            <label
+              class="file-picker"
+              for="pdf-file"
+            >
+              <i class="bi bi-folder2-open"></i>
+              اختيار ملف PDF
+            </label>
+
+            <input
+              id="pdf-file"
+              type="file"
+              accept=".pdf,application/pdf"
+              hidden
+              (change)="selectPdf($event)"
+            >
+
+            @if (pdfFile()) {
+              <div class="selected-file">
+
+                <div class="selected-file-icon">
+                  <i class="bi bi-file-earmark-pdf"></i>
+                </div>
+
+                <div class="selected-file-info">
+                  <strong>
+                    {{ pdfFile()?.name }}
+                  </strong>
+
+                  <span>
+                    {{ (pdfFile()?.size ?? 0) / 1024 / 1024 | number:'1.0-2' }}
+                    MB
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  class="remove-file"
+                  (click)="pdfFile.set(null)"
+                >
+                  <i class="bi bi-x"></i>
+                </button>
+
+              </div>
+            }
+
+            @if (pdfError()) {
+              <div class="field-error">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>{{ pdfError() }}</span>
+              </div>
+            }
+
+            <button
+              type="button"
+              class="upload-button pdf-button"
+              (click)="uploadPdf()"
+              [disabled]="isUploadingPdf()"
+            >
+              @if (isUploadingPdf()) {
+                <span class="button-spinner"></span>
+                جاري رفع الملف...
+              } @else {
+                <i class="bi bi-cloud-upload"></i>
+                رفع ملف PDF
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+        @if (lesson()?.contentURL) {
+
+          <div class="preview-card">
+
+            <div class="preview-header">
+
+              <div>
+                <span>المحتوى الحالي</span>
+                <h3>ملف PDF المرفوع</h3>
+              </div>
+
+              <span class="status-badge">
+                <i class="bi bi-check-circle"></i>
+                مرفوع
+              </span>
+
+            </div>
+
+            <div class="pdf-preview">
+
+              <iframe
+                [src]="getSafeUrl(lesson()?.contentURL)"
+                title="PDF Preview"
+              ></iframe>
+
+            </div>
+
+            <div class="preview-actions">
+
+              <a
+                class="open-button"
+                [href]="lesson()!.contentURL"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="bi bi-box-arrow-up-right"></i>
+                فتح ملف PDF
+              </a>
+
+            </div>
+
+          </div>
+
+        }
+
+      </section>
+    }
+
   }
-  @if (lesson()?.contentType === 1) {
-  <div class="card p-4">
-    <h5 class="mb-3">Upload Audio</h5>
 
-    <input type="file" class="form-control mb-3" accept="audio/*" (change)="selectAudio($event)" />
-
-    <button class="btn btn-success" (click)="uploadAudio()" [disabled]="isUploading()">
-      @if (isUploading()) {
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Uploading...
-      } @else {
-      Upload Audio
-      }
-    </button>
-  </div>
-
-  @if (lesson()?.contentURL) {
-  <div class="card mt-4">
-    <div class="card-header">Uploaded Audio</div>
-
-    <div class="card-body">
-      <audio controls class="w-100">
-        <source [src]="lesson()!.contentURL" />
-      </audio>
-    </div>
-  </div>
-  }
-  }
 </div>

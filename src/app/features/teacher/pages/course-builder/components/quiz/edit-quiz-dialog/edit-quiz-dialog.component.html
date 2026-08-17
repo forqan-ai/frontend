@@ -1,35 +1,228 @@
-<div class="card shadow-sm p-3">
-  <h5>Edit Quiz</h5>
+<div class="edit-quiz-form">
 
-  <div class="mb-3">
-    <label>Title</label>
+  <div class="form-header">
 
-    <input class="form-control" [(ngModel)]="title" />
-  </div>
-
-  <div class="mb-3">
-    <label>Quiz Type</label>
-
-    <select class="form-select" [(ngModel)]="type">
-      <option [value]="0">Practice</option>
-
-      <option [value]="1">Final</option>
-    </select>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <label>Time</label>
-
-      <input type="number" class="form-control" [(ngModel)]="timeLimitMin" />
+    <div class="form-icon">
+      <i class="bi bi-pencil-square"></i>
     </div>
 
-    <div class="col">
-      <label>Passing</label>
+    <div class="form-header-content">
+      <span class="eyebrow">إدارة الاختبار</span>
 
-      <input type="number" class="form-control" [(ngModel)]="passingScore" />
+      <h4>تعديل الاختبار</h4>
+
+      <p>
+        قم بتعديل بيانات الاختبار ثم احفظ التغييرات.
+      </p>
     </div>
+
   </div>
 
-  <button class="btn btn-success mt-3 w-100" (click)="save()">Save</button>
+  <form
+    (ngSubmit)="save()"
+    novalidate
+  >
+
+    <div class="form-grid">
+
+      <div class="form-field full-width">
+
+        <label for="quiz-title">
+          عنوان الاختبار
+          <span class="required">*</span>
+        </label>
+
+        <div
+          class="input-wrapper"
+          [class.input-error]="isTitleInvalid"
+        >
+
+          <i class="bi bi-card-text"></i>
+
+          <input
+            id="quiz-title"
+            type="text"
+            name="title"
+            [(ngModel)]="title"
+            placeholder="اكتب عنوان الاختبار"
+            autocomplete="off"
+            maxlength="200"
+          />
+
+        </div>
+
+        @if (isTitleInvalid) {
+          <div class="field-error">
+            <i class="bi bi-exclamation-circle"></i>
+            <span>عنوان الاختبار مطلوب.</span>
+          </div>
+        }
+
+      </div>
+
+
+      <div class="form-field full-width">
+
+        <label for="quiz-type">
+          نوع الاختبار
+          <span class="required">*</span>
+        </label>
+
+        <div class="select-wrapper">
+
+          <i class="bi bi-ui-checks"></i>
+
+          <select
+            id="quiz-type"
+            name="type"
+            [(ngModel)]="type"
+          >
+
+            <option [ngValue]="0">
+              اختبار تدريبي
+            </option>
+
+            <option [ngValue]="1">
+              اختبار نهائي
+            </option>
+
+          </select>
+
+          <i class="bi bi-chevron-down select-arrow"></i>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-field">
+
+        <label for="quiz-time">
+          مدة الاختبار
+          <span class="required">*</span>
+        </label>
+
+        <div
+          class="input-wrapper"
+          [class.input-error]="isTimeInvalid"
+        >
+
+          <i class="bi bi-clock"></i>
+
+          <input
+            id="quiz-time"
+            type="number"
+            name="timeLimitMin"
+            [(ngModel)]="timeLimitMin"
+            min="1"
+            placeholder="مثال: 20"
+          />
+
+        </div>
+
+        <span class="field-hint">
+          المدة بالدقائق
+        </span>
+
+        @if (isTimeInvalid) {
+          <div class="field-error">
+            <i class="bi bi-exclamation-circle"></i>
+            <span>
+              يجب أن تكون المدة دقيقة واحدة على الأقل.
+            </span>
+          </div>
+        }
+
+      </div>
+
+
+      <div class="form-field">
+
+        <label for="quiz-passing">
+          درجة النجاح
+          <span class="required">*</span>
+        </label>
+
+        <div
+          class="input-wrapper"
+          [class.input-error]="isPassingInvalid"
+        >
+
+          <i class="bi bi-percent"></i>
+
+          <input
+            id="quiz-passing"
+            type="number"
+            name="passingScore"
+            [(ngModel)]="passingScore"
+            min="0"
+            max="100"
+            placeholder="مثال: 70"
+          />
+
+        </div>
+
+        <span class="field-hint">
+          النسبة المطلوبة للنجاح من 100
+        </span>
+
+        @if (isPassingInvalid) {
+          <div class="field-error">
+            <i class="bi bi-exclamation-circle"></i>
+            <span>
+              الدرجة يجب أن تكون بين 0 و100.
+            </span>
+          </div>
+        }
+
+      </div>
+
+    </div>
+
+
+    @if (errorMessage()) {
+      <div class="form-error-message">
+
+        <i class="bi bi-exclamation-triangle"></i>
+
+        <span>
+          {{ errorMessage() }}
+        </span>
+
+      </div>
+    }
+
+
+    <div class="form-actions">
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="isSaving()"
+      >
+
+        @if (isSaving()) {
+
+          <span class="save-spinner"></span>
+
+          <span>
+            جاري الحفظ...
+          </span>
+
+        } @else {
+
+          <i class="bi bi-check2-circle"></i>
+
+          <span>
+            حفظ التغييرات
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
 </div>

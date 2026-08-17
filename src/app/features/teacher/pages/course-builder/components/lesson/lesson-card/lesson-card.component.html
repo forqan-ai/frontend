@@ -1,27 +1,205 @@
-<div class="card border-start border-4 border-success mb-3">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <div>
-      <strong>
-        {{ lesson.orderIndex }} -
-        {{ lesson.title }}
-      </strong>
+<div class="lesson-card">
+
+  <div class="lesson-header">
+
+    <div class="lesson-info">
+
+      <div class="lesson-icon">
+        <i class="bi bi-play-circle"></i>
+      </div>
+
+      <div class="lesson-details">
+
+        <span class="lesson-eyebrow">
+          الدرس {{ lesson.orderIndex }}
+        </span>
+
+        <h3>
+          {{ lesson.title }}
+        </h3>
+
+        <div class="lesson-meta">
+
+          <span>
+            <i class="bi bi-clock"></i>
+
+            {{ lesson.durationSeconds / 60 | number:'1.0-0' }} دقيقة
+          </span>
+
+          <span class="meta-separator">
+            •
+          </span>
+
+          <span>
+            <i class="bi bi-file-earmark-text"></i>
+            محتوى الدرس
+          </span>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
-      <button class="btn btn-outline-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
-      <button class="btn btn-outline-danger btn-sm me-2" (click)="deleteLesson()">Delete</button>
-      <button class="btn btn-info btn-sm me-2" (click)="manageContent()">Manage Content</button>
+    <div class="lesson-actions">
+
+      <button
+        type="button"
+        class="action-button content-button"
+        (click)="manageContent()"
+      >
+        <i class="bi bi-collection-play"></i>
+
+        <span>
+          إدارة المحتوى
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="action-button edit-button"
+        (click)="toggleEdit()"
+      >
+        <i class="bi bi-pencil"></i>
+
+        <span>
+          {{ showEdit() ? 'إغلاق التعديل' : 'تعديل' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="action-button delete-button"
+        (click)="openDeleteConfirm()"
+      >
+        <i class="bi bi-trash3"></i>
+
+        <span>
+          حذف
+        </span>
+      </button>
+
     </div>
+
   </div>
 
   @if (showEdit()) {
-    <div class="card-body border-bottom">
+
+    <div class="edit-section">
+
       <app-edit-lesson-dialog
         [lesson]="lesson"
         [moduleId]="moduleId"
         (saved)="refresh.emit(); toggleEdit()"
-      >
-      </app-edit-lesson-dialog>
+      />
+
     </div>
+
   }
+
 </div>
+
+@if (showDeleteConfirm()) {
+
+  <div
+    class="delete-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-title"
+  >
+
+    <div
+      class="delete-backdrop"
+      (click)="closeDeleteConfirm()"
+    ></div>
+
+    <div class="delete-dialog">
+
+      <button
+        type="button"
+        class="delete-close-button"
+        aria-label="إغلاق"
+        [disabled]="isDeleting()"
+        (click)="closeDeleteConfirm()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="delete-dialog-icon">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+      <div class="delete-dialog-content">
+
+        <span class="delete-eyebrow">
+          تأكيد الحذف
+        </span>
+
+        <h3 id="delete-title">
+          حذف الدرس؟
+        </h3>
+
+        <p>
+          هل أنت متأكد من حذف الدرس
+          <strong>«{{ lesson.title }}»</strong>؟
+        </p>
+
+        <div class="delete-warning">
+          <i class="bi bi-exclamation-circle"></i>
+
+          <span>
+            سيتم حذف الدرس ومحتواه بشكل نهائي ولا يمكن التراجع عن هذا الإجراء.
+          </span>
+        </div>
+
+      </div>
+
+      <div class="delete-dialog-actions">
+
+        <button
+          type="button"
+          class="cancel-delete-button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteConfirm()"
+        >
+          <i class="bi bi-x-lg"></i>
+
+          <span>
+            إلغاء
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          [disabled]="isDeleting()"
+          (click)="deleteLesson()"
+        >
+
+          @if (isDeleting()) {
+
+            <span class="delete-spinner"></span>
+
+            <span>
+              جاري الحذف...
+            </span>
+
+          } @else {
+
+            <i class="bi bi-trash3"></i>
+
+            <span>
+              حذف الدرس
+            </span>
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

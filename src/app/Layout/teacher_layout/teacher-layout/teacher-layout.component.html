@@ -1,13 +1,19 @@
 <div class="layout">
   <app-toast></app-toast>
   <app-sidebar [opened]="sidebarOpen()" (close)="closeSidebar()"> </app-sidebar>
+
   <main class="content">
+   
     <app-header
-  [teacherName]="teacher()?.fullName ?? 'Teacher'"
-  [image]="teacher()?.profileImageURL ?? ''"
-  (menuClick)="toggleSidebar()">
-</app-header>
+      [teacherName]="teacher()?.fullName ?? 'Teacher'"
+      [image]="teacher()?.profileImageURL ?? ''"
+      (menuClick)="toggleSidebar()"
+    >
+    </app-header>
+
     <router-outlet></router-outlet>
+
     <app-quick-actions></app-quick-actions>
+    
   </main>
 </div>

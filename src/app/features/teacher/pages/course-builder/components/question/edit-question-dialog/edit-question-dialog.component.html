@@ -1,37 +1,167 @@
-<div class="card shadow-sm p-3">
-  <h5 class="mb-3">Edit Question</h5>
-
-  <div class="mb-3">
-    <label>Question</label>
-
-    <textarea rows="4" class="form-control" [(ngModel)]="text"> </textarea>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <label>Type</label>
-
-      <select class="form-select" [(ngModel)]="questionType">
-        <option [ngValue]="0">MCQ</option>
-
-        <option [ngValue]="1">True / False</option>
-
-        <option [ngValue]="2">Short Answer</option>
-      </select>
+<div class="edit-question-card">
+  <div class="dialog-header">
+    <div class="header-icon">
+      <i class="bi bi-pencil-square"></i>
     </div>
 
-    <div class="col">
-      <label>Order</label>
-
-      <input class="form-control" type="number" [(ngModel)]="orderIndex" />
+    <div class="header-content">
+      <span>إدارة السؤال</span>
+      <h2>تعديل السؤال</h2>
+      <p>قم بتعديل بيانات السؤال ثم احفظ التغييرات.</p>
     </div>
   </div>
 
-  <div class="mt-3">
-    <label>Feedback</label>
+  <div class="form-content">
 
-    <textarea rows="3" class="form-control" [(ngModel)]="feedback"> </textarea>
+    <div class="form-group">
+      <label for="questionText">
+        نص السؤال
+        <span>*</span>
+      </label>
+
+      <textarea
+        id="questionText"
+        rows="4"
+        class="form-control question-textarea"
+        [(ngModel)]="text"
+        #textModel="ngModel"
+        required
+        minlength="3"
+        maxlength="1000"
+        placeholder="اكتب نص السؤال هنا..."
+      ></textarea>
+
+      @if (textModel.invalid && textModel.touched) {
+        <div class="validation-message">
+          <i class="bi bi-exclamation-circle-fill"></i>
+
+          @if (textModel.errors?.['required']) {
+            <span>نص السؤال مطلوب.</span>
+          } @else if (textModel.errors?.['minlength']) {
+            <span>يجب أن يحتوي السؤال على 3 أحرف على الأقل.</span>
+          } @else if (textModel.errors?.['maxlength']) {
+            <span>لا يمكن أن يتجاوز السؤال 1000 حرف.</span>
+          }
+        </div>
+      }
+
+      <div class="character-count">
+        {{ text.length }} / 1000
+      </div>
+    </div>
+
+    <div class="form-row">
+
+      <div class="form-group">
+        <label for="questionType">
+          نوع السؤال
+          <span>*</span>
+        </label>
+
+        <div class="select-wrapper">
+          <select
+            id="questionType"
+            class="form-control"
+            [(ngModel)]="questionType"
+          >
+            <option [ngValue]="0">اختيار من متعدد</option>
+            <option [ngValue]="1">صح أو خطأ</option>
+            <option [ngValue]="2">إجابة قصيرة</option>
+          </select>
+
+          <i class="bi bi-chevron-down"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="orderIndex">
+          ترتيب السؤال
+          <span>*</span>
+        </label>
+
+        <input
+          id="orderIndex"
+          class="form-control"
+          type="number"
+          [(ngModel)]="orderIndex"
+          #orderModel="ngModel"
+          required
+          min="1"
+          placeholder="مثال: 1"
+        />
+
+        @if (orderModel.invalid && orderModel.touched) {
+          <div class="validation-message">
+            <i class="bi bi-exclamation-circle-fill"></i>
+
+            @if (orderModel.errors?.['required']) {
+              <span>ترتيب السؤال مطلوب.</span>
+            } @else if (orderModel.errors?.['min']) {
+              <span>يجب أن يبدأ ترتيب السؤال من 1 على الأقل.</span>
+            }
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <div class="form-group">
+      <label for="feedback">
+        الملاحظات والتغذية الراجعة
+        <small>اختياري</small>
+      </label>
+
+      <textarea
+        id="feedback"
+        rows="3"
+        class="form-control"
+        [(ngModel)]="feedback"
+        #feedbackModel="ngModel"
+        maxlength="1000"
+        placeholder="اكتب ملاحظة أو توضيح يظهر للطالب بعد الإجابة..."
+      ></textarea>
+
+      @if (feedbackModel.errors?.['maxlength'] && feedbackModel.touched) {
+        <div class="validation-message">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span>لا يمكن أن تتجاوز الملاحظات 1000 حرف.</span>
+        </div>
+      }
+
+      <div class="character-count">
+        {{ feedback.length }} / 1000
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-icon">
+        <i class="bi bi-info-circle-fill"></i>
+      </div>
+
+      <div>
+        <strong>معلومة</strong>
+        <p>
+          تأكد من مراجعة بيانات السؤال قبل حفظ التعديلات.
+        </p>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="button"
+        class="save-button"
+        (click)="save()"
+        [disabled]="
+          !text.trim() ||
+          text.length > 1000 ||
+          feedback.length > 1000 ||
+          orderIndex < 1
+        "
+      >
+        <i class="bi bi-check2"></i>
+        حفظ التغييرات
+      </button>
+    </div>
+
   </div>
-
-  <button class="btn btn-success w-100 mt-4" (click)="save()">Save Changes</button>
 </div>

@@ -1,70 +1,429 @@
-<div class="card shadow-sm mb-4">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <div>
-      <h5 class="mb-0">
-        {{ module.orderIndex }} -
-        {{ module.title }}
-      </h5>
+<div class="module-card">
+
+  <div class="module-header">
+
+    <div class="module-info">
+
+      <div class="module-icon">
+        <i class="bi bi-collection-play-fill"></i>
+      </div>
+
+      <div class="module-details">
+
+        <span class="module-eyebrow">
+          الوحدة {{ module.orderIndex }}
+        </span>
+
+        <h2>
+          {{ module.title }}
+        </h2>
+
+        <div class="module-meta">
+
+          <span>
+            <i class="bi bi-journal-text"></i>
+
+            {{ lessons().length }}
+
+            {{ lessons().length === 1 ? 'درس' : 'دروس' }}
+          </span>
+
+          <span class="meta-separator">
+            •
+          </span>
+
+          <span>
+            <i class="bi bi-patch-question"></i>
+
+            @if (quiz()) {
+              يوجد اختبار
+            } @else {
+              لا يوجد اختبار
+            }
+          </span>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
-      <button class="btn btn-sm btn-outline-success me-2" (click)="toggleAddLesson()">
-        Add Lesson
-      </button>
-      <button class="btn btn-sm btn-outline-primary me-2" (click)="toggleAddQuiz()">
-        Add Quiz
-      </button>
-      <button class="btn btn-outline-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
+    <div class="module-actions">
 
-      <button class="btn btn-sm btn-outline-danger me-2" (click)="deleteModule()">Delete</button>
+      <button
+        type="button"
+        class="module-action add-lesson-button"
+        (click)="toggleAddLesson()"
+      >
+        <i class="bi bi-plus-circle"></i>
+
+        <span>
+          {{ showAddLesson() ? 'إغلاق إضافة درس' : 'إضافة درس' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="module-action add-quiz-button"
+        (click)="toggleAddQuiz()"
+      >
+        <i class="bi bi-patch-question"></i>
+
+        <span>
+          {{ showAddQuiz() ? 'إغلاق إضافة اختبار' : 'إضافة اختبار' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="module-action edit-button"
+        (click)="toggleEdit()"
+      >
+        <i class="bi bi-pencil-square"></i>
+
+        <span>
+          {{ showEdit() ? 'إغلاق التعديل' : 'تعديل' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="module-action delete-button"
+        (click)="openDeleteConfirm()"
+      >
+        <i class="bi bi-trash3"></i>
+
+        <span>
+          حذف
+        </span>
+      </button>
+
     </div>
+
   </div>
 
-  <!-- Edit Module -->
-
   @if (showEdit()) {
-    <div class="card-body border-bottom">
+
+    <div class="module-section edit-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon edit-icon">
+          <i class="bi bi-pencil-square"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            تعديل الوحدة
+          </h3>
+
+          <p>
+            قم بتعديل بيانات الوحدة الحالية.
+          </p>
+
+        </div>
+
+      </div>
+
       <app-edit-module-dialog
         [module]="module"
         [courseId]="courseId"
         (saved)="refresh.emit(); toggleEdit()"
-      >
-      </app-edit-module-dialog>
+      />
+
     </div>
+
   }
 
-  <!-- Add Lesson -->
-
   @if (showAddLesson()) {
-    <div class="card-body border-bottom">
+
+    <div class="module-section add-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon lesson-icon">
+          <i class="bi bi-journal-plus"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            إضافة درس جديد
+          </h3>
+
+          <p>
+            أضف درسًا جديدًا إلى هذه الوحدة.
+          </p>
+
+        </div>
+
+      </div>
+
       <app-add-lesson-dialog
         [moduleId]="module.moduleID"
         (saved)="loadLessons(); toggleAddLesson()"
-      >
-      </app-add-lesson-dialog>
+      />
+
     </div>
+
   }
 
-  <!-- Lessons -->
+  <div class="lessons-section">
 
-  <div class="card-body">
-    @for (lesson of lessons(); track lesson.lessonID) {
-      <app-lesson-card [lesson]="lesson" [moduleId]="module.moduleID" (refresh)="loadLessons()">
-      </app-lesson-card>
+    <div class="section-heading lessons-heading">
+
+      <div class="section-icon lesson-icon">
+        <i class="bi bi-journal-text"></i>
+      </div>
+
+      <div>
+
+        <h3>
+          دروس الوحدة
+        </h3>
+
+        <p>
+          @if (lessons().length > 0) {
+            {{ lessons().length }} درس داخل هذه الوحدة
+          } @else {
+            لم تتم إضافة دروس بعد
+          }
+        </p>
+
+      </div>
+
+    </div>
+
+    @if (lessons().length > 0) {
+
+      <div class="lessons-list">
+
+        @for (
+          lesson of lessons();
+          track lesson.lessonID
+        ) {
+
+          <app-lesson-card
+            [lesson]="lesson"
+            [moduleId]="module.moduleID"
+            (refresh)="loadLessons()"
+          />
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="bi bi-journal-x"></i>
+        </div>
+
+        <div>
+
+          <strong>
+            لا توجد دروس بعد
+          </strong>
+
+          <p>
+            ابدأ بإضافة أول درس إلى هذه الوحدة.
+          </p>
+
+        </div>
+
+      </div>
+
     }
+
   </div>
 
-  <hr />
+  <div
+    #quizArea
+    class="quiz-area"
+  >
 
-  @if (showAddQuiz()) {
-    <div class="card border-0">
-      <app-add-quiz-dialog [moduleId]="module.moduleID" (saved)="loadQuiz(); toggleAddQuiz()">
-      </app-add-quiz-dialog>
-    </div>
-  }
+    @if (showAddQuiz()) {
 
-  @if (quiz()) {
-    <app-quiz-card [quiz]="quiz()!" [moduleId]="module.moduleID" (refresh)="loadQuiz()">
-    </app-quiz-card>
-  }
+      <div class="quiz-add-container">
+
+        <app-add-quiz-dialog
+          [moduleId]="module.moduleID"
+          (saved)="loadQuiz(); toggleAddQuiz()"
+        />
+
+      </div>
+
+    } @else {
+
+      <div class="section-heading quiz-heading">
+
+        <div class="section-icon quiz-icon">
+          <i class="bi bi-patch-question"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            اختبار الوحدة
+          </h3>
+
+          <p>
+            إدارة الاختبار والأسئلة الخاصة بالوحدة.
+          </p>
+
+        </div>
+
+      </div>
+
+      @if (quiz()) {
+
+        <app-quiz-card
+          [quiz]="quiz()!"
+          [moduleId]="module.moduleID"
+          (refresh)="loadQuiz()"
+        />
+
+      } @else {
+
+        <div class="empty-state quiz-empty">
+
+          <div class="empty-icon quiz-empty-icon">
+            <i class="bi bi-patch-question"></i>
+          </div>
+
+          <div>
+
+            <strong>
+              لا يوجد اختبار لهذه الوحدة
+            </strong>
+
+            <p>
+              يمكنك إنشاء اختبار من خلال زر "إضافة اختبار".
+            </p>
+
+          </div>
+
+        </div>
+
+      }
+
+    }
+
+  </div>
+
 </div>
+
+@if (showDeleteConfirm()) {
+
+  <div
+    class="delete-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-title"
+  >
+
+    <div
+      class="delete-backdrop"
+      (click)="closeDeleteConfirm()"
+    ></div>
+
+    <div
+      class="delete-dialog"
+      role="document"
+    >
+
+      <button
+        type="button"
+        class="delete-close-button"
+        aria-label="إغلاق"
+        [disabled]="isDeleting()"
+        (click)="closeDeleteConfirm()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="delete-dialog-icon">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+      <div class="delete-dialog-content">
+
+        <span class="delete-eyebrow">
+          تأكيد الحذف
+        </span>
+
+        <h3 id="delete-title">
+          حذف الوحدة؟
+        </h3>
+
+        <p>
+          هل أنت متأكد من حذف الوحدة
+          <strong>«{{ module.title }}»</strong>؟
+        </p>
+
+        <div class="delete-warning">
+
+          <i class="bi bi-exclamation-circle"></i>
+
+          <span>
+            سيتم حذف الوحدة وما تحتويه من دروس واختبار بشكل نهائي.
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="delete-dialog-actions">
+
+        <button
+          type="button"
+          class="cancel-delete-button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteConfirm()"
+        >
+
+          <i class="bi bi-x-lg"></i>
+
+          <span>
+            إلغاء
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          [disabled]="isDeleting()"
+          (click)="deleteModule()"
+        >
+
+          @if (isDeleting()) {
+
+            <span class="delete-spinner"></span>
+
+            <span>
+              جاري الحذف...
+            </span>
+
+          } @else {
+
+            <i class="bi bi-trash3"></i>
+
+            <span>
+              حذف الوحدة
+            </span>
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

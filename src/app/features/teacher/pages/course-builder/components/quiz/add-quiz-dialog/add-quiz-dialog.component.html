@@ -1,35 +1,420 @@
-<div class="card shadow-sm p-3 mb-3">
-  <h5 class="mb-3">Create Quiz</h5>
+<div class="quiz-form-card">
 
-  <div class="mb-3">
-    <label class="form-label"> Title </label>
+  <div class="form-header">
 
-    <input class="form-control" [(ngModel)]="title" />
-  </div>
+    <div class="header-content">
 
-  <div class="mb-3">
-    <label class="form-label"> Quiz Type </label>
+      <div class="header-icon">
+        <i class="bi bi-patch-question"></i>
+      </div>
 
-    <select class="form-select" [(ngModel)]="type">
-      <option [value]="0">Practice</option>
+      <div>
 
-      <option [value]="1">Final</option>
-    </select>
-  </div>
+        <span class="header-eyebrow">
+          إدارة الاختبارات
+        </span>
 
-  <div class="row">
-    <div class="col-md-6">
-      <label class="form-label"> Time (Minutes) </label>
+        <h2>إنشاء اختبار جديد</h2>
 
-      <input type="number" class="form-control" [(ngModel)]="timeLimitMin" />
+        <p>
+          أضف اختبارًا جديدًا إلى الوحدة وحدد إعداداته الأساسية.
+        </p>
+
+      </div>
+
     </div>
 
-    <div class="col-md-6">
-      <label class="form-label"> Passing Score </label>
-
-      <input type="number" class="form-control" [(ngModel)]="passingScore" />
+    <div class="quiz-badge">
+      <i class="bi bi-plus-circle"></i>
+      اختبار جديد
     </div>
+
   </div>
 
-  <button class="btn btn-primary mt-3 w-100" (click)="save()">Create Quiz</button>
+
+  @if (errorMsg()) {
+
+    <div class="message message-error">
+
+      <div class="message-icon">
+        <i class="bi bi-exclamation-circle"></i>
+      </div>
+
+      <div class="message-content">
+
+        <strong>تعذر إنشاء الاختبار</strong>
+
+        <span>
+          {{ errorMsg() }}
+        </span>
+
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearError()"
+        aria-label="Close"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (successMsg()) {
+
+    <div class="message message-success">
+
+      <div class="message-icon">
+        <i class="bi bi-check-circle"></i>
+      </div>
+
+      <div class="message-content">
+
+        <strong>تم بنجاح</strong>
+
+        <span>
+          {{ successMsg() }}
+        </span>
+
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearSuccess()"
+        aria-label="Close"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  <form
+    class="quiz-form"
+    [formGroup]="form"
+    (ngSubmit)="save()"
+    novalidate
+  >
+
+    <section class="form-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon">
+          <i class="bi bi-sliders"></i>
+        </div>
+
+        <div>
+
+          <h3>إعدادات الاختبار</h3>
+
+          <p>
+            أدخل البيانات الأساسية الخاصة بالاختبار.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('title')"
+          [class.field-valid]="isValid('title')"
+        >
+
+          <label for="quiz-title">
+
+            <i class="bi bi-card-heading label-icon"></i>
+
+            عنوان الاختبار
+
+            <span class="required">*</span>
+
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              id="quiz-title"
+              type="text"
+              formControlName="title"
+              maxlength="200"
+              placeholder="أدخل عنوان الاختبار"
+              autocomplete="off"
+            />
+
+            @if (isValid('title')) {
+
+              <span class="input-status valid">
+
+                <i class="bi bi-check-lg"></i>
+
+              </span>
+
+            }
+
+          </div>
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('title')) {
+
+                @if (getControl('title')?.hasError('required')) {
+                  <span>عنوان الاختبار مطلوب.</span>
+                }
+
+                @if (getControl('title')?.hasError('maxlength')) {
+                  <span>يجب ألا يتجاوز العنوان 200 حرف.</span>
+                }
+
+              }
+
+            </div>
+
+            <span class="character-count">
+              {{ form.controls.title.value.length }}/200
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('type')"
+          [class.field-valid]="isValid('type')"
+        >
+
+          <label for="quiz-type">
+
+            <i class="bi bi-list-check label-icon"></i>
+
+            نوع الاختبار
+
+            <span class="required">*</span>
+
+          </label>
+
+          <div class="select-wrapper">
+
+            <select
+              id="quiz-type"
+              formControlName="type"
+            >
+
+              <option [ngValue]="0">
+                Practice
+              </option>
+
+              <option [ngValue]="1">
+                Final
+              </option>
+
+            </select>
+
+            <span class="select-arrow">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+
+          </div>
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('type')) {
+                <span>يرجى اختيار نوع الاختبار.</span>
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('timeLimitMin')"
+          [class.field-valid]="isValid('timeLimitMin')"
+        >
+
+          <label for="time-limit">
+
+            <i class="bi bi-clock label-icon"></i>
+
+            الوقت المحدد
+
+            <span class="required">*</span>
+
+          </label>
+
+          <div class="input-icon-wrapper">
+
+            <i class="bi bi-stopwatch"></i>
+
+            <input
+              id="time-limit"
+              type="number"
+              formControlName="timeLimitMin"
+              min="1"
+              placeholder="20"
+            />
+
+            <span class="input-suffix">
+              دقيقة
+            </span>
+
+          </div>
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('timeLimitMin')) {
+
+                @if (getControl('timeLimitMin')?.hasError('required')) {
+                  <span>الوقت المحدد مطلوب.</span>
+                }
+
+                @if (getControl('timeLimitMin')?.hasError('min')) {
+                  <span>يجب أن يكون الوقت دقيقة واحدة على الأقل.</span>
+                }
+
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('passingScore')"
+          [class.field-valid]="isValid('passingScore')"
+        >
+
+          <label for="passing-score">
+
+            <i class="bi bi-award label-icon"></i>
+
+            درجة النجاح
+
+            <span class="required">*</span>
+
+          </label>
+
+          <div class="input-icon-wrapper">
+
+            <i class="bi bi-percent"></i>
+
+            <input
+              id="passing-score"
+              type="number"
+              formControlName="passingScore"
+              min="0"
+              max="100"
+              placeholder="70"
+            />
+
+            <span class="input-suffix">
+              %
+            </span>
+
+          </div>
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('passingScore')) {
+
+                @if (getControl('passingScore')?.hasError('required')) {
+                  <span>درجة النجاح مطلوبة.</span>
+                }
+
+                @if (getControl('passingScore')?.hasError('min')) {
+                  <span>لا يمكن أن تكون الدرجة أقل من 0.</span>
+                }
+
+                @if (getControl('passingScore')?.hasError('max')) {
+                  <span>لا يمكن أن تتجاوز الدرجة 100.</span>
+                }
+
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="quiz-info">
+
+        <div class="info-icon">
+          <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <div>
+
+          <strong>نصيحة</strong>
+
+          <p>
+            يمكنك استخدام Practice للتدريب، بينما Final يستخدم كاختبار نهائي
+            لقياس مستوى الطالب.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <div class="form-actions">
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="spinner"></span>
+
+          جاري الإنشاء...
+
+        } @else {
+
+          <i class="bi bi-plus-lg"></i>
+
+          إنشاء الاختبار
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
 </div>

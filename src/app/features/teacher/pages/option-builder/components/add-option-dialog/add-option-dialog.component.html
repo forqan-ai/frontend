@@ -1,17 +1,115 @@
-<div class="card shadow-sm p-3 mb-3">
-  <h5>Add Option</h5>
+<div class="option-form">
 
-  <div class="mb-3">
-    <label class="form-label"> Option </label>
+  <div class="form-header">
 
-    <input class="form-control" [(ngModel)]="optionText" />
+    <div class="form-icon">
+      <i class="bi bi-plus-circle"></i>
+    </div>
+
+    <div>
+      <span class="form-eyebrow">
+        اختيارات السؤال
+      </span>
+
+      <h3>
+        إضافة اختيار جديد
+      </h3>
+
+      <p>
+        أضف إجابة جديدة وحدد إذا كانت هي الإجابة الصحيحة.
+      </p>
+    </div>
+
   </div>
 
-  <div class="form-check mb-3">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="isCorrect" />
 
-    <label class="form-check-label"> Correct Answer </label>
+  <div class="form-body">
+
+    <div class="form-group">
+
+      <label for="optionText">
+        نص الاختيار
+        <span>*</span>
+      </label>
+
+      <div
+        class="input-wrapper"
+        [class.input-error]="submitted && !optionText"
+      >
+
+        <i class="bi bi-card-text"></i>
+
+        <input
+          id="optionText"
+          type="text"
+          [(ngModel)]="optionText"
+          placeholder="اكتب نص الاختيار..."
+          autocomplete="off"
+        />
+
+      </div>
+
+      @if (submitted && !optionText) {
+        <div class="validation-message">
+          <i class="bi bi-exclamation-circle"></i>
+
+          <span>
+            من فضلك أدخل نص الاختيار.
+          </span>
+        </div>
+      }
+
+    </div>
+
+
+    <label
+      class="correct-answer"
+      [class.checked]="isCorrect"
+    >
+
+      <div class="checkbox-wrapper">
+
+        <input
+          type="checkbox"
+          [(ngModel)]="isCorrect"
+        />
+
+        <span class="custom-checkbox">
+          <i class="bi bi-check-lg"></i>
+        </span>
+
+      </div>
+
+
+      <div class="correct-content">
+
+        <strong>
+          إجابة صحيحة
+        </strong>
+
+        <span>
+          حدد هذا الاختيار كإجابة صحيحة للسؤال.
+        </span>
+
+      </div>
+
+    </label>
+
+
+    <button
+      type="button"
+      class="save-button"
+      (click)="save()"
+    >
+
+      <i class="bi bi-plus-lg"></i>
+
+      <span>
+        إضافة الاختيار
+      </span>
+
+    </button>
+
   </div>
 
-  <button class="btn btn-success w-100" (click)="save()">Save</button>
 </div>

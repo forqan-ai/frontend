@@ -1,17 +1,304 @@
-<div class="card shadow-sm p-3 mt-3">
-  <h5>Edit Module</h5>
+<section class="edit-module-card">
 
-  <div class="mb-3">
-    <label>Title</label>
+  <div class="module-header">
 
-    <input class="form-control" [(ngModel)]="title" />
+    <div class="header-content">
+
+      <div class="header-icon">
+        <i class="bi bi-pencil-square"></i>
+      </div>
+
+      <div>
+        <span class="header-eyebrow">
+          إدارة الوحدة
+        </span>
+
+        <h2>
+          تعديل الوحدة
+        </h2>
+
+        <p>
+          حدّث اسم الوحدة وترتيب ظهورها داخل الدورة.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="module-badge">
+      <i class="bi bi-collection"></i>
+      وحدة تعليمية
+    </div>
+
   </div>
 
-  <div class="mb-3">
-    <label>Order</label>
 
-    <input type="number" class="form-control" [(ngModel)]="orderIndex" />
-  </div>
+  @if (errorMsg()) {
 
-  <button class="btn btn-success w-100" (click)="save()">Save Changes</button>
-</div>
+    <div class="message message-error">
+
+      <div class="message-icon">
+        <i class="bi bi-exclamation-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+        <strong>تعذر تحديث الوحدة</strong>
+        <span>{{ errorMsg() }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearError()"
+        aria-label="إغلاق رسالة الخطأ"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (successMsg()) {
+
+    <div class="message message-success">
+
+      <div class="message-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+        <strong>تم بنجاح</strong>
+        <span>{{ successMsg() }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearSuccess()"
+        aria-label="إغلاق رسالة النجاح"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  <form
+    class="module-form"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    novalidate
+  >
+
+    <div
+      class="field"
+      [class.field-invalid]="isInvalid('title')"
+      [class.field-valid]="isValid('title')"
+    >
+
+      <label for="module-title">
+
+        <span class="label-icon">
+          <i class="bi bi-type"></i>
+        </span>
+
+        اسم الوحدة
+
+        <span class="required">*</span>
+
+      </label>
+
+
+      <div class="input-wrapper">
+
+        <input
+          id="module-title"
+          type="text"
+          formControlName="title"
+          maxlength="200"
+          autocomplete="off"
+          placeholder="مثال: أحكام الصلاة"
+        />
+
+
+        @if (isValid('title')) {
+
+          <span class="input-status valid">
+            <i class="bi bi-check-circle-fill"></i>
+          </span>
+
+        }
+
+      </div>
+
+
+      <div class="field-footer">
+
+        <div class="validation-message">
+
+          @if (isInvalid('title')) {
+
+            @if (titleControl.hasError('required')) {
+
+              <span>
+                اسم الوحدة مطلوب.
+              </span>
+
+            }
+
+            @if (titleControl.hasError('maxlength')) {
+
+              <span>
+                اسم الوحدة يجب ألا يتجاوز 200 حرف.
+              </span>
+
+            }
+
+          }
+
+        </div>
+
+
+        <span class="character-count">
+          {{ titleControl.value.length }}/200
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="field"
+      [class.field-invalid]="isInvalid('orderIndex')"
+      [class.field-valid]="isValid('orderIndex')"
+    >
+
+      <label for="module-order">
+
+        <span class="label-icon">
+          <i class="bi bi-sort-numeric-down"></i>
+        </span>
+
+        ترتيب الوحدة
+
+        <span class="required">*</span>
+
+      </label>
+
+
+      <div class="input-wrapper">
+
+        <input
+          id="module-order"
+          type="number"
+          formControlName="orderIndex"
+          min="1"
+          step="1"
+          inputmode="numeric"
+          placeholder="مثال: 1"
+        />
+
+
+        @if (isValid('orderIndex')) {
+
+          <span class="input-status valid">
+            <i class="bi bi-check-circle-fill"></i>
+          </span>
+
+        }
+
+      </div>
+
+
+      <div class="field-hint">
+
+        <i class="bi bi-info-circle"></i>
+
+        <span>
+          استخدم رقمًا موجبًا لتحديد ترتيب الوحدة داخل الدورة.
+        </span>
+
+      </div>
+
+
+      @if (isInvalid('orderIndex')) {
+
+        <div class="validation-message visible">
+
+          @if (orderIndexControl.hasError('required')) {
+
+            <span>
+              ترتيب الوحدة مطلوب.
+            </span>
+
+          }
+
+          @if (orderIndexControl.hasError('min')) {
+
+            <span>
+              ترتيب الوحدة يجب أن يكون 1 أو أكبر.
+            </span>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <div class="form-divider"></div>
+
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="cancel-button"
+        [disabled]="loading()"
+        (click)="saved.emit()"
+      >
+
+        <i class="bi bi-x-lg"></i>
+
+        إلغاء
+
+      </button>
+
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="spinner"></span>
+
+          <span>
+            جاري الحفظ...
+          </span>
+
+        } @else {
+
+          <i class="bi bi-check-lg"></i>
+
+          <span>
+            حفظ التغييرات
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</section>

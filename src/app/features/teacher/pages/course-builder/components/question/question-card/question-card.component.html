@@ -1,34 +1,154 @@
-<div class="card shadow-sm mb-3">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <div>
-      <strong> Q{{ question.orderIndex }} </strong>
+<div class="question-card">
+
+  <div class="question-header">
+
+    <div class="question-info">
+
+      <div class="question-icon">
+        <i class="bi bi-question-circle-fill"></i>
+      </div>
+
+      <div class="question-details">
+
+        <span class="question-eyebrow">
+          السؤال {{ question.orderIndex }}
+        </span>
+
+        <h3>
+          {{ question.text }}
+        </h3>
+
+        <div class="question-meta">
+
+          <span>
+            <i class="bi bi-ui-checks"></i>
+
+            @switch (question.questionType) {
+              @case (0) {
+                اختيار من متعدد
+              }
+              @case (1) {
+                صح أو خطأ
+              }
+              @case (2) {
+                إجابة قصيرة
+              }
+              @default {
+                سؤال
+              }
+            }
+          </span>
+
+          <span class="meta-separator">
+            •
+          </span>
+
+          <span>
+            <i class="bi bi-chat-left-text"></i>
+            تغذية راجعة
+          </span>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
-      <button class="btn btn-outline-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
+    <div class="question-actions">
 
-      <button class="btn btn-danger btn-sm me-2" (click)="deleteQuestion()">Delete</button>
+      <button
+        type="button"
+        class="action-button options-button"
+        (click)="manageOptions()"
+      >
+        <i class="bi bi-list-check"></i>
 
-      <button class="btn btn-sm btn-outline-primary me-2" (click)="manageOptions()">
-        Manage Options
+        <span>
+          إدارة الاختيارات
+        </span>
       </button>
+
+      <button
+        type="button"
+        class="action-button edit-button"
+        (click)="toggleEdit()"
+      >
+        <i
+          class="bi"
+          [class.bi-pencil]="!showEdit()"
+          [class.bi-x-lg]="showEdit()"
+        ></i>
+
+        <span>
+          {{ showEdit() ? 'إغلاق التعديل' : 'تعديل' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="action-button delete-button"
+        (click)="openDeleteConfirm()"
+      >
+        <i class="bi bi-trash3"></i>
+
+        <span>
+          حذف
+        </span>
+      </button>
+
     </div>
+
   </div>
 
   @if (showEdit()) {
-    <div class="card-body border-bottom">
-      <app-edit-question-dialog [question]="question" (saved)="refresh.emit(); toggleEdit()">
+
+    <div class="edit-section">
+
+      <app-edit-question-dialog
+        [question]="question"
+        (saved)="refresh.emit(); toggleEdit()"
+      >
       </app-edit-question-dialog>
+
     </div>
+
   }
 
-  <div class="card-body">
-    <h6>
-      {{ question.text }}
-    </h6>
+  <div class="question-content">
 
-    <small class="text-muted">
-      {{ question.feedback }}
-    </small>
+    <div class="content-label">
+      <i class="bi bi-question-lg"></i>
+      نص السؤال
+    </div>
+
+    <p>
+      {{ question.text }}
+    </p>
+
+    @if (question.feedback) {
+
+      <div class="feedback-box">
+
+        <div class="feedback-icon">
+          <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <div class="feedback-content">
+
+          <span>
+            التغذية الراجعة
+          </span>
+
+          <p>
+            {{ question.feedback }}
+          </p>
+
+        </div>
+
+      </div>
+
+    }
+
   </div>
+
 </div>

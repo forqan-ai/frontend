@@ -1,27 +1,382 @@
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Course Builder</h2>
+<div class="builder-page">
+  <div class="builder-container">
 
-    <div class="d-flex gap-2">
-      <button class="btn btn-outline-warning" (click)="toggleEditCourse()">
-        @if (showEditCourse()) { إغلاق التعديل } @else { تعديل بيانات الكورس }
-      </button>
-      <button class="btn btn-primary" (click)="toggleAddModule()">Add Module</button>
+    <div class="builder-header">
+      <div class="header-content">
+
+        <div class="title-wrapper">
+
+          <div class="title-icon">
+            <i class="bi bi-journal-bookmark-fill"></i>
+          </div>
+
+          <div>
+            <span class="eyebrow">
+              إدارة الدورة التعليمية
+            </span>
+
+            <h2>
+              منشئ الدورة
+            </h2>
+
+            <p>
+              أنشئ محتوى دورتك التعليمية ونظّم الوحدات والدروس بسهولة.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button
+            class="builder-btn edit-btn"
+            type="button"
+            (click)="toggleEditCourse()"
+          >
+            <i
+              class="bi"
+              [class.bi-pencil-square]="!showEditCourse()"
+              [class.bi-x-lg]="showEditCourse()"
+            ></i>
+
+            @if (showEditCourse()) {
+              إغلاق التعديل
+            } @else {
+              تعديل بيانات الدورة
+            }
+          </button>
+
+          <button
+            class="builder-btn add-btn"
+            type="button"
+            (click)="toggleAddModule()"
+          >
+            <i
+              class="bi"
+              [class.bi-plus-lg]="!showAddModule()"
+              [class.bi-x-lg]="showAddModule()"
+            ></i>
+
+            @if (showAddModule()) {
+              إغلاق الإضافة
+            } @else {
+              إضافة وحدة
+            }
+          </button>
+
+        </div>
+
+      </div>
     </div>
+
+
+    <div class="builder-content">
+
+      @if (modules().length > 0) {
+
+        <div class="modules-header">
+
+          <div>
+
+            <span class="section-label">
+              محتوى الدورة
+            </span>
+
+            <h3>
+              وحدات الدورة
+            </h3>
+
+          </div>
+
+          <div class="module-count">
+
+            <span>
+              {{ modules().length }}
+            </span>
+
+            @if (modules().length === 1) {
+              وحدة
+            } @else {
+              وحدات
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="modules-list">
+
+          @for (
+            module of modules();
+            track module.moduleID;
+            let i = $index
+          ) {
+
+            <div
+              class="module-animation"
+              [style.animation-delay]="(i * 0.08) + 's'"
+            >
+
+              <app-module-card
+                [module]="module"
+                [courseId]="courseId"
+                (refresh)="loadModules()"
+              >
+              </app-module-card>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            <i class="bi bi-journal-x"></i>
+          </div>
+
+          <span class="empty-label">
+            محتوى الدورة
+          </span>
+
+          <h3>
+            لا توجد وحدات بعد
+          </h3>
+
+          <p>
+            ابدأ في بناء دورتك التعليمية من خلال إضافة أول وحدة.
+          </p>
+
+          <button
+            class="builder-btn add-btn empty-add-btn"
+            type="button"
+            (click)="toggleAddModule()"
+          >
+            <i class="bi bi-plus-lg"></i>
+            إضافة أول وحدة
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+</div>
+
+
+@if (showAddModule() || showEditCourse()) {
+
+  <div
+    class="builder-overlay"
+    role="dialog"
+    aria-modal="true"
+    (click)="closeOverlay()"
+  >
+
+    <div class="builder-overlay-backdrop"></div>
+
+    <div
+      class="builder-overlay-content"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="overlay-dialog">
+
+        <div class="overlay-dialog-header">
+
+          <div class="overlay-title">
+
+            <div class="overlay-title-icon">
+
+              <i
+                class="bi"
+                [class.bi-journal-plus]="showAddModule()"
+                [class.bi-pencil-square]="showEditCourse()"
+              ></i>
+
+            </div>
+
+            <div>
+
+              @if (showAddModule()) {
+
+                <span>
+                  إدارة الدورة التعليمية
+                </span>
+
+                <h3>
+                  إضافة وحدة جديدة
+                </h3>
+
+              } @else {
+
+                <span>
+                  إدارة بيانات الدورة
+                </span>
+
+                <h3>
+                  تعديل بيانات الدورة
+                </h3>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="overlay-close-btn"
+            aria-label="إغلاق"
+            (click)="closeOverlay()"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+
+        </div>
+
+
+        <div class="overlay-dialog-body">
+
+          @if (showAddModule()) {
+
+            <app-add-module-dialog
+              [courseId]="courseId"
+              (saved)="loadModules(); closeOverlay()"
+            >
+            </app-add-module-dialog>
+
+          }
+
+
+          @if (showEditCourse()) {
+
+            <app-edit-course-form
+              [courseId]="courseId"
+              (close)="closeOverlay()"
+              (saved)="closeOverlay()"
+            >
+            </app-edit-course-form>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 
-  @if (showEditCourse()) {
-  <app-edit-course-form [courseId]="courseId" (close)="toggleEditCourse()"
-    (saved)="toggleEditCourse()"></app-edit-course-form>
-  }
+}
 
-  @if (showAddModule()) {
-  <app-add-module-dialog [courseId]="courseId" (saved)="loadModules(); toggleAddModule()">
-  </app-add-module-dialog>
-  }
 
-  @for (module of modules(); track module.moduleID) {
-  <app-module-card [module]="module" [courseId]="courseId" (refresh)="loadModules()">
-  </app-module-card>
-  }
-</div>
+@if (deleteType()) {
+
+  <div
+    class="delete-modal"
+    role="dialog"
+    aria-modal="true"
+    (click)="closeDeleteConfirm()"
+  >
+
+    <div
+      class="delete-dialog"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="delete-dialog-icon">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+
+      <div class="delete-dialog-content">
+
+        <h3>
+
+          @if (deleteType() === 'module') {
+            حذف الوحدة؟
+          } @else if (deleteType() === 'lesson') {
+            حذف الدرس؟
+          } @else {
+            حذف الاختبار؟
+          }
+
+        </h3>
+
+
+        <p>
+          هل أنت متأكد من حذف
+          <strong>
+            «{{ deleteTitle() }}»
+          </strong>؟
+        </p>
+
+
+        <span class="delete-warning">
+          سيتم حذف هذا العنصر ومحتواه بشكل نهائي ولا يمكن التراجع عن هذا الإجراء.
+        </span>
+
+      </div>
+
+
+      <div class="delete-dialog-actions">
+
+        <button
+          type="button"
+          class="cancel-delete-button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteConfirm()"
+        >
+
+          <i class="bi bi-x-lg"></i>
+
+          <span>
+            إلغاء
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          [disabled]="isDeleting()"
+          (click)="confirmDelete()"
+        >
+
+          @if (isDeleting()) {
+
+            <span class="delete-spinner"></span>
+
+            <span>
+              جاري الحذف...
+            </span>
+
+          } @else {
+
+            <i class="bi bi-trash3"></i>
+
+            <span>
+              حذف
+            </span>
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+

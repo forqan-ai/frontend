@@ -1,8 +1,17 @@
-import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
-import { EditQuestionDialogComponent } from '../edit-question-dialog/edit-question-dialog.component';
-import { QuestionModel } from '../../../../../models/question.model';
-import { QuestionService } from '../../../../../services/question.service';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
+
 import { Router } from '@angular/router';
+
+import { EditQuestionDialogComponent } from '../edit-question-dialog/edit-question-dialog.component';
+
+import { QuestionModel } from '../../../../../models/question.model';
 
 @Component({
   selector: 'app-question-card',
@@ -12,34 +21,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./question-card.component.css'],
 })
 export class QuestionCardComponent {
+  private readonly router = inject(Router);
+
   @Input({ required: true })
   question!: QuestionModel;
 
-  @Output()
-  refresh = new EventEmitter<void>();
-  private router = inject(Router);
-
   @Input({ required: true })
   quizId!: string;
-  private questionService = inject(QuestionService);
+
+  @Output()
+  refresh = new EventEmitter<void>();
+
+  @Output()
+  delete = new EventEmitter<QuestionModel>();
 
   showEdit = signal(false);
 
-  toggleEdit() {
-    this.showEdit.update((v) => !v);
+  toggleEdit(): void {
+    this.showEdit.update((value) => !value);
   }
 
-  deleteQuestion() {
-    if (!confirm('Delete this question?')) return;
-
-    this.questionService.delete(this.question.questionID).subscribe({
-      next: () => {
-        this.refresh.emit();
-      },
-    });
+  openDeleteConfirm(): void {
+    this.delete.emit(this.question);
   }
 
-  manageOptions() {
+  manageOptions(): void {
     this.router.navigate([
       '/teacher/question-builder',
       this.quizId,

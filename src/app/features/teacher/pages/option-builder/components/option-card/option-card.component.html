@@ -1,24 +1,123 @@
-<div class="card shadow-sm mb-3">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <div>
-      @if (option.isCorrect) {
-        <span class="badge bg-success me-2"> Correct </span>
-      }
+<div class="option-card">
+  <div class="option-header">
+    <div class="option-info">
+      <div class="option-icon" [class.correct-icon]="option.isCorrect">
+        <i
+          class="bi"
+          [class.bi-check-lg]="option.isCorrect"
+          [class.bi-list-ul]="!option.isCorrect"
+        ></i>
+      </div>
 
-      {{ option.optionText }}
+      <div class="option-details">
+        <div class="option-title-row">
+          <span class="option-eyebrow">الاختيار</span>
+
+          @if (option.isCorrect) {
+            <span class="correct-badge">
+              <i class="bi bi-check-circle-fill"></i>
+              إجابة صحيحة
+            </span>
+          } @else {
+            <span class="incorrect-badge">
+              إجابة غير صحيحة
+            </span>
+          }
+        </div>
+
+        <h3>{{ option.optionText }}</h3>
+      </div>
     </div>
 
-    <div>
-      <button class="btn btn-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
+    <div class="option-actions">
+      <button
+        type="button"
+        class="action-button edit-button"
+        (click)="toggleEdit()"
+      >
+        <i class="bi bi-pencil"></i>
 
-      <button class="btn btn-danger btn-sm me-2" (click)="deleteOption()">Delete</button>
+        <span>
+          {{ showEdit() ? 'إغلاق التعديل' : 'تعديل' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="action-button delete-button"
+        (click)="openDeleteConfirm()"
+      >
+        <i class="bi bi-trash3"></i>
+
+        <span>حذف</span>
+      </button>
     </div>
   </div>
 
   @if (showEdit()) {
-    <div class="card-body border-top">
-      <app-edit-option-dialog [option]="option" (saved)="refresh.emit(); toggleEdit()">
+    <div class="edit-section">
+      <app-edit-option-dialog
+        [option]="option"
+        (saved)="refresh.emit(); toggleEdit()"
+      >
       </app-edit-option-dialog>
     </div>
   }
 </div>
+
+@if (showDeleteConfirm()) {
+  <div
+    class="delete-overlay"
+    (click)="closeDeleteConfirm()"
+  >
+    <div
+      class="delete-dialog"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="delete-dialog-icon">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+      <div class="delete-dialog-content">
+        <h3>حذف الاختيار؟</h3>
+
+        <p>
+          هل أنت متأكد من حذف الاختيار
+          <strong>«{{ option.optionText }}»</strong>؟
+        </p>
+
+        <span class="delete-warning">
+          سيتم حذف الاختيار بشكل نهائي ولا يمكن التراجع عن هذا الإجراء.
+        </span>
+      </div>
+
+      <div class="delete-dialog-actions">
+        <button
+          type="button"
+          class="cancel-delete-button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteConfirm()"
+        >
+          <i class="bi bi-x-lg"></i>
+
+          <span>إلغاء</span>
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          [disabled]="isDeleting()"
+          (click)="deleteOption()"
+        >
+          @if (isDeleting()) {
+            <span class="delete-spinner"></span>
+            <span>جاري الحذف...</span>
+          } @else {
+            <i class="bi bi-trash3"></i>
+            <span>حذف الاختيار</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

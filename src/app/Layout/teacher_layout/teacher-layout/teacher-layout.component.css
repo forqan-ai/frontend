@@ -1,39 +1,93 @@
 :host {
   display: block;
+  width: 100%;
+  min-height: 100vh;
+
   --teacher-ink: #341b16;
   --teacher-ink-soft: #6f5850;
   --teacher-muted: #8a7a70;
+
   --teacher-surface: #ffffff;
+
   --teacher-warm: #fbf8f2;
   --teacher-warm-strong: #f1e5d8;
+
   --teacher-border: #eadfd4;
+
   --teacher-accent: #0b6e4f;
   --teacher-accent-soft: rgba(11, 110, 79, 0.1);
 }
 
 .layout {
+  position: relative;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   background:
-    linear-gradient(180deg, rgba(248, 243, 237, 0.88), rgba(251, 248, 242, 1)),
-    radial-gradient(circle at top right, rgba(11, 110, 79, 0.08), transparent 34%);
+    radial-gradient(
+      circle at top right,
+      rgba(11, 110, 79, 0.07),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      #f8f3ed 0%,
+      #fbf8f2 100%
+    );
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .content {
+  position: relative;
+  width: 100%;
   min-width: 0;
+  min-height: 100vh;
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow-x: visible;
+  overflow-y: visible;
+  box-sizing: border-box;
 }
 
-router-outlet + app-quick-actions {
-  width: min(100%, 1240px);
-  margin-inline: auto;
+.content > router-outlet {
+  display: block;
+  width: 100%;
+}
+
+app-sidebar {
+  flex-shrink: 0;
+}
+
+app-quick-actions {
+  display: block;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 @media (max-width: 992px) {
   .layout {
     display: block;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .content {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .layout {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .content {
+    width: 100%;
+    min-height: 100vh;
   }
 }

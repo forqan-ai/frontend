@@ -1,17 +1,326 @@
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Question Builder</h2>
+<div class="question-page">
 
-    <button class="btn btn-primary" (click)="toggleAddQuestion()">Add Question</button>
+  <div class="question-container">
+
+    <div class="question-header">
+
+      <div class="header-content">
+
+        <div class="title-wrapper">
+
+          <div class="title-icon">
+            <i class="bi bi-patch-question-fill"></i>
+          </div>
+
+          <div>
+
+            <span class="eyebrow">
+              إدارة الاختبار
+            </span>
+
+            <h2>
+              منشئ الأسئلة
+            </h2>
+
+            <p>
+              أضف أسئلة الاختبار ونظّم محتواه بطريقة سهلة ومنظمة.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button
+            class="builder-btn add-btn"
+            type="button"
+            (click)="toggleAddQuestion()"
+          >
+
+            <i
+              class="bi"
+              [class.bi-plus-lg]="!showAddQuestion()"
+              [class.bi-x-lg]="showAddQuestion()"
+            ></i>
+
+            @if (showAddQuestion()) {
+              إغلاق الإضافة
+            } @else {
+              إضافة سؤال
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="question-content">
+
+      @if (showAddQuestion()) {
+
+        <div class="animated-section">
+
+          <app-add-question-dialog
+            [quizId]="quizId"
+            (saved)="loadQuestions(); toggleAddQuestion()"
+          >
+          </app-add-question-dialog>
+
+        </div>
+
+      }
+
+      @if (errorMessage()) {
+
+        <div class="error-state">
+
+          <div class="error-icon">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+
+          <div class="error-content">
+
+            <strong>
+              حدث خطأ
+            </strong>
+
+            <span>
+              {{ errorMessage() }}
+            </span>
+
+          </div>
+
+          <button
+            type="button"
+            class="retry-btn"
+            (click)="loadQuestions()"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+            إعادة المحاولة
+          </button>
+
+        </div>
+
+      }
+
+      @if (isLoading()) {
+
+        <div class="loading-state">
+
+          <div class="loading-spinner"></div>
+
+          <span>
+            جاري تحميل الأسئلة...
+          </span>
+
+        </div>
+
+      } @else if (!errorMessage()) {
+
+        @if (questions().length > 0) {
+
+          <div class="questions-header">
+
+            <div>
+
+              <span class="section-label">
+                محتوى الاختبار
+              </span>
+
+              <h3>
+                أسئلة الاختبار
+              </h3>
+
+            </div>
+
+            <div class="question-count">
+
+              <span>
+                {{ questions().length }}
+              </span>
+
+              @if (questions().length === 1) {
+                سؤال
+              } @else {
+                أسئلة
+              }
+
+            </div>
+
+          </div>
+
+          <div class="questions-list">
+
+            @for (
+              question of questions();
+              track question.questionID;
+              let i = $index
+            ) {
+
+              <div
+                class="question-animation"
+                [style.animation-delay]="(i * 0.08) + 's'"
+              >
+
+                <div class="question-number">
+
+                  <span>
+                    {{ i + 1 }}
+                  </span>
+
+                </div>
+
+                <div class="question-card-wrapper">
+
+                  <app-question-card
+                    [question]="question"
+                    [quizId]="quizId"
+                    (refresh)="loadQuestions()"
+                    (delete)="openDeleteConfirm($event)"
+                  >
+                  </app-question-card>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        } @else {
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              <i class="bi bi-patch-question"></i>
+            </div>
+
+            <span class="empty-label">
+              محتوى الاختبار
+            </span>
+
+            <h3>
+              لا توجد أسئلة بعد
+            </h3>
+
+            <p>
+              ابدأ في بناء اختبارك من خلال إضافة أول سؤال.
+              يمكنك إضافة الأسئلة وتعديلها وتنظيمها بسهولة.
+            </p>
+
+            <button
+              class="builder-btn add-btn empty-add-btn"
+              type="button"
+              (click)="toggleAddQuestion()"
+            >
+              <i class="bi bi-plus-lg"></i>
+              إضافة أول سؤال
+            </button>
+
+          </div>
+
+        }
+
+      }
+
+    </div>
+
   </div>
 
-  @if (showAddQuestion()) {
-    <app-add-question-dialog [quizId]="quizId" (saved)="loadQuestions(); toggleAddQuestion()">
-    </app-add-question-dialog>
-  }
-
-  @for (question of questions(); track question.questionID) {
-    <app-question-card [question]="question" [quizId]="quizId" (refresh)="loadQuestions()">
-    </app-question-card>
-  }
 </div>
+
+@if (showDeleteConfirm()) {
+
+  <div
+    class="delete-modal-layer"
+    (click)="closeDeleteConfirm()"
+  >
+
+    <div class="delete-modal-backdrop"></div>
+
+    <div
+      class="delete-dialog"
+      role="dialog"
+      aria-modal="true"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="delete-dialog-icon">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+      <div class="delete-dialog-content">
+
+        <h3>
+          حذف السؤال؟
+        </h3>
+
+        <p>
+          هل أنت متأكد من حذف السؤال
+          <strong>
+            «{{ selectedQuestion()?.text }}»
+          </strong>؟
+        </p>
+
+        <span class="delete-warning">
+          سيتم حذف السؤال وجميع الاختيارات المرتبطة به بشكل نهائي ولا يمكن التراجع عن هذا الإجراء.
+        </span>
+
+      </div>
+
+      <div class="delete-dialog-actions">
+
+        <button
+          type="button"
+          class="cancel-delete-button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteConfirm()"
+        >
+
+          <i class="bi bi-x-lg"></i>
+
+          <span>
+            إلغاء
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          [disabled]="isDeleting()"
+          (click)="deleteQuestion()"
+        >
+
+          @if (isDeleting()) {
+
+            <span class="delete-spinner"></span>
+
+            <span>
+              جاري الحذف...
+            </span>
+
+          } @else {
+
+            <i class="bi bi-trash3"></i>
+
+            <span>
+              حذف السؤال
+            </span>
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

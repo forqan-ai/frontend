@@ -1,17 +1,304 @@
-<div class="card shadow-sm p-3">
-  <h5>Add Module</h5>
+<section class="module-form-card">
 
-  <div class="mb-3">
-    <label>Title</label>
+  <div class="form-header">
 
-    <input class="form-control" [(ngModel)]="title" />
+    <div class="header-content">
+
+      <div class="header-icon">
+        <i class="bi bi-folder-plus"></i>
+      </div>
+
+      <div class="header-text">
+        <span class="header-eyebrow">
+          محتوى الدورة
+        </span>
+
+        <h2>
+          إضافة وحدة جديدة
+        </h2>
+
+        <p>
+          أضف وحدة لتنظيم محتوى الدورة وترتيب الدروس داخلها.
+        </p>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="close-button"
+      aria-label="إغلاق"
+      [disabled]="loading()"
+      (click)="onCancel()"
+    >
+      <i class="bi bi-x-lg"></i>
+      <span>إغلاق</span>
+    </button>
+
   </div>
 
-  <div class="mb-3">
-    <label>Order</label>
 
-    <input type="number" class="form-control" [(ngModel)]="orderIndex" />
-  </div>
+  @if (errorMsg()) {
 
-  <button class="btn btn-success w-100" (click)="save()">Save</button>
-</div>
+    <div class="message message-error">
+
+      <div class="message-icon">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+      </div>
+
+      <div class="message-content">
+        <strong>حدث خطأ</strong>
+        <span>{{ errorMsg() }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        aria-label="إغلاق الرسالة"
+        (click)="clearError()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (successMsg()) {
+
+    <div class="message message-success">
+
+      <div class="message-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+        <strong>تم بنجاح</strong>
+        <span>{{ successMsg() }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        aria-label="إغلاق الرسالة"
+        (click)="clearSuccess()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  <form
+    class="module-form"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    novalidate
+  >
+
+    <div class="form-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon">
+          <i class="bi bi-journal-text"></i>
+        </div>
+
+        <div>
+          <h3>بيانات الوحدة</h3>
+
+          <p>
+            أدخل اسم الوحدة وحدد ترتيب ظهورها داخل الدورة.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('title')"
+          [class.field-valid]="isValid('title')"
+        >
+
+          <label for="module-title">
+            اسم الوحدة
+            <span class="required">*</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="bi bi-journal-bookmark input-icon"></i>
+
+            <input
+              id="module-title"
+              type="text"
+              formControlName="title"
+              maxlength="200"
+              autocomplete="off"
+              placeholder="مثال: مقدمة في أحكام الصلاة"
+            />
+
+            @if (isValid('title')) {
+
+              <span class="input-status valid">
+                <i class="bi bi-check-lg"></i>
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (getTitleError()) {
+                <span>
+                  <i class="bi bi-exclamation-circle"></i>
+                  {{ getTitleError() }}
+                </span>
+              }
+
+            </div>
+
+            <span class="character-count">
+              {{ titleControl.value.length }}/200
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('orderIndex')"
+          [class.field-valid]="isValid('orderIndex')"
+        >
+
+          <label for="module-order">
+            ترتيب الوحدة
+            <span class="required">*</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="bi bi-list-ol input-icon"></i>
+
+            <input
+              id="module-order"
+              type="number"
+              formControlName="orderIndex"
+              autocomplete="off"
+              placeholder="مثال: 1"
+            />
+
+            @if (isValid('orderIndex')) {
+
+              <span class="input-status valid">
+                <i class="bi bi-check-lg"></i>
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (getOrderError()) {
+                <span>
+                  <i class="bi bi-exclamation-circle"></i>
+                  {{ getOrderError() }}
+                </span>
+              }
+
+            </div>
+
+            <span class="field-hint">
+              ترتيب ظهور الوحدة
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="info-box">
+
+      <div class="info-icon">
+        <i class="bi bi-info-circle-fill"></i>
+      </div>
+
+      <div class="info-content">
+
+        <strong>
+          نصيحة لتنظيم الدورة
+        </strong>
+
+        <p>
+          استخدم ترتيبًا واضحًا للوحدات حتى يتمكن الطلاب من متابعة محتوى الدورة بسهولة.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="cancel-button"
+        [disabled]="loading()"
+        (click)="onCancel()"
+      >
+        <i class="bi bi-x-lg"></i>
+        <span>إلغاء</span>
+      </button>
+
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="spinner"></span>
+
+          <span>
+            جاري إضافة الوحدة...
+          </span>
+
+        } @else {
+
+          <i class="bi bi-plus-lg"></i>
+
+          <span>
+            إضافة الوحدة
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</section>

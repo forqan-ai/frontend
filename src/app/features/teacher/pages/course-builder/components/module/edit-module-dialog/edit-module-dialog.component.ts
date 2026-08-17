@@ -1,17 +1,29 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-
-import { FormsModule } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  signal
+} from '@angular/core';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ModuleService } from '../../../../../services/module.service';
 import { ModuleModel } from '../../../../../models/module.model';
 
 @Component({
   selector: 'app-edit-module-dialog',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './edit-module-dialog.component.html',
+  styleUrls: ['./edit-module-dialog.component.css']
 })
 export class EditModuleDialogComponent {
-  private moduleService = inject(ModuleService);
+  private readonly fb = inject(FormBuilder);
+  private readonly moduleService = inject(ModuleService);
 
   @Input({ required: true })
   module!: ModuleModel;
@@ -22,34 +34,104 @@ export class EditModuleDialogComponent {
   @Output()
   saved = new EventEmitter<void>();
 
-  title = '';
+  readonly loading = signal(false);
+  readonly errorMsg = signal<string | null>(null);
+  readonly successMsg = signal<string | null>(null);
 
-  orderIndex = 1;
+  readonly form = this.fb.nonNullable.group({
+    title: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(200)
+      ]
+    ],
+    orderIndex: [
+      1,
+      [
+        Validators.required,
+        Validators.min(1)
+      ]
+    ]
+  });
 
-  ngOnInit() {
-    console.log('Course Id =', this.courseId);
-
-    console.log('Module =', this.module);
-    this.title = this.module.title;
-    this.orderIndex = this.module.orderIndex;
+  ngOnInit(): void {
+    this.form.patchValue({
+      title: this.module.title,
+      orderIndex: this.module.orderIndex
+    });
   }
 
-  save() {
+  get titleControl() {
+    return this.form.controls.title;
+  }
+
+  get orderIndexControl() {
+    return this.form.controls.orderIndex;
+  }
+
+  isInvalid(controlName: 'title' | 'orderIndex'): boolean {
+    const control = this.form.controls[controlName];
+
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  isValid(controlName: 'title' | 'orderIndex'): boolean {
+    const control = this.form.controls[controlName];
+
+    return control.valid && (control.dirty || control.touched);
+  }
+
+  submit(): void {
+    this.errorMsg.set(null);
+    this.successMsg.set(null);
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.loading.set(true);
+
     const body = {
-      title: this.title,
-      orderIndex: this.orderIndex,
+      title: this.titleControl.value.trim(),
+      orderIndex: this.orderIndexControl.value
     };
 
-    this.moduleService.update(this.courseId, this.module.moduleID, body).subscribe({
-      next: () => {
-        alert('Module Updated Successfully');
-        this.saved.emit();
-      },
+    this.moduleService
+      .update(
+        this.courseId,
+        this.module.moduleID,
+        body
+      )
+      .subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.successMsg.set('تم تحديث بيانات الوحدة بنجاح.');
 
-      error: (err) => {
-        console.error(err);
-        alert('Failed To Update Module');
-      },
-    });
+          setTimeout(() => {
+            this.saved.emit();
+          }, 700);
+        },
+
+        error: (error) => {
+          this.loading.set(false);
+
+          this.errorMsg.set(
+            error?.error?.errorMessage ||
+            error?.error?.message ||
+            error?.error ||
+            'حدث خطأ أثناء تحديث الوحدة.'
+          );
+        }
+      });
+  }
+
+  clearError(): void {
+    this.errorMsg.set(null);
+  }
+
+  clearSuccess(): void {
+    this.successMsg.set(null);
   }
 }

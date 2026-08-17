@@ -1,35 +1,477 @@
-<div class="card shadow-sm p-3 mt-3">
-  <h5>Add Lesson</h5>
+<section class="lesson-form-card">
 
-  <div class="mb-3">
-    <label>Lesson Title</label>
+  <div class="form-header">
 
-    <input class="form-control" [(ngModel)]="title" />
+    <div class="header-content">
+
+      <div class="header-icon">
+        <i class="bi bi-play-circle-fill"></i>
+      </div>
+
+      <div>
+        <span class="header-eyebrow">
+          إدارة محتوى الوحدة
+        </span>
+
+        <h2>
+          إضافة درس جديد
+        </h2>
+
+        <p>
+          أضف درسًا جديدًا إلى الوحدة وحدد ترتيبه ونوع المحتوى ومدته.
+        </p>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="mb-3">
-    <label>Order</label>
 
-    <input type="number" class="form-control" [(ngModel)]="orderIndex" />
-  </div>
+  @if (errorMsg()) {
 
-  <div class="mb-3">
-    <label>Duration (Seconds)</label>
+    <div class="message message-error">
 
-    <input type="number" class="form-control" [(ngModel)]="durationSeconds" />
-  </div>
+      <div class="message-icon">
+        <i class="bi bi-exclamation-circle-fill"></i>
+      </div>
 
-  <div class="mb-3">
-    <label>Content Type</label>
+      <div class="message-content">
 
-    <select class="form-select" [(ngModel)]="contentType">
-      <option [ngValue]="0">Video</option>
+        <strong>
+          حدث خطأ
+        </strong>
 
-      <option [ngValue]="2">PDF</option>
+        <span>
+          {{ errorMsg() }}
+        </span>
 
-      <option [ngValue]="1">Audio</option>
-    </select>
-  </div>
+      </div>
 
-  <button class="btn btn-success w-100" (click)="save()">Save Lesson</button>
-</div>
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearError()"
+        aria-label="إغلاق"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (successMsg()) {
+
+    <div class="message message-success">
+
+      <div class="message-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+
+        <strong>
+          تم بنجاح
+        </strong>
+
+        <span>
+          {{ successMsg() }}
+        </span>
+
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearSuccess()"
+        aria-label="إغلاق"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  <form
+    class="lesson-form"
+    [formGroup]="form"
+    (ngSubmit)="save()"
+    novalidate
+  >
+
+    <div class="form-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon">
+          <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            معلومات الدرس
+          </h3>
+
+          <p>
+            أدخل البيانات الأساسية الخاصة بالدرس.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <!-- Title -->
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('title')"
+          [class.field-valid]="isValid('title')"
+        >
+
+          <label for="lesson-title">
+
+            عنوان الدرس
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+
+          <div class="input-wrapper">
+
+            <input
+              id="lesson-title"
+              type="text"
+              formControlName="title"
+              placeholder="مثال: مقدمة في أحكام الصلاة"
+              maxlength="200"
+              autocomplete="off"
+            />
+
+
+            @if (isValid('title')) {
+
+              <span class="input-status valid">
+
+                <i class="bi bi-check-lg"></i>
+
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('title')) {
+
+                @if (getControl('title')?.hasError('required')) {
+
+                  <span>
+                    عنوان الدرس مطلوب.
+                  </span>
+
+                }
+
+                @if (getControl('title')?.hasError('maxlength')) {
+
+                  <span>
+                    عنوان الدرس يجب ألا يتجاوز 200 حرف.
+                  </span>
+
+                }
+
+              }
+
+            </div>
+
+
+            <span class="character-count">
+
+              {{ getControl('title')?.value?.length || 0 }}/200
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Order -->
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('orderIndex')"
+          [class.field-valid]="isValid('orderIndex')"
+        >
+
+          <label for="order-index">
+
+            ترتيب الدرس
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+
+          <div class="input-icon-wrapper">
+
+            <i class="bi bi-list-ol"></i>
+
+            <input
+              id="order-index"
+              type="number"
+              formControlName="orderIndex"
+              min="1"
+              placeholder="1"
+            />
+
+          </div>
+
+
+          @if (isInvalid('orderIndex')) {
+
+            @if (getControl('orderIndex')?.hasError('required')) {
+
+              <div class="validation-message visible">
+
+                ترتيب الدرس مطلوب.
+
+              </div>
+
+            }
+
+            @if (getControl('orderIndex')?.hasError('min')) {
+
+              <div class="validation-message visible">
+
+                يجب أن يكون الترتيب 1 أو أكثر.
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+
+        <!-- Duration -->
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('durationSeconds')"
+          [class.field-valid]="isValid('durationSeconds')"
+        >
+
+          <label for="duration">
+
+            مدة الدرس
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+
+          <div class="input-icon-wrapper">
+
+            <i class="bi bi-clock-fill"></i>
+
+            <input
+              id="duration"
+              type="number"
+              formControlName="durationSeconds"
+              min="0"
+              placeholder="مثال: 600"
+            />
+
+            <span class="input-suffix">
+              ثانية
+            </span>
+
+          </div>
+
+
+          @if (isInvalid('durationSeconds')) {
+
+            @if (getControl('durationSeconds')?.hasError('required')) {
+
+              <div class="validation-message visible">
+
+                مدة الدرس مطلوبة.
+
+              </div>
+
+            }
+
+            @if (getControl('durationSeconds')?.hasError('min')) {
+
+              <div class="validation-message visible">
+
+                المدة لا يمكن أن تكون أقل من صفر.
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+
+        <!-- Content Type -->
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('contentType')"
+          [class.field-valid]="isValid('contentType')"
+        >
+
+          <label for="content-type">
+
+            نوع المحتوى
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+
+          <div class="select-wrapper">
+
+            <select
+              id="content-type"
+              formControlName="contentType"
+            >
+
+              <option [ngValue]="0">
+                فيديو
+              </option>
+
+              <option [ngValue]="1">
+                صوت
+              </option>
+
+              <option [ngValue]="2">
+                قراءة
+              </option>
+
+            </select>
+
+
+            <i class="bi bi-chevron-down select-arrow"></i>
+
+          </div>
+
+
+          @if (isInvalid('contentType')) {
+
+            <div class="validation-message visible">
+
+              يرجى اختيار نوع المحتوى.
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Information -->
+
+    <div class="content-type-info">
+
+      <div class="info-icon">
+
+        <i class="bi bi-lightbulb-fill"></i>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          أنواع المحتوى
+        </strong>
+
+        <p>
+          يمكنك اختيار فيديو أو ملف صوتي أو محتوى للقراءة حسب طبيعة الدرس.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- Actions -->
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="cancel-button"
+        [disabled]="loading()"
+        (click)="resetForm()"
+      >
+
+        <i class="bi bi-arrow-counterclockwise"></i>
+
+        <span>
+          إعادة تعيين
+        </span>
+
+      </button>
+
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="spinner"></span>
+
+          <span>
+            جاري إضافة الدرس...
+          </span>
+
+        } @else {
+
+          <i class="bi bi-plus-lg"></i>
+
+          <span>
+            إضافة الدرس
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</section>

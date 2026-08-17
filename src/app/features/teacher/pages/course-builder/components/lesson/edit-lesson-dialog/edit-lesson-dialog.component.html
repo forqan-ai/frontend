@@ -1,35 +1,295 @@
-<div class="card shadow-sm p-3">
-  <h5>Edit Lesson</h5>
+<div class="edit-lesson-form">
 
-  <div class="mb-3">
-    <label>Title</label>
+  <div class="form-header">
 
-    <input class="form-control" [(ngModel)]="title" />
+    <div class="form-icon">
+      <i class="bi bi-pencil-square"></i>
+    </div>
+
+    <div class="form-header-content">
+      <h4>تعديل الدرس</h4>
+
+      <p>
+        قم بتعديل بيانات الدرس ثم احفظ التغييرات.
+      </p>
+    </div>
+
   </div>
 
-  <div class="mb-3">
-    <label>Order</label>
 
-    <input type="number" class="form-control" [(ngModel)]="orderIndex" />
-  </div>
+  <form
+    [formGroup]="lessonForm"
+    (ngSubmit)="save()"
+    novalidate
+  >
 
-  <div class="mb-3">
-    <label>Duration (Seconds)</label>
+    <div class="form-grid">
 
-    <input type="number" class="form-control" [(ngModel)]="durationSeconds" />
-  </div>
+      <div class="form-field full-width">
 
-  <div class="mb-3">
-    <label>Content Type</label>
+        <label for="lesson-title">
+          عنوان الدرس
 
-    <select class="form-select" [(ngModel)]="contentType">
-      <option [ngValue]="0">Video</option>
+          <span class="required">*</span>
+        </label>
 
-      <option [ngValue]="2">PDF</option>
+        <div
+          class="input-wrapper"
+          [class.input-error]="hasError(title)"
+        >
 
-      <option [ngValue]="1">Audio</option>
-    </select>
-  </div>
+          <i class="bi bi-type"></i>
 
-  <button class="btn btn-success w-100" (click)="save()">Save Changes</button>
+          <input
+            id="lesson-title"
+            type="text"
+            formControlName="title"
+            placeholder="اكتب عنوان الدرس"
+            autocomplete="off"
+          />
+
+        </div>
+
+        @if (hasError(title)) {
+
+          <div class="field-error">
+
+            @if (title.errors?.['required']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                عنوان الدرس مطلوب.
+              </span>
+
+            } @else if (title.errors?.['maxlength']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                عنوان الدرس يجب ألا يتجاوز 200 حرف.
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <div class="form-field">
+
+        <label for="lesson-order">
+          ترتيب الدرس
+
+          <span class="required">*</span>
+        </label>
+
+        <div
+          class="input-wrapper"
+          [class.input-error]="hasError(orderIndex)"
+        >
+
+          <i class="bi bi-list-ol"></i>
+
+          <input
+            id="lesson-order"
+            type="number"
+            min="1"
+            formControlName="orderIndex"
+            placeholder="مثال: 1"
+          />
+
+        </div>
+
+        @if (hasError(orderIndex)) {
+
+          <div class="field-error">
+
+            @if (orderIndex.errors?.['required']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                ترتيب الدرس مطلوب.
+              </span>
+
+            } @else if (orderIndex.errors?.['min']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                ترتيب الدرس يجب أن يكون 1 أو أكبر.
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <div class="form-field">
+
+        <label for="lesson-duration">
+          مدة الدرس
+
+          <span class="required">*</span>
+        </label>
+
+        <div
+          class="input-wrapper"
+          [class.input-error]="hasError(durationSeconds)"
+        >
+
+          <i class="bi bi-clock"></i>
+
+          <input
+            id="lesson-duration"
+            type="number"
+            min="0"
+            formControlName="durationSeconds"
+            placeholder="بالثواني"
+          />
+
+        </div>
+
+        <span class="field-hint">
+          المدة بالثواني
+        </span>
+
+        @if (hasError(durationSeconds)) {
+
+          <div class="field-error">
+
+            @if (durationSeconds.errors?.['required']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                مدة الدرس مطلوبة.
+              </span>
+
+            } @else if (durationSeconds.errors?.['min']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                مدة الدرس لا يمكن أن تكون أقل من 0 ثانية.
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <div class="form-field full-width">
+
+        <label for="lesson-content-type">
+          نوع المحتوى
+
+          <span class="required">*</span>
+        </label>
+
+        <div
+          class="select-wrapper"
+          [class.input-error]="hasError(contentType)"
+        >
+
+          <i class="bi bi-file-earmark-play"></i>
+
+          <select
+            id="lesson-content-type"
+            formControlName="contentType"
+          >
+
+            <option [ngValue]="0">
+              فيديو
+            </option>
+
+            <option [ngValue]="1">
+              صوت
+            </option>
+
+            <option [ngValue]="2">
+              PDF
+            </option>
+
+          </select>
+
+          <i class="bi bi-chevron-down select-arrow"></i>
+
+        </div>
+
+        @if (hasError(contentType)) {
+
+          <div class="field-error">
+
+            @if (contentType.errors?.['required']) {
+
+              <span>
+                <i class="bi bi-exclamation-circle"></i>
+                نوع المحتوى مطلوب.
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+
+    @if (errorMessage()) {
+
+      <div class="form-error-message">
+
+        <i class="bi bi-exclamation-triangle"></i>
+
+        <span>
+          {{ errorMessage() }}
+        </span>
+
+      </div>
+
+    }
+
+
+    <div class="form-actions">
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="isSaving()"
+      >
+
+        @if (isSaving()) {
+
+          <span class="save-spinner"></span>
+
+          <span>
+            جاري الحفظ...
+          </span>
+
+        } @else {
+
+          <i class="bi bi-check2-circle"></i>
+
+          <span>
+            حفظ التغييرات
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
 </div>

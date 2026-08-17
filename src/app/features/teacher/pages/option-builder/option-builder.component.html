@@ -1,16 +1,152 @@
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Option Builder</h2>
+<div class="builder-page">
+  <div class="builder-container">
 
-    <button class="btn btn-primary" (click)="toggleAddOption()">Add Option</button>
+    <div class="builder-header">
+      <div class="header-content">
+
+        <div class="title-wrapper">
+
+          <div class="title-icon">
+            <i class="bi bi-list-check"></i>
+          </div>
+
+          <div>
+            <span class="eyebrow">
+              إدارة السؤال
+            </span>
+
+            <h2>
+              منشئ الاختيارات
+            </h2>
+
+            <p>
+              أضف اختيارات السؤال وحدد الإجابة الصحيحة بسهولة.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button
+            type="button"
+            class="builder-btn add-btn"
+            (click)="toggleAddOption()"
+          >
+            <i
+              class="bi"
+              [class.bi-plus-lg]="!showAddOption()"
+              [class.bi-x-lg]="showAddOption()"
+            ></i>
+
+            @if (showAddOption()) {
+              إغلاق الإضافة
+            } @else {
+              إضافة اختيار
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="builder-content">
+
+      @if (showAddOption()) {
+
+        <div class="animated-section">
+
+          <app-add-option-dialog
+            [questionId]="questionId"
+            (saved)="loadOptions(); toggleAddOption()"
+          >
+          </app-add-option-dialog>
+
+        </div>
+
+      }
+
+      @if (options().length > 0) {
+
+        <div class="options-header">
+
+          <div>
+            <span class="section-label">
+              إجابات السؤال
+            </span>
+
+            <h3>
+              اختيارات السؤال
+            </h3>
+          </div>
+
+          <div class="option-count">
+
+            <span>
+              {{ options().length }}
+            </span>
+
+            @if (options().length === 1) {
+              اختيار
+            } @else {
+              اختيارات
+            }
+
+          </div>
+
+        </div>
+
+        <div class="options-list">
+
+          @for (option of options(); track option.optionID) {
+
+            <div class="option-animation">
+
+              <app-option-card
+                [option]="option"
+                (refresh)="loadOptions()"
+              >
+              </app-option-card>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            <i class="bi bi-list-check"></i>
+          </div>
+
+          <h3>
+            لا توجد اختيارات بعد
+          </h3>
+
+          <p>
+            ابدأ بإضافة اختيارات السؤال حتى يتمكن الطالب من تحديد الإجابة المناسبة.
+          </p>
+
+          <button
+            type="button"
+            class="builder-btn add-btn"
+            (click)="toggleAddOption()"
+          >
+            <i class="bi bi-plus-lg"></i>
+
+            إضافة أول اختيار
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
   </div>
-
-  @if (showAddOption()) {
-    <app-add-option-dialog [questionId]="questionId" (saved)="loadOptions(); toggleAddOption()">
-    </app-add-option-dialog>
-  }
-
-  @for (option of options(); track option.optionID) {
-    <app-option-card [option]="option" (refresh)="loadOptions()"> </app-option-card>
-  }
 </div>

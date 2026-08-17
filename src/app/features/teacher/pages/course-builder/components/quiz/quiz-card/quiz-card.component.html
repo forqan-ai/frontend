@@ -1,36 +1,206 @@
-<div class="card border-primary mt-3">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <div>
-      <h5 class="mb-1">
-        {{ quiz.title }}
-      </h5>
+<div class="quiz-card">
 
-      <small>
-        {{ quiz.type == 0 ? 'Practice Quiz' : 'Final Quiz' }}
+  <div class="quiz-header">
 
-        |
+    <div class="quiz-info">
 
-        {{ quiz.timeLimitMin }} min | Passing {{ quiz.passingScore }}%
-      </small>
+      <div class="quiz-icon">
+        <i class="bi bi-patch-question"></i>
+      </div>
+
+      <div class="quiz-details">
+
+        <span class="quiz-eyebrow">
+          اختبار {{ quiz.type == 0 ? 'تدريبي' : 'نهائي' }}
+        </span>
+
+        <h3>
+          {{ quiz.title }}
+        </h3>
+
+        <div class="quiz-meta">
+
+          <span>
+            <i class="bi bi-clock"></i>
+            {{ quiz.timeLimitMin }} دقيقة
+          </span>
+
+          <span class="meta-separator">
+            •
+          </span>
+
+          <span>
+            <i class="bi bi-bar-chart"></i>
+            درجة النجاح {{ quiz.passingScore }}%
+          </span>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div>
-      <button class="btn btn-warning btn-sm me-2" (click)="toggleEdit()">Edit</button>
+    <div class="quiz-actions">
 
-      <button class="btn btn-danger btn-sm me-2" (click)="deleteQuiz()">Delete</button>
+      <button
+        type="button"
+        class="action-button questions-button"
+        (click)="manageQuestions()"
+      >
+        <i class="bi bi-list-check"></i>
 
-      <button class="btn btn-success btn-sm me-2" (click)="manageQuestions()">Questions</button>
+        <span>
+          إدارة الأسئلة
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="action-button edit-button"
+        (click)="toggleEdit()"
+      >
+        <i class="bi bi-pencil"></i>
+
+        <span>
+          {{ showEdit() ? 'إغلاق التعديل' : 'تعديل' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="action-button delete-button"
+        (click)="openDeleteConfirm()"
+      >
+        <i class="bi bi-trash3"></i>
+
+        <span>
+          حذف
+        </span>
+      </button>
+
     </div>
+
   </div>
 
   @if (showEdit()) {
-    <div class="card-body">
+
+    <div class="edit-section">
+
       <app-edit-quiz-dialog
         [quiz]="quiz"
         [moduleId]="moduleId"
         (saved)="refresh.emit(); toggleEdit()"
-      >
-      </app-edit-quiz-dialog>
+      />
+
     </div>
+
   }
+
 </div>
+
+@if (showDeleteConfirm()) {
+
+  <div
+    class="delete-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-title"
+  >
+
+    <div
+      class="delete-backdrop"
+      (click)="closeDeleteConfirm()"
+    ></div>
+
+    <div class="delete-dialog">
+
+      <button
+        type="button"
+        class="delete-close-button"
+        aria-label="إغلاق"
+        [disabled]="isDeleting()"
+        (click)="closeDeleteConfirm()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="delete-dialog-icon">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+      <div class="delete-dialog-content">
+
+        <span class="delete-eyebrow">
+          تأكيد الحذف
+        </span>
+
+        <h3 id="delete-title">
+          حذف الاختبار؟
+        </h3>
+
+        <p>
+          هل أنت متأكد من حذف الاختبار
+          <strong>«{{ quiz.title }}»</strong>؟
+        </p>
+
+        <div class="delete-warning">
+
+          <i class="bi bi-exclamation-circle"></i>
+
+          <span>
+            سيتم حذف الاختبار وجميع الأسئلة الخاصة به بشكل نهائي.
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="delete-dialog-actions">
+
+        <button
+          type="button"
+          class="cancel-delete-button"
+          [disabled]="isDeleting()"
+          (click)="closeDeleteConfirm()"
+        >
+          <i class="bi bi-x-lg"></i>
+
+          <span>
+            إلغاء
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          [disabled]="isDeleting()"
+          (click)="deleteQuiz()"
+        >
+
+          @if (isDeleting()) {
+
+            <span class="delete-spinner"></span>
+
+            <span>
+              جاري الحذف...
+            </span>
+
+          } @else {
+
+            <i class="bi bi-trash3"></i>
+
+            <span>
+              حذف الاختبار
+            </span>
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

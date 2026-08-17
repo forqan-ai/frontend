@@ -1,0 +1,1084 @@
+:host {
+  display: block;
+  width: 100%;
+  direction: rtl;
+
+  --primary: #4a2620;
+  --primary-hover: #3b1d18;
+  --primary-dark: #351a16;
+  --primary-light: #f4e9e2;
+
+  --secondary: #f7f0e6;
+
+  --surface: #ffffff;
+  --surface-soft: #faf7f4;
+
+  --border: #e8ddd2;
+  --border-light: #eee7e2;
+
+  --text: #2c1c14;
+  --text-light: #806c61;
+  --text-muted: #a08d82;
+
+  --danger: #b84a4a;
+  --danger-hover: #9f3636;
+  --danger-light: #fff0f0;
+
+  --shadow:
+    0 12px 32px rgba(74, 38, 32, 0.07);
+}
+
+.quiz-card {
+  width: 100%;
+
+  margin: 16px 0 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fffdfb 100%
+    );
+
+  border: 1px solid var(--border);
+
+  border-right: 4px solid var(--primary);
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow);
+
+  animation:
+    quizCardEnter
+    0.35s
+    ease
+    both;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.quiz-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 16px 38px rgba(74, 38, 32, 0.11);
+}
+
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  padding: 20px 22px;
+}
+
+.quiz-info {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+}
+
+.quiz-icon {
+  width: 46px;
+  height: 46px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--primary-light),
+      #efe0d7
+    );
+
+  color: var(--primary);
+
+  font-size: 20px;
+
+  box-shadow:
+    0 5px 14px rgba(74, 38, 32, 0.07);
+
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.quiz-card:hover .quiz-icon {
+  transform:
+    translateY(-2px)
+    scale(1.04);
+
+  background: #eeddd4;
+
+  box-shadow:
+    0 8px 18px rgba(74, 38, 32, 0.11);
+}
+
+.quiz-details {
+  min-width: 0;
+}
+
+.quiz-eyebrow {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--primary);
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.quiz-details h3 {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--text);
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  line-height: 1.5;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.2s ease;
+}
+
+.quiz-card:hover .quiz-details h3 {
+  color: var(--primary);
+}
+
+.quiz-meta {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 5px;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+}
+
+.quiz-meta span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.quiz-meta i {
+  color: var(--primary);
+
+  font-size: 11px;
+}
+
+.meta-separator {
+  color: #cbbcb3;
+}
+
+.quiz-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+.action-button {
+  min-height: 38px;
+
+  padding: 0 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.action-button i {
+  font-size: 13px;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+.questions-button {
+  border: 1px solid #d8c7bd;
+
+  color: var(--primary);
+
+  background: var(--primary-light);
+}
+
+.questions-button:hover {
+  border-color: #c9b1a4;
+
+  background: #eeddd4;
+
+  color: var(--primary-hover);
+
+  box-shadow:
+    0 5px 14px rgba(74, 38, 32, 0.1);
+}
+
+.questions-button:hover i {
+  transform:
+    scale(1.08)
+    translateY(-1px);
+}
+
+.edit-button {
+  border: 1px solid #ddcdbf;
+
+  color: #705043;
+
+  background: #faf4ee;
+}
+
+.edit-button:hover {
+  border-color: #cdb6a8;
+
+  background: #f3e7dd;
+
+  color: var(--primary);
+
+  box-shadow:
+    0 5px 14px rgba(74, 38, 32, 0.09);
+}
+
+.edit-button:hover i {
+  transform:
+    rotate(-8deg)
+    scale(1.08);
+}
+
+.delete-button {
+  border: 1px solid #efcccc;
+
+  color: var(--danger);
+
+  background: var(--danger-light);
+}
+
+.delete-button:hover {
+  border-color: #e2aaaa;
+
+  background: #ffe5e5;
+
+  color: #9f3636;
+
+  box-shadow:
+    0 5px 14px rgba(184, 74, 74, 0.1);
+}
+
+.delete-button:hover i {
+  transform:
+    translateY(-1px)
+    scale(1.08);
+}
+
+.edit-section {
+  padding: 24px;
+
+  border-top: 1px solid var(--border-light);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdfb 0%,
+      #faf7f4 100%
+    );
+
+  animation:
+    editSectionEnter
+    0.3s
+    ease
+    both;
+}
+
+.delete-modal {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  min-width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  z-index: 2147483647;
+
+  direction: rtl;
+
+  animation:
+    deleteModalFadeIn
+    0.2s
+    ease
+    both;
+}
+
+.delete-backdrop {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    rgba(52, 27, 22, 0.30);
+
+  backdrop-filter:
+    blur(9px);
+
+  -webkit-backdrop-filter:
+    blur(9px);
+
+  cursor: pointer;
+
+  animation:
+    deleteBackdropIn
+    0.25s
+    ease
+    both;
+}
+
+.delete-dialog {
+  position: relative;
+
+  width: min(
+    470px,
+    calc(100vw - 32px)
+  );
+
+  max-height:
+    calc(100vh - 48px);
+
+  overflow-y: auto;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  z-index: 2;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fffdfb 100%
+    );
+
+  border:
+    1px solid rgba(
+      232,
+      221,
+      210,
+      0.95
+    );
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 35px 90px rgba(
+      44,
+      28,
+      20,
+      0.25
+    ),
+    0 12px 30px rgba(
+      74,
+      38,
+      32,
+      0.14
+    );
+
+  animation:
+    deleteDialogEnter
+    0.32s
+    cubic-bezier(
+      .16,
+      1,
+      .3,
+      1
+    )
+    both;
+}
+
+.delete-close-button {
+  position: absolute;
+
+  top: 16px;
+  left: 16px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid #e8ddd2;
+
+  border-radius: 10px;
+
+  background: #f8f3ed;
+
+  color: var(--text-light);
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+
+  z-index: 3;
+}
+
+.delete-close-button:hover:not(:disabled) {
+  background: var(--primary);
+
+  border-color: var(--primary);
+
+  color: #ffffff;
+
+  transform:
+    rotate(90deg);
+}
+
+.delete-close-button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+.delete-dialog-icon {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin:
+    2px auto 17px;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff3f3,
+      #fbe9e9
+    );
+
+  border:
+    1px solid #edcccc;
+
+  color: var(--danger);
+
+  font-size: 25px;
+
+  box-shadow:
+    0 8px 22px rgba(
+      184,
+      74,
+      74,
+      0.08
+    );
+
+  animation:
+    deleteIconFloat
+    2.5s
+    ease-in-out
+    infinite;
+}
+
+.delete-dialog-content {
+  padding: 0 10px;
+}
+
+.delete-eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #a18778;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.1px;
+}
+
+.delete-dialog-content h3 {
+  margin:
+    0 0 8px;
+
+  color: var(--primary);
+
+  font-size: 21px;
+
+  font-weight: 800;
+
+  line-height: 1.4;
+}
+
+.delete-dialog-content p {
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: 13px;
+
+  line-height: 1.8;
+}
+
+.delete-dialog-content p strong {
+  color: var(--primary);
+
+  font-weight: 800;
+}
+
+.delete-warning {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+  margin-top: 17px;
+
+  padding:
+    11px 13px;
+
+  text-align: right;
+
+  color: #8f5b55;
+
+  background: #fff8f6;
+
+  border:
+    1px solid #eadbd3;
+
+  border-radius: 11px;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+}
+
+.delete-warning i {
+  flex-shrink: 0;
+
+  margin-top: 2px;
+
+  color: var(--danger);
+
+  font-size: 13px;
+}
+
+.delete-dialog-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 23px;
+}
+
+.cancel-delete-button,
+.confirm-delete-button {
+  min-height: 43px;
+
+  flex: 1;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding:
+    0 16px;
+
+  border-radius: 11px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cancel-delete-button {
+  border:
+    1px solid #e1d5cb;
+
+  background: #ffffff;
+
+  color: var(--text-light);
+}
+
+.cancel-delete-button:hover:not(:disabled) {
+  transform:
+    translateY(-1px);
+
+  border-color:
+    #cdb9aa;
+
+  background:
+    #f8f1eb;
+
+  color:
+    var(--primary);
+
+  box-shadow:
+    0 6px 15px rgba(
+      52,
+      27,
+      22,
+      0.06
+    );
+}
+
+.confirm-delete-button {
+  border:
+    1px solid var(--danger);
+
+  background:
+    linear-gradient(
+      135deg,
+      #b84a4a,
+      #a63d3d
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 7px 17px rgba(
+      184,
+      74,
+      74,
+      0.15
+    );
+}
+
+.confirm-delete-button:hover:not(:disabled) {
+  transform:
+    translateY(-1px);
+
+  border-color:
+    var(--danger-hover);
+
+  background:
+    linear-gradient(
+      135deg,
+      #a63d3d,
+      #933232
+    );
+
+  box-shadow:
+    0 9px 21px rgba(
+      184,
+      74,
+      74,
+      0.2
+    );
+}
+
+.cancel-delete-button:disabled,
+.confirm-delete-button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+.delete-spinner {
+  width: 14px;
+  height: 14px;
+
+  flex-shrink: 0;
+
+  border:
+    2px solid rgba(
+      255,
+      255,
+      255,
+      0.38
+    );
+
+  border-top-color:
+    #ffffff;
+
+  border-radius: 50%;
+
+  animation:
+    deleteSpin
+    0.7s
+    linear
+    infinite;
+}
+
+@keyframes quizCardEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(10px)
+      scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes editSectionEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes deleteModalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deleteBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deleteDialogEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(8px)
+      scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes deleteIconFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-4px);
+  }
+}
+
+@keyframes deleteSpin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .quiz-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 18px;
+  }
+
+  .quiz-actions {
+    width: 100%;
+  }
+
+  .action-button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .quiz-header {
+    padding: 18px;
+  }
+
+  .quiz-info {
+    width: 100%;
+  }
+
+  .quiz-icon {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    font-size: 18px;
+  }
+
+  .quiz-details h3 {
+    font-size: 14px;
+  }
+
+  .quiz-meta {
+    font-size: 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .quiz-actions {
+    display: grid;
+
+    width: 100%;
+
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .questions-button {
+    grid-column:
+      1 / -1;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+
+  .edit-section {
+    padding: 18px;
+  }
+
+  .delete-modal {
+    padding: 14px;
+  }
+
+  .delete-dialog {
+    width:
+      min(
+        430px,
+        calc(100vw - 20px)
+      );
+
+    max-height:
+      calc(100vh - 28px);
+
+    padding:
+      23px 16px;
+
+    border-radius: 20px;
+  }
+
+  .delete-close-button {
+    top: 12px;
+    left: 12px;
+
+    width: 34px;
+    height: 34px;
+  }
+
+  .delete-dialog-icon {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 16px;
+
+    font-size: 22px;
+  }
+
+  .delete-dialog-content {
+    padding: 0 4px;
+  }
+
+  .delete-dialog-content h3 {
+    font-size: 18px;
+  }
+
+  .delete-dialog-content p {
+    font-size: 12px;
+  }
+
+  .delete-warning {
+    font-size: 10px;
+  }
+
+  .delete-dialog-actions {
+    flex-direction:
+      column-reverse;
+  }
+
+  .cancel-delete-button,
+  .confirm-delete-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .quiz-header {
+    padding: 16px 14px;
+  }
+
+  .quiz-info {
+    gap: 11px;
+  }
+
+  .quiz-icon {
+    width: 38px;
+    height: 38px;
+
+    font-size: 16px;
+  }
+
+  .quiz-details h3 {
+    max-width: 190px;
+  }
+
+  .action-button {
+    min-height: 36px;
+
+    padding: 0 10px;
+
+    font-size: 11px;
+  }
+
+  .delete-dialog {
+    padding: 20px 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-card,
+  .edit-section,
+  .delete-modal,
+  .delete-dialog,
+  .delete-spinner {
+    animation: none;
+  }
+
+  .quiz-card,
+  .quiz-icon,
+  .action-button,
+  .action-button i,
+  .quiz-details h3,
+  .cancel-delete-button,
+  .confirm-delete-button {
+    transition: none;
+  }
+}

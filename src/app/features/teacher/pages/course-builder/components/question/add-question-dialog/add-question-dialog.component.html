@@ -1,37 +1,413 @@
-<div class="card shadow-sm p-3">
-  <h5 class="mb-3">Add Question</h5>
+<section class="question-card">
 
-  <div class="mb-3">
-    <label class="form-label"> Question </label>
+  <div class="question-header">
 
-    <textarea rows="4" class="form-control" [(ngModel)]="text"> </textarea>
-  </div>
+    <div class="header-content">
 
-  <div class="row">
-    <div class="col">
-      <label>Type</label>
+      <div class="header-icon">
+        <i class="bi bi-question-circle-fill"></i>
+      </div>
 
-      <select class="form-select" [(ngModel)]="questionType">
-        <option [ngValue]="0">MCQ</option>
+      <div>
+        <span class="header-eyebrow">
+          إدارة الاختبار
+        </span>
 
-        <option [ngValue]="1">True / False</option>
+        <h2>
+          إضافة سؤال جديد
+        </h2>
 
-        <option [ngValue]="2">Short Answer</option>
-      </select>
+        <p>
+          أضف سؤالًا جديدًا وحدد نوعه وترتيبه داخل الاختبار.
+        </p>
+      </div>
+
     </div>
 
-    <div class="col">
-      <label>Order</label>
-
-      <input type="number" class="form-control" [(ngModel)]="orderIndex" />
+    <div class="question-badge">
+      <i class="bi bi-patch-question"></i>
+      سؤال جديد
     </div>
+
   </div>
 
-  <div class="mt-3">
-    <label>Feedback</label>
 
-    <textarea rows="3" class="form-control" [(ngModel)]="feedback"> </textarea>
-  </div>
+  @if (errorMsg()) {
 
-  <button class="btn btn-primary w-100 mt-4" (click)="save()">Save Question</button>
-</div>
+    <div class="message message-error">
+
+      <div class="message-icon">
+        <i class="bi bi-exclamation-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+        <strong>
+          تعذر إضافة السؤال
+        </strong>
+
+        <span>
+          {{ errorMsg() }}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearError()"
+        aria-label="إغلاق رسالة الخطأ"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (successMsg()) {
+
+    <div class="message message-success">
+
+      <div class="message-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+        <strong>
+          تم بنجاح
+        </strong>
+
+        <span>
+          {{ successMsg() }}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearSuccess()"
+        aria-label="إغلاق رسالة النجاح"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  <form
+    class="question-form"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    novalidate
+  >
+
+    <div
+      class="field"
+      [class.field-invalid]="isInvalid('text')"
+      [class.field-valid]="isValid('text')"
+    >
+
+      <label for="question-text">
+
+        <span class="label-icon">
+          <i class="bi bi-chat-left-text"></i>
+        </span>
+
+        نص السؤال
+
+        <span class="required">*</span>
+
+      </label>
+
+
+      <div class="textarea-wrapper">
+
+        <textarea
+          id="question-text"
+          formControlName="text"
+          rows="5"
+          maxlength="1000"
+          placeholder="اكتب السؤال الذي سيظهر للطلاب..."
+        ></textarea>
+
+
+        @if (isValid('text')) {
+
+          <span class="textarea-status">
+            <i class="bi bi-check-circle-fill"></i>
+          </span>
+
+        }
+
+      </div>
+
+
+      <div class="field-footer">
+
+        <div class="validation-message">
+
+          @if (isInvalid('text')) {
+
+            @if (textControl.hasError('required')) {
+
+              <span>
+                نص السؤال مطلوب.
+              </span>
+
+            }
+
+            @if (textControl.hasError('maxlength')) {
+
+              <span>
+                نص السؤال يجب ألا يتجاوز 1000 حرف.
+              </span>
+
+            }
+
+          }
+
+        </div>
+
+        <span class="character-count">
+          {{ textControl.value.length }}/1000
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-row">
+
+      <div
+        class="field"
+        [class.field-invalid]="isInvalid('questionType')"
+        [class.field-valid]="isValid('questionType')"
+      >
+
+        <label for="question-type">
+
+          <span class="label-icon">
+            <i class="bi bi-ui-checks-grid"></i>
+          </span>
+
+          نوع السؤال
+
+          <span class="required">*</span>
+
+        </label>
+
+
+        <div class="select-wrapper">
+
+          <select
+            id="question-type"
+            formControlName="questionType"
+          >
+
+            <option [ngValue]="0">
+              اختيار من متعدد - إجابة واحدة
+            </option>
+
+            <option [ngValue]="1">
+              اختيار من متعدد - أكثر من إجابة
+            </option>
+
+            <option [ngValue]="2">
+              صح أو خطأ
+            </option>
+
+          </select>
+
+          <span class="select-icon">
+            <i class="bi bi-chevron-down"></i>
+          </span>
+
+        </div>
+
+
+        @if (isInvalid('questionType')) {
+
+          <div class="validation-message visible">
+            نوع السؤال مطلوب.
+          </div>
+
+        }
+
+      </div>
+
+
+      <div
+        class="field"
+        [class.field-invalid]="isInvalid('orderIndex')"
+        [class.field-valid]="isValid('orderIndex')"
+      >
+
+        <label for="question-order">
+
+          <span class="label-icon">
+            <i class="bi bi-sort-numeric-down"></i>
+          </span>
+
+          ترتيب السؤال
+
+          <span class="required">*</span>
+
+        </label>
+
+
+        <div class="input-wrapper">
+
+          <input
+            id="question-order"
+            type="number"
+            formControlName="orderIndex"
+            min="1"
+            max="1000"
+            step="1"
+            inputmode="numeric"
+            placeholder="مثال: 1"
+          />
+
+
+          @if (isValid('orderIndex')) {
+
+            <span class="input-status valid">
+              <i class="bi bi-check-circle-fill"></i>
+            </span>
+
+          }
+
+        </div>
+
+
+        @if (isInvalid('orderIndex')) {
+
+          <div class="validation-message visible">
+
+            @if (orderIndexControl.hasError('required')) {
+
+              <span>
+                ترتيب السؤال مطلوب.
+              </span>
+
+            }
+
+            @if (orderIndexControl.hasError('min')) {
+
+              <span>
+                الترتيب يجب أن يبدأ من 1.
+              </span>
+
+            }
+
+            @if (orderIndexControl.hasError('max')) {
+
+              <span>
+                الترتيب لا يمكن أن يتجاوز 1000.
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="field"
+      [class.field-invalid]="isInvalid('feedback')"
+    >
+
+      <label for="feedback">
+
+        <span class="label-icon">
+          <i class="bi bi-lightbulb"></i>
+        </span>
+
+        التغذية الراجعة
+
+        <span class="optional">
+          اختياري
+        </span>
+
+      </label>
+
+
+      <textarea
+        id="feedback"
+        formControlName="feedback"
+        rows="4"
+        placeholder="أضف توضيحًا أو ملاحظة تظهر للطالب بعد الإجابة..."
+      ></textarea>
+
+
+      <div class="field-hint">
+
+        <i class="bi bi-info-circle"></i>
+
+        <span>
+          يمكنك إضافة شرح يساعد الطالب على فهم الإجابة أو تصحيح الخطأ.
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-divider"></div>
+
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="cancel-button"
+        [disabled]="loading()"
+        (click)="saved.emit()"
+      >
+
+        <i class="bi bi-x-lg"></i>
+
+        إلغاء
+
+      </button>
+
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="spinner"></span>
+
+          <span>
+            جاري إضافة السؤال...
+          </span>
+
+        } @else {
+
+          <i class="bi bi-plus-lg"></i>
+
+          <span>
+            إضافة السؤال
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</section>

@@ -1,0 +1,778 @@
+<section class="edit-course-card">
+
+  <div class="form-header">
+    <div class="header-content">
+
+      <div class="header-icon">
+        <i class="bi bi-pencil-square"></i>
+      </div>
+
+      <div>
+        <span class="header-eyebrow">إدارة الدورة</span>
+
+        <h2>تعديل بيانات الدورة</h2>
+
+        <p>
+          حدّث المعلومات الأساسية للدورة وإعداداتها وصورتها بسهولة.
+        </p>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="close-button"
+      (click)="close.emit()"
+      aria-label="إغلاق"
+    >
+      <i class="bi bi-x-lg"></i>
+      <span>إغلاق</span>
+    </button>
+
+  </div>
+
+
+  @if (errorMsg()) {
+
+    <div class="message message-error">
+
+      <div class="message-icon">
+        <i class="bi bi-exclamation-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+
+        <strong>حدث خطأ</strong>
+
+        <span>
+          {{ errorMsg() }}
+        </span>
+
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearError()"
+        aria-label="إغلاق رسالة الخطأ"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (successMsg()) {
+
+    <div class="message message-success">
+
+      <div class="message-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div class="message-content">
+
+        <strong>تم بنجاح</strong>
+
+        <span>
+          {{ successMsg() }}
+        </span>
+
+      </div>
+
+      <button
+        type="button"
+        class="message-close"
+        (click)="clearSuccess()"
+        aria-label="إغلاق رسالة النجاح"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+  }
+
+
+  <form
+    class="course-form"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    novalidate
+  >
+
+    <div class="form-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon">
+          <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+
+          <h3>المعلومات الأساسية</h3>
+
+          <p>
+            أدخل البيانات الأساسية الخاصة بالدورة.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('title')"
+          [class.field-valid]="isValid('title')"
+        >
+
+          <label for="title">
+            عنوان الدورة
+            <span class="required">*</span>
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              id="title"
+              type="text"
+              formControlName="title"
+              placeholder="مثال: أسرار الخشوع في الصلاة"
+              maxlength="200"
+              autocomplete="off"
+            />
+
+            @if (isValid('title')) {
+
+              <span class="input-status valid">
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('title')) {
+
+                @if (getControl('title')?.hasError('required')) {
+
+                  <span>
+                    <i class="bi bi-exclamation-circle"></i>
+                    عنوان الدورة مطلوب.
+                  </span>
+
+                }
+
+                @if (getControl('title')?.hasError('maxlength')) {
+
+                  <span>
+                    <i class="bi bi-exclamation-circle"></i>
+                    عنوان الدورة يجب ألا يتجاوز 200 حرف.
+                  </span>
+
+                }
+
+              }
+
+            </div>
+
+
+            <span class="character-count">
+              {{ getControl('title')?.value?.length || 0 }}/200
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('subtitle')"
+          [class.field-valid]="isValid('subtitle')"
+        >
+
+          <label for="subtitle">
+
+            العنوان الفرعي
+
+            <span class="optional">
+              اختياري
+            </span>
+
+          </label>
+
+
+          <div class="input-wrapper">
+
+            <input
+              id="subtitle"
+              type="text"
+              formControlName="subtitle"
+              placeholder="أضف وصفًا مختصرًا وجذابًا للدورة"
+              maxlength="300"
+              autocomplete="off"
+            />
+
+
+            @if (isValid('subtitle')) {
+
+              <span class="input-status valid">
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="field-footer">
+
+            <div class="validation-message">
+
+              @if (isInvalid('subtitle')) {
+
+                @if (getControl('subtitle')?.hasError('maxlength')) {
+
+                  <span>
+                    <i class="bi bi-exclamation-circle"></i>
+                    العنوان الفرعي يجب ألا يتجاوز 300 حرف.
+                  </span>
+
+                }
+
+              }
+
+            </div>
+
+
+            <span class="character-count">
+              {{ getControl('subtitle')?.value?.length || 0 }}/300
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="field field-full"
+          [class.field-invalid]="isInvalid('description')"
+        >
+
+          <label for="description">
+
+            وصف الدورة
+
+            <span class="optional">
+              اختياري
+            </span>
+
+          </label>
+
+
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="6"
+            placeholder="اكتب وصفًا واضحًا يساعد الطلاب على معرفة محتوى الدورة وما الذي سيستفيدون منه..."
+          ></textarea>
+
+
+          <div class="field-footer">
+
+            <div class="validation-message"></div>
+
+            <span class="character-count">
+              {{ getControl('description')?.value?.length || 0 }} حرف
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-divider"></div>
+
+
+    <div class="form-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon">
+          <i class="bi bi-sliders"></i>
+        </div>
+
+        <div>
+
+          <h3>إعدادات الدورة</h3>
+
+          <p>
+            حدّد الفئة والمستوى واللغة والسعر.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="settings-grid">
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('categoryId')"
+          [class.field-valid]="isValid('categoryId')"
+        >
+
+          <label for="categoryId">
+
+            فئة الدورة
+
+            <span class="required">*</span>
+
+          </label>
+
+
+          <div class="select-wrapper">
+
+            <select
+              id="categoryId"
+              formControlName="categoryId"
+            >
+
+              <option value="" disabled>
+                اختر فئة الدورة
+              </option>
+
+              @for (
+                category of categories();
+                track category.categoryID
+              ) {
+
+                <option [value]="category.categoryID">
+                  {{ category.name }}
+                </option>
+
+              }
+
+            </select>
+
+
+            <span class="select-arrow">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+
+          </div>
+
+
+          @if (isInvalid('categoryId')) {
+
+            @if (getControl('categoryId')?.hasError('required')) {
+
+              <div class="validation-message visible">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                فئة الدورة مطلوبة.
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('level')"
+          [class.field-valid]="isValid('level')"
+        >
+
+          <label for="level">
+
+            مستوى الدورة
+
+            <span class="required">*</span>
+
+          </label>
+
+
+          <div class="select-wrapper">
+
+            <select
+              id="level"
+              formControlName="level"
+            >
+
+              <option [value]="0">
+                مبتدئ
+              </option>
+
+              <option [value]="1">
+                متوسط
+              </option>
+
+              <option [value]="2">
+                متقدم
+              </option>
+
+            </select>
+
+
+            <span class="select-arrow">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+
+          </div>
+
+
+          @if (isInvalid('level')) {
+
+            <div class="validation-message visible">
+
+              <i class="bi bi-exclamation-circle"></i>
+
+              مستوى الدورة غير صحيح.
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('language')"
+          [class.field-valid]="isValid('language')"
+        >
+
+          <label for="language">
+
+            لغة الدورة
+
+            <span class="required">*</span>
+
+          </label>
+
+
+          <div class="select-wrapper">
+
+            <select
+              id="language"
+              formControlName="language"
+            >
+
+              <option [value]="0">
+                العربية
+              </option>
+
+              <option [value]="1">
+                الإنجليزية
+              </option>
+
+            </select>
+
+
+            <span class="select-arrow">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+
+          </div>
+
+
+          @if (isInvalid('language')) {
+
+            <div class="validation-message visible">
+
+              <i class="bi bi-exclamation-circle"></i>
+
+              لغة الدورة غير صحيحة.
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <div
+          class="field"
+          [class.field-invalid]="isInvalid('price')"
+          [class.field-valid]="isValid('price')"
+        >
+
+          <label for="price">
+
+            سعر الدورة
+
+            <span class="optional">
+              اختياري
+            </span>
+
+          </label>
+
+
+          <div class="price-input">
+
+            <input
+              id="price"
+              type="number"
+              formControlName="price"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
+
+            <span class="currency">
+              جنيه
+            </span>
+
+          </div>
+
+
+          @if (isInvalid('price')) {
+
+            @if (getControl('price')?.hasError('min')) {
+
+              <div class="validation-message visible">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                السعر لا يمكن أن يكون أقل من صفر.
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-divider"></div>
+
+
+    <div class="form-section">
+
+      <div class="section-heading">
+
+        <div class="section-icon image-icon">
+          <i class="bi bi-image-fill"></i>
+        </div>
+
+        <div>
+
+          <h3>صورة الدورة</h3>
+
+          <p>
+            اختر صورة مناسبة تظهر للطلاب في صفحة الدورة.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="thumbnail-layout">
+
+
+        <div class="upload-area">
+
+          <label
+            class="upload-box"
+            for="thumbnail"
+          >
+
+            <input
+              id="thumbnail"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              (change)="onThumbnailSelected($event)"
+            />
+
+
+            <div class="upload-icon">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+            </div>
+
+
+            <strong>
+              اختر صورة للدورة
+            </strong>
+
+
+            <span>
+              اضغط لاختيار صورة جديدة
+            </span>
+
+
+            <small>
+              JPG أو PNG أو WEBP — بحد أقصى 5 ميجابايت
+            </small>
+
+          </label>
+
+        </div>
+
+
+        <div class="thumbnail-preview">
+
+          @if (previewUrl()) {
+
+            <div class="preview-card">
+
+              <div class="preview-label">
+
+                <i class="bi bi-image"></i>
+
+                الصورة الجديدة
+
+              </div>
+
+
+              <img
+                [src]="previewUrl()!"
+                alt="معاينة الصورة الجديدة"
+              />
+
+
+              <div class="preview-status">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                تم اختيار صورة جديدة
+
+              </div>
+
+            </div>
+
+          }
+
+          @else if (currentThumbnail) {
+
+            <div class="preview-card">
+
+              <div class="preview-label">
+
+                <i class="bi bi-image"></i>
+
+                الصورة الحالية
+
+              </div>
+
+
+              <img
+                [src]="currentThumbnail"
+                alt="الصورة الحالية للدورة"
+              />
+
+
+              <div class="preview-status current">
+
+                <i class="bi bi-info-circle-fill"></i>
+
+                الصورة الحالية
+
+              </div>
+
+            </div>
+
+          }
+
+          @else {
+
+            <div class="empty-preview">
+
+              <div class="empty-preview-icon">
+                <i class="bi bi-image"></i>
+              </div>
+
+
+              <span>
+                لا توجد صورة حالية
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="cancel-button"
+        (click)="close.emit()"
+        [disabled]="loading()"
+      >
+
+        <i class="bi bi-x-lg"></i>
+
+        <span>
+          إلغاء
+        </span>
+
+      </button>
+
+
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="spinner"></span>
+
+          <span>
+            جاري حفظ التغييرات...
+          </span>
+
+        }
+
+        @else {
+
+          <i class="bi bi-check-lg save-icon"></i>
+
+          <span>
+            حفظ التغييرات
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</section>

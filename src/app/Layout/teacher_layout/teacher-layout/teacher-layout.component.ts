@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
+
 import { RouterOutlet } from '@angular/router';
 
 import { SidebarComponent } from '../../../features/teacher/components/sidebar/sidebar.component';
@@ -23,29 +29,28 @@ import { ToastComponent } from '../../../shared/components/toast/toast.component
   styleUrls: ['./teacher-layout.component.css'],
 })
 export class TeacherLayoutComponent implements OnInit {
-
-  private teacherService = inject(TeacherService);
+  private readonly teacherService = inject(TeacherService);
 
   sidebarOpen = signal(false);
 
   teacher = signal<TeacherProfile | null>(null);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.teacherService.getProfile().subscribe({
       next: (res) => {
         this.teacher.set(res);
       },
       error: (err) => {
         console.error(err);
-      }
+      },
     });
   }
 
-  toggleSidebar() {
-    this.sidebarOpen.update(v => !v);
+  toggleSidebar(): void {
+    this.sidebarOpen.update((value) => !value);
   }
 
-  closeSidebar() {
+  closeSidebar(): void {
     this.sidebarOpen.set(false);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, signal, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 
 import { OptionModel } from '../../../../models/option.model';
 import { OptionService } from '../../../../services/option.service';
@@ -8,8 +8,11 @@ import { EditOptionDialogComponent } from '../edit-option-dialog/edit-option-dia
 @Component({
   selector: 'app-option-card',
   standalone: true,
+
   imports: [EditOptionDialogComponent],
+
   templateUrl: './option-card.component.html',
+
   styleUrls: ['./option-card.component.css'],
 })
 export class OptionCardComponent {
@@ -19,20 +22,54 @@ export class OptionCardComponent {
   @Output()
   refresh = new EventEmitter<void>();
 
-  private optionService = inject(OptionService);
+  private readonly optionService = inject(OptionService);
 
   showEdit = signal(false);
 
-  toggleEdit() {
-    this.showEdit.update((v) => !v);
+  showDeleteConfirm = signal(false);
+
+  isDeleting = signal(false);
+
+  toggleEdit(): void {
+    this.showEdit.update((value) => !value);
   }
 
-  deleteOption() {
-    if (!confirm('Delete this option?')) return;
+  openDeleteConfirm(): void {
+    if (this.isDeleting()) {
+      return;
+    }
+
+    this.showDeleteConfirm.set(true);
+  }
+
+  closeDeleteConfirm(): void {
+    if (this.isDeleting()) {
+      return;
+    }
+
+    this.showDeleteConfirm.set(false);
+  }
+
+  deleteOption(): void {
+    if (this.isDeleting()) {
+      return;
+    }
+
+    this.isDeleting.set(true);
 
     this.optionService.delete(this.option.optionID).subscribe({
       next: () => {
+        this.isDeleting.set(false);
+
+        this.showDeleteConfirm.set(false);
+
         this.refresh.emit();
+      },
+
+      error: (err) => {
+        this.isDeleting.set(false);
+
+        console.error('Failed to delete option:', err);
       },
     });
   }

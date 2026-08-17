@@ -1,0 +1,1109 @@
+:host {
+  display: block;
+  width: 100%;
+  direction: rtl;
+
+  --primary: #341b16;
+  --primary-hover: #4a2620;
+  --primary-dark: #2a1512;
+  --primary-light: #e9d4bf;
+
+  --secondary: #f8f3ed;
+
+  --surface: #ffffff;
+  --surface-soft: #fcf9f6;
+
+  --text: #341b16;
+  --text-light: #7a635d;
+  --text-muted: #7c7267;
+
+  --border: #e8ddd2;
+  --border-light: #eee6df;
+
+  --danger: #b84a4a;
+  --danger-hover: #9f3636;
+  --danger-light: #fff2f2;
+
+  --shadow: 0 16px 40px rgba(52, 27, 22, 0.07);
+}
+
+.module-card {
+  width: 100%;
+  margin-bottom: 24px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: visible;
+  box-shadow: var(--shadow);
+  animation: moduleEnter 0.4s ease both;
+  transition: box-shadow 0.25s ease;
+}
+
+.module-card:hover {
+  box-shadow: 0 20px 48px rgba(52, 27, 22, 0.1);
+}
+
+.module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 26px;
+
+  background:
+    radial-gradient(
+      circle at 8% 20%,
+      rgba(255, 255, 255, 0.75),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #f8f3ed,
+      #f3e8dd
+    );
+
+  border-bottom: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+}
+
+.module-info {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.module-icon {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--primary),
+      var(--primary-hover)
+    );
+
+  color: #ffffff;
+  font-size: 22px;
+
+  box-shadow: 0 8px 20px rgba(52, 27, 22, 0.18);
+
+  animation:
+    moduleIconFloat
+    3s
+    ease-in-out
+    infinite;
+}
+
+.module-details {
+  min-width: 0;
+}
+
+.module-eyebrow {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.module-details h2 {
+  margin: 0;
+  overflow: hidden;
+
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.5;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.module-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.module-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.module-meta i {
+  color: var(--primary);
+  font-size: 11px;
+}
+
+.meta-separator {
+  color: #cdbdb2;
+}
+
+.module-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.module-action {
+  min-height: 38px;
+  padding: 0 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.module-action i {
+  font-size: 13px;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.module-action:hover {
+  transform: translateY(-2px);
+}
+
+.add-lesson-button {
+  border: 1px solid #dcc5b3;
+  background: #f3e3d5;
+  color: var(--primary);
+
+  box-shadow: 0 3px 10px rgba(52, 27, 22, 0.04);
+}
+
+.add-lesson-button:hover {
+  border-color: #cdb09d;
+  background: var(--primary-light);
+  color: var(--primary);
+
+  box-shadow: 0 6px 16px rgba(52, 27, 22, 0.1);
+}
+
+.add-lesson-button:hover i {
+  transform: scale(1.08);
+}
+
+.add-quiz-button {
+  border: 1px solid #dfd0c5;
+  background: #fbf7f3;
+  color: var(--primary);
+}
+
+.add-quiz-button:hover {
+  border-color: #cdb8aa;
+  background: #f1e3d7;
+  color: var(--primary);
+
+  box-shadow: 0 6px 16px rgba(52, 27, 22, 0.1);
+}
+
+.add-quiz-button:hover i {
+  transform: scale(1.08);
+}
+
+.edit-button {
+  border: 1px solid #dfd0c5;
+  background: #fbf7f3;
+  color: var(--text-light);
+}
+
+.edit-button:hover {
+  border-color: #cdb8aa;
+  background: #f4e9e1;
+  color: var(--primary);
+
+  box-shadow: 0 5px 14px rgba(52, 27, 22, 0.08);
+}
+
+.edit-button:hover i {
+  transform:
+    rotate(-8deg)
+    scale(1.08);
+}
+
+.delete-button {
+  border: 1px solid #edcaca;
+  background: #fff3f3;
+  color: var(--danger);
+}
+
+.delete-button:hover {
+  border-color: #dfaaaa;
+  background: #ffe8e8;
+  color: var(--danger-hover);
+
+  box-shadow: 0 5px 14px rgba(184, 74, 74, 0.1);
+}
+
+.delete-button:hover i {
+  transform:
+    translateY(-1px)
+    scale(1.08);
+}
+
+.module-section {
+  padding: 24px 26px;
+
+  border-bottom: 1px solid var(--border-light);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdfb 0%,
+      #faf7f4 100%
+    );
+
+  animation:
+    sectionEnter
+    0.3s
+    ease
+    both;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+  font-size: 16px;
+}
+
+.section-heading h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.section-heading p {
+  margin: 3px 0 0;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.edit-icon {
+  background: #f8f1eb;
+  color: var(--primary);
+}
+
+.lesson-icon {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.quiz-icon {
+  background: #f1e2d5;
+  color: var(--primary);
+}
+
+.lessons-section {
+  padding: 26px;
+  background: #ffffff;
+}
+
+.lessons-heading {
+  margin-bottom: 18px;
+}
+
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lessons-list app-lesson-card {
+  display: block;
+}
+
+.quiz-area {
+  scroll-margin-top: 90px;
+  padding: 26px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdfb 0%,
+      #faf7f4 100%
+    );
+
+  border-top: 1px solid var(--border-light);
+  border-radius: 0 0 20px 20px;
+}
+
+.quiz-heading {
+  margin-bottom: 18px;
+}
+
+.quiz-area app-quiz-card {
+  display: block;
+}
+
+.quiz-add-container {
+  width: 100%;
+
+  animation:
+    sectionEnter
+    0.3s
+    ease
+    both;
+}
+
+.quiz-add-container app-add-quiz-dialog {
+  display: block;
+  width: 100%;
+}
+
+.empty-state {
+  min-height: 110px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 20px;
+
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+
+  background: #fcf9f6;
+}
+
+.empty-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.empty-state strong {
+  display: block;
+  margin-bottom: 3px;
+
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.empty-state p {
+  margin: 0;
+
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.quiz-empty-icon {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.delete-modal {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  direction: rtl;
+
+  z-index: 2147483647;
+
+  overflow: hidden;
+
+  animation:
+    deleteModalFadeIn
+    0.2s
+    ease
+    both;
+}
+
+.delete-backdrop {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(52, 27, 22, 0.42);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  cursor: pointer;
+
+  z-index: 0;
+
+  animation:
+    deleteBackdropIn
+    0.25s
+    ease
+    both;
+}
+
+.delete-dialog {
+  position: relative;
+
+  width: min(
+    470px,
+    calc(100vw - 32px)
+  );
+
+  max-height:
+    calc(100dvh - 48px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fffdfb 100%
+    );
+
+  border: 1px solid rgba(232, 221, 210, 0.95);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 35px 90px rgba(44, 28, 20, 0.25),
+    0 12px 30px rgba(74, 38, 32, 0.14);
+
+  z-index: 1;
+
+  animation:
+    deleteDialogEnter
+    0.32s
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+.delete-close-button {
+  position: absolute;
+
+  top: 16px;
+  left: 16px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e8ddd2;
+  border-radius: 10px;
+
+  background: #f8f3ed;
+  color: var(--text-light);
+
+  font-family: inherit;
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+
+  z-index: 3;
+}
+
+.delete-close-button:hover:not(:disabled) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+
+  transform: rotate(90deg);
+}
+
+.delete-close-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.delete-dialog-icon {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 2px auto 17px;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff3f3,
+      #fbe9e9
+    );
+
+  border: 1px solid #edcccc;
+
+  color: var(--danger);
+  font-size: 25px;
+
+  box-shadow:
+    0 8px 22px rgba(184, 74, 74, 0.08);
+
+  animation:
+    deleteIconFloat
+    2.5s
+    ease-in-out
+    infinite;
+}
+
+.delete-dialog-content {
+  padding: 0 10px;
+}
+
+.delete-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+
+  color: #a18778;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.1px;
+}
+
+.delete-dialog-content h3 {
+  margin: 0 0 8px;
+
+  color: var(--primary);
+
+  font-size: 21px;
+  font-weight: 800;
+
+  line-height: 1.4;
+}
+
+.delete-dialog-content p {
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.delete-dialog-content p strong {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.delete-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  margin-top: 17px;
+  padding: 11px 13px;
+
+  text-align: right;
+
+  color: #8f5b55;
+
+  background: #fff8f6;
+
+  border: 1px solid #eadbd3;
+  border-radius: 11px;
+
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.delete-warning i {
+  flex-shrink: 0;
+
+  margin-top: 2px;
+
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.delete-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 23px;
+}
+
+.cancel-delete-button,
+.confirm-delete-button {
+  min-height: 43px;
+  flex: 1;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 0 16px;
+
+  border-radius: 11px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cancel-delete-button {
+  border: 1px solid #e1d5cb;
+  background: #ffffff;
+  color: var(--text-light);
+}
+
+.cancel-delete-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  border-color: #cdb9aa;
+  background: #f8f1eb;
+  color: var(--primary);
+
+  box-shadow:
+    0 6px 15px rgba(52, 27, 22, 0.06);
+}
+
+.confirm-delete-button {
+  border: 1px solid var(--danger);
+
+  background:
+    linear-gradient(
+      135deg,
+      #b84a4a,
+      #a63d3d
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 7px 17px rgba(184, 74, 74, 0.15);
+}
+
+.confirm-delete-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  border-color: var(--danger-hover);
+
+  background:
+    linear-gradient(
+      135deg,
+      #a63d3d,
+      #933232
+    );
+
+  box-shadow:
+    0 9px 21px rgba(184, 74, 74, 0.2);
+}
+
+.cancel-delete-button:disabled,
+.confirm-delete-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.delete-spinner {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+
+  border: 2px solid rgba(255, 255, 255, 0.38);
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation:
+    deleteSpin
+    0.7s
+    linear
+    infinite;
+}
+
+@keyframes moduleEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moduleIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes sectionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes deleteModalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deleteBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deleteDialogEnter {
+  from {
+    opacity: 0;
+    transform:
+      scale(0.94)
+      translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      scale(1)
+      translateY(0);
+  }
+}
+
+@keyframes deleteIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes deleteSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .module-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .module-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .module-header {
+    padding: 20px;
+  }
+
+  .module-info {
+    width: 100%;
+  }
+
+  .module-actions {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    width: 100%;
+  }
+
+  .module-action {
+    width: 100%;
+  }
+
+  .module-section,
+  .lessons-section,
+  .quiz-area {
+    padding: 20px;
+  }
+
+  .quiz-area {
+    scroll-margin-top: 70px;
+  }
+
+  .delete-dialog {
+    padding: 27px 23px;
+  }
+}
+
+@media (max-width: 480px) {
+  .module-card {
+    border-radius: 17px;
+  }
+
+  .module-header {
+    padding: 18px 16px;
+    border-radius: 17px 17px 0 0;
+  }
+
+  .module-info {
+    gap: 12px;
+  }
+
+  .module-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    font-size: 19px;
+  }
+
+  .module-details h2 {
+    font-size: 16px;
+  }
+
+  .module-meta {
+    flex-wrap: wrap;
+    font-size: 10px;
+  }
+
+  .module-actions {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .module-section,
+  .lessons-section,
+  .quiz-area {
+    padding: 17px 15px;
+  }
+
+  .quiz-area {
+    scroll-margin-top: 65px;
+    border-radius: 0 0 17px 17px;
+  }
+
+  .section-heading {
+    gap: 10px;
+  }
+
+  .section-icon {
+    width: 37px;
+    height: 37px;
+    border-radius: 10px;
+  }
+
+  .empty-state {
+    padding: 15px;
+    align-items: flex-start;
+  }
+
+  .delete-modal {
+    padding: 14px;
+  }
+
+  .delete-dialog {
+    width: min(
+      430px,
+      calc(100vw - 20px)
+    );
+
+    max-height:
+      calc(100dvh - 28px);
+
+    padding: 23px 16px;
+    border-radius: 20px;
+  }
+
+  .delete-close-button {
+    top: 12px;
+    left: 12px;
+
+    width: 34px;
+    height: 34px;
+  }
+
+  .delete-dialog-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    font-size: 22px;
+  }
+
+  .delete-dialog-content {
+    padding: 0 4px;
+  }
+
+  .delete-dialog-content h3 {
+    font-size: 18px;
+  }
+
+  .delete-dialog-content p {
+    font-size: 12px;
+  }
+
+  .delete-warning {
+    font-size: 10px;
+  }
+
+  .delete-dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-delete-button,
+  .confirm-delete-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .module-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .module-action {
+    min-height: 40px;
+  }
+
+  .module-details h2 {
+    max-width: 210px;
+  }
+
+  .delete-dialog-content h3 {
+    font-size: 17px;
+  }
+
+  .delete-warning {
+    padding: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .module-card,
+  .module-icon,
+  .module-section,
+  .quiz-add-container,
+  .delete-modal,
+  .delete-dialog,
+  .delete-dialog-icon,
+  .delete-spinner {
+    animation: none;
+  }
+
+  .module-card,
+  .module-action,
+  .module-action i,
+  .cancel-delete-button,
+  .confirm-delete-button,
+  .delete-close-button {
+    transition: none;
+  }
+}
