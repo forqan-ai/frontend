@@ -1,10 +1,12 @@
-.exit{
+.exit {
     font-size: 24px;
     position: absolute;
     right: 15px;
     top: 15px;
     color: var(--primary-light);
-    transition: transform 0.25s ease, color 0.2s ease;
+    transition:
+        transform 0.25s ease,
+        color 0.2s ease;
 }
 
 .exit:hover {
@@ -16,10 +18,6 @@ a {
     font-size: 16px;
     font-weight: 500;
 }
-
-/* ==========================
-   DEFAULT LINK
-========================== */
 
 .white-anchor {
     color: rgba(255, 255, 255, 0.76);
@@ -38,10 +36,6 @@ a {
     border-color: rgba(255, 255, 255, 0.1);
     transform: translateX(-3px);
 }
-
-/* ==========================
-   ACTIVE LINK
-========================== */
 
 .secondary-white-anchor {
     color: var(--primary);
@@ -71,16 +65,14 @@ a {
     }
 }
 
-/* ==========================
-   ICONS
-========================== */
-
 .white-anchor i,
 .white-anchor .material-symbols-outlined,
 .secondary-white-anchor i,
 .secondary-white-anchor .material-symbols-outlined {
     font-size: 18px;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color .25s ease;
+    transition:
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        color 0.25s ease;
 }
 
 .white-anchor:hover i,
@@ -93,11 +85,8 @@ a {
     color: var(--primary-hover);
 }
 
-/* ==========================
-   ROLE SWITCH BUTTON
-========================== */
-
-.role-switch-btn {
+.role-switch-btn,
+.logout-btn {
     width: 100%;
     min-height: 48px;
     padding: 10px 14px;
@@ -108,7 +97,11 @@ a {
     overflow: hidden;
     isolation: isolate;
     color: #fff;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--primary-hover) 100%
+    );
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 14px;
     cursor: pointer;
@@ -119,18 +112,26 @@ a {
         transform 0.2s ease,
         box-shadow 0.2s ease,
         filter 0.2s ease;
+    text-decoration: none;
 }
 
-.role-switch-btn::after {
+.role-switch-btn::after,
+.logout-btn::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.25) 45%, transparent 60%);
+    background: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.25) 45%,
+        transparent 60%
+    );
     transform: translateX(-120%);
     z-index: -1;
 }
 
-.role-switch-btn:hover::after {
+.role-switch-btn:hover::after,
+.logout-btn:hover::after {
     animation: shine 0.9s ease;
 }
 
@@ -140,7 +141,8 @@ a {
     }
 }
 
-.role-switch-btn .role-switch-icon {
+.role-switch-btn .role-switch-icon,
+.logout-btn .logout-icon {
     width: 28px;
     height: 28px;
     flex: 0 0 auto;
@@ -162,7 +164,8 @@ a {
         opacity 0.2s ease;
 }
 
-.role-switch-btn:hover {
+.role-switch-btn:hover,
+.logout-btn:hover {
     transform: translateY(-2px);
     filter: brightness(1.08);
     box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.6);
@@ -172,7 +175,12 @@ a {
     transform: rotate(180deg);
 }
 
-.role-switch-btn:active {
+.logout-btn:hover .logout-icon {
+    transform: translateX(-3px);
+}
+
+.role-switch-btn:active,
+.logout-btn:active {
     transform: translateY(0) scale(0.98);
 }
 
@@ -181,14 +189,11 @@ a {
     opacity: 1;
 }
 
-.role-switch-btn:focus-visible {
+.role-switch-btn:focus-visible,
+.logout-btn:focus-visible {
     outline: 2px solid var(--primary-light);
     outline-offset: 2px;
 }
-
-/* ==========================
-   SIDEBAR ENTRANCE ANIMATIONS
-========================== */
 
 nav .d-flex.flex-column.gap-2 > a {
     animation: navItemIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -224,6 +229,7 @@ nav .d-flex.flex-column.gap-2 > a {
 }
 
 .p-3.border-top-side {
+    margin-top: auto;
     animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
 }
 
@@ -239,11 +245,27 @@ nav .d-flex.flex-column.gap-2 > a {
     }
 }
 
+.offcanvas-close {
+    position: relative;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.offcanvas-close i {
+    pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .exit,
     .white-anchor,
     .secondary-white-anchor,
     .role-switch-btn,
+    .logout-btn,
     nav .d-flex.flex-column.gap-2 > a,
     .p-3.border-bottom-side,
     .p-3.border-top-side {
@@ -252,23 +274,9 @@ nav .d-flex.flex-column.gap-2 > a {
     }
 
     .exit:hover,
-    .white-anchor:hover {
+    .white-anchor:hover,
+    .role-switch-btn:hover,
+    .logout-btn:hover {
         transform: none;
     }
-}
-
-
-.offcanvas-close {
-  position: relative;
-  z-index: 1000;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.offcanvas-close i {
-  pointer-events: none;
 }
