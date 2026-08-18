@@ -1,21 +1,30 @@
 <app-toast />
 
 <main class="details-page" dir="rtl">
-  <nav class="breadcrumb" aria-label="مسار الصفحة">
+  <nav
+    class="breadcrumb"
+    aria-label="مسار الصفحة"
+    appScrollReveal="0"
+  >
     <ol>
       <li>حلقات التعلم</li>
       <li aria-current="page">تفاصيل الحلقة</li>
     </ol>
   </nav>
 
-  <div class="page-toolbar">
+  <div
+    class="page-toolbar"
+    appScrollReveal="70"
+  >
     <button
       type="button"
       class="back-button"
-      /* (click)="backToCircles()" */
-      routerLink="../"
+      (click)="backToCircles()"
     >
-      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      <i
+        class="bi bi-arrow-right"
+        aria-hidden="true"
+      ></i>
       العودة إلى حلقات التعلم
     </button>
   </div>
@@ -24,6 +33,7 @@
     <section
       class="details-skeleton"
       aria-label="جارٍ تحميل تفاصيل الحلقة"
+      appScrollReveal="120"
     >
       <div class="skeleton-header">
         <div class="skeleton-visual"></div>
@@ -53,12 +63,20 @@
       </div>
     </section>
   } @else if (loadError(); as error) {
-    <section class="state-panel" role="alert">
+    <section
+      class="state-panel"
+      role="alert"
+      appScrollReveal="120"
+    >
       <div class="state-icon">
         <i
           class="bi"
-          [class.bi-search]="error.title === 'الحلقة غير موجودة'"
-          [class.bi-shield-lock]="error.title === 'لا يمكنك الوصول إلى هذه الحلقة'"
+          [class.bi-search]="
+            error.title === 'الحلقة غير موجودة'
+          "
+          [class.bi-shield-lock]="
+            error.title === 'لا يمكنك الوصول إلى هذه الحلقة'
+          "
           [class.bi-wifi-off]="error.retryable"
           [class.bi-exclamation-circle]="
             !error.retryable &&
@@ -70,11 +88,15 @@
       </div>
 
       <h1>{{ error.title }}</h1>
+
       <p>{{ error.message }}</p>
 
       <div class="state-actions">
         @if (error.retryable) {
-          <button type="button" (click)="retry()">
+          <button
+            type="button"
+            (click)="retry()"
+          >
             إعادة المحاولة
           </button>
         }
@@ -89,16 +111,18 @@
       </div>
     </section>
   } @else if (details(); as circle) {
-    <app-learning-circle-details-summary
-      [details]="circle"
-      [actionPending]="actionPending() !== null"
-      (joinRequested)="openJoinConfirmation()"
-      (joinRequestSubmitted)="requestToJoin()"
-      (joinRequestCancelled)="cancelJoinRequest()"
-      (leaveRequested)="openLeaveConfirmation()"
-      (editRequested)="editCircle()"
-      (archiveRequested)="openArchiveConfirmation()"
-    />
+    <div appScrollReveal="120">
+      <app-learning-circle-details-summary
+        [details]="circle"
+        [actionPending]="actionPending() !== null"
+        (joinRequested)="openJoinConfirmation()"
+        (joinRequestSubmitted)="requestToJoin()"
+        (joinRequestCancelled)="cancelJoinRequest()"
+        (leaveRequested)="openLeaveConfirmation()"
+        (editRequested)="editCircle()"
+        (archiveRequested)="openArchiveConfirmation()"
+      />
+    </div>
 
     @if (
       circle.permissions.canViewPosts ||
@@ -106,17 +130,29 @@
       circle.isMember ||
       circle.currentUserRole !== null
     ) {
-      <app-circle-content-navigation
-        [activeSection]="activeContentSection()"
-        [canViewPosts]="circle.permissions.canViewPosts"
-        [canViewMembers]="circle.permissions.canViewMembers"
-        [canViewChat]="circle.isMember || circle.currentUserRole !== null"
-        [canViewSessions]="circle.isMember || circle.currentUserRole !== null"
-        [postsCount]="circle.postsCount"
-        [membersCount]="circle.membersCount"
-        [pendingJoinRequestsCount]="circle.pendingJoinRequestsCount"
-        (sectionChanged)="selectContentSection($event)"
-      />
+      <div
+        appScrollReveal="180"
+      >
+        <app-circle-content-navigation
+          [activeSection]="activeContentSection()"
+          [canViewPosts]="circle.permissions.canViewPosts"
+          [canViewMembers]="circle.permissions.canViewMembers"
+          [canViewChat]="
+            circle.isMember ||
+            circle.currentUserRole !== null
+          "
+          [canViewSessions]="
+            circle.isMember ||
+            circle.currentUserRole !== null
+          "
+          [postsCount]="circle.postsCount"
+          [membersCount]="circle.membersCount"
+          [pendingJoinRequestsCount]="
+            circle.pendingJoinRequestsCount
+          "
+          (sectionChanged)="selectContentSection($event)"
+        />
+      </div>
 
       @if (
         postsMounted() &&
@@ -126,76 +162,204 @@
           id="circle-posts-panel"
           role="tabpanel"
           aria-labelledby="circle-posts-tab"
-          [hidden]="activeContentSection() !== 'posts'"
+          [hidden]="
+            activeContentSection() !== 'posts'
+          "
+          class="reveal-content"
         >
           <div class="discussion-layout">
             <app-circle-posts-section
               [details]="circle"
-              [active]="activeContentSection() === 'posts'"
-              (detailsRefreshRequested)="refreshDetailsFromContent()"
+              [active]="
+                activeContentSection() === 'posts'
+              "
+              (detailsRefreshRequested)="
+                refreshDetailsFromContent()
+              "
             />
 
-            <aside class="circle-sidebar" aria-label="معلومات الحلقة">
+            <aside
+              class="circle-sidebar"
+              aria-label="معلومات الحلقة"
+              appScrollReveal="220"
+            >
               <section class="info-card about-card">
                 <div class="info-card-heading">
-                  <span class="info-icon"><i class="bi bi-info-lg" aria-hidden="true"></i></span>
+                  <span class="info-icon">
+                    <i
+                      class="bi bi-info-lg"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+
                   <h2>حول الحلقة</h2>
                 </div>
+
                 <p>{{ circle.description }}</p>
+
                 <dl class="info-list">
                   <div>
-                    <dt><i class="bi bi-book" aria-hidden="true"></i> المجال</dt>
+                    <dt>
+                      <i
+                        class="bi bi-book"
+                        aria-hidden="true"
+                      ></i>
+                      المجال
+                    </dt>
+
                     <dd>{{ circle.subject }}</dd>
                   </div>
+
                   <div>
-                    <dt><i class="bi bi-door-open" aria-hidden="true"></i> الانضمام</dt>
-                    <dd>{{ circle.joinPolicy === 'Automatic' ? 'انضمام تلقائي' : circle.joinPolicy === 'RequiresApproval' ? 'يتطلب موافقة' : 'بدعوة فقط' }}</dd>
+                    <dt>
+                      <i
+                        class="bi bi-door-open"
+                        aria-hidden="true"
+                      ></i>
+                      الانضمام
+                    </dt>
+
+                    <dd>
+                      {{
+                        circle.joinPolicy === 'Automatic'
+                          ? 'انضمام تلقائي'
+                          : circle.joinPolicy ===
+                              'RequiresApproval'
+                            ? 'يتطلب موافقة'
+                            : 'بدعوة فقط'
+                      }}
+                    </dd>
                   </div>
+
                   <div>
-                    <dt><i class="bi bi-calendar3" aria-hidden="true"></i> أُنشئت في</dt>
-                    <dd><time [attr.datetime]="circle.createdAt">{{ circle.createdAt | date: 'dd/MM/yyyy' }}</time></dd>
+                    <dt>
+                      <i
+                        class="bi bi-calendar3"
+                        aria-hidden="true"
+                      ></i>
+                      أُنشئت في
+                    </dt>
+
+                    <dd>
+                      <time
+                        [attr.datetime]="circle.createdAt"
+                      >
+                        {{
+                          circle.createdAt
+                            | date: 'dd/MM/yyyy'
+                        }}
+                      </time>
+                    </dd>
                   </div>
                 </dl>
               </section>
 
               <section class="info-card teacher-card">
                 <div class="info-card-heading">
-                  <span class="info-icon"><i class="bi bi-mortarboard" aria-hidden="true"></i></span>
+                  <span class="info-icon">
+                    <i
+                      class="bi bi-mortarboard"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+
                   <h2>معلم الحلقة</h2>
                 </div>
+
                 <div class="teacher-profile">
                   @if (circle.teacher.profileImageUrl) {
-                    <img [src]="circle.teacher.profileImageUrl" [alt]="'صورة المعلم ' + circle.teacher.fullName" />
+                    <img
+                      [src]="
+                        circle.teacher.profileImageUrl
+                      "
+                      [alt]="
+                        'صورة المعلم ' +
+                        circle.teacher.fullName
+                      "
+                    />
                   } @else {
-                    <span class="teacher-fallback" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+                    <span
+                      class="teacher-fallback"
+                      aria-hidden="true"
+                    >
+                      <i class="bi bi-person-fill"></i>
+                    </span>
                   }
+
                   <div>
-                    <strong>{{ circle.teacher.fullName }}</strong>
-                    <span>المعلم المشرف على الحلقة</span>
+                    <strong>
+                      {{ circle.teacher.fullName }}
+                    </strong>
+
+                    <span>
+                      المعلم المشرف على الحلقة
+                    </span>
                   </div>
                 </div>
               </section>
 
               <section class="info-card activity-card">
                 <div class="info-card-heading">
-                  <span class="info-icon"><i class="bi bi-activity" aria-hidden="true"></i></span>
+                  <span class="info-icon">
+                    <i
+                      class="bi bi-activity"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+
                   <h2>نشاط الحلقة</h2>
                 </div>
+
                 <div class="activity-grid">
-                  <div><strong>{{ circle.membersCount }}</strong><span>عضو</span></div>
-                  <div><strong>{{ circle.postsCount }}</strong><span>منشور</span></div>
+                  <div>
+                    <strong>
+                      {{ circle.membersCount }}
+                    </strong>
+
+                    <span>عضو</span>
+                  </div>
+
+                  <div>
+                    <strong>
+                      {{ circle.postsCount }}
+                    </strong>
+
+                    <span>منشور</span>
+                  </div>
                 </div>
+
                 <div class="last-activity">
                   <span>آخر نشاط</span>
-                  <time [attr.datetime]="circle.lastActivityAt">{{ circle.lastActivityAt | date: 'dd/MM/yyyy' }}</time>
+
+                  <time
+                    [attr.datetime]="
+                      circle.lastActivityAt
+                    "
+                  >
+                    {{
+                      circle.lastActivityAt
+                        | date: 'dd/MM/yyyy'
+                    }}
+                  </time>
                 </div>
               </section>
 
               <section class="info-card permission-card">
-                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                <i
+                  class="bi bi-shield-check"
+                  aria-hidden="true"
+                ></i>
+
                 <div>
                   <span>صلاحيتك داخل الحلقة</span>
-                  <strong>{{ roleLabel(circle.currentUserRole) }}</strong>
+
+                  <strong>
+                    {{
+                      roleLabel(
+                        circle.currentUserRole
+                      )
+                    }}
+                  </strong>
                 </div>
               </section>
             </aside>
@@ -211,18 +375,27 @@
           id="circle-members-panel"
           role="tabpanel"
           aria-labelledby="circle-members-tab"
-          [hidden]="activeContentSection() !== 'members'"
+          [hidden]="
+            activeContentSection() !== 'members'
+          "
+          class="reveal-content"
         >
-          @if (circle.permissions.canReviewJoinRequests) {
+          @if (
+            circle.permissions.canReviewJoinRequests
+          ) {
             <app-circle-join-requests-section
               [circleId]="circle.circleId"
-              (changed)="refreshDetailsFromContent()"
+              (changed)="
+                refreshDetailsFromContent()
+              "
             />
           }
 
           <app-circle-members-section
             [details]="circle"
-            [active]="activeContentSection() === 'members'"
+            [active]="
+              activeContentSection() === 'members'
+            "
             (detailsRefreshRequested)="
               refreshDetailsFromContent()
             "
@@ -230,42 +403,72 @@
         </div>
       }
 
-      @if (chatMounted() && (circle.isMember || circle.currentUserRole !== null)) {
+      @if (
+        chatMounted() &&
+        (
+          circle.isMember ||
+          circle.currentUserRole !== null
+        )
+      ) {
         <div
           id="circle-chat-panel"
           role="tabpanel"
           aria-labelledby="circle-chat-tab"
           class="chat-panel-wrapper"
-          [hidden]="activeContentSection() !== 'chat'"
+          [hidden]="
+            activeContentSection() !== 'chat'
+          "
+          appScrollReveal="220"
         >
-          <app-circle-chat [circleId]="circle.circleId" />
+          <app-circle-chat
+            [circleId]="circle.circleId"
+          />
         </div>
       }
 
-      @if (sessionsMounted() && (circle.isMember || circle.currentUserRole !== null)) {
+      @if (
+        sessionsMounted() &&
+        (
+          circle.isMember ||
+          circle.currentUserRole !== null
+        )
+      ) {
         <div
           id="circle-sessions-panel"
           role="tabpanel"
           aria-labelledby="circle-sessions-tab"
           class="sessions-panel-wrapper"
-          [hidden]="activeContentSection() !== 'sessions'"
+          [hidden]="
+            activeContentSection() !== 'sessions'
+          "
+          appScrollReveal="220"
         >
           <app-circle-sessions
             [circleId]="circle.circleId"
-            [canManageSessions]="circle.permissions.canCreateLiveSession" />
+            [canManageSessions]="
+              circle.permissions.canCreateLiveSession
+            "
+          />
         </div>
       }
     } @else {
-      <section class="content-boundary">
-        <div class="boundary-icon" aria-hidden="true">
+      <section
+        class="content-boundary"
+        appScrollReveal="220"
+      >
+        <div
+          class="boundary-icon"
+          aria-hidden="true"
+        >
           <i class="bi bi-shield-lock"></i>
         </div>
 
         <div>
           <h2>محتوى الحلقة خاص بالأعضاء</h2>
+
           <p>
-            انضم إلى الحلقة للوصول إلى قائمة الأعضاء والمحتوى المتاح
-            حسب صلاحيات دورك.
+            انضم إلى الحلقة للوصول إلى قائمة الأعضاء
+            والمحتوى المتاح حسب صلاحيات دورك.
           </p>
         </div>
       </section>
@@ -286,7 +489,9 @@
     <app-archive-circle-confirmation-modal
       [open]="archiveConfirmationOpen()"
       [circleName]="circle.name"
-      [loading]="actionPending() === 'archive'"
+      [loading]="
+        actionPending() === 'archive'
+      "
       (closed)="closeArchiveConfirmation()"
       (confirmed)="confirmArchive()"
     />

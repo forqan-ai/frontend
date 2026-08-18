@@ -1,6 +1,10 @@
 @let item = circle();
 
-<article class="circle-card" [attr.aria-busy]="actionPending()">
+<article
+  class="circle-card"
+  [attr.aria-busy]="actionPending()"
+  appScrollReveal="0"
+>
   <div class="card-cover">
     <app-circle-geometric-cover
       [circleId]="item.circleId"
@@ -16,7 +20,10 @@
           class="teacher-avatar"
         />
       } @else {
-        <div class="teacher-avatar teacher-placeholder" aria-hidden="true">
+        <div
+          class="teacher-avatar teacher-placeholder"
+          aria-hidden="true"
+        >
           <i class="bi bi-person-fill"></i>
         </div>
       }
@@ -24,11 +31,15 @@
   </div>
 
   <div class="card-content">
-    <h2 class="circle-title">{{ item.name }}</h2>
+    <h2 class="circle-title">
+      {{ item.name }}
+    </h2>
 
     <div class="teacher-subtitle">
       <span class="label">المعلم المشرف: </span>
-      <strong class="name">{{ item.teacher.fullName }}</strong>
+      <strong class="name">
+        {{ item.teacher.fullName }}
+      </strong>
     </div>
 
     <div class="status-row">
@@ -39,41 +50,83 @@
         </span>
       } @else if (item.joinPolicy === CircleJoinPolicy.Automatic) {
         <span class="status-badge open-status">
+          <i class="bi bi-unlock-fill" aria-hidden="true"></i>
           متاحة للانضمام
         </span>
-      } @else if (item.joinPolicy === CircleJoinPolicy.RequiresApproval) {
+      } @else if (
+        item.joinPolicy === CircleJoinPolicy.RequiresApproval
+      ) {
         <span class="status-badge open-status">
+          <i class="bi bi-person-check" aria-hidden="true"></i>
           الانضمام بموافقة الإدارة
         </span>
       } @else {
         <span class="status-badge invitation-status">
-          <i class="bi bi-envelope-lock" aria-hidden="true"></i>
+          <i
+            class="bi bi-envelope-lock"
+            aria-hidden="true"
+          ></i>
           خاصة - بالدعوة فقط
         </span>
       }
 
-      @if (showRole() && roleLabel(item.currentUserRole); as role) {
-        <span class="role-badge">{{ role }}</span>
+      @if (
+        showRole() &&
+        roleLabel(item.currentUserRole);
+        as role
+      ) {
+        <span class="role-badge">
+          <i class="bi bi-shield-check" aria-hidden="true"></i>
+          {{ role }}
+        </span>
       }
     </div>
 
     <div class="card-meta-grid">
       <div class="meta-col">
-        <span class="meta-label">آخر نشاط</span>
-        <time class="meta-value" [attr.datetime]="item.lastActivityAt">
+        <span class="meta-icon">
+          <i class="bi bi-clock-history" aria-hidden="true"></i>
+        </span>
+
+        <span class="meta-label">
+          آخر نشاط
+        </span>
+
+        <time
+          class="meta-value"
+          [attr.datetime]="item.lastActivityAt"
+        >
           {{ item.lastActivityAt | date: 'dd/MM/yyyy' }}
         </time>
       </div>
 
       <div class="meta-col">
-        <span class="meta-label">الأعضاء</span>
-        <span class="meta-value">{{ item.membersCount }} عضو</span>
+        <span class="meta-icon">
+          <i class="bi bi-people-fill" aria-hidden="true"></i>
+        </span>
+
+        <span class="meta-label">
+          الأعضاء
+        </span>
+
+        <span class="meta-value">
+          {{ item.membersCount }} عضو
+        </span>
       </div>
 
       @if (showPostsCount() && !showManageAction()) {
         <div class="meta-col meta-col-posts">
-          <span class="meta-label">المنشورات</span>
-          <span class="meta-value">{{ item.postsCount }} منشور</span>
+          <span class="meta-icon">
+            <i class="bi bi-chat-left-text-fill" aria-hidden="true"></i>
+          </span>
+
+          <span class="meta-label">
+            المنشورات
+          </span>
+
+          <span class="meta-value">
+            {{ item.postsCount }} منشور
+          </span>
         </div>
       }
     </div>
@@ -87,6 +140,7 @@
         [disabled]="actionPending()"
         (click)="manageRequested.emit(item)"
       >
+        <i class="bi bi-gear-fill" aria-hidden="true"></i>
         إدارة الحلقة
       </button>
     }
@@ -98,6 +152,7 @@
         [disabled]="actionPending()"
         (click)="joinRequested.emit(item)"
       >
+        <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
         انضم مجانًا
       </button>
     }
@@ -109,6 +164,7 @@
         [disabled]="actionPending()"
         (click)="joinRequestSubmitted.emit(item)"
       >
+        <i class="bi bi-send-fill" aria-hidden="true"></i>
         إرسال طلب انضمام
       </button>
     }
@@ -119,6 +175,7 @@
       [disabled]="actionPending()"
       (click)="detailsRequested.emit(item)"
     >
+      <i class="bi bi-arrow-left-circle" aria-hidden="true"></i>
       التفاصيل
     </button>
 
@@ -129,6 +186,7 @@
         [disabled]="actionPending()"
         (click)="leaveRequested.emit(item)"
       >
+        <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
         مغادرة الحلقة
       </button>
     }
@@ -140,9 +198,9 @@
         [disabled]="actionPending()"
         (click)="joinRequestCancelled.emit(item)"
       >
+        <i class="bi bi-x-circle" aria-hidden="true"></i>
         إلغاء طلب الانضمام
       </button>
     }
   </footer>
 </article>
-
