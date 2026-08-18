@@ -56,6 +56,8 @@ export const WalletTransactionDirectionLabel: Record<string, string> = {
 
 export const WalletTransactionReasonLabel: Record<string, string> = {
   CourseEarning: 'أرباح دورة',
+  CircleEarning: 'أرباح حلقة علم',
+  ConsultationEarning: 'أرباح استشارة',
   Withdrawal: 'سحب أرباح',
   Adjustment: 'تعديل رصيد',
   Refund: 'استرداد',
@@ -102,6 +104,9 @@ export interface AdminWithdrawalListItem extends Withdrawal {
 export interface AllocatedEarning {
   earningId: string;
   courseTitle?: string | null;
+  sourceType?: string | null;
+  sourceTitle?: string | null;
+  isPoints?: boolean;
   netAmount: number;
   createdAt: string;
 }
