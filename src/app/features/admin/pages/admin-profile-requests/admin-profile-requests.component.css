@@ -2,7 +2,7 @@
    Page
 ========================= */
 
-.review-page {
+.profile-requests-page {
   max-width: 1100px;
   margin: auto;
   padding: 2rem;
@@ -32,9 +32,7 @@
   padding: 1.5rem;
 
   background: white;
-
   border: 1px solid #e0d5c8;
-
   border-radius: 1rem;
 
   transition: 0.2s ease;
@@ -45,69 +43,62 @@
 }
 
 /* =========================
-   Profile Image
+   Student Info
 ========================= */
 
-.request-image-wrapper {
-  flex-shrink: 0;
-}
-
-.request-image {
-  width: 100px;
-  height: 100px;
-
-  object-fit: cover;
-
-  border-radius: 50%;
-
-  border: 3px solid #e0d5c8;
-
-  background: #faf8f5;
-}
-
-.default-avatar {
-  width: 100px;
-  height: 100px;
-
+.student-info {
   display: flex;
-
   align-items: center;
-  justify-content: center;
+  gap: 1.25rem;
 
-  border-radius: 50%;
-
-  background: #f5f2ee;
-
-  border: 3px solid #e0d5c8;
-
-  color: #8a7060;
-
-  font-size: 2.5rem;
-}
-
-/* =========================
-   Request Data
-========================= */
-
-.request-data {
   flex: 1;
 }
 
-.request-data h3 {
+.avatar {
+  width: 80px;
+  height: 80px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+  border: 3px solid #e0d5c8;
+
+  background: #f5f2ee;
+
+  color: #8a7060;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.avatar i {
+  font-size: 2rem;
+}
+
+.student-info h3 {
   margin: 0 0 0.5rem;
 
   color: #2c1a0e;
-
   font-weight: 800;
 }
 
-.request-data p {
+.student-info p {
   margin: 0.3rem 0;
 
   color: #777;
 }
 
-.request-data span {
+.student-info span {
   display: block;
 
   margin-top: 0.4rem;
@@ -169,15 +160,12 @@
 
 .review-overlay {
   position: fixed;
-
   inset: 0;
 
   background: rgba(0, 0, 0, 0.55);
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
   padding: 2rem;
@@ -186,8 +174,7 @@
 }
 
 .review-modal {
-  width: min(900px, 95vw);
-
+  width: min(1000px, 95vw);
   max-height: 90vh;
 
   background: #fff;
@@ -195,7 +182,6 @@
   border-radius: 1.25rem;
 
   display: flex;
-
   flex-direction: column;
 
   overflow: hidden;
@@ -213,9 +199,7 @@
   padding: 1.5rem 2rem;
 
   display: flex;
-
   justify-content: space-between;
-
   align-items: flex-start;
 
   border-bottom: 1px solid #e8ddd0;
@@ -275,19 +259,32 @@
 }
 
 /* =========================
-   Student Profile
+   Data Section
 ========================= */
 
-.profile-section {
-  display: flex;
+.data-section {
+  margin-bottom: 2rem;
+}
 
+.data-section h3 {
+  color: #5c3d1e;
+
+  font-weight: 800;
+
+  margin-bottom: 1rem;
+}
+
+/* =========================
+   Profile Data
+========================= */
+
+.profile-data {
+  display: flex;
   align-items: center;
 
   gap: 1.5rem;
 
   padding: 1.5rem;
-
-  margin-bottom: 2rem;
 
   background: #faf8f5;
 
@@ -296,103 +293,63 @@
   border-radius: 1rem;
 }
 
-.profile-section .profile-image {
+/* =========================
+   Image
+========================= */
+
+.image-container {
   width: 120px;
   height: 120px;
 
   flex-shrink: 0;
 
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
 
   border-radius: 50%;
+
+  background: #f5f2ee;
 
   border: 4px solid #e0d5c8;
 }
 
-.profile-section .default-avatar {
-  width: 120px;
-  height: 120px;
+.image-container img {
+  width: 100%;
+  height: 100%;
 
-  font-size: 3rem;
+  object-fit: cover;
 }
 
-.profile-info {
-  flex: 1;
-}
+.no-change {
+  padding: 1rem;
 
-.profile-info h3 {
-  margin: 0 0 0.5rem;
+  text-align: center;
 
-  color: #2c1a0e;
+  color: #8a7060;
 
-  font-weight: 800;
-}
-
-.profile-info p {
-  margin: 0.4rem 0;
-
-  color: #777;
+  font-size: 0.85rem;
 }
 
 /* =========================
-   Changes Section
+   Data Item
 ========================= */
 
-.changes-section {
-  margin-bottom: 2rem;
-}
+.data-item {
+  flex: 1;
 
-.section-title {
-  color: #5c3d1e;
-
-  font-weight: 800;
-
-  margin-bottom: 1rem;
-}
-
-.change-card {
-  border: 1px solid #e0d5c8;
-
-  border-radius: 0.9rem;
-
-  overflow: hidden;
+  padding: 1rem;
 
   background: #fff;
 
-  margin-bottom: 1rem;
-}
-
-.change-header {
-  padding: 1rem 1.25rem;
-
-  background: #faf8f5;
-
-  color: #2c1a0e;
-
-  font-weight: 700;
-}
-
-.change-content {
-  padding: 1rem 1.25rem;
-
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 1rem;
-}
-
-.change-item {
-  padding: 1rem;
-
-  background: #fafafa;
+  border: 1px solid #e0d5c8;
 
   border-radius: 0.75rem;
-
-  border: 1px solid #eee;
 }
 
-.change-label {
+.data-item span {
   display: block;
 
   margin-bottom: 0.5rem;
@@ -404,87 +361,34 @@
   font-weight: 700;
 }
 
-.old-value {
-  color: #777;
-}
+.data-item strong {
+  color: #2c1a0e;
 
-.new-value {
-  color: #198754;
-
-  font-weight: 700;
+  font-size: 1.05rem;
 }
 
 /* =========================
-   Image Changes
+   Request Date
 ========================= */
 
-.image-change {
-  display: flex;
-
-  align-items: center;
-
-  gap: 1.5rem;
-}
-
-.image-change-item {
-  flex: 1;
-
-  text-align: center;
-}
-
-.image-change-item span {
-  display: block;
-
-  margin-bottom: 0.75rem;
-
-  color: #8a7060;
-
-  font-size: 0.85rem;
-
-  font-weight: 700;
-}
-
-.image-change-item img {
-  width: 120px;
-  height: 120px;
-
-  object-fit: cover;
-
-  border-radius: 50%;
-
-  border: 3px solid #e0d5c8;
-}
-
-.image-arrow {
-  font-size: 1.5rem;
-
-  color: #8a7060;
-}
-
-/* =========================
-   Request Info
-========================= */
-
-.request-info {
+.request-date {
   padding: 1rem 1.25rem;
 
   background: #faf8f5;
 
-  border-radius: 0.75rem;
-
   border: 1px solid #e0d5c8;
 
-  margin-bottom: 1.5rem;
-}
-
-.request-info p {
-  margin: 0.4rem 0;
+  border-radius: 0.75rem;
 
   color: #555;
 }
 
-.request-info strong {
-  color: #5c3d1e;
+.request-date span {
+  color: #8a7060;
+
+  font-weight: 700;
+
+  margin-left: 0.35rem;
 }
 
 /* =========================
@@ -571,7 +475,6 @@
   display: flex;
 
   justify-content: center;
-
   align-items: center;
 
   padding: 1rem;
@@ -581,7 +484,6 @@
 
 .dialog-content {
   width: 500px;
-
   max-width: 90%;
 
   background: white;
@@ -617,6 +519,8 @@
   min-height: 120px;
 
   outline: none;
+
+  box-sizing: border-box;
 }
 
 .dialog-content textarea:focus {
@@ -684,7 +588,7 @@
 ========================= */
 
 @media (max-width: 768px) {
-  .review-page {
+  .profile-requests-page {
     padding: 1rem;
   }
 
@@ -692,6 +596,10 @@
     flex-direction: column;
 
     align-items: flex-start;
+  }
+
+  .student-info {
+    width: 100%;
   }
 
   .request-actions {
@@ -729,21 +637,21 @@
     flex: 1;
   }
 
-  .profile-section {
+  .profile-data {
     flex-direction: column;
 
-    text-align: center;
+    align-items: stretch;
   }
 
-  .change-content {
-    grid-template-columns: 1fr;
+  .image-container {
+    margin: auto;
   }
 
-  .image-change {
+  .dialog-actions {
     flex-direction: column;
   }
 
-  .image-arrow {
-    transform: rotate(90deg);
+  .dialog-actions button {
+    width: 100%;
   }
 }
