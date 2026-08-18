@@ -5,16 +5,23 @@ import {
   input,
   output,
 } from '@angular/core';
+
 import {
-  CircleRole,
   CircleJoinPolicy,
+  CircleRole,
   LearningCircleListItem,
 } from '../../models/learning-circle.models';
+
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 import { CircleGeometricCoverComponent } from '../circle-geometric-cover/circle-geometric-cover.component';
 
 @Component({
   selector: 'app-learning-circle-card',
-  imports: [DatePipe, CircleGeometricCoverComponent],
+  imports: [
+    DatePipe,
+    CircleGeometricCoverComponent,
+    ScrollRevealDirective,
+  ],
   templateUrl: './learning-circle-card.component.html',
   styleUrl: './learning-circle-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,8 +47,6 @@ export class LearningCircleCardComponent {
 
   readonly CircleJoinPolicy = CircleJoinPolicy;
 
-
-
   roleLabel(role: CircleRole | null): string | null {
     switch (role) {
       case CircleRole.Owner:
@@ -58,3 +63,4 @@ export class LearningCircleCardComponent {
     }
   }
 }
+

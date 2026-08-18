@@ -12,8 +12,15 @@ export interface ILiveSession {
   sessionDate: string;
   durationMinutes: number;
   pointsPrice: number;
-  meetingLink?: string | null;
+
   platform?: string | null;
+
+
+  zoomJoinUrl?: string | null;
+  zoomMeetingId?: string | null;
+  zoomPassword?: string | null;
+  zoomStartUrl?: string | null;
+
   status: SessionStatus;
   circleId: string;
   circleName: string;
@@ -30,7 +37,7 @@ export interface ICreateSessionDto {
   durationMinutes: number;
   pointsPrice: number;
   circleId: string;
-  meetingLink?: string | null;
+
   platform?: string | null;
 }
 
@@ -40,6 +47,6 @@ export interface IUpdateSessionDto {
   sessionDate?: string | null;
   durationMinutes?: number | null;
   pointsPrice?: number | null;
-  meetingLink?: string | null;
+
   platform?: string | null;
 }

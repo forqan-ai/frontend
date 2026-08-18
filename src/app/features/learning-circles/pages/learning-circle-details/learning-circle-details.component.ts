@@ -9,36 +9,45 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subscription,
   distinctUntilChanged,
   finalize,
   map,
 } from 'rxjs';
+
 import { ToastService } from '../../../../core/services/toast.service';
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
+
 import { CircleChatComponent } from '../../../circle-chat/Components/circle-chat/circle-chat.component';
 import { CircleSessionsComponent } from '../../../live-sessions/Pages/circle-sessions/circle-sessions.component';
+
 import { ArchiveCircleConfirmationModalComponent } from '../../components/archive-circle-confirmation-modal/archive-circle-confirmation-modal.component';
 import {
   CircleContentNavigationComponent,
   CircleContentSection,
 } from '../../components/circle-content-navigation/circle-content-navigation.component';
-import { CircleMembersSectionComponent } from '../../components/circle-members-section/circle-members-section.component';
 import { CircleJoinRequestsSectionComponent } from '../../components/circle-join-requests-section/circle-join-requests-section.component';
+import { CircleMembersSectionComponent } from '../../components/circle-members-section/circle-members-section.component';
 import { CirclePostsSectionComponent } from '../../components/circle-posts-section/circle-posts-section.component';
 import { LearningCircleDetailsSummaryComponent } from '../../components/learning-circle-details-summary/learning-circle-details-summary.component';
 import { MembershipConfirmationModalComponent } from '../../components/membership-confirmation-modal/membership-confirmation-modal.component';
+
 import { CircleMembershipAction } from '../../models/circle-action.models';
-import { CircleRole, LearningCircleDetails } from '../../models/learning-circle.models';
+import {
+  CircleRole,
+  LearningCircleDetails,
+} from '../../models/learning-circle.models';
+
 import { CircleActionErrorService } from '../../services/circle-action-error.service';
 import {
   CircleDetailsErrorService,
   CircleDetailsLoadError,
 } from '../../services/circle-details-error.service';
-import { LearningCirclesService } from '../../services/learning-circles.service';
 import { CircleJoinRequestsService } from '../../services/circle-join-requests.service';
+import { LearningCirclesService } from '../../services/learning-circles.service';
 
 type DetailsAction =
   | CircleMembershipAction
@@ -46,6 +55,7 @@ type DetailsAction =
 
 @Component({
   selector: 'app-learning-circle-details',
+  standalone: true,
   imports: [
     ToastComponent,
     LearningCircleDetailsSummaryComponent,
@@ -58,23 +68,17 @@ type DetailsAction =
     MembershipConfirmationModalComponent,
     ArchiveCircleConfirmationModalComponent,
     DatePipe,
-    RouterLink
-],
+    ScrollRevealDirective,
+  ],
   templateUrl: './learning-circle-details.component.html',
   styleUrl: './learning-circle-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LearningCircleDetailsComponent implements OnInit {
-  private readonly circlesService =
-    inject(LearningCirclesService);
+  private readonly circlesService = inject(LearningCirclesService);
   private readonly joinRequestsService = inject(CircleJoinRequestsService);
-
-  private readonly actionErrorService =
-    inject(CircleActionErrorService);
-
-  private readonly detailsErrorService =
-    inject(CircleDetailsErrorService);
-
+  private readonly actionErrorService = inject(CircleActionErrorService);
+  private readonly detailsErrorService = inject(CircleDetailsErrorService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
@@ -92,6 +96,7 @@ export class LearningCircleDetailsComponent implements OnInit {
   readonly archiveConfirmationOpen = signal(false);
   readonly activeContentSection =
     signal<CircleContentSection>('posts');
+
   readonly postsMounted = signal(false);
   readonly membersMounted = signal(false);
   readonly chatMounted = signal(false);
@@ -122,10 +127,13 @@ export class LearningCircleDetailsComponent implements OnInit {
     switch (role) {
       case CircleRole.Owner:
         return 'مالك الحلقة';
+
       case CircleRole.Moderator:
         return 'مشرف';
+
       case CircleRole.Member:
         return 'عضو';
+
       default:
         return 'زائر';
     }
@@ -142,7 +150,9 @@ export class LearningCircleDetailsComponent implements OnInit {
       return;
     }
 
-    const isParticipant = details.isMember || details.currentUserRole !== null;
+    const isParticipant =
+      details.isMember || details.currentUserRole !== null;
+
     const allowed =
       section === 'posts'
         ? details.permissions.canViewPosts
@@ -169,21 +179,19 @@ export class LearningCircleDetailsComponent implements OnInit {
     }
   }
 
-
   backToCircles(): void {
     if (this.router.url.startsWith('/student')) {
-      this.router.navigateByUrl('/student/learning-circles')
+      void this.router.navigateByUrl('/student/learning-circles');
+      return;
     }
-    else if (this.router.url.startsWith('/teacher')) {
-      this.router.navigateByUrl('/teacher/circles')
-    }
-  }
-  // void this.router.navigate([
-  //   this.isTeacher
-  //     ? '/teacher/circles'
-  //     : '/student/learning-circles',
-  // ]);
 
+    if (this.router.url.startsWith('/teacher')) {
+      void this.router.navigateByUrl('/teacher/circles');
+      return;
+    }
+
+    void this.router.navigateByUrl('/student/learning-circles');
+  }
 
   editCircle(): void {
     const details = this.details();
@@ -233,25 +241,65 @@ export class LearningCircleDetailsComponent implements OnInit {
 
   requestToJoin(): void {
     const details = this.details();
-    if (!details?.permissions.canRequestToJoin || this.actionPending()) return;
+
+    if (
+      !details?.permissions.canRequestToJoin ||
+      this.actionPending()
+    ) {
+      return;
+    }
+
     this.actionPending.set('join');
-    this.joinRequestsService.create(details.circleId)
-      .pipe(finalize(() => this.actionPending.set(null)), takeUntilDestroyed(this.destroyRef))
+
+    this.joinRequestsService
+      .create(details.circleId)
+      .pipe(
+        finalize(() => this.actionPending.set(null)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
-        next: () => { this.toast.show('تم إرسال طلب الانضمام بنجاح.'); this.loadDetails(true); },
-        error: () => this.toast.show('تعذر إرسال طلب الانضمام.', 'error'),
+        next: () => {
+          this.toast.show('تم إرسال طلب الانضمام بنجاح.');
+          this.loadDetails(true);
+        },
+        error: () => {
+          this.toast.show(
+            'تعذر إرسال طلب الانضمام.',
+            'error',
+          );
+        },
       });
   }
 
   cancelJoinRequest(): void {
     const details = this.details();
-    if (!details?.permissions.canCancelJoinRequest || this.actionPending()) return;
+
+    if (
+      !details?.permissions.canCancelJoinRequest ||
+      this.actionPending()
+    ) {
+      return;
+    }
+
     this.actionPending.set('join');
-    this.joinRequestsService.cancel(details.circleId)
-      .pipe(finalize(() => this.actionPending.set(null)), takeUntilDestroyed(this.destroyRef))
+
+    this.joinRequestsService
+      .cancel(details.circleId)
+      .pipe(
+        finalize(() => this.actionPending.set(null)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
-        next: () => { this.toast.show('تم إلغاء طلب الانضمام.'); this.loadDetails(true); },
-        error: () => this.toast.show('تعذر إلغاء طلب الانضمام.', 'error'),
+        next: () => {
+          this.toast.show('تم إلغاء طلب الانضمام.');
+          this.loadDetails(true);
+        },
+        error: () => {
+          this.toast.show(
+            'تعذر إلغاء طلب الانضمام.',
+            'error',
+          );
+        },
       });
   }
 
@@ -265,7 +313,11 @@ export class LearningCircleDetailsComponent implements OnInit {
     const action = this.membershipAction();
     const details = this.details();
 
-    if (!action || !details || this.actionPending()) {
+    if (
+      !action ||
+      !details ||
+      this.actionPending()
+    ) {
       return;
     }
 
@@ -290,6 +342,7 @@ export class LearningCircleDetailsComponent implements OnInit {
                 : 'تعذر مغادرة الحلقة. حاول مرة أخرى.',
               'error',
             );
+
             return;
           }
 
@@ -303,6 +356,7 @@ export class LearningCircleDetailsComponent implements OnInit {
 
           this.loadDetails(true);
         },
+
         error: (error: HttpErrorResponse) => {
           this.toast.show(
             this.actionErrorService.getMessage(
@@ -366,15 +420,19 @@ export class LearningCircleDetailsComponent implements OnInit {
               'تعذر أرشفة الحلقة. حاول مرة أخرى.',
               'error',
             );
+
             return;
           }
 
           this.archiveConfirmationOpen.set(false);
+
           this.toast.show(
             'تمت أرشفة حلقة التعلم بنجاح.',
           );
+
           this.loadDetails(true);
         },
+
         error: (error: HttpErrorResponse) => {
           this.toast.show(
             this.detailsErrorService.getArchiveMessage(error),
@@ -389,18 +447,22 @@ export class LearningCircleDetailsComponent implements OnInit {
       });
   }
 
-  private loadDetails(preserveContent = false): void {
+  private loadDetails(
+    preserveContent = false,
+  ): void {
     this.loadSubscription?.unsubscribe();
     this.loadSubscription = null;
 
     if (!this.circleId) {
       this.loading.set(false);
       this.details.set(null);
+
       this.loadError.set({
         title: 'رابط الحلقة غير صالح',
         message: 'تعذر تحديد حلقة التعلم المطلوبة.',
         retryable: false,
       });
+
       return;
     }
 
@@ -425,6 +487,7 @@ export class LearningCircleDetailsComponent implements OnInit {
           this.syncContentState(contextualDetails);
           this.loadError.set(null);
         },
+
         error: (error: HttpErrorResponse) => {
           const loadError =
             this.detailsErrorService.getLoadError(error);
@@ -434,6 +497,7 @@ export class LearningCircleDetailsComponent implements OnInit {
               'تعذر تحديث بيانات الحلقة. حاول مرة أخرى.',
               'error',
             );
+
             return;
           }
 
@@ -443,7 +507,9 @@ export class LearningCircleDetailsComponent implements OnInit {
       });
   }
 
-  private shouldResync(error: HttpErrorResponse): boolean {
+  private shouldResync(
+    error: HttpErrorResponse,
+  ): boolean {
     return (
       error.status === 403 ||
       error.status === 404 ||
@@ -481,6 +547,7 @@ export class LearningCircleDetailsComponent implements OnInit {
 
     if (circleChanged) {
       this.contentCircleId = details.circleId;
+
       this.postsMounted.set(false);
       this.membersMounted.set(false);
       this.chatMounted.set(false);
@@ -489,9 +556,13 @@ export class LearningCircleDetailsComponent implements OnInit {
 
     const canViewPosts =
       details.permissions.canViewPosts;
+
     const canViewMembers =
       details.permissions.canViewMembers;
-    const isParticipant = details.isMember || details.currentUserRole !== null;
+
+    const isParticipant =
+      details.isMember ||
+      details.currentUserRole !== null;
 
     if (!canViewPosts) {
       this.postsMounted.set(false);
@@ -506,16 +577,32 @@ export class LearningCircleDetailsComponent implements OnInit {
       this.sessionsMounted.set(false);
     }
 
-    const currentSection = this.activeContentSection();
+    const currentSection =
+      this.activeContentSection();
 
     const currentAllowed = (() => {
-      if (currentSection === 'posts') return canViewPosts;
-      if (currentSection === 'members') return canViewMembers;
-      if (currentSection === 'chat' || currentSection === 'sessions') return isParticipant;
+      if (currentSection === 'posts') {
+        return canViewPosts;
+      }
+
+      if (currentSection === 'members') {
+        return canViewMembers;
+      }
+
+      if (
+        currentSection === 'chat' ||
+        currentSection === 'sessions'
+      ) {
+        return isParticipant;
+      }
+
       return false;
     })();
 
-    const hasAnyContent = canViewPosts || canViewMembers || isParticipant;
+    const hasAnyContent =
+      canViewPosts ||
+      canViewMembers ||
+      isParticipant;
 
     if (!hasAnyContent) {
       this.activeContentSection.set('posts');

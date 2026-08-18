@@ -27,6 +27,7 @@
 
 .panel h1 {
   font-size: 24px;
+  margin: 0;
 }
 
 .panel h3 {
@@ -34,6 +35,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin: 0;
 }
 
 .panel h3 i {
@@ -43,6 +45,8 @@
 
 .desc {
   font-size: 14px;
+  line-height: 1.8;
+  margin: 0;
 }
 
 .meta-grid {
@@ -59,6 +63,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .meta-item i {
@@ -78,11 +83,32 @@
   display: block;
   font-size: 11px;
   color: var(--text-light);
+  margin-bottom: 4px;
 }
 
 .meta-item strong {
   font-size: 13px;
   color: var(--text);
+  word-break: break-word;
+}
+
+.meta-item strong a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.meta-item strong a:hover {
+  text-decoration: underline;
+}
+
+.zoom-item {
+  border-color: var(--primary);
+}
+
+.zoom-item > i {
+  background-color: var(--primary);
+  color: #fff;
 }
 
 .booking-area {
@@ -97,7 +123,7 @@
   flex-wrap: wrap;
 }
 
-.my-booking>span {
+.my-booking > span {
   font-size: 13px;
   color: var(--text-light);
 }
@@ -105,9 +131,11 @@
 .actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .btn-primary {
+  border: none;
   background-color: var(--primary);
   color: #fff;
   border-radius: 999px;
@@ -117,16 +145,27 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: background-color 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
+  transform: translateY(-1px);
 }
 
 .btn-primary.big {
   padding: 12px 32px;
   font-size: 14px;
+}
+
+.btn-primary.btn-sm,
+.btn-success.btn-sm {
+  padding: 7px 16px;
+  font-size: 12px;
 }
 
 .btn-ghost {
@@ -140,9 +179,38 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-zoom {
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btn-zoom:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
 }
 
 .btn-danger {
+  border: none;
   background-color: rgba(193, 102, 60, 0.12);
   color: #c1663c;
   border-radius: 999px;
@@ -152,6 +220,26 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
+}
+
+.btn-success {
+  border: none;
+  background-color: rgba(74, 222, 128, 0.12);
+  color: #4ade80;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.btn-danger:hover,
+.btn-success:hover {
+  opacity: 0.8;
 }
 
 .state-box {
@@ -176,8 +264,13 @@
   color: var(--primary);
 }
 
+.state-box h4 {
+  margin: 0;
+}
+
 .state-box p {
   font-size: 13px;
+  margin: 0;
 }
 
 .skeleton-panel {
@@ -193,7 +286,12 @@
 .sk-line {
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--border) 25%, var(--secondary) 50%, var(--border) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--secondary) 50%,
+    var(--border) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
 }
@@ -214,20 +312,36 @@
   width: 90%;
 }
 
-@keyframes shimmer {
-  from {
-    background-position: 200% 0;
-  }
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
 
-  to {
-    background-position: -200% 0;
-  }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.table th {
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+.table td {
+  color: var(--text);
 }
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
@@ -248,7 +362,12 @@
   flex-direction: column;
   gap: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  animation: modal-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: modal-pop 0.3s cubic-bezier(
+    0.175,
+    0.885,
+    0.32,
+    1.275
+  );
 }
 
 .modal-header {
@@ -265,9 +384,17 @@
   margin: 0;
 }
 
-.text-danger { color: #c1663c; }
-.text-success { color: #4ade80; }
-.text-primary { color: var(--primary); }
+.text-danger {
+  color: #c1663c;
+}
+
+.text-success {
+  color: #4ade80;
+}
+
+.text-primary {
+  color: var(--primary);
+}
 
 .btn-close {
   background: transparent;
@@ -280,7 +407,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .btn-close:hover {
@@ -307,20 +436,14 @@
   border: none;
 }
 
-.btn-success {
-  background-color: rgba(74, 222, 128, 0.12);
-  color: #4ade80;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-size: 13px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
 
-.btn-success:hover, .btn-danger:hover {
-  opacity: 0.8;
+  to {
+    background-position: -200% 0;
+  }
 }
 
 @keyframes modal-pop {
@@ -328,8 +451,51 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .details-page {
+    width: min(94%, 100%);
+    padding-block: 20px;
+  }
+
+  .panel {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .panel h1 {
+    font-size: 21px;
+  }
+
+  .panel-header {
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .actions > a,
+  .actions > button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer button {
+    width: 100%;
   }
 }

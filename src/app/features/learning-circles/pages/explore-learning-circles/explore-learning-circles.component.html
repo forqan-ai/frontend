@@ -1,14 +1,6 @@
 <app-toast />
 
 <main class="list-page" dir="rtl">
-  <!-- <nav class="breadcrumb" aria-label="مسار الصفحة">
-    <ol>
-      <li>لوحة التحكم</li>
-      <li>حلقات التعلم</li>
-      <li aria-current="page">استكشف حلقات التعلم</li>
-    </ol>
-  </nav> -->
-
   <nav class="circles-navigation" aria-label="التنقل بين صفحات حلقات التعلم">
     <a
       routerLink="."
@@ -29,19 +21,19 @@
 
   <header class="page-header">
     <div class="page-heading">
+      <span class="page-eyebrow">حلقات التعلم</span>
+
       <h1>استكشف حلقات التعلم</h1>
+
       <p>
         اكتشف حلقات التعلم المتاحة وانضم مجانًا إلى الحلقة المناسبة لاهتماماتك.
       </p>
     </div>
 
     @if (canCreateCircle) {
-      <a
-        class="create-button"
-        routerLink="create"
-      >
+      <a class="create-button" routerLink="create">
         <i class="bi bi-plus-lg" aria-hidden="true"></i>
-        إنشاء حلقة
+        <span>إنشاء حلقة</span>
       </a>
     }
   </header>
@@ -55,6 +47,7 @@
         [formControl]="searchControl"
         placeholder="ابحث باسم الحلقة أو الموضوع..."
         aria-label="البحث في حلقات التعلم"
+        autocomplete="off"
       />
 
       @if (searchControl.value) {
@@ -71,13 +64,14 @@
 
     @if (searchValidation()) {
       <p class="search-validation">
+        <i class="bi bi-info-circle" aria-hidden="true"></i>
         {{ searchValidation() }}
       </p>
     }
   </section>
 
   <div class="results-header">
-    <div>
+    <div class="results-heading">
       <h2>حلقات التعلم المتاحة</h2>
 
       @if (!loading() && !searchValidation()) {
@@ -94,63 +88,85 @@
         class="reset-search"
         (click)="clearSearch()"
       >
+        <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
         مسح البحث
       </button>
     }
   </div>
 
   @if (searchValidation()) {
-    <section class="state-box">
-      <i class="bi bi-search" aria-hidden="true"></i>
+    <section class="state-box search-state">
+      <div class="state-icon">
+        <i class="bi bi-search" aria-hidden="true"></i>
+      </div>
+
       <h2>أكمل كلمة البحث</h2>
+
       <p>{{ searchValidation() }}</p>
     </section>
   } @else if (loadFailed() && !loading()) {
     <section class="state-box" role="alert">
-      <i class="bi bi-wifi-off" aria-hidden="true"></i>
+      <div class="state-icon">
+        <i class="bi bi-wifi-off" aria-hidden="true"></i>
+      </div>
+
       <h2>تعذر تحميل حلقات التعلم</h2>
-      <p>تحقق من الاتصال ثم حاول مرة أخرى.</p>
-      <button type="button" (click)="retry()">
+
+      <p>تحقق من الاتصال بالإنترنت ثم حاول مرة أخرى.</p>
+
+      <button type="button" class="state-action" (click)="retry()">
+        <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
         إعادة المحاولة
       </button>
     </section>
   } @else if (!loading() && circles().length === 0) {
     <section class="state-box">
-      <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+      <div class="state-icon">
+        <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+      </div>
 
       @if (searchTerm()) {
         <h2>لا توجد حلقات مطابقة</h2>
-        <p>جرّب استخدام كلمة بحث مختلفة.</p>
 
-        <button type="button" (click)="clearSearch()">
+        <p>لم نجد حلقات تعلم تطابق كلمة البحث الحالية.</p>
+
+        <button
+          type="button"
+          class="state-action"
+          (click)="clearSearch()"
+        >
+          <i class="bi bi-grid" aria-hidden="true"></i>
           عرض جميع الحلقات
         </button>
       } @else {
         <h2>لا توجد حلقات تعلم متاحة حاليًا</h2>
+
         <p>ستظهر الحلقات الجديدة هنا عند إضافتها.</p>
       }
     </section>
   } @else {
-    <app-learning-circles-grid
-      [circles]="circles()"
-      [loading]="loading()"
-      [actionCircleId]="actionCircleId()"
-      [allowJoin]="canJoinCircles"
-      [showMemberMetadata]="false"
-      [allowLeaveActions]="false"
-      [allowManageActions]="false"
-      (joinRequested)="openJoinConfirmation($event)"
-      (joinRequestSubmitted)="requestToJoin($event)"
-      (joinRequestCancelled)="cancelJoinRequest($event)"
-      (detailsRequested)="showDetails($event)"
-    />
+    <section class="circles-content" aria-label="قائمة حلقات التعلم">
+      <app-learning-circles-grid
+        [circles]="circles()"
+        [loading]="loading()"
+        [actionCircleId]="actionCircleId()"
+        [allowJoin]="canJoinCircles"
+        [showMemberMetadata]="false"
+        [allowLeaveActions]="false"
+        [allowManageActions]="false"
+        (joinRequested)="openJoinConfirmation($event)"
+        (joinRequestSubmitted)="requestToJoin($event)"
+        (joinRequestCancelled)="cancelJoinRequest($event)"
+        (detailsRequested)="showDetails($event)"
+      />
 
-    <app-learning-circles-pagination
-      [currentPage]="pageNumber()"
-      [totalPages]="totalPages()"
-      [disabled]="loading()"
-      (pageChanged)="goToPage($event)"
-    />
+      <app-learning-circles-pagination
+        [currentPage]="pageNumber()"
+        [totalPages]="totalPages()"
+        [disabled]="loading()"
+        (pageChanged)="goToPage($event)"
+      />
+    </section>
   }
 
   <app-membership-confirmation-modal

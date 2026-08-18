@@ -1,34 +1,69 @@
 @if (opened()) {
-<div class="overlay" (click)="closeSidebar()"></div>
+  <div class="overlay" (click)="closeSidebar()"></div>
 }
 
-<aside class="sidebar" [class.open]="opened()" dir="rtl" aria-label="قائمة المعلم">
+<aside
+  class="sidebar"
+  [class.open]="opened()"
+  dir="rtl"
+  aria-label="قائمة المعلم"
+>
   <div class="brand">
     <div class="logo">
       <img src="images/logo.png" alt="منصة الفرقان" />
     </div>
+
     <span>مساحة المعلم</span>
   </div>
 
   <nav>
     @for (item of menu(); track item.route) {
-    <a [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.exact ?? true }"
-      (click)="closeSidebar()">
-      <i [class]="'nav-icon ' + item.icon" aria-hidden="true"></i>
-      <span class="nav-label">{{ item.title }}</span>
-    </a>
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? true }"
+        (click)="closeSidebar()"
+      >
+        <i
+          [class]="'nav-icon ' + item.icon"
+          aria-hidden="true"
+        ></i>
+
+        <span class="nav-label">
+          {{ item.title }}
+        </span>
+      </a>
     }
   </nav>
 
-  <a routerLink="/student" class="role-switch-btn text-decoration-none ">
-    <span class="role-switch-icon"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></span>
-    لوحة الطالب
-    <i class="bi bi-arrow-left role-switch-arrow" aria-hidden="true"></i>
-  </a>
+  <div class="sidebar-footer">
+    <a
+      routerLink="/student"
+      class="role-switch-btn"
+      (click)="closeSidebar()"
+    >
+      <span class="role-switch-icon">
+        <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+      </span>
 
-  <app-button (btnClick)="authservice.logout()" variant="secondary"
-    customClass="w-100 d-flex align-items-center justify-content-start">
-    <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-    تسجيل الخروج
-  </app-button>
+      لوحة الطالب
+
+      <i
+        class="bi bi-arrow-left role-switch-arrow"
+        aria-hidden="true"
+      ></i>
+    </a>
+
+    <button
+      type="button"
+      class="logout-btn"
+      (click)="authservice.logout()"
+    >
+      <span class="logout-icon">
+        <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+      </span>
+
+      تسجيل الخروج
+    </button>
+  </div>
 </aside>
