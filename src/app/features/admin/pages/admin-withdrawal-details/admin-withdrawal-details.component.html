@@ -160,7 +160,7 @@
           <table class="table earnings-table align-middle">
             <thead>
               <tr>
-                <th>الدورة</th>
+                <th>المصدر</th>
                 <th class="th-num">الصافي</th>
                 <th class="th-num">التاريخ</th>
               </tr>
@@ -168,7 +168,12 @@
             <tbody>
               @for (e of w.allocatedEarnings; track e.earningId) {
                 <tr>
-                  <td>{{ e.courseTitle || 'دورة' }}</td>
+                  <td>
+                    {{ e.sourceTitle || e.courseTitle || '—' }}
+                    @if (e.isPoints) {
+                      <span class="badge-points">نقاط</span>
+                    }
+                  </td>
                   <td class="amount" dir="ltr">{{ e.netAmount.toLocaleString('en-EG') }} <span class="currency">جنيه</span></td>
                   <td class="cell-muted">{{ formatDate(e.createdAt) }}</td>
                 </tr>

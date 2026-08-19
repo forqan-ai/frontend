@@ -882,16 +882,56 @@ app-module-card {
   font-weight: 800;
 }
 
-.delete-warning {
-  display: block;
+.warning-box {
+  display: flex;
+  align-items: flex-start;
 
-  margin-top: 10px;
+  gap: 0.65rem;
+
+  margin-top: 14px;
+
+  border-inline-start: 3px solid #b84a4a;
+
+  border-radius: 12px;
+
+  background: #fff3f3;
+
+  padding: 14px 16px;
+
+  text-align: start;
+}
+
+.warning-box > i {
+  margin-top: 2px;
 
   color: #b84a4a;
 
-  font-size: 11px;
+  font-size: 15px;
+}
+
+.warning-box strong {
+  color: #341b16;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.warning-box ul {
+  display: grid;
+
+  gap: 5px;
+
+  margin: 7px 0 0;
+
+  padding-inline-start: 18px;
+
+  color: #7a635d;
+
+  font-size: 12px;
 
   line-height: 1.7;
+
+  list-style: disc;
 }
 
 .delete-dialog-actions {
@@ -1350,8 +1390,16 @@ app-module-card {
     font-size: 12px;
   }
 
-  .delete-warning {
-    font-size: 10px;
+  .warning-box {
+    padding: 12px 13px;
+  }
+
+  .warning-box strong {
+    font-size: 12px;
+  }
+
+  .warning-box ul {
+    font-size: 11px;
   }
 
   .delete-dialog-actions {

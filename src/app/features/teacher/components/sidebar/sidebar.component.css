@@ -66,14 +66,21 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
 }
 
 .logo::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.55) 45%, transparent 60%);
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 45%,
+    transparent 60%
+  );
   transform: translateX(-120%);
   z-index: 1;
 }
@@ -175,7 +182,9 @@ nav a .nav-icon {
   justify-content: center;
   color: #e9d4bf;
   font-size: 18px;
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.2s ease;
 }
 
 nav a:hover {
@@ -193,12 +202,15 @@ nav a.active {
   background: var(--primary-light);
   border-color: rgba(255, 255, 255, 0.6);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
-  animation: navItemIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both, activePop 0.35s ease;
+  animation:
+    navItemIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both,
+    activePop 0.35s ease;
 }
 
 nav a.active .nav-icon {
   color: var(--primary-hover);
 }
+
 @keyframes activePop {
   0% {
     transform: scale(0.96);
@@ -216,6 +228,7 @@ nav a.active .nav-icon {
 nav a.active::before {
   display: none;
 }
+
 .nav-label {
   min-width: 0;
   overflow: hidden;
@@ -242,7 +255,8 @@ nav a.active::before {
   }
 }
 
-.role-switch-btn {
+.role-switch-btn,
+.logout-btn {
   width: 100%;
   min-height: 48px;
   padding: 10px 14px;
@@ -253,7 +267,11 @@ nav a.active::before {
   overflow: hidden;
   isolation: isolate;
   color: #fff;
-   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-hover) 100%
+  );
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 14px;
   cursor: pointer;
@@ -261,6 +279,7 @@ nav a.active::before {
   font-size: 14px;
   font-weight: 900;
   text-align: start;
+  text-decoration: none;
   box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.55);
   transition:
     transform 0.2s ease,
@@ -268,20 +287,28 @@ nav a.active::before {
     filter 0.2s ease;
 }
 
-.role-switch-btn::after {
+.role-switch-btn::after,
+.logout-btn::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.25) 45%, transparent 60%);
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.25) 45%,
+    transparent 60%
+  );
   transform: translateX(-120%);
   z-index: -1;
 }
 
-.role-switch-btn:hover::after {
+.role-switch-btn:hover::after,
+.logout-btn:hover::after {
   animation: logoShine 0.9s ease;
 }
 
-.role-switch-btn .role-switch-icon {
+.role-switch-btn .role-switch-icon,
+.logout-btn .logout-icon {
   width: 28px;
   height: 28px;
   flex: 0 0 auto;
@@ -303,7 +330,8 @@ nav a.active::before {
     opacity 0.2s ease;
 }
 
-.role-switch-btn:hover {
+.role-switch-btn:hover,
+.logout-btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.08);
   box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.6);
@@ -313,7 +341,12 @@ nav a.active::before {
   transform: rotate(180deg);
 }
 
-.role-switch-btn:active {
+.logout-btn:hover .logout-icon {
+  transform: translateX(-3px);
+}
+
+.role-switch-btn:active,
+.logout-btn:active {
   transform: translateY(0) scale(0.98);
 }
 
@@ -322,44 +355,10 @@ nav a.active::before {
   opacity: 1;
 }
 
-.logout {
-  min-height: 44px;
-  padding: 0 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255, 255, 255, 0.78);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13.5px;
-  font-weight: 700;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.logout:hover {
-  color: #fff;
-  background: rgba(168, 68, 68, 0.32);
-  transform: translateY(-1px);
-}
-
-.logout:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.logout i {
-  color: #e9d4bf;
-  font-size: 16px;
-  transition: transform 0.25s ease;
-}
-
-.logout:hover i {
-  transform: translateX(-3px);
+.role-switch-btn:focus-visible,
+.logout-btn:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
 }
 
 .overlay {
@@ -411,14 +410,14 @@ nav a.active::before {
   nav a,
   .sidebar-footer,
   .role-switch-btn,
-  .logout {
+  .logout-btn {
     animation: none;
     transition: none;
   }
 
   nav a:hover,
   .role-switch-btn:hover,
-  .logout:hover {
+  .logout-btn:hover {
     transform: none;
   }
 }

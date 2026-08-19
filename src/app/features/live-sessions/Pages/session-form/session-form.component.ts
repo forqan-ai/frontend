@@ -32,22 +32,29 @@ export class SessionFormComponent implements OnInit {
     durationMinutes: [60, [Validators.required, Validators.min(5)]],
     isFree: [true],
     pointsPrice: [0],
-    meetingLink: [''],
-    platform: [''],
+    platform: ['Zoom'],
   });
 
   ngOnInit(): void {
-    this.circleId = this.route.snapshot.paramMap.get('circleId') ?? '';
-    this.sessionId = this.route.snapshot.paramMap.get('sessionId');
+    this.circleId =
+      this.route.snapshot.paramMap.get('circleId') ?? '';
+
+    this.sessionId =
+      this.route.snapshot.paramMap.get('sessionId');
 
     this.form.controls.isFree.valueChanges.subscribe((isFree) => {
       const price = this.form.controls.pointsPrice;
+
       if (isFree) {
         price.setValue(0);
         price.clearValidators();
       } else {
-        price.setValidators([Validators.required, Validators.min(1)]);
+        price.setValidators([
+          Validators.required,
+          Validators.min(1),
+        ]);
       }
+
       price.updateValueAndValidity();
     });
 
@@ -57,7 +64,9 @@ export class SessionFormComponent implements OnInit {
       this.sessionsService.getSession(this.sessionId).subscribe({
         next: (s) => {
           const dt = new Date(s.sessionDate);
+
           this.circleId = s.circleId;
+
           this.form.patchValue({
             title: s.title,
             description: s.description ?? '',
@@ -66,24 +75,40 @@ export class SessionFormComponent implements OnInit {
             durationMinutes: s.durationMinutes,
             isFree: s.pointsPrice === 0,
             pointsPrice: s.pointsPrice,
-            meetingLink: s.meetingLink ?? '',
-            platform: s.platform ?? '',
+            platform: 'Zoom',
           });
         },
-        error: (err) => console.error(err),
+
+        error: (err) => {
+          console.error(err);
+        },
       });
     }
   }
 
   get scheduledAtInvalid(): boolean {
     const { date, time } = this.form.getRawValue();
-    if (!date || !time) return false;
-    return new Date(`${date}T${time}`).getTime() < Date.now();
+
+    if (!date || !time) {
+      return false;
+    }
+
+    return (
+      new Date(`${date}T${time}`).getTime() <
+      Date.now()
+    );
   }
 
   submit(): void {
     this.form.markAllAsTouched();
-    if (this.form.invalid || this.scheduledAtInvalid || this.submitting()) return;
+
+    if (
+      this.form.invalid ||
+      this.scheduledAtInvalid ||
+      this.submitting()
+    ) {
+      return;
+    }
 
     const v = this.form.getRawValue();
 
@@ -93,32 +118,58 @@ export class SessionFormComponent implements OnInit {
     const base = {
       title: v.title,
       description: v.description || null,
-      sessionDate: new Date(`${v.date}T${v.time}`).toISOString(),
+      sessionDate: new Date(
+        `${v.date}T${v.time}`
+      ).toISOString(),
       durationMinutes: v.durationMinutes,
       pointsPrice: v.isFree ? 0 : v.pointsPrice,
-      meetingLink: v.meetingLink || null,
-      platform: v.platform || null,
+      platform: 'Zoom',
     };
 
-   const request$ = (this.isEdit()
-  ? this.sessionsService.updateSession(this.sessionId!, base)
-  : this.sessionsService.createSession({ ...base, circleId: this.circleId })) as any;
+    const request$ = (
+      this.isEdit()
+        ? this.sessionsService.updateSession(
+            this.sessionId!,
+            base
+          )
+        : this.sessionsService.createSession({
+            ...base,
+            circleId: this.circleId,
+          })
+    ) as any;
 
     request$.subscribe({
-      next: () => this.router.navigate(['/circles', this.circleId, 'sessions']),
-      error: (err:any) => {
+      next: () => {
+        this.router.navigate([
+          '/circles',
+          this.circleId,
+          'sessions',
+        ]);
+      },
+
+      error: (err: any) => {
         console.error(err);
+
         this.submitting.set(false);
-        const msg = typeof err.error === 'string' && err.error
-          ? err.error
-          : 'حدث خطأ أثناء الحفظ، حاول مرة أخرى.';
+
+        const msg =
+          typeof err.error === 'string' && err.error
+            ? err.error
+            : 'حدث خطأ أثناء الحفظ، حاول مرة أخرى.';
+
         this.errorMsg.set(msg);
       },
     });
   }
 
-  hasError(controlName: string, error: string): boolean {
+  hasError(
+    controlName: string,
+    error: string
+  ): boolean {
     const c = this.form.get(controlName);
-    return !!c && c.touched && c.hasError(error);
+
+    return !!c &&
+      c.touched &&
+      c.hasError(error);
   }
 }

@@ -22,26 +22,36 @@ import {
   finalize,
   map,
 } from 'rxjs';
+
 import { Role } from '../../../../core/models/auth.models';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
+
 import { LearningCirclesGridComponent } from '../../components/learning-circles-grid/learning-circles-grid.component';
 import { LearningCirclesPaginationComponent } from '../../components/learning-circles-pagination/learning-circles-pagination.component';
 import { MembershipConfirmationModalComponent } from '../../components/membership-confirmation-modal/membership-confirmation-modal.component';
-import { CircleJoinPolicy, LearningCircleListItem } from '../../models/learning-circle.models';
+
+import {
+  CircleJoinPolicy,
+  LearningCircleListItem,
+} from '../../models/learning-circle.models';
 import { SearchPaginationQuery } from '../../models/pagination.models';
+
 import { CircleActionErrorService } from '../../services/circle-action-error.service';
-import { LearningCirclesService } from '../../services/learning-circles.service';
 import { CircleJoinRequestsService } from '../../services/circle-join-requests.service';
+import { LearningCirclesService } from '../../services/learning-circles.service';
 
 @Component({
   selector: 'app-explore-learning-circles',
+  standalone: true,
   imports: [
     RouterLink,
     RouterLinkActive,
     ReactiveFormsModule,
     ToastComponent,
+    ScrollRevealDirective,
     LearningCirclesGridComponent,
     LearningCirclesPaginationComponent,
     MembershipConfirmationModalComponent,
@@ -51,21 +61,16 @@ import { CircleJoinRequestsService } from '../../services/circle-join-requests.s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExploreLearningCirclesComponent implements OnInit {
-  private readonly circlesService =
-    inject(LearningCirclesService);
+  private readonly circlesService = inject(LearningCirclesService);
   private readonly joinRequestsService = inject(CircleJoinRequestsService);
-
-  private readonly actionErrorService =
-    inject(CircleActionErrorService);
-
+  private readonly actionErrorService = inject(CircleActionErrorService);
   private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly canCreateCircle =
-    false;
+  readonly canCreateCircle = false;
 
   readonly canJoinCircles =
     this.authService.hasRole(Role.Student) ||
@@ -79,15 +84,16 @@ export class ExploreLearningCirclesComponent implements OnInit {
   readonly searchTerm = signal('');
   readonly pageNumber = signal(1);
   readonly pageSize = 9;
+
   readonly totalCount = signal(0);
   readonly totalPages = signal(0);
 
   readonly loading = signal(false);
   readonly loadFailed = signal(false);
   readonly searchValidation = signal<string | null>(null);
+
   readonly actionCircleId = signal<string | null>(null);
-  readonly selectedCircle =
-    signal<LearningCircleListItem | null>(null);
+  readonly selectedCircle = signal<LearningCircleListItem | null>(null);
 
   private listSubscription: Subscription | null = null;
   private requestId = 0;
@@ -105,10 +111,7 @@ export class ExploreLearningCirclesComponent implements OnInit {
         this.pageNumber.set(1);
 
         if (search.length === 1) {
-          this.searchValidation.set(
-            'اكتب حرفين على الأقل للبحث.',
-          );
-
+          this.searchValidation.set('اكتب حرفين على الأقل للبحث.');
           this.cancelRequest();
           this.resetResults();
           return;
@@ -124,20 +127,18 @@ export class ExploreLearningCirclesComponent implements OnInit {
   }
 
   showDetails(circle: LearningCircleListItem): void {
-    void this.router.navigate(
-      [circle.circleId],
-      { relativeTo: this.route },
-    );
+    void this.router.navigate([circle.circleId], {
+      relativeTo: this.route,
+    });
   }
 
-  openJoinConfirmation(
-    circle: LearningCircleListItem,
-  ): void {
-    if (
-      !this.canJoinCircles ||
-      circle.isMember ||
-      circle.joinPolicy !== CircleJoinPolicy.Automatic
-    ) {
+  openJoinConfirmation(circle: LearningCircleListItem): void {
+    const canOpen =
+      this.canJoinCircles &&
+      !circle.isMember &&
+      circle.joinPolicy === CircleJoinPolicy.Automatic;
+
+    if (!canOpen) {
       return;
     }
 
@@ -145,30 +146,63 @@ export class ExploreLearningCirclesComponent implements OnInit {
   }
 
   requestToJoin(circle: LearningCircleListItem): void {
-    if (!this.canJoinCircles || circle.isMember || this.actionCircleId() !== null) return;
+    if (
+      !this.canJoinCircles ||
+      circle.isMember ||
+      this.actionCircleId() !== null
+    ) {
+      return;
+    }
+
     this.actionCircleId.set(circle.circleId);
-    this.joinRequestsService.create(circle.circleId)
-      .pipe(finalize(() => this.actionCircleId.set(null)), takeUntilDestroyed(this.destroyRef))
+
+    this.joinRequestsService
+      .create(circle.circleId)
+      .pipe(
+        finalize(() => this.actionCircleId.set(null)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
         next: () => {
-          this.toast.show('تم إرسال طلب الانضمام، وسيظهر لك قرار إدارة الحلقة بعد مراجعته.');
+          this.toast.show(
+            'تم إرسال طلب الانضمام، وسيظهر لك قرار إدارة الحلقة بعد مراجعته.',
+          );
+
           this.loadCircles();
         },
-        error: () => this.toast.show('تعذر إرسال طلب الانضمام. حاول مرة أخرى.', 'error'),
+        error: () => {
+          this.toast.show(
+            'تعذر إرسال طلب الانضمام. حاول مرة أخرى.',
+            'error',
+          );
+        },
       });
   }
 
   cancelJoinRequest(circle: LearningCircleListItem): void {
-    if (this.actionCircleId() !== null) return;
+    if (this.actionCircleId() !== null) {
+      return;
+    }
+
     this.actionCircleId.set(circle.circleId);
-    this.joinRequestsService.cancel(circle.circleId)
-      .pipe(finalize(() => this.actionCircleId.set(null)), takeUntilDestroyed(this.destroyRef))
+
+    this.joinRequestsService
+      .cancel(circle.circleId)
+      .pipe(
+        finalize(() => this.actionCircleId.set(null)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
         next: () => {
           this.toast.show('تم إلغاء طلب الانضمام.');
           this.loadCircles();
         },
-        error: () => this.toast.show('تعذر إلغاء طلب الانضمام.', 'error'),
+        error: () => {
+          this.toast.show(
+            'تعذر إلغاء طلب الانضمام.',
+            'error',
+          );
+        },
       });
   }
 
@@ -233,6 +267,15 @@ export class ExploreLearningCirclesComponent implements OnInit {
   }
 
   goToPage(page: number): void {
+    if (
+      page < 1 ||
+      page > this.totalPages() ||
+      page === this.pageNumber() ||
+      this.loading()
+    ) {
+      return;
+    }
+
     this.pageNumber.set(page);
     this.loadCircles();
   }
@@ -242,7 +285,9 @@ export class ExploreLearningCirclesComponent implements OnInit {
   }
 
   private loadCircles(): void {
-    if (this.searchTerm().length === 1) {
+    const search = this.searchTerm();
+
+    if (search.length === 1) {
       return;
     }
 
@@ -256,7 +301,7 @@ export class ExploreLearningCirclesComponent implements OnInit {
     const query: SearchPaginationQuery = {
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize,
-      search: this.searchTerm() || undefined,
+      search: search || undefined,
     };
 
     this.listSubscription = this.circlesService
@@ -301,8 +346,10 @@ export class ExploreLearningCirclesComponent implements OnInit {
 
   private cancelRequest(): void {
     ++this.requestId;
+
     this.listSubscription?.unsubscribe();
     this.listSubscription = null;
+
     this.loading.set(false);
   }
 

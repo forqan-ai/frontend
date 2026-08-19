@@ -1,193 +1,2424 @@
-.page {
-  padding: 30px;
+:host {
+  display: block;
+
+  --course-shadow:
+    0 8px 24px rgba(52, 27, 22, 0.06);
+
+  --course-shadow-hover:
+    0 18px 38px rgba(52, 27, 22, 0.13);
+
+  --course-radius: 18px;
+
+  --animation-fast: 0.25s ease;
+  --animation-normal: 0.35s ease;
+  --animation-slow: 0.6s ease;
 }
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+  width: min(100%, 1240px);
+  margin-inline: auto;
+
+  padding: 22px 30px 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
 
 .page-header {
-  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+
+  min-height: 132px;
+  padding: 22px 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.99),
+      rgba(248, 243, 237, 0.96)
+    );
+
+  border: 1px solid var(--border);
+  border-radius: 21px;
+
+  box-shadow: var(--course-shadow);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.page-header h2 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-  color: #341b16;
+
+/* Left accent */
+
+.page-header::before {
+  content: "";
+
+  position: absolute;
+
+  inset-inline-start: 0;
+  inset-block: 0;
+
+  width: 4px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--primary),
+      var(--primary-hover)
+    );
+
+  border-radius: 0 5px 5px 0;
 }
+
+
+/* Big circle */
+
+.page-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  inset-inline-end: -100px;
+  top: -120px;
+
+  border-radius: 50%;
+
+  background: var(--primary-light);
+
+  opacity: 0.5;
+
+  pointer-events: none;
+
+  animation: headerCircleFloat 7s ease-in-out infinite;
+}
+
+
+/* Glow */
+
+.header-glow {
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  inset-inline-end: 90px;
+  bottom: -120px;
+
+  border-radius: 50%;
+
+  background: var(--primary-light);
+
+  opacity: 0.25;
+
+  filter: blur(10px);
+
+  animation: glowFloat 5s ease-in-out infinite;
+}
+
+
+/* Hover */
+
+.page-header:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--primary-light);
+
+  box-shadow: var(--course-shadow-hover);
+}
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.page-heading {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+
+  gap: 17px;
+
+  max-width: 760px;
+}
+
+
+/* =========================================================
+   HEADING ICON
+========================================================= */
+
+.heading-icon {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  width: 64px;
+  height: 64px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--surface);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-hover)
+    );
+
+  border-radius: 18px;
+
+  font-size: 28px;
+
+  box-shadow:
+    0 9px 22px rgba(52, 27, 22, 0.17),
+    0 0 0 6px rgba(52, 27, 22, 0.04);
+
+  animation:
+    headingIconFloat 3s ease-in-out infinite,
+    headingIconAppear 0.7s ease both;
+}
+
+
+/* Outer ring */
+
+.heading-icon::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -7px;
+
+  border: 1px solid rgba(52, 27, 22, 0.11);
+
+  border-radius: 21px;
+
+  animation:
+    headingIconPulse 2.6s ease-in-out infinite;
+}
+
+
+/* Inner ring */
+
+.heading-icon::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 4px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 14px;
+
+  pointer-events: none;
+}
+
+
+/* Icon */
+
+.heading-icon i {
+  position: relative;
+  z-index: 3;
+
+  animation:
+    bookIconMove 2.6s ease-in-out infinite;
+}
+
+
+/* Additional ring */
+
+.icon-ring {
+  position: absolute;
+
+  inset: -12px;
+
+  border-radius: 24px;
+
+  border: 1px dashed rgba(52, 27, 22, 0.07);
+
+  animation: ringRotate 10s linear infinite;
+}
+
+
+/* =========================================================
+   HEADING CONTENT
+========================================================= */
+
+.heading-content {
+  min-width: 0;
+}
+
+
+.page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-bottom: 5px;
+
+  color: var(--primary);
+
+  font-size: 11px;
+  font-weight: 900;
+
+  animation: fadeUp 0.6s ease both;
+}
+
+
+.page-eyebrow i {
+  font-size: 10px;
+
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+
+.page-header h1 {
+  margin: 0 0 5px;
+
+  color: var(--text);
+
+  font-size: 29px;
+  font-weight: 900;
+
+  line-height: 1.35;
+
+  animation: fadeUp 0.7s 0.05s ease both;
+}
+
 
 .page-header p {
-  margin-top: 8px;
-  color: #777;
-  font-size: 15px;
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: 13px;
+
+  line-height: 1.8;
+
+  animation: fadeUp 0.8s 0.1s ease both;
 }
+
+
+/* =========================================================
+   HEADER DECORATION
+========================================================= */
+
+.heading-decoration {
+  position: relative;
+  z-index: 3;
+
+  width: 72px;
+  height: 72px;
+
+  margin-inline-end: 18px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--primary);
+
+  background:
+    rgba(255, 255, 255, 0.76);
+
+  border: 1px solid rgba(52, 27, 22, 0.07);
+
+  border-radius: 50%;
+
+  font-size: 30px;
+
+  box-shadow:
+    0 9px 22px rgba(52, 27, 22, 0.07);
+
+  backdrop-filter: blur(9px);
+
+  animation:
+    decorationFloat 4s ease-in-out infinite,
+    decorationAppear 0.8s ease both;
+}
+
+
+/* Outer circle */
+
+.heading-decoration::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -8px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(52, 27, 22, 0.08);
+
+  animation:
+    decorationPulse 3s ease-in-out infinite;
+}
+
+
+/* Inner circle */
+
+.heading-decoration::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(52, 27, 22, 0.05);
+}
+
+
+/* Decoration icon */
+
+.heading-decoration i {
+  position: relative;
+  z-index: 4;
+
+  animation:
+    mortarboardMove 3s ease-in-out infinite;
+}
+
+
+/* Floating dots */
+
+.decoration-dot {
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--primary);
+
+  opacity: 0.3;
+}
+
+
+.dot-one {
+  top: -10px;
+  inset-inline-start: 15px;
+
+  animation: dotFloat 3s ease-in-out infinite;
+}
+
+
+.dot-two {
+  bottom: 3px;
+  inset-inline-end: -8px;
+
+  animation: dotFloat 3.5s 0.4s ease-in-out infinite;
+}
+
+
+.dot-three {
+  top: 14px;
+  inset-inline-end: -13px;
+
+  animation: dotFloat 2.8s 0.8s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   COURSES SECTION
+========================================================= */
+
+.courses-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 17px;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+
+/* Title */
+
+.section-title {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+.section-title-icon {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--primary);
+
+  background: var(--primary-light);
+
+  border: 1px solid rgba(52, 27, 22, 0.06);
+
+  border-radius: 12px;
+
+  font-size: 17px;
+
+  box-shadow:
+    0 5px 13px rgba(52, 27, 22, 0.05);
+
+  animation:
+    sectionIconFloat 3s ease-in-out infinite;
+}
+
+
+.section-title h2 {
+  margin: 0 0 3px;
+
+  color: var(--text);
+
+  font-size: 18px;
+  font-weight: 900;
+}
+
+
+.section-title p {
+  margin: 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   COURSE COUNT
+========================================================= */
+
+.course-count {
+  min-height: 40px;
+
+  padding: 6px 10px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: var(--primary);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary-light),
+      rgba(255, 255, 255, 0.8)
+    );
+
+  border: 1px solid rgba(52, 27, 22, 0.07);
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 5px 14px rgba(52, 27, 22, 0.04);
+}
+
+
+.count-icon {
+  width: 27px;
+  height: 27px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--surface);
+
+  background: var(--primary);
+
+  border-radius: 8px;
+
+  font-size: 11px;
+}
+
+
+.count-label {
+  color: var(--text-light);
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+
+.course-count strong {
+  min-width: 22px;
+
+  text-align: center;
+
+  color: var(--primary);
+
+  font-size: 14px;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
 
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 28px;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
 }
+
+
+/* =========================================================
+   COURSE CARD
+========================================================= */
 
 .course-card {
-  background: #fff;
-  border-radius: 22px;
+  --card-index: 0;
+
+  position: relative;
+
+  min-width: 0;
+
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transition: 0.3s;
+
   display: flex;
   flex-direction: column;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--course-radius);
+
+  box-shadow: var(--course-shadow);
+
+  opacity: 0;
+
+  animation:
+    cardAppear
+    0.7s
+    calc(var(--card-index) * 0.1s)
+    cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
+
 .course-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
+  transform: translateY(-7px);
+
+  border-color: var(--primary-light);
+
+  box-shadow: var(--course-shadow-hover);
 }
+
+
+/* Top line */
+
+.card-top-line {
+  position: absolute;
+
+  z-index: 5;
+
+  inset-inline: 0;
+  top: 0;
+
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--primary),
+      var(--primary-hover)
+    );
+
+  transform: scaleX(0);
+
+  transform-origin: center;
+
+  transition:
+    transform 0.45s ease;
+}
+
+
+.course-card:hover .card-top-line {
+  transform: scaleX(1);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .course-image {
   position: relative;
+
   overflow: hidden;
+
+  height: 190px;
+
+  background: var(--primary-light);
 }
+
 
 .course-image img {
+  display: block;
+
   width: 100%;
-  height: 220px;
+  height: 100%;
+
   object-fit: cover;
-  transition: 0.5s;
+
+  transition:
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s ease;
 }
 
-.course-card:hover img {
-  transform: scale(1.06);
+
+.course-card:hover .course-image img {
+  transform: scale(1.08);
+
+  filter:
+    saturate(1.08)
+    contrast(1.02);
 }
+
+
+/* Image overlay */
+
+.image-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(52, 27, 22, 0.02) 25%,
+      rgba(52, 27, 22, 0.2) 100%
+    );
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.35s ease;
+}
+
+
+.course-card:hover .image-overlay {
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   IMAGE FLOATING ICON
+========================================================= */
+
+.image-floating-icon {
+  position: absolute;
+
+  z-index: 3;
+
+  bottom: 13px;
+  inset-inline-end: 13px;
+
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--primary);
+
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  border-radius: 11px;
+
+  font-size: 14px;
+
+  box-shadow:
+    0 7px 17px rgba(52, 27, 22, 0.14);
+
+  backdrop-filter: blur(8px);
+
+  animation: imageIconFloat 3s ease-in-out infinite;
+
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+}
+
+
+.course-card:hover .image-floating-icon {
+  transform:
+    translateY(-4px)
+    rotate(-5deg);
+
+  background: var(--surface);
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
 
 .status {
   position: absolute;
-  top: 16px;
-  left: 16px;
 
-  padding: 6px 14px;
+  z-index: 4;
 
-  border-radius: 30px;
+  top: 13px;
+  inset-inline-start: 13px;
 
-  color: white;
-  background-color: #8a6414;
-  font-size: 13px;
+  min-height: 30px;
 
-  font-weight: 600;
+  padding: 5px 11px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  box-shadow:
+    0 5px 14px rgba(52, 27, 22, 0.13);
+
+  backdrop-filter: blur(9px);
+
+  animation:
+    statusAppear 0.5s 0.25s ease both;
+
+  transition:
+    transform 0.3s ease;
 }
+
+
+.course-card:hover .status {
+  transform: translateY(-2px);
+}
+
+
+.status i {
+  font-size: 10px;
+}
+
+
+/* Approved */
 
 .status.approved {
-  background: #28a745;
-  color: #fff;
+  color: #217a3c;
+
+  background: #e9f7ed;
+
+  border: 1px solid #cdebd6;
 }
+
+
+/* Pending */
+
 .status.pending {
-  background: #ffc107;
+  color: #8a6414;
+
+  background: #fff5da;
+
+  border: 1px solid #f0dfb0;
 }
+
+
+/* Rejected */
+
 .status.rejected {
-  background: #dc3545;
+  color: #a83232;
+
+  background: #fff1f1;
+
+  border: 1px solid #f0cccc;
 }
+
+
+/* Draft */
+
 .status.draft {
-  background: #ff9800;
+  color: var(--primary);
+
+  background: var(--primary-light);
+
+  border: 1px solid rgba(52, 27, 22, 0.07);
 }
+
+
+/* =========================================================
+   COURSE CONTENT
+========================================================= */
 
 .course-content {
-  padding: 22px;
+  flex: 1;
+
+  padding: 18px;
+
   display: flex;
   flex-direction: column;
-  flex: 1;
+
+  gap: 15px;
 }
+
+
+.course-main {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   COURSE TITLE
+========================================================= */
+
+.course-title-row {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+}
+
+
+.title-icon {
+  width: 27px;
+  height: 27px;
+
+  flex: 0 0 auto;
+
+  margin-top: 2px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--primary);
+
+  background: var(--primary-light);
+
+  border-radius: 8px;
+
+  font-size: 11px;
+
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+
+.course-card:hover .title-icon {
+  transform:
+    rotate(-7deg)
+    scale(1.08);
+
+  color: var(--surface);
+
+  background: var(--primary);
+}
+
 
 .course-content h3 {
-  margin: 0;
-  font-size: 22px;
-  color: #222;
-}
+  flex: 1;
 
-.subtitle {
-  margin: 14px 0;
-  color: #666;
-  line-height: 1.7;
-  min-height: 52px;
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 17px;
+  font-weight: 900;
+
+  line-height: 1.55;
 
   display: -webkit-box;
+
   -webkit-line-clamp: 2;
+
   -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
+  transition:
+    color 0.25s ease;
+}
+
+
+.course-card:hover .course-content h3 {
+  color: var(--primary);
+}
+
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.subtitle {
+  margin: 9px 0 12px;
+
+  min-height: 44px;
+
+  color: var(--text-light);
+
+  font-size: 12px;
+
+  line-height: 1.8;
+
+  display: -webkit-box;
+
+  -webkit-line-clamp: 2;
+
+  -webkit-box-orient: vertical;
+
   overflow: hidden;
 }
 
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
 .category {
-  display: inline-flex;
   width: fit-content;
-  padding: 8px 14px;
-  border-radius: 30px;
-  background: #f4f5f7;
-  color: #341b16;
-  font-size: 14px;
-  font-weight: 600;
+  max-width: 100%;
+
+  padding: 6px 10px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: var(--primary);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary-light),
+      rgba(255, 255, 255, 0.7)
+    );
+
+  border: 1px solid rgba(52, 27, 22, 0.06);
+
+  border-radius: 999px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.footer {
+
+.course-card:hover .category {
+  transform: translateX(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(52, 27, 22, 0.05);
+}
+
+
+.category i {
+  font-size: 9px;
+
+  animation:
+    tagWiggle 2.5s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.course-footer {
   margin-top: auto;
 
+  padding-top: 14px;
+
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
+  gap: 11px;
+
+  border-top: 1px solid var(--border);
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.course-date {
+  display: flex;
   align-items: center;
 
-  padding-top: 22px;
+  gap: 8px;
+
+  color: var(--text-muted);
+
+  font-size: 10px;
+
+  font-weight: 700;
 }
 
-.footer small {
-  color: #888;
+
+.date-icon {
+  width: 28px;
+  height: 28px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--primary);
+
+  background: var(--primary-light);
+
+  border-radius: 8px;
+
+  font-size: 11px;
+
+  transition:
+    transform 0.3s ease;
 }
 
-.footer button {
-  border: none;
-  background: #341b16;
-  color: white;
-  padding: 11px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
+
+.course-card:hover .date-icon {
+  transform:
+    rotate(-6deg)
+    scale(1.05);
 }
 
-.footer button:hover {
-  background: #59352d;
+
+.date-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
 }
+
+
+.date-label {
+  color: var(--text-muted);
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+.date-value {
+  color: var(--text-light);
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
 
 .course-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 7px;
+
+  width: 100%;
 }
+
+
+.manage-button,
+.submit-review-btn {
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 39px;
+
+  padding: 7px 9px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border-radius: 10px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+
+/* =========================================================
+   BUTTON ICON
+========================================================= */
+
+.button-icon {
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+}
+
+
+.manage-button .button-icon {
+  background:
+    rgba(255, 255, 255, 0.14);
+}
+
+
+.submit-review-btn .button-icon {
+  background:
+    rgba(52, 27, 22, 0.07);
+}
+
+
+/* =========================================================
+   MANAGE BUTTON
+========================================================= */
+
+.manage-button {
+  color: var(--surface);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-hover)
+    );
+
+  border: 0;
+
+  box-shadow:
+    0 5px 13px rgba(52, 27, 22, 0.11);
+}
+
+
+.manage-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 9px 19px rgba(52, 27, 22, 0.17);
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
 
 .submit-review-btn {
-  background: #5c3d1e;
-  color: white;
-  border: none;
-  border-radius: 0.7rem;
-  padding: 0.65rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
+  color: var(--primary);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary-light),
+      rgba(255, 255, 255, 0.85)
+    );
+
+  border: 1px solid rgba(52, 27, 22, 0.08);
 }
 
-.submit-review-btn:hover {
-  background: #4a2f15;
+
+.submit-review-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+
+  color: var(--surface);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-hover)
+    );
+
+  box-shadow:
+    0 8px 17px rgba(52, 27, 22, 0.13);
 }
+
 
 .submit-review-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
+
   cursor: not-allowed;
 }
 
-.pending-review {
-  background: #fff4d6;
-  color: #8a6414;
-  padding: 0.55rem 0.8rem;
-  border-radius: 0.6rem;
-  font-weight: 600;
+
+/* =========================================================
+   BUTTON SHINE
+========================================================= */
+
+.manage-button::before,
+.submit-review-btn::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 25%,
+      rgba(255, 255, 255, 0.35) 48%,
+      transparent 68%
+    );
+
+  transform: translateX(-130%);
 }
 
-.approved {
-  background: #e7f6ec;
-  color: #217a3c;
-  padding: 0.55rem 0.8rem;
-  border-radius: 0.6rem;
-  font-weight: 600;
+
+.manage-button:hover::before,
+.submit-review-btn:hover::before {
+  animation:
+    buttonShine 0.8s ease;
+}
+
+
+.button-arrow {
+  font-size: 15px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.manage-button:hover .button-arrow {
+  transform:
+    translateX(-3px);
+}
+
+
+/* =========================================================
+   PENDING REVIEW
+========================================================= */
+
+.pending-review {
+  grid-column: 1 / -1;
+
+  min-height: 39px;
+
+  padding: 7px 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  color: #8a6414;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8e7,
+      #fff5da
+    );
+
+  border: 1px solid #f0dfb0;
+
+  border-radius: 10px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 4px 10px rgba(138, 100, 20, 0.05);
+}
+
+
+.pending-icon {
+  display: grid;
+  place-items: center;
+
+  animation:
+    hourglass 2s ease-in-out infinite;
+}
+
+
+.pending-dots {
+  display: inline-flex;
+
+  gap: 3px;
+
+  margin-inline-start: 2px;
+}
+
+
+.pending-dots span {
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: #8a6414;
+
+  animation:
+    pendingDot 1.2s infinite ease-in-out;
+}
+
+
+.pending-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+
+.pending-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.submit-error-msg {
+  padding: 9px 11px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 7px;
+
+  color: #a83232;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff5f5,
+      #fff1f1
+    );
+
+  border: 1px solid #f0cccc;
+
+  border-radius: 9px;
+
+  font-size: 10px;
+
+  line-height: 1.7;
+
+  animation:
+    errorAppear 0.35s ease both;
+}
+
+
+.error-icon {
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  margin-top: 1px;
+
+  animation:
+    errorShake 0.6s ease;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 330px;
+
+  padding: 40px 22px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 13px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.99),
+      rgba(248, 243, 237, 0.96)
+    );
+
+  border: 1px solid var(--border);
+
+  border-radius: 21px;
+
+  box-shadow: var(--course-shadow);
+
+  animation:
+    emptyAppear 0.7s ease both;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+
+.empty-state:hover {
+  transform: translateY(-5px);
+
+  border-color: var(--primary-light);
+
+  box-shadow: var(--course-shadow-hover);
+}
+
+
+/* =========================================================
+   EMPTY ICON
+========================================================= */
+
+.empty-icon {
+  position: relative;
+
+  width: 70px;
+  height: 70px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--primary);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary-light),
+      #fff
+    );
+
+  border: 1px solid rgba(52, 27, 22, 0.07);
+
+  border-radius: 50%;
+
+  font-size: 29px;
+
+  box-shadow:
+    0 9px 22px rgba(52, 27, 22, 0.08);
+
+  animation:
+    emptyIconFloat 3s ease-in-out infinite;
+}
+
+
+.empty-icon::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -8px;
+
+  border: 1px solid rgba(52, 27, 22, 0.08);
+
+  border-radius: 50%;
+
+  animation:
+    emptyPulse 2.7s ease-in-out infinite;
+}
+
+
+.empty-icon::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border: 1px solid rgba(52, 27, 22, 0.05);
+
+  border-radius: 50%;
+}
+
+
+.empty-icon i {
+  position: relative;
+  z-index: 3;
+
+  animation:
+    emptyBook 2.5s ease-in-out infinite;
+}
+
+
+.empty-state:hover .empty-icon {
+  color: var(--surface);
+
+  background: var(--primary);
+
+  transform:
+    scale(1.08)
+    rotate(-4deg);
+}
+
+
+/* =========================================================
+   EMPTY CONTENT
+========================================================= */
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+.empty-eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: var(--primary);
+
+  font-size: 10px;
+
+  font-weight: 900;
+}
+
+
+.empty-eyebrow i {
+  font-size: 9px;
+
+  animation:
+    sparkle 2s ease-in-out infinite;
+}
+
+
+.empty-state h2 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 19px;
+
+  font-weight: 900;
+}
+
+
+.empty-state p {
+  max-width: 450px;
+
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   EMPTY DECORATIONS
+========================================================= */
+
+.empty-decoration {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(52, 27, 22, 0.06);
+
+  pointer-events: none;
+}
+
+
+.empty-decoration-one {
+  width: 180px;
+  height: 180px;
+
+  inset-inline-start: -90px;
+  top: -70px;
+
+  animation:
+    emptyCircle 8s linear infinite;
+}
+
+
+.empty-decoration-two {
+  width: 130px;
+  height: 130px;
+
+  inset-inline-end: -65px;
+  bottom: -50px;
+
+  animation:
+    emptyCircle 10s linear infinite reverse;
+}
+
+
+/* =========================================================
+   SPIN
+========================================================= */
+
+.spin {
+  animation:
+    spin 0.9s linear infinite;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(30px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes headingIconAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      scale(0.75)
+      rotate(-10deg);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      rotate(0);
+  }
+}
+
+
+@keyframes decorationAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+}
+
+
+@keyframes headingIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+
+@keyframes headingIconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.1);
+
+    opacity: 0.2;
+  }
+}
+
+
+@keyframes bookIconMove {
+  0%,
+  100% {
+    transform:
+      rotate(0deg)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      rotate(-6deg)
+      scale(1.07);
+  }
+}
+
+
+@keyframes decorationFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+
+  50% {
+    transform:
+      translateY(-6px)
+      rotate(3deg);
+  }
+}
+
+
+@keyframes decorationPulse {
+  0%,
+  100% {
+    transform: scale(1);
+
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.1);
+
+    opacity: 0.2;
+  }
+}
+
+
+@keyframes mortarboardMove {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform:
+      rotate(-8deg)
+      translateY(-2px);
+  }
+}
+
+
+@keyframes ringRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@keyframes headerCircleFloat {
+  0%,
+  100% {
+    transform:
+      translate(0, 0);
+  }
+
+  50% {
+    transform:
+      translate(-12px, 12px);
+  }
+}
+
+
+@keyframes glowFloat {
+  0%,
+  100% {
+    transform:
+      translate(0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate(-15px, -10px)
+      scale(1.1);
+  }
+}
+
+
+@keyframes sparkle {
+  0%,
+  100% {
+    transform:
+      scale(1)
+      rotate(0deg);
+
+    opacity: 0.7;
+  }
+
+  50% {
+    transform:
+      scale(1.2)
+      rotate(12deg);
+
+    opacity: 1;
+  }
+}
+
+
+@keyframes dotFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translateY(-7px)
+      scale(1.2);
+  }
+}
+
+
+@keyframes sectionIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+
+@keyframes imageIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+
+@keyframes statusAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-8px)
+      scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes tagWiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-8deg);
+  }
+}
+
+
+@keyframes hourglass {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  45% {
+    transform: rotate(0deg);
+  }
+
+  55% {
+    transform: rotate(180deg);
+  }
+
+  90% {
+    transform: rotate(180deg);
+  }
+}
+
+
+@keyframes pendingDot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+
+    transform: translateY(-3px);
+  }
+}
+
+
+@keyframes buttonShine {
+  to {
+    transform: translateX(130%);
+  }
+}
+
+
+@keyframes errorAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes errorShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+
+@keyframes emptyAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(25px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes emptyIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+
+@keyframes emptyPulse {
+  0%,
+  100% {
+    transform: scale(1);
+
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.1);
+
+    opacity: 0.2;
+  }
+}
+
+
+@keyframes emptyBook {
+  0%,
+  100% {
+    transform:
+      rotate(0deg)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      rotate(-7deg)
+      scale(1.07);
+  }
+}
+
+
+@keyframes emptyCircle {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .courses-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .page {
+    padding-inline: 22px;
+  }
+
+  .heading-decoration {
+    margin-inline-end: 8px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .page {
+    padding: 18px 16px 32px;
+  }
+
+
+  .page-header {
+    min-height: auto;
+
+    padding: 20px;
+  }
+
+
+  .page-heading {
+    gap: 13px;
+  }
+
+
+  .heading-icon {
+    width: 54px;
+    height: 54px;
+
+    border-radius: 15px;
+
+    font-size: 23px;
+  }
+
+
+  .page-header h1 {
+    font-size: 25px;
+  }
+
+
+  .page-header p {
+    font-size: 12px;
+  }
+
+
+  .heading-decoration {
+    display: none;
+  }
+
+
+  .section-header {
+    align-items: flex-start;
+  }
+
+
+  .course-count {
+    padding: 5px 8px;
+  }
+
+
+  .count-label {
+    display: none;
+  }
+
+
+  .courses-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+
+  .course-image {
+    height: 200px;
+  }
+
+
+  .course-card:hover {
+    transform: translateY(-3px);
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .page {
+    padding-inline: 13px;
+  }
+
+
+  .page-header {
+    padding: 17px;
+  }
+
+
+  .heading-icon {
+    width: 48px;
+    height: 48px;
+
+    font-size: 21px;
+  }
+
+
+  .page-heading {
+    gap: 11px;
+  }
+
+
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+
+  .page-header p {
+    font-size: 11px;
+  }
+
+
+  .section-title-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 15px;
+  }
+
+
+  .section-title h2 {
+    font-size: 16px;
+  }
+
+
+  .section-title p {
+    font-size: 10px;
+  }
+
+
+  .course-content {
+    padding: 16px;
+  }
+
+
+  .course-image {
+    height: 185px;
+  }
+
+
+  .course-actions {
+    grid-template-columns: 1fr;
+  }
+
+
+  .pending-review {
+    grid-column: auto;
+  }
+
+
+  .empty-state {
+    min-height: 280px;
+
+    padding-inline: 18px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+
+  .page-header:hover,
+  .course-card:hover,
+  .empty-state:hover,
+  .manage-button:hover,
+  .submit-review-btn:hover {
+    transform: none;
+  }
+
 }

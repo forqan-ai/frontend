@@ -10,7 +10,7 @@ import { PlacementService } from '../../../placement-test/services/placement.ser
 @Component({
   selector: 'app-student-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, AvatarComponent, RouterLinkActive, NotificationBellComponent],
+  imports: [CommonModule, RouterLink, AvatarComponent, NotificationBellComponent],
   templateUrl: './student-sidebar.component.html',
   styleUrl: './student-sidebar.component.css',
 })

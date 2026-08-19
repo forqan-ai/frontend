@@ -4,20 +4,18 @@
       <div class="heading-copy">
         <span class="page-kicker">مساحتك للاستشارة</span>
         <h1>الاستشارات</h1>
-        <p>تابع طلبات الاستشارة ومواعيدك مع المعلمين.</p>
+        <p>تابع طلبات الاستشارة ومواعيدك مع المعلمين بكل سهولة.</p>
       </div>
-
       <div class="consultation-count" aria-live="polite">
         <i class="bi bi-chat-square-text" aria-hidden="true"></i>
-        <strong>{{ totalCount() }}</strong>
-        <span>استشارة</span>
+        <strong>{{ totalCount() }}</strong><span>استشارة</span>
       </div>
     </header>
 
     <section class="list-toolbar" aria-label="تصفية الاستشارات">
-      <label for="consultation-status-filter">حالة الاستشارة</label>
+      <label for="student-consultation-status">حالة الاستشارة</label>
       <div class="select-wrapper">
-        <select id="consultation-status-filter" [formControl]="statusControl" [disabled]="loading()">
+        <select id="student-consultation-status" [formControl]="statusControl" [disabled]="loading()">
           @for (option of statusOptions; track option.value) {
             <option [value]="option.value">{{ option.label }}</option>
           }
@@ -30,7 +28,7 @@
       <section class="consultations-grid" aria-busy="true" aria-label="جارٍ تحميل الاستشارات">
         @for (item of skeletonItems; track item) {
           <article class="consultation-card skeleton-card" role="status">
-            <span class="visually-hidden">جارٍ تحميل الاستشارة...</span>
+            <span class="visually-hidden">جارٍ التحميل...</span>
             <div class="skeleton-row skeleton-shimmer"></div>
             <div class="skeleton-title skeleton-shimmer"></div>
             <div class="skeleton-text skeleton-shimmer"></div>
@@ -43,92 +41,59 @@
       <section class="state-panel" role="alert">
         <span class="state-icon"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
         <h2>تعذر تحميل الاستشارات</h2>
-        <p>تحقق من اتصالك ثم حاول تحميل الصفحة مرة أخرى.</p>
+        <p>تحقق من اتصالك ثم حاول مرة أخرى.</p>
         <button type="button" class="primary-action" (click)="loadConsultations()">
-          <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
-          إعادة المحاولة
+          <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>إعادة المحاولة
         </button>
       </section>
     } @else if (consultations().length === 0) {
       <section class="state-panel empty-state">
         <span class="state-icon"><i class="bi bi-chat-heart" aria-hidden="true"></i></span>
-        <h2>لا توجد استشارات حتى الآن</h2>
-        <p>
-          يمكنك إرسال طلب استشارة من صفحة تفاصيل المعلم، وستظهر متابعة الطلب هنا.
-        </p>
+        <h2>لم تبدأ أي استشارة بعد</h2>
+        <p>يمكنك إرسال طلب استشارة إلى أحد المعلمين، وستظهر جميع طلباتك ومواعيدك هنا.</p>
         <a class="primary-action" routerLink="../teachers">
-          <i class="bi bi-people" aria-hidden="true"></i>
-          تصفح المعلمين
+          <i class="bi bi-people" aria-hidden="true"></i>تصفح المعلمين
         </a>
       </section>
     } @else {
-      <section class="consultations-grid" aria-label="قائمة الاستشارات">
+      <section class="consultations-grid" aria-label="قائمة استشاراتي">
         @for (consultation of consultations(); track consultation.consultationId) {
           <article class="consultation-card">
             <div class="card-heading">
               <div class="teacher-summary">
-                <span class="teacher-icon" aria-hidden="true">
-                  <i class="bi bi-person-video3"></i>
-                </span>
-                <div>
-                  <span>المعلم</span>
-                  <h2>{{ consultation.teacherName }}</h2>
-                </div>
+                <span class="teacher-icon" aria-hidden="true"><i class="bi bi-person-video3"></i></span>
+                <div><span>المعلم</span><h2>{{ consultation.teacherName }}</h2></div>
               </div>
-
-              <span class="status-badge" [class]="statusClass(consultation.status)">
-                {{ statusLabel(consultation.status) }}
-              </span>
+              <span class="status-badge" [class]="statusClass(consultation.status)">{{ statusLabel(consultation.status) }}</span>
             </div>
 
             <p class="request-preview">{{ consultation.requestText }}</p>
-
             <dl class="consultation-meta">
               <div>
                 <dt><i class="bi bi-calendar3" aria-hidden="true"></i> تاريخ الطلب</dt>
                 <dd><time [attr.datetime]="consultation.createdAt">{{ formatDate(consultation.createdAt) }}</time></dd>
               </div>
-
               @if (consultation.pointsPrice !== null) {
-                <div>
-                  <dt><i class="bi bi-coin" aria-hidden="true"></i> السعر</dt>
-                  <dd>@if (consultation.pointsPrice === 0) { مجانية } @else { {{ consultation.pointsPrice }} نقطة }</dd>
-                </div>
+                <div><dt><i class="bi bi-coin" aria-hidden="true"></i> السعر</dt><dd>@if (consultation.pointsPrice === 0) { مجانية } @else { {{ consultation.pointsPrice }} نقطة }</dd></div>
               }
-
               @if (consultation.durationMinutes !== null) {
-                <div>
-                  <dt><i class="bi bi-clock" aria-hidden="true"></i> المدة</dt>
-                  <dd>{{ consultation.durationMinutes }} دقيقة</dd>
-                </div>
+                <div><dt><i class="bi bi-clock" aria-hidden="true"></i> المدة</dt><dd>{{ consultation.durationMinutes }} دقيقة</dd></div>
               }
-
               @if (consultation.selectedSlot) {
                 <div class="selected-appointment">
                   <dt><i class="bi bi-calendar-check" aria-hidden="true"></i> الموعد</dt>
-                  <dd>
-                    <time [attr.datetime]="consultation.selectedSlot.startTime">
-                      {{ formatDate(consultation.selectedSlot.startTime) }}
-                    </time>
-                  </dd>
+                  <dd><time [attr.datetime]="consultation.selectedSlot.startTime">{{ formatDate(consultation.selectedSlot.startTime) }}</time></dd>
                 </div>
               }
             </dl>
-
-            <a class="details-link" [routerLink]="[consultation.consultationId]">
-              عرض التفاصيل
-              <i class="bi bi-arrow-left" aria-hidden="true"></i>
-            </a>
+            <a class="details-link" [routerLink]="[consultation.consultationId]">عرض التفاصيل<i class="bi bi-arrow-left" aria-hidden="true"></i></a>
           </article>
         }
       </section>
 
       <app-learning-circles-pagination
-        [currentPage]="pageNumber()"
-        [totalPages]="totalPages()"
-        [disabled]="loading()"
-        ariaLabel="صفحات الاستشارات"
-        (pageChanged)="changePage($event)"
+        [currentPage]="pageNumber()" [totalPages]="totalPages()" [disabled]="loading()"
+        ariaLabel="صفحات استشاراتي" (pageChanged)="changePage($event)"
       />
     }
   </div>

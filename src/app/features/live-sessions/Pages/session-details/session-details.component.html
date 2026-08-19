@@ -1,199 +1,431 @@
 <div class="details-page">
 
   @if (loading()) {
-  <div class="skeleton-panel">
-    <div class="sk-line w30"></div>
-    <div class="sk-line w70"></div>
-    <div class="sk-line w90"></div>
-    <div class="sk-line w50"></div>
-  </div>
+    <div class="skeleton-panel">
+      <div class="sk-line w30"></div>
+      <div class="sk-line w70"></div>
+      <div class="sk-line w90"></div>
+      <div class="sk-line w50"></div>
+    </div>
+
   } @else if (error() || !session()) {
-  <div class="state-box">
-    <i class="bi bi-exclamation-circle"></i>
-    <h4>تعذر تحميل تفاصيل الجلسة</h4>
-    <button class="btn-primary" (click)="loadData()">إعادة المحاولة</button>
-  </div>
+
+    <div class="state-box">
+      <i class="bi bi-exclamation-circle"></i>
+      <h4>تعذر تحميل تفاصيل الجلسة</h4>
+      <button class="btn-primary" (click)="loadData()">
+        إعادة المحاولة
+      </button>
+    </div>
+
   } @else {
 
-  @if (session(); as s) {
+    @if (session(); as s) {
 
-  <div class="panel">
+      <div class="panel">
 
-    <div class="panel-header">
-      <app-status-badge [status]="s.status" />
+        <div class="panel-header">
+
+          <app-status-badge [status]="s.status" />
+
+          @if (canManageSessions()) {
+            <div class="actions">
+
+              <a
+                class="btn-ghost"
+                [routerLink]="['/sessions', s.sessionId, 'edit']"
+              >
+                <i class="bi bi-pencil"></i>
+                تعديل
+              </a>
+
+              @if (s.status === SessionStatus.Upcoming) {
+                <button
+                  class="btn-danger"
+                  (click)="cancelSession()"
+                >
+                  <i class="bi bi-x-lg"></i>
+                  إلغاء الجلسة
+                </button>
+              }
+
+            </div>
+          }
+
+        </div>
+
+        <h1>{{ s.title }}</h1>
+
+        @if (s.description) {
+          <p class="desc">{{ s.description }}</p>
+        }
+
+        <div class="meta-grid">
+
+          <div class="meta-item">
+            <i class="bi bi-calendar3"></i>
+
+            <div>
+              <span>الموعد</span>
+              <strong>
+                {{ s.sessionDate | date: 'EEEE, dd MMM yyyy - hh:mm a' }}
+              </strong>
+            </div>
+          </div>
+
+
+          <div class="meta-item">
+            <i class="bi bi-clock"></i>
+
+            <div>
+              <span>المدة</span>
+              <strong>
+                {{ s.durationMinutes }} دقيقة
+              </strong>
+            </div>
+          </div>
+
+
+          <div class="meta-item">
+            <i class="bi bi-coin"></i>
+
+            <div>
+              <span>السعر</span>
+
+              <strong>
+                @if (s.pointsPrice === 0) {
+                  مجانية
+                } @else {
+                  {{ s.pointsPrice }} نقطة
+                }
+              </strong>
+            </div>
+          </div>
+
+
+          @if (s.platform) {
+            <div class="meta-item">
+              <i class="bi bi-camera-video"></i>
+
+              <div>
+                <span>المنصة</span>
+
+                <strong>
+                  {{ s.platform }}
+                </strong>
+              </div>
+            </div>
+          }
+
+
+          @if (
+            canManageSessions() &&
+            s.platform === 'Zoom' &&
+            s.zoomStartUrl
+          ) {
+            <div class="meta-item">
+
+              <i class="bi bi-camera-video"></i>
+
+              <div>
+                <span>جلسة Zoom</span>
+
+                <strong>
+                  <button
+                    type="button"
+                    class="zoom-link"
+                    (click)="openZoomSession()"
+                  >
+                    بدء الجلسة
+                  </button>
+                </strong>
+              </div>
+
+            </div>
+          }
+
+
+          @if (
+            !canManageSessions() &&
+            s.platform === 'Zoom' &&
+            s.zoomJoinUrl &&
+            (
+              myBooking()?.status === BookingStatus.Confirmed ||
+              myBooking()?.status === BookingStatus.Completed
+            )
+          ) {
+            <div class="meta-item">
+
+              <i class="bi bi-camera-video"></i>
+
+              <div>
+                <span>جلسة Zoom</span>
+
+                <strong>
+                  <button
+                    type="button"
+                    class="zoom-link"
+                    (click)="openZoomSession()"
+                  >
+                    دخول الجلسة
+                  </button>
+                </strong>
+              </div>
+
+            </div>
+          }
+
+
+          @if (s.teacherName) {
+            <div class="meta-item">
+
+              <i class="bi bi-person"></i>
+
+              <div>
+                <span>المعلم</span>
+
+                <strong>
+                  {{ s.teacherName }}
+                </strong>
+              </div>
+
+            </div>
+          }
+
+        </div>
+
+
+        @if (!canManageSessions()) {
+
+          <div class="booking-area">
+
+            @if (myBooking(); as booking) {
+
+              <div class="my-booking">
+
+                <span>حالة حجزك:</span>
+
+                <app-status-badge
+                  [status]="booking.status"
+                />
+
+                @if (canCancelBooking()) {
+                  <button
+                    class="btn-danger"
+                    (click)="cancelBooking()"
+                  >
+                    إلغاء الحجز
+                  </button>
+                }
+
+              </div>
+
+            } @else if (s.status === SessionStatus.Upcoming) {
+
+              <button
+                class="btn-primary big"
+                (click)="showBookingModal.set(true)"
+              >
+                <i class="bi bi-bookmark-plus"></i>
+                احجز الآن
+              </button>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
 
       @if (canManageSessions()) {
-      <div class="actions">
-        <a class="btn-ghost" [routerLink]="['/sessions', s.sessionId, 'edit']">
-          <i class="bi bi-pencil"></i>
-          تعديل
-        </a>
-        @if (s.status === SessionStatus.Upcoming) {
-        <button class="btn-danger" (click)="cancelSession()">
-          <i class="bi bi-x-lg"></i>
-          إلغاء الجلسة
-        </button>
-        }
-      </div>
-      }
-    </div>
 
-    <h1>{{ s.title }}</h1>
-    <p class="desc">{{ s.description }}</p>
+        <div class="panel">
 
-    <div class="meta-grid">
-      <div class="meta-item">
-        <i class="bi bi-calendar3"></i>
-        <div>
-          <span>الموعد</span>
-          <strong>{{ s.sessionDate | date: 'EEEE, dd MMM yyyy - hh:mm a' }}</strong>
-        </div>
-      </div>
+          <h3>
+            <i class="bi bi-people"></i>
+            الحاضرون
+          </h3>
 
-      <div class="meta-item">
-        <i class="bi bi-clock"></i>
-        <div>
-          <span>المدة</span>
-          <strong>{{ s.durationMinutes }} دقيقة</strong>
-        </div>
-      </div>
+          @if (attendees().length === 0) {
 
-      <div class="meta-item">
-        <i class="bi bi-coin"></i>
-        <div>
-          <span>السعر</span>
-          <strong>
-            @if (s.pointsPrice === 0) { مجانية } @else { {{ s.pointsPrice }} نقطة }
-          </strong>
-        </div>
-      </div>
-      @if (s.meetingLink && (canManageSessions() || myBooking()?.status === BookingStatus.Confirmed || myBooking()?.status === BookingStatus.Completed)) {
-      <div class="meta-item">
-        <i class="bi bi-link-45deg"></i>
-        <div>
-          <span>رابط الجلسة</span>
-          <strong><a [href]="s.meetingLink" target="_blank" rel="noopener">فتح الرابط</a></strong>
-        </div>
-      </div>
-      }
+            <div class="state-box soft">
+              <i class="bi bi-people"></i>
+              <p>لا يوجد حاضرون حتى الآن</p>
+            </div>
 
-      @if (s.teacherName) {
-      <div class="meta-item">
-        <i class="bi bi-person"></i>
-        <div>
-          <span>المعلم</span>
-          <strong>{{ s.teacherName }}</strong>
-        </div>
-      </div>
-      }
-    </div>
+          } @else {
 
-    @if (!canManageSessions()) {
-    <div class="booking-area">
-      @if (myBooking(); as booking) {
-      <div class="my-booking">
-        <span>حالة حجزك:</span>
-        <app-status-badge [status]="booking.status" />
+            <div class="table-responsive">
 
-        @if (canCancelBooking()) {
-        <button class="btn-danger" (click)="cancelBooking()">إلغاء الحجز</button>
-        }
-      </div>
-      } @else if (s.status === SessionStatus.Upcoming) {
-      <button class="btn-primary big" (click)="showBookingModal.set(true)">
-        <i class="bi bi-bookmark-plus"></i>
-        احجز الآن
-      </button>
-      }
-    </div>
-    }
+              <table class="table">
 
-  </div>
+                <thead>
+                  <tr>
+                    <th>اسم الطالب</th>
+                    <th>تاريخ الحجز</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
 
-  @if (canManageSessions()) {
-  <div class="panel">
-    <h3>
-      <i class="bi bi-people"></i>
-      الحاضرون
-    </h3>
-    @if (attendees().length === 0) {
-    <div class="state-box soft">
-      <i class="bi bi-people"></i>
-      <p>لا يوجد حاضرون حتى الآن</p>
-    </div>
-    } @else {
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>اسم الطالب</th>
-            <th>تاريخ الحجز</th>
-            <th>الحالة</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (att of attendees(); track att.bookingId) {
-          <tr>
-            <td>{{ att.studentName }}</td>
-            <td>{{ att.bookedAt | date:'dd MMM yyyy' }}</td>
-            <td><app-status-badge [status]="att.status" /></td>
-            <td>
-              @if (att.status === BookingStatus.Pending) {
-              <button class="btn-primary btn-sm" (click)="confirmAttendee(att.bookingId)">تأكيد</button>
-              }
-              @if (att.status === BookingStatus.Confirmed) {
-              <button class="btn-success btn-sm" (click)="completeAttendee(att.bookingId)">إكمال</button>
-              }
-            </td>
-          </tr>
+                <tbody>
+
+                  @for (
+                    att of attendees();
+                    track att.bookingId
+                  ) {
+
+                    <tr>
+
+                      <td>
+                        {{ att.studentName }}
+                      </td>
+
+                      <td>
+                        {{ att.bookedAt | date:'dd MMM yyyy' }}
+                      </td>
+
+                      <td>
+                        <app-status-badge
+                          [status]="att.status"
+                        />
+                      </td>
+
+                      <td>
+
+                        @if (
+                          att.status === BookingStatus.Pending
+                        ) {
+
+                          <button
+                            class="btn-primary btn-sm"
+                            (click)="confirmAttendee(att.bookingId)"
+                          >
+                            تأكيد
+                          </button>
+
+                        }
+
+                        @if (
+                          att.status === BookingStatus.Confirmed
+                        ) {
+
+                          <button
+                            class="btn-success btn-sm"
+                            (click)="completeAttendee(att.bookingId)"
+                          >
+                            إكمال
+                          </button>
+
+                        }
+
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
           }
-        </tbody>
-      </table>
-    </div>
+
+        </div>
+
+      }
+
     }
 
-  </div>
   }
 
-  }
+
+  @if (showBookingModal() && session()) {
+
+    <app-booking-modal
+      [session]="session()!"
+      (closed)="showBookingModal.set(false)"
+      (booked)="onBooked()"
+    />
+
   }
 
-  @if (showBookingModal() && session(); ) {
-  <app-booking-modal [session]="session()!" (closed)="showBookingModal.set(false)" (booked)="onBooked()" />
-  }
 
   @if (confirmDialog(); as dialog) {
-  <div class="modal-overlay" (click)="closeConfirmDialog()">
-    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3 [class]="'text-' + dialog.type">
-          @if (dialog.type === 'danger') {
-            <i class="bi bi-exclamation-triangle"></i>
-          } @else if (dialog.type === 'success') {
-            <i class="bi bi-check-circle"></i>
-          } @else {
-            <i class="bi bi-info-circle"></i>
-          }
-          {{ dialog.title }}
-        </h3>
-        <button class="btn-close" (click)="closeConfirmDialog()">
-          <i class="bi bi-x-lg"></i>
-        </button>
+
+    <div
+      class="modal-overlay"
+      (click)="closeConfirmDialog()"
+    >
+
+      <div
+        class="modal-content confirm-modal"
+        (click)="$event.stopPropagation()"
+      >
+
+        <div class="modal-header">
+
+          <h3 [class]="'text-' + dialog.type">
+
+            @if (dialog.type === 'danger') {
+
+              <i class="bi bi-exclamation-triangle"></i>
+
+            } @else if (dialog.type === 'success') {
+
+              <i class="bi bi-check-circle"></i>
+
+            } @else {
+
+              <i class="bi bi-info-circle"></i>
+
+            }
+
+            {{ dialog.title }}
+
+          </h3>
+
+          <button
+            class="btn-close"
+            (click)="closeConfirmDialog()"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+
+        </div>
+
+
+        <div class="modal-body">
+          <p>{{ dialog.message }}</p>
+        </div>
+
+
+        <div class="modal-footer">
+
+          <button
+            class="btn-ghost"
+            (click)="closeConfirmDialog()"
+          >
+            إلغاء
+          </button>
+
+          <button
+            [class]="'btn-' + dialog.type"
+            (click)="dialog.action()"
+          >
+            {{ dialog.confirmText }}
+          </button>
+
+        </div>
+
       </div>
 
-      <div class="modal-body">
-        <p>{{ dialog.message }}</p>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-ghost" (click)="closeConfirmDialog()">إلغاء</button>
-        <button [class]="'btn-' + dialog.type" (click)="dialog.action()">
-          {{ dialog.confirmText }}
-        </button>
-      </div>
     </div>
-  </div>
+
   }
 
 </div>
