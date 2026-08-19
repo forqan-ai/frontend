@@ -1,99 +1,726 @@
 <main class="details-page" dir="rtl">
-  <nav class="breadcrumb" aria-label="مسار الصفحة"><ol><li><a routerLink="../">الاستشارات</a></li><li aria-current="page">إدارة الاستشارة</li></ol></nav>
-  <div class="page-toolbar"><a class="back-button" routerLink="../"><i class="bi bi-arrow-right" aria-hidden="true"></i>العودة إلى الاستشارات</a></div>
+  <nav
+    class="breadcrumb"
+    aria-label="مسار الصفحة"
+    appScrollReveal="0"
+  >
+    <ol>
+      <li>
+        <a routerLink="../">
+          <i class="bi bi-chat-square-text"></i>
+          الاستشارات
+        </a>
+      </li>
+
+      <li aria-current="page">
+        إدارة الاستشارة
+      </li>
+    </ol>
+  </nav>
+
+  <div
+    class="page-toolbar"
+    appScrollReveal="70"
+  >
+    <a
+      class="back-button"
+      routerLink="../"
+    >
+      <i
+        class="bi bi-arrow-right"
+        aria-hidden="true"
+      ></i>
+
+      العودة إلى الاستشارات
+    </a>
+  </div>
 
   @if (loading()) {
-    <section class="details-skeleton" aria-busy="true" aria-label="جارٍ تحميل تفاصيل الاستشارة">
-      <div class="skeleton-hero skeleton-shimmer"></div><div class="skeleton-layout"><div class="skeleton-main"><div class="skeleton-card skeleton-shimmer"></div><div class="skeleton-card skeleton-shimmer"></div></div><div class="skeleton-side skeleton-shimmer"></div></div>
+    <section
+      class="details-skeleton"
+      aria-busy="true"
+      aria-label="جارٍ تحميل تفاصيل الاستشارة"
+      appScrollReveal="140"
+    >
+      <div class="skeleton-hero skeleton-shimmer"></div>
+
+      <div class="skeleton-layout">
+        <div class="skeleton-main">
+          <div class="skeleton-card skeleton-shimmer"></div>
+          <div class="skeleton-card skeleton-shimmer"></div>
+          <div class="skeleton-card skeleton-shimmer"></div>
+        </div>
+
+        <div class="skeleton-side skeleton-shimmer"></div>
+      </div>
     </section>
   } @else if (loadError(); as error) {
-    <section class="state-panel" role="alert">
-      <span class="state-icon"><i class="bi" [class.bi-wifi-off]="error.retryable" [class.bi-shield-lock]="!error.retryable" aria-hidden="true"></i></span>
-      <h1>{{ error.title }}</h1><p>{{ error.message }}</p>
-      <div class="state-actions">@if (error.retryable) { <button type="button" (click)="loadConsultation()">إعادة المحاولة</button> }<a class="secondary-action" routerLink="../">العودة إلى الاستشارات</a></div>
+    <section
+      class="state-panel"
+      role="alert"
+      appScrollReveal="150"
+    >
+      <span class="state-icon">
+        <i
+          class="bi"
+          [class.bi-wifi-off]="error.retryable"
+          [class.bi-shield-lock]="!error.retryable"
+          aria-hidden="true"
+        ></i>
+      </span>
+
+      <h1>{{ error.title }}</h1>
+
+      <p>{{ error.message }}</p>
+
+      <div class="state-actions">
+        @if (error.retryable) {
+          <button
+            type="button"
+            (click)="loadConsultation()"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+            إعادة المحاولة
+          </button>
+        }
+
+        <a
+          class="secondary-action"
+          routerLink="../"
+        >
+          <i class="bi bi-arrow-right"></i>
+          العودة إلى الاستشارات
+        </a>
+      </div>
     </section>
   } @else if (consultation(); as details) {
-    <header class="details-hero">
-      <div class="teacher-heading"><span class="teacher-icon" aria-hidden="true"><i class="bi bi-person-fill"></i></span><div><span>طلب استشارة من الطالب</span><h1>{{ details.studentName }}</h1></div></div>
-      <span class="status-badge" [class]="statusClass(details.status)">{{ statusLabel(details.status) }}</span>
+    <header
+      class="details-hero"
+      appScrollReveal="150"
+    >
+      <div class="hero-decoration hero-decoration-one"></div>
+      <div class="hero-decoration hero-decoration-two"></div>
+
+      <div class="teacher-heading">
+        <span
+          class="teacher-icon"
+          aria-hidden="true"
+        >
+          <i class="bi bi-person-video3"></i>
+        </span>
+
+        <div class="teacher-heading-content">
+          <span class="hero-eyebrow">
+            <i class="bi bi-stars"></i>
+            طلب استشارة من الطالب
+          </span>
+
+          <h1>{{ details.studentName }}</h1>
+
+          <p>
+            <i class="bi bi-shield-check"></i>
+            إدارة ومتابعة تفاصيل الاستشارة
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-status">
+        <span class="status-caption">
+          <i class="bi bi-circle-fill"></i>
+          الحالة الحالية
+        </span>
+
+        <span
+          class="status-badge"
+          [class]="statusClass(details.status)"
+        >
+          {{ statusLabel(details.status) }}
+        </span>
+      </div>
     </header>
 
-    @if (actionError()) { <div class="action-error" role="alert"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i><span>{{ actionError() }}</span></div> }
+    @if (actionError()) {
+      <div
+        class="action-error"
+        role="alert"
+        appScrollReveal="210"
+      >
+        <span class="action-error-icon">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </span>
+
+        <div>
+          <strong>حدث خطأ</strong>
+          <span>{{ actionError() }}</span>
+        </div>
+      </div>
+    }
 
     <div class="details-layout">
-      <div class="main-column">
-        <section class="content-card" aria-labelledby="request-title">
-          <div class="section-heading"><span class="section-icon"><i class="bi bi-chat-right-text" aria-hidden="true"></i></span><h2 id="request-title">طلب الطالب</h2></div>
-          <p class="long-text">{{ details.requestText }}</p>
+      <div
+        class="main-column"
+        appScrollReveal="230"
+      >
+        <section
+          class="content-card request-card"
+          aria-labelledby="request-title"
+          appScrollReveal="260"
+        >
+          <div class="card-accent"></div>
+
+          <div class="section-heading">
+            <span class="section-icon">
+              <i
+                class="bi bi-chat-right-text-fill"
+                aria-hidden="true"
+              ></i>
+            </span>
+
+            <div>
+              <span class="section-kicker">تفاصيل الطلب</span>
+              <h2 id="request-title">طلب الطالب</h2>
+            </div>
+          </div>
+
+          <div class="request-content">
+            <i class="bi bi-quote quote-icon"></i>
+
+            <p class="long-text">
+              {{ details.requestText }}
+            </p>
+          </div>
         </section>
 
         @if (details.actions.canEditProposal) {
-          <app-consultation-proposal-form [consultation]="details" [submitting]="submitting() !== null" (submitted)="saveProposal($event)" />
+          <div
+            class="animated-section"
+            appScrollReveal="300"
+          >
+            <app-consultation-proposal-form
+              [consultation]="details"
+              [submitting]="submitting() !== null"
+              (submitted)="saveProposal($event)"
+            />
+          </div>
         } @else if (details.teacherResponseText) {
-          <section class="content-card">
-            <div class="section-heading"><span class="section-icon"><i class="bi bi-reply" aria-hidden="true"></i></span><h2>المقترح المرسل</h2></div>
-            <p class="long-text">{{ details.teacherResponseText }}</p>
+          <section
+            class="content-card response-card"
+            appScrollReveal="300"
+          >
+            <div class="section-heading">
+              <span class="section-icon">
+                <i
+                  class="bi bi-reply-all-fill"
+                  aria-hidden="true"
+                ></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">رد المعلم</span>
+                <h2>المقترح المرسل</h2>
+              </div>
+            </div>
+
+            <p class="long-text">
+              {{ details.teacherResponseText }}
+            </p>
+
             @if (details.slots.length > 0) {
-              <div class="proposed-slots">@for (slot of details.slots; track slot.slotId) { <span [class.selected]="slot.isSelected"><i class="bi bi-calendar-event" aria-hidden="true"></i>{{ formatDate(slot.startTime) }}</span> }</div>
+              <div class="slots-heading">
+                <i class="bi bi-calendar3"></i>
+                <span>المواعيد المقترحة</span>
+              </div>
+
+              <div class="proposed-slots">
+                @for (
+                  slot of details.slots;
+                  track slot.slotId
+                ) {
+                  <span
+                    class="slot-item"
+                    [class.selected]="slot.isSelected"
+                  >
+                    <i
+                      class="bi bi-calendar-event-fill"
+                      aria-hidden="true"
+                    ></i>
+
+                    <span>
+                      {{ formatDate(slot.startTime) }}
+                    </span>
+
+                    @if (slot.isSelected) {
+                      <i
+                        class="bi bi-check-circle-fill selected-check"
+                      ></i>
+                    }
+                  </span>
+                }
+              </div>
             }
           </section>
         }
 
         @if (details.status === 'Confirmed') {
-          <section class="content-card confirmed-card">
-            <div class="section-heading"><span class="section-icon"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span><h2>الاستشارة مؤكدة</h2></div>
-            @if (details.selectedSlot) { <div class="confirmed-appointment"><span>الموعد المؤكد</span><strong>{{ formatDate(details.selectedSlot.startTime) }}</strong></div> }
-            <div class="confirmed-summary"><span><i class="bi bi-clock"></i> {{ details.durationMinutes }} دقيقة</span><span><i class="bi bi-coin"></i> @if (details.pointsPrice === 0) { مجانية } @else { {{ details.pointsPrice }} نقطة }</span></div>
+          <section
+            class="content-card confirmed-card"
+            appScrollReveal="330"
+          >
+            <div class="confirmed-glow"></div>
+
+            <div class="section-heading">
+              <span class="section-icon">
+                <i
+                  class="bi bi-calendar2-check-fill"
+                  aria-hidden="true"
+                ></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">تم التأكيد</span>
+                <h2>الاستشارة مؤكدة</h2>
+              </div>
+            </div>
+
+            @if (details.selectedSlot) {
+              <div class="confirmed-appointment">
+                <div class="appointment-icon">
+                  <i class="bi bi-calendar-heart-fill"></i>
+                </div>
+
+                <div>
+                  <span>الموعد المؤكد</span>
+
+                  <strong>
+                    {{ formatDate(details.selectedSlot.startTime) }}
+                  </strong>
+                </div>
+              </div>
+            }
+
+            <div class="confirmed-summary">
+              <span>
+                <i class="bi bi-clock-fill"></i>
+                {{ details.durationMinutes }} دقيقة
+              </span>
+
+              <span>
+                <i class="bi bi-coin"></i>
+
+                @if (details.pointsPrice === 0) {
+                  مجانية
+                } @else {
+                  {{ details.pointsPrice }} نقطة
+                }
+              </span>
+            </div>
           </section>
         }
 
         @if (details.actions.canSetMeetingLink) {
-          <app-meeting-link-form [consultation]="details" [submitting]="submitting() !== null" (submitted)="saveMeetingLink($event)" />
-        } @else if ((details.status === 'Confirmed' || details.status === 'Completed') && details.meetingLink) {
-          <section class="content-card meeting-card">
-            <div class="section-heading"><span class="section-icon"><i class="bi bi-camera-video"></i></span><h2>رابط الاجتماع</h2></div>
-            @if (details.platform) { <p class="platform-name">المنصة: <strong>{{ details.platform }}</strong></p> }
-            <a class="meeting-link" [href]="details.meetingLink" target="_blank" rel="noopener noreferrer">فتح رابط الاجتماع<i class="bi bi-box-arrow-up-left"></i></a>
+          <div
+            class="animated-section"
+            appScrollReveal="350"
+          >
+            <app-meeting-link-form
+              [consultation]="details"
+              [submitting]="submitting() !== null"
+              (submitted)="saveMeetingLink($event)"
+            />
+          </div>
+        } @else if (
+          (details.status === 'Confirmed' ||
+            details.status === 'Completed') &&
+          details.meetingLink
+        ) {
+          <section
+            class="content-card meeting-card"
+            appScrollReveal="350"
+          >
+            <div class="section-heading">
+              <span class="section-icon">
+                <i class="bi bi-camera-video-fill"></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">جلسة مباشرة</span>
+                <h2>رابط الاجتماع</h2>
+              </div>
+            </div>
+
+            @if (details.platform) {
+              <div class="platform-box">
+                <span>
+                  <i class="bi bi-display"></i>
+                  المنصة
+                </span>
+
+                <strong>{{ details.platform }}</strong>
+              </div>
+            }
+
+            <a
+              class="meeting-link"
+              [href]="details.meetingLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>
+                <i class="bi bi-camera-video"></i>
+                فتح رابط الاجتماع
+              </span>
+
+              <i class="bi bi-box-arrow-up-left"></i>
+            </a>
           </section>
         }
 
         @if (details.status === 'Rejected') {
-          <section class="content-card final-state-card rejected-card"><div class="section-heading"><span class="section-icon"><i class="bi bi-x-circle"></i></span><h2>تم رفض الطلب</h2></div>@if (details.rejectedAt) { <p>تاريخ الرفض: <strong>{{ formatDate(details.rejectedAt) }}</strong></p> }@if (details.rejectionReason) { <p class="long-text">{{ details.rejectionReason }}</p> }</section>
+          <section
+            class="content-card final-state-card rejected-card"
+            appScrollReveal="370"
+          >
+            <div class="final-state-icon">
+              <i class="bi bi-x-circle-fill"></i>
+            </div>
+
+            <div class="section-heading">
+              <span class="section-icon">
+                <i class="bi bi-x-lg"></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">الحالة النهائية</span>
+                <h2>تم رفض الطلب</h2>
+              </div>
+            </div>
+
+            @if (details.rejectedAt) {
+              <p>
+                <i class="bi bi-calendar3"></i>
+                تاريخ الرفض:
+                <strong>
+                  {{ formatDate(details.rejectedAt) }}
+                </strong>
+              </p>
+            }
+
+            @if (details.rejectionReason) {
+              <p class="long-text">
+                {{ details.rejectionReason }}
+              </p>
+            }
+          </section>
         }
+
         @if (details.status === 'Cancelled') {
-          <section class="content-card final-state-card cancelled-card"><div class="section-heading"><span class="section-icon"><i class="bi bi-slash-circle"></i></span><h2>تم إلغاء الاستشارة</h2></div>@if (details.cancelledAt) { <p>تاريخ الإلغاء: <strong>{{ formatDate(details.cancelledAt) }}</strong></p> }@if (details.cancellationReason) { <p class="long-text">{{ details.cancellationReason }}</p> }</section>
+          <section
+            class="content-card final-state-card cancelled-card"
+            appScrollReveal="370"
+          >
+            <div class="final-state-icon">
+              <i class="bi bi-slash-circle-fill"></i>
+            </div>
+
+            <div class="section-heading">
+              <span class="section-icon">
+                <i class="bi bi-slash-lg"></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">الحالة النهائية</span>
+                <h2>تم إلغاء الاستشارة</h2>
+              </div>
+            </div>
+
+            @if (details.cancelledAt) {
+              <p>
+                <i class="bi bi-calendar3"></i>
+                تاريخ الإلغاء:
+                <strong>
+                  {{ formatDate(details.cancelledAt) }}
+                </strong>
+              </p>
+            }
+
+            @if (details.cancellationReason) {
+              <p class="long-text">
+                {{ details.cancellationReason }}
+              </p>
+            }
+          </section>
         }
+
         @if (details.status === 'Completed') {
-          <section class="content-card final-state-card completed-card"><div class="section-heading"><span class="section-icon"><i class="bi bi-check-circle"></i></span><h2>اكتملت الاستشارة</h2></div>@if (details.completedAt) { <p>تاريخ الإكمال: <strong>{{ formatDate(details.completedAt) }}</strong></p> }</section>
+          <section
+            class="content-card final-state-card completed-card"
+            appScrollReveal="370"
+          >
+            <div class="final-state-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+
+            <div class="section-heading">
+              <span class="section-icon">
+                <i class="bi bi-check2"></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">الحالة النهائية</span>
+                <h2>اكتملت الاستشارة</h2>
+              </div>
+            </div>
+
+            @if (details.completedAt) {
+              <p>
+                <i class="bi bi-calendar3"></i>
+                تاريخ الإكمال:
+                <strong>
+                  {{ formatDate(details.completedAt) }}
+                </strong>
+              </p>
+            }
+          </section>
         }
       </div>
 
-      <aside class="side-column">
-        <section class="information-card" aria-labelledby="consultation-information-title">
-          <div class="section-heading"><span class="section-icon"><i class="bi bi-info-lg"></i></span><h2 id="consultation-information-title">معلومات الاستشارة</h2></div>
+      <aside
+        class="side-column"
+        appScrollReveal="280"
+      >
+        <section
+          class="information-card"
+          aria-labelledby="consultation-information-title"
+        >
+          <div class="information-card-top"></div>
+
+          <div class="information-header">
+            <div class="information-title">
+              <span class="section-icon">
+                <i class="bi bi-info-circle-fill"></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">Overview</span>
+
+                <h2 id="consultation-information-title">
+                  معلومات الاستشارة
+                </h2>
+              </div>
+            </div>
+
+            <span class="info-pulse">
+              <i class="bi bi-broadcast"></i>
+            </span>
+          </div>
+
+          <div class="student-mini-card">
+            <div class="student-mini-icon">
+              <i class="bi bi-person-fill"></i>
+            </div>
+
+            <div>
+              <span>الطالب</span>
+              <strong>{{ details.studentName }}</strong>
+            </div>
+          </div>
+
           <dl class="information-list">
-            <div><dt>الطالب</dt><dd>{{ details.studentName }}</dd></div><div><dt>الحالة</dt><dd>{{ statusLabel(details.status) }}</dd></div><div><dt>تاريخ الطلب</dt><dd>{{ formatDate(details.createdAt) }}</dd></div>
-            @if (details.respondedAt) { <div><dt>تاريخ إرسال المقترح</dt><dd>{{ formatDate(details.respondedAt) }}</dd></div> }
-            @if (details.acceptedAt) { <div><dt>تاريخ التأكيد</dt><dd>{{ formatDate(details.acceptedAt) }}</dd></div> }
-            @if (details.pointsPrice !== null) { <div><dt>السعر</dt><dd>@if (details.pointsPrice === 0) { مجانية } @else { {{ details.pointsPrice }} نقطة }</dd></div> }
-            @if (details.durationMinutes !== null) { <div><dt>المدة</dt><dd>{{ details.durationMinutes }} دقيقة</dd></div> }
-            @if (details.selectedSlot) { <div><dt>الموعد المختار</dt><dd>{{ formatDate(details.selectedSlot.startTime) }}</dd></div> }
+            <div>
+              <dt>
+                <i class="bi bi-activity"></i>
+                الحالة
+              </dt>
+
+              <dd>
+                <span
+                  class="mini-status"
+                  [class]="statusClass(details.status)"
+                >
+                  {{ statusLabel(details.status) }}
+                </span>
+              </dd>
+            </div>
+
+            <div>
+              <dt>
+                <i class="bi bi-calendar-plus"></i>
+                تاريخ الطلب
+              </dt>
+
+              <dd>
+                {{ formatDate(details.createdAt) }}
+              </dd>
+            </div>
+
+            @if (details.respondedAt) {
+              <div>
+                <dt>
+                  <i class="bi bi-reply"></i>
+                  تاريخ إرسال المقترح
+                </dt>
+
+                <dd>
+                  {{ formatDate(details.respondedAt) }}
+                </dd>
+              </div>
+            }
+
+            @if (details.acceptedAt) {
+              <div>
+                <dt>
+                  <i class="bi bi-calendar-check"></i>
+                  تاريخ التأكيد
+                </dt>
+
+                <dd>
+                  {{ formatDate(details.acceptedAt) }}
+                </dd>
+              </div>
+            }
+
+            @if (details.pointsPrice !== null) {
+              <div>
+                <dt>
+                  <i class="bi bi-coin"></i>
+                  السعر
+                </dt>
+
+                <dd class="price-value">
+                  @if (details.pointsPrice === 0) {
+                    مجانية
+                  } @else {
+                    {{ details.pointsPrice }} نقطة
+                  }
+                </dd>
+              </div>
+            }
+
+            @if (details.durationMinutes !== null) {
+              <div>
+                <dt>
+                  <i class="bi bi-clock"></i>
+                  المدة
+                </dt>
+
+                <dd>
+                  {{ details.durationMinutes }} دقيقة
+                </dd>
+              </div>
+            }
+
+            @if (details.selectedSlot) {
+              <div>
+                <dt>
+                  <i class="bi bi-calendar-event"></i>
+                  الموعد المختار
+                </dt>
+
+                <dd>
+                  {{ formatDate(details.selectedSlot.startTime) }}
+                </dd>
+              </div>
+            }
           </dl>
         </section>
 
-        @if (details.actions.canReject || details.actions.canComplete || details.actions.canCancel) {
-          <section class="management-actions" aria-labelledby="actions-title">
-            <h2 id="actions-title">إجراءات الاستشارة</h2>
-            @if (details.actions.canComplete) { <button type="button" class="complete-action" (click)="openAction('complete')" [disabled]="submitting() !== null"><i class="bi bi-check2-circle"></i>إنهاء الاستشارة</button> }
-            @if (details.actions.canReject) { <button type="button" class="danger-action" (click)="openAction('reject')" [disabled]="submitting() !== null"><i class="bi bi-x-circle"></i>رفض الطلب</button> }
-            @if (details.actions.canCancel) { <button type="button" class="danger-action" (click)="openAction('cancel')" [disabled]="submitting() !== null"><i class="bi bi-slash-circle"></i>{{ details.pointsPrice === 0 ? 'إلغاء الاستشارة' : 'إلغاء ورد النقاط' }}</button> }
+        @if (
+          details.actions.canReject ||
+          details.actions.canComplete ||
+          details.actions.canCancel
+        ) {
+          <section
+            class="management-actions"
+            aria-labelledby="actions-title"
+            appScrollReveal="380"
+          >
+            <div class="actions-top-decoration"></div>
+
+            <div class="actions-heading">
+              <span class="actions-icon">
+                <i class="bi bi-sliders2"></i>
+              </span>
+
+              <div>
+                <span class="section-kicker">Control</span>
+                <h2 id="actions-title">
+                  إجراءات الاستشارة
+                </h2>
+              </div>
+            </div>
+
+            <div class="actions-divider"></div>
+
+            @if (details.actions.canComplete) {
+              <button
+                type="button"
+                class="complete-action"
+                (click)="openAction('complete')"
+                [disabled]="submitting() !== null"
+              >
+                <span class="button-icon">
+                  <i class="bi bi-check2-circle"></i>
+                </span>
+
+                <span>إنهاء الاستشارة</span>
+
+                <i class="bi bi-arrow-left button-arrow"></i>
+              </button>
+            }
+
+            @if (details.actions.canReject) {
+              <button
+                type="button"
+                class="danger-action"
+                (click)="openAction('reject')"
+                [disabled]="submitting() !== null"
+              >
+                <span class="button-icon">
+                  <i class="bi bi-x-circle"></i>
+                </span>
+
+                <span>رفض الطلب</span>
+
+                <i class="bi bi-arrow-left button-arrow"></i>
+              </button>
+            }
+
+            @if (details.actions.canCancel) {
+              <button
+                type="button"
+                class="danger-action"
+                (click)="openAction('cancel')"
+                [disabled]="submitting() !== null"
+              >
+                <span class="button-icon">
+                  <i class="bi bi-slash-circle"></i>
+                </span>
+
+                <span>
+                  {{
+                    details.pointsPrice === 0
+                      ? 'إلغاء الاستشارة'
+                      : 'إلغاء ورد النقاط'
+                  }}
+                </span>
+
+                <i class="bi bi-arrow-left button-arrow"></i>
+              </button>
+            }
           </section>
         }
       </aside>
     </div>
 
     @if (actionModal(); as action) {
-      <app-teacher-consultation-action-modal [action]="action" [studentName]="details.studentName" [pointsPrice]="details.pointsPrice" [loading]="submitting() === action" (closed)="closeAction()" (confirmed)="confirmAction($event)" />
+      <app-teacher-consultation-action-modal
+        [action]="action"
+        [studentName]="details.studentName"
+        [pointsPrice]="details.pointsPrice"
+        [loading]="submitting() === action"
+        (closed)="closeAction()"
+        (confirmed)="confirmAction($event)"
+      />
     }
   }
 </main>

@@ -1,9 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CourseService } from '../../../Course/Services/course.service';
 import { TeacherCourse } from '../../models/teacher-course.model';
-import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-courses',
@@ -13,45 +13,43 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./my-courses.component.css'],
 })
 export class MyCoursesComponent {
-  private courseService = inject(CourseService);
+  private readonly courseService = inject(CourseService);
+  private readonly router = inject(Router);
 
-  private router = inject(Router);
-  courses = signal<TeacherCourse[]>([]);
+  readonly courses = signal<TeacherCourse[]>([]);
+  readonly submitLoading = signal<string | null>(null);
+  readonly submitError = signal<string | null>(null);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCourses();
   }
 
-  loadCourses() {
-    console.log('Loading Courses');
-
+  loadCourses(): void {
     this.courseService.getMyCourses().subscribe({
       next: (res) => {
-        console.log('Response:', res);
         this.courses.set(res);
       },
-      error: (err) => {
-        console.error('Error:', err);
-      },
-      complete: () => {
-        console.log('Completed');
+      error: () => {
+        this.courses.set([]);
       },
     });
   }
 
-  buildCourse(courseId: string) {
-    this.router.navigate(['/teacher/course-builder', courseId]);
+  buildCourse(courseId: string): void {
+    void this.router.navigate([
+      '/teacher/course-builder',
+      courseId,
+    ]);
   }
-
-  submitLoading = signal<string | null>(null);
-  submitError = signal<string | null>(null);
 
   submitForReview(courseId: string): void {
     if (this.submitLoading()) {
       return;
     }
 
-    const confirmed = confirm('هل أنت متأكد من إرسال الدورة للمراجعة؟');
+    const confirmed = confirm(
+      'هل أنت متأكد من إرسال الدورة للمراجعة؟',
+    );
 
     if (!confirmed) {
       return;
@@ -60,18 +58,26 @@ export class MyCoursesComponent {
     this.submitLoading.set(courseId);
     this.submitError.set(null);
 
-    this.courseService.submitCourseForReview(courseId).subscribe({
-      next: () => {
-        this.submitLoading.set(null);
-        this.loadCourses();
-      },
+    this.courseService
+      .submitCourseForReview(courseId)
+      .subscribe({
+        next: () => {
+          this.submitLoading.set(null);
+          this.loadCourses();
+        },
+        error: (err) => {
+          this.submitLoading.set(null);
 
-      error: (err) => {
-        console.error('Error submitting course for review:', err);
-        this.submitLoading.set(null);
-        const msg = err?.error || 'حدث خطأ أثناء الإرسال';
-        this.submitError.set(typeof msg === 'string' ? msg : JSON.stringify(msg));
-      },
-    });
+          const msg =
+            err?.error || 'حدث خطأ أثناء إرسال الدورة للمراجعة.';
+
+          this.submitError.set(
+            typeof msg === 'string'
+              ? msg
+              : JSON.stringify(msg),
+          );
+        },
+      });
   }
 }
+

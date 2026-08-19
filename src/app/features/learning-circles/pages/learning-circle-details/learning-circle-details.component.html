@@ -71,12 +71,8 @@
       <div class="state-icon">
         <i
           class="bi"
-          [class.bi-search]="
-            error.title === 'الحلقة غير موجودة'
-          "
-          [class.bi-shield-lock]="
-            error.title === 'لا يمكنك الوصول إلى هذه الحلقة'
-          "
+          [class.bi-search]="error.title === 'الحلقة غير موجودة'"
+          [class.bi-shield-lock]="error.title === 'لا يمكنك الوصول إلى هذه الحلقة'"
           [class.bi-wifi-off]="error.retryable"
           [class.bi-exclamation-circle]="
             !error.retryable &&
@@ -97,6 +93,7 @@
             type="button"
             (click)="retry()"
           >
+            <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
             إعادة المحاولة
           </button>
         }
@@ -106,6 +103,7 @@
           class="secondary-state-button"
           (click)="backToCircles()"
         >
+          <i class="bi bi-arrow-right" aria-hidden="true"></i>
           العودة إلى حلقات التعلم
         </button>
       </div>
@@ -130,9 +128,7 @@
       circle.isMember ||
       circle.currentUserRole !== null
     ) {
-      <div
-        appScrollReveal="180"
-      >
+      <div appScrollReveal="180">
         <app-circle-content-navigation
           [activeSection]="activeContentSection()"
           [canViewPosts]="circle.permissions.canViewPosts"
@@ -147,9 +143,7 @@
           "
           [postsCount]="circle.postsCount"
           [membersCount]="circle.membersCount"
-          [pendingJoinRequestsCount]="
-            circle.pendingJoinRequestsCount
-          "
+          [pendingJoinRequestsCount]="circle.pendingJoinRequestsCount"
           (sectionChanged)="selectContentSection($event)"
         />
       </div>
@@ -162,20 +156,14 @@
           id="circle-posts-panel"
           role="tabpanel"
           aria-labelledby="circle-posts-tab"
-          [hidden]="
-            activeContentSection() !== 'posts'
-          "
+          [hidden]="activeContentSection() !== 'posts'"
           class="reveal-content"
         >
           <div class="discussion-layout">
             <app-circle-posts-section
               [details]="circle"
-              [active]="
-                activeContentSection() === 'posts'
-              "
-              (detailsRefreshRequested)="
-                refreshDetailsFromContent()
-              "
+              [active]="activeContentSection() === 'posts'"
+              (detailsRefreshRequested)="refreshDetailsFromContent()"
             />
 
             <aside
@@ -200,10 +188,7 @@
                 <dl class="info-list">
                   <div>
                     <dt>
-                      <i
-                        class="bi bi-book"
-                        aria-hidden="true"
-                      ></i>
+                      <i class="bi bi-book" aria-hidden="true"></i>
                       المجال
                     </dt>
 
@@ -223,8 +208,7 @@
                       {{
                         circle.joinPolicy === 'Automatic'
                           ? 'انضمام تلقائي'
-                          : circle.joinPolicy ===
-                              'RequiresApproval'
+                          : circle.joinPolicy === 'RequiresApproval'
                             ? 'يتطلب موافقة'
                             : 'بدعوة فقط'
                       }}
@@ -241,13 +225,8 @@
                     </dt>
 
                     <dd>
-                      <time
-                        [attr.datetime]="circle.createdAt"
-                      >
-                        {{
-                          circle.createdAt
-                            | date: 'dd/MM/yyyy'
-                        }}
+                      <time [attr.datetime]="circle.createdAt">
+                        {{ circle.createdAt | date: 'dd/MM/yyyy' }}
                       </time>
                     </dd>
                   </div>
@@ -269,13 +248,8 @@
                 <div class="teacher-profile">
                   @if (circle.teacher.profileImageUrl) {
                     <img
-                      [src]="
-                        circle.teacher.profileImageUrl
-                      "
-                      [alt]="
-                        'صورة المعلم ' +
-                        circle.teacher.fullName
-                      "
+                      [src]="circle.teacher.profileImageUrl"
+                      [alt]="'صورة المعلم ' + circle.teacher.fullName"
                     />
                   } @else {
                     <span
@@ -331,15 +305,8 @@
                 <div class="last-activity">
                   <span>آخر نشاط</span>
 
-                  <time
-                    [attr.datetime]="
-                      circle.lastActivityAt
-                    "
-                  >
-                    {{
-                      circle.lastActivityAt
-                        | date: 'dd/MM/yyyy'
-                    }}
+                  <time [attr.datetime]="circle.lastActivityAt">
+                    {{ circle.lastActivityAt | date: 'dd/MM/yyyy' }}
                   </time>
                 </div>
               </section>
@@ -354,11 +321,7 @@
                   <span>صلاحيتك داخل الحلقة</span>
 
                   <strong>
-                    {{
-                      roleLabel(
-                        circle.currentUserRole
-                      )
-                    }}
+                    {{ roleLabel(circle.currentUserRole) }}
                   </strong>
                 </div>
               </section>
@@ -375,49 +338,34 @@
           id="circle-members-panel"
           role="tabpanel"
           aria-labelledby="circle-members-tab"
-          [hidden]="
-            activeContentSection() !== 'members'
-          "
+          [hidden]="activeContentSection() !== 'members'"
           class="reveal-content"
         >
-          @if (
-            circle.permissions.canReviewJoinRequests
-          ) {
+          @if (circle.permissions.canReviewJoinRequests) {
             <app-circle-join-requests-section
               [circleId]="circle.circleId"
-              (changed)="
-                refreshDetailsFromContent()
-              "
+              (changed)="refreshDetailsFromContent()"
             />
           }
 
           <app-circle-members-section
             [details]="circle"
-            [active]="
-              activeContentSection() === 'members'
-            "
-            (detailsRefreshRequested)="
-              refreshDetailsFromContent()
-            "
+            [active]="activeContentSection() === 'members'"
+            (detailsRefreshRequested)="refreshDetailsFromContent()"
           />
         </div>
       }
 
       @if (
         chatMounted() &&
-        (
-          circle.isMember ||
-          circle.currentUserRole !== null
-        )
+        (circle.isMember || circle.currentUserRole !== null)
       ) {
         <div
           id="circle-chat-panel"
           role="tabpanel"
           aria-labelledby="circle-chat-tab"
           class="chat-panel-wrapper"
-          [hidden]="
-            activeContentSection() !== 'chat'
-          "
+          [hidden]="activeContentSection() !== 'chat'"
           appScrollReveal="220"
         >
           <app-circle-chat
@@ -428,26 +376,19 @@
 
       @if (
         sessionsMounted() &&
-        (
-          circle.isMember ||
-          circle.currentUserRole !== null
-        )
+        (circle.isMember || circle.currentUserRole !== null)
       ) {
         <div
           id="circle-sessions-panel"
           role="tabpanel"
           aria-labelledby="circle-sessions-tab"
           class="sessions-panel-wrapper"
-          [hidden]="
-            activeContentSection() !== 'sessions'
-          "
+          [hidden]="activeContentSection() !== 'sessions'"
           appScrollReveal="220"
         >
           <app-circle-sessions
             [circleId]="circle.circleId"
-            [canManageSessions]="
-              circle.permissions.canCreateLiveSession
-            "
+            [canManageSessions]="circle.permissions.canCreateLiveSession"
           />
         </div>
       }
@@ -473,27 +414,27 @@
         </div>
       </section>
     }
-
-    <app-membership-confirmation-modal
-      [action]="membershipAction() ?? 'join'"
-      [open]="membershipAction() !== null"
-      [circleName]="circle.name"
-      [loading]="
-        membershipAction() !== null &&
-        actionPending() === membershipAction()
-      "
-      (closed)="closeMembershipConfirmation()"
-      (confirmed)="confirmMembershipAction()"
-    />
-
-    <app-archive-circle-confirmation-modal
-      [open]="archiveConfirmationOpen()"
-      [circleName]="circle.name"
-      [loading]="
-        actionPending() === 'archive'
-      "
-      (closed)="closeArchiveConfirmation()"
-      (confirmed)="confirmArchive()"
-    />
   }
 </main>
+
+@if (details(); as circle) {
+  <app-membership-confirmation-modal
+    [action]="membershipAction() ?? 'join'"
+    [open]="membershipAction() !== null"
+    [circleName]="circle.name"
+    [loading]="
+      membershipAction() !== null &&
+      actionPending() === membershipAction()
+    "
+    (closed)="closeMembershipConfirmation()"
+    (confirmed)="confirmMembershipAction()"
+  />
+
+  <app-archive-circle-confirmation-modal
+    [open]="archiveConfirmationOpen()"
+    [circleName]="circle.name"
+    [loading]="actionPending() === 'archive'"
+    (closed)="closeArchiveConfirmation()"
+    (confirmed)="confirmArchive()"
+  />
+}

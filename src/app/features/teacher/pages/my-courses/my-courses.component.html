@@ -1,84 +1,456 @@
-<div class="page">
-  <div class="page-header">
-    <div>
-      <h2>دوراتي</h2>
-      <p>إدارة جميع الدورات الخاصة بك</p>
-    </div>
-  </div>
+<div class="page" dir="rtl">
 
-  <div class="courses-grid">
-    @for (course of courses(); track course.courseID) {
-      <div class="course-card">
-        <div class="course-image">
-          <img
-            [src]="course.thumbnailURL || 'assets/images/course-placeholder.jpg'"
-            [alt]="course.title"
-          />
+  <!-- ==================== PAGE HEADER ==================== -->
+  <header class="page-header">
 
-          <span
-            class="status"
-            [class.approved]="course.status === 'Approved'"
-            [class.pending]="course.status === 'PendingApproval'"
-            [class.rejected]="course.status === 'Rejected'"
-            [class.draft]="course.status === 'Draft'"
-          >
-            {{ course.status }}
-          </span>
-        </div>
+    <div class="header-glow"></div>
 
-        <div class="course-content">
-          <h3>{{ course.title }}</h3>
+    <div class="page-heading">
 
-          <p class="subtitle">
-            {{ course.subtitle }}
-          </p>
+      <div class="heading-icon">
+        <span class="icon-ring"></span>
 
-          <span class="category">
-            {{ course.categoryName }}
-          </span>
-
-          <div class="footer">
-            <small>
-              {{ course.createdAt | date: 'dd MMM yyyy' }}
-            </small>
-
-            <div class="course-actions">
-              <button type="button" (click)="buildCourse(course.courseID)">إدارة المحتوى</button>
-
-              @if (course.status === 'Draft' || course.status === 'Rejected') {
-                <button
-                  type="button"
-                  class="submit-review-btn"
-                  [disabled]="submitLoading() === course.courseID"
-                  (click)="submitForReview(course.courseID)"
-                >
-                  @if (submitLoading() === course.courseID) {
-                    جاري الإرسال...
-                  } @else if (course.status === 'Rejected') {
-                    إعادة الإرسال للمراجعة
-                  } @else {
-                    إرسال للمراجعة
-                  }
-                </button>
-              }
-
-              @if (course.status === 'PendingApproval') {
-                <span class="pending-review"> قيد المراجعة </span>
-              }
-
-              @if (course.status === 'Approved') {
-                <span class="approved"> تمت الموافقة </span>
-              }
-            </div>
-          </div>
-        </div>
-
-          @if (submitError()) {
-          <div class="submit-error-msg" style="color:red; padding: 8px 12px; margin: 4px 0; font-size:13px; background:#fff0f0; border-radius:6px; border:1px solid #f5c6cb;">
-            ⚠️ {{ submitError() }}
-          </div>
-          }
+        <i
+          class="bi bi-journal-bookmark-fill"
+          aria-hidden="true">
+        </i>
       </div>
-    }
-  </div>
+
+      <div class="heading-content">
+
+        <span class="page-eyebrow">
+          <i class="bi bi-stars" aria-hidden="true"></i>
+          إدارة المحتوى
+        </span>
+
+        <h1>دوراتي</h1>
+
+        <p>
+          إدارة جميع الدورات الخاصة بك ومتابعة حالة المراجعة.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="heading-decoration">
+
+      <span class="decoration-dot dot-one"></span>
+      <span class="decoration-dot dot-two"></span>
+      <span class="decoration-dot dot-three"></span>
+
+      <i
+        class="bi bi-mortarboard-fill"
+        aria-hidden="true">
+      </i>
+
+    </div>
+
+  </header>
+
+
+  <!-- ==================== EMPTY STATE ==================== -->
+  @if (courses().length === 0) {
+
+    <section class="empty-state">
+
+      <div class="empty-decoration empty-decoration-one"></div>
+      <div class="empty-decoration empty-decoration-two"></div>
+
+      <div class="empty-icon">
+
+        <span class="empty-icon-ring"></span>
+
+        <i
+          class="bi bi-journal-bookmark-fill"
+          aria-hidden="true">
+        </i>
+
+      </div>
+
+      <div class="empty-content">
+
+        <span class="empty-eyebrow">
+          <i class="bi bi-info-circle" aria-hidden="true"></i>
+          لا توجد بيانات
+        </span>
+
+        <h2>لا توجد دورات حاليًا</h2>
+
+        <p>
+          ستظهر الدورات الخاصة بك هنا عند إنشائها.
+        </p>
+
+      </div>
+
+    </section>
+
+  } @else {
+
+    <!-- ==================== COURSES SECTION ==================== -->
+    <section
+      class="courses-section"
+      aria-label="الدورات الخاصة بك">
+
+      <!-- SECTION HEADER -->
+      <div class="section-header">
+
+        <div class="section-title">
+
+          <div class="section-title-icon">
+            <i
+              class="bi bi-collection-play-fill"
+              aria-hidden="true">
+            </i>
+          </div>
+
+          <div>
+            <h2>الدورات الخاصة بك</h2>
+
+            <p>
+              إدارة ومتابعة جميع دوراتك التعليمية
+            </p>
+          </div>
+
+        </div>
+
+        <div class="course-count">
+
+          <span class="count-icon">
+            <i
+              class="bi bi-book-half"
+              aria-hidden="true">
+            </i>
+          </span>
+
+          <span class="count-label">
+            عدد الدورات
+          </span>
+
+          <strong>
+            {{ courses().length }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==================== COURSES GRID ==================== -->
+      <div class="courses-grid">
+
+        @for (
+          course of courses();
+          track course.courseID;
+          let i = $index
+        ) {
+
+          <article
+            class="course-card"
+            [style.--card-index]="i">
+
+            <!-- CARD TOP LINE -->
+            <div class="card-top-line"></div>
+
+            <!-- IMAGE -->
+            <div class="course-image">
+
+              <img
+                [src]="
+                  course.thumbnailURL ||
+                  'assets/images/course-placeholder.jpg'
+                "
+                [alt]="course.title"
+              />
+
+              <div class="image-overlay"></div>
+
+              <!-- Floating image icon -->
+              <div class="image-floating-icon">
+                <i
+                  class="bi bi-book-half"
+                  aria-hidden="true">
+                </i>
+              </div>
+
+
+              <!-- STATUS -->
+              <span
+                class="status"
+                [class.approved]="course.status === 'Approved'"
+                [class.pending]="course.status === 'PendingApproval'"
+                [class.rejected]="course.status === 'Rejected'"
+                [class.draft]="course.status === 'Draft'">
+
+                @if (course.status === 'Approved') {
+
+                  <i
+                    class="bi bi-check-circle-fill"
+                    aria-hidden="true">
+                  </i>
+
+                  تمت الموافقة
+
+                } @else if (course.status === 'PendingApproval') {
+
+                  <i
+                    class="bi bi-clock-fill"
+                    aria-hidden="true">
+                  </i>
+
+                  قيد المراجعة
+
+                } @else if (course.status === 'Rejected') {
+
+                  <i
+                    class="bi bi-x-circle-fill"
+                    aria-hidden="true">
+                  </i>
+
+                  مرفوضة
+
+                } @else {
+
+                  <i
+                    class="bi bi-pencil-fill"
+                    aria-hidden="true">
+                  </i>
+
+                  مسودة
+
+                }
+
+              </span>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <div class="course-content">
+
+              <div class="course-main">
+
+                <!-- TITLE -->
+                <div class="course-title-row">
+
+                  <div class="title-icon">
+                    <i
+                      class="bi bi-journal-text"
+                      aria-hidden="true">
+                    </i>
+                  </div>
+
+                  <h3>
+                    {{ course.title }}
+                  </h3>
+
+                </div>
+
+
+                <!-- SUBTITLE -->
+                <p class="subtitle">
+                  {{ course.subtitle }}
+                </p>
+
+
+                <!-- CATEGORY -->
+                <span class="category">
+
+                  <i
+                    class="bi bi-tag-fill"
+                    aria-hidden="true">
+                  </i>
+
+                  {{ course.categoryName }}
+
+                </span>
+
+              </div>
+
+
+              <!-- FOOTER -->
+              <div class="course-footer">
+
+                <!-- DATE -->
+                <div class="course-date">
+
+                  <span class="date-icon">
+                    <i
+                      class="bi bi-calendar3"
+                      aria-hidden="true">
+                    </i>
+                  </span>
+
+                  <div class="date-content">
+
+                    <span class="date-label">
+                      تاريخ الإنشاء
+                    </span>
+
+                    <span class="date-value">
+                      {{ course.createdAt | date: 'dd MMM yyyy' }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div class="course-actions">
+
+                  <!-- MANAGE -->
+                  <button
+                    type="button"
+                    class="manage-button"
+                    (click)="buildCourse(course.courseID)">
+
+                    <span class="button-icon">
+                      <i
+                        class="bi bi-pencil-square"
+                        aria-hidden="true">
+                      </i>
+                    </span>
+
+                    <span>
+                      إدارة المحتوى
+                    </span>
+
+                    <i
+                      class="bi bi-arrow-left-short button-arrow"
+                      aria-hidden="true">
+                    </i>
+
+                  </button>
+
+
+                  <!-- REVIEW -->
+                  @if (
+                    course.status === 'Draft' ||
+                    course.status === 'Rejected'
+                  ) {
+
+                    <button
+                      type="button"
+                      class="submit-review-btn"
+                      [disabled]="
+                        submitLoading() === course.courseID
+                      "
+                      (click)="
+                        submitForReview(course.courseID)
+                      ">
+
+                      @if (
+                        submitLoading() === course.courseID
+                      ) {
+
+                        <i
+                          class="bi bi-arrow-repeat spin"
+                          aria-hidden="true">
+                        </i>
+
+                        جاري الإرسال...
+
+                      } @else if (
+                        course.status === 'Rejected'
+                      ) {
+
+                        <span class="button-icon">
+                          <i
+                            class="bi bi-arrow-up-circle"
+                            aria-hidden="true">
+                          </i>
+                        </span>
+
+                        <span>
+                          إعادة الإرسال
+                        </span>
+
+                      } @else {
+
+                        <span class="button-icon">
+                          <i
+                            class="bi bi-send-fill"
+                            aria-hidden="true">
+                          </i>
+                        </span>
+
+                        <span>
+                          إرسال للمراجعة
+                        </span>
+
+                      }
+
+                    </button>
+
+                  }
+
+
+                  <!-- PENDING -->
+                  @if (
+                    course.status === 'PendingApproval'
+                  ) {
+
+                    <span class="pending-review">
+
+                      <span class="pending-icon">
+                        <i
+                          class="bi bi-hourglass-split"
+                          aria-hidden="true">
+                        </i>
+                      </span>
+
+                      <span>
+                        قيد المراجعة
+                      </span>
+
+                      <span class="pending-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </span>
+
+                    </span>
+
+                  }
+
+                </div>
+
+              </div>
+
+
+              <!-- ERROR -->
+              @if (submitError()) {
+
+                <div
+                  class="submit-error-msg"
+                  role="alert">
+
+                  <span class="error-icon">
+                    <i
+                      class="bi bi-exclamation-triangle-fill"
+                      aria-hidden="true">
+                    </i>
+                  </span>
+
+                  <span>
+                    {{ submitError() }}
+                  </span>
+
+                </div>
+
+              }
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    </section>
+
+  }
+
 </div>
