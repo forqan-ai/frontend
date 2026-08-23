@@ -1,3 +1,1 @@
-/api/*  https://forqan-api.runasp.net/api/:splat  200
-/hubs/* https://forqan-api.runasp.net/hubs/:splat 200
 /*      /index.html   200
