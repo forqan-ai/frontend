@@ -2,7 +2,17 @@
   command = "npm run build"
   publish = "dist/Forqan/browser"
 
-# Angular routing - redirect all paths to index.html
+# Disable Angular SSR runtime - serve as pure static site
+[build.environment]
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+# Disable the Angular runtime plugin (we don't use SSR)
+[[plugins]]
+  package = "@netlify/angular-runtime"
+  [plugins.inputs]
+    ssr = false
+
+# Angular SPA routing - redirect all paths to index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
