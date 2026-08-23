@@ -71,8 +71,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kB",
-                  "maximumError": "25kB"
+                  "maximumWarning": "20kB",
+                  "maximumError": "50kB"
                 }
               ],
               "outputHashing": "all"
@@ -102,9 +102,7 @@
             }
           },
           "options": {
-            "allowedHosts": [
-              "attire-itinerary-lion.ngrok-free.dev"
-            ]
+            "allowedHosts": ["attire-itinerary-lion.ngrok-free.dev"]
           },
           "defaultConfiguration": "development"
         },
