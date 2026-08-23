@@ -5,7 +5,22 @@
 [build.environment]
   NETLIFY_SKIP_ANGULAR_RUNTIME = "true"
 
-# Angular SPA routing - redirect all paths to index.html
+# Proxy API calls to backend (server-side - no CORS issues)
+[[redirects]]
+  from = "/api/*"
+  to = "https://forqan-api.runasp.net/api/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+# Proxy hubs (SignalR)
+[[redirects]]
+  from = "/hubs/*"
+  to = "https://forqan-api.runasp.net/hubs/:splat"
+  status = 200
+  force = true
+
+# Angular SPA routing - must be last
 [[redirects]]
   from = "/*"
   to = "/index.html"
