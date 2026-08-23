@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IChatRequest } from '../models/chat-request.interface';
 import { IChatResponse } from '../models/chat-response.interface';
 import { IConversationHistory } from '../models/conversation-history.interface';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 
 @Injectable({

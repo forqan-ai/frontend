@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { IUserSettings, ChangePasswordRequest } from '../Models/settings.interface';
 
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 interface UserResponse {
   succeeded: boolean;

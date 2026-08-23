@@ -5,7 +5,7 @@ import { ICategoryProgress } from '../Models/category-progress.interface';
 import { IRecentActivity } from '../Models/recent-activity.interface';
 import { IStudentCourse } from '../Models/student-course.interface';
 import { IStudentProfile } from '../Models/student-profile.interface';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { RequestStatus, TeachingRequestStatusDto } from '../Models/TeachingRequestStatusDto';
 
 @Injectable({
