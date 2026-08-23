@@ -32,6 +32,9 @@ export class CoursePlayerComponent implements OnInit {
   // Reference timestamp waiting for video or audio to load
   pendingSeekTime: number | null = null;
 
+  pdfPage = signal<number | null>(null);
+  showPdf = signal(true);
+
   // References to the media elements
   videoPlayer = viewChild<ElementRef<HTMLVideoElement>>('videoPlayer');
   audioPlayer = viewChild<ElementRef<HTMLAudioElement>>('audioPlayer');
@@ -82,10 +85,24 @@ export class CoursePlayerComponent implements OnInit {
 
     // Clear any previous reference
     this.pendingSeekTime = null;
+    this.pdfPage.set(null);
+    this.showPdf.set(true);
   }
 
   startVideo() {
     this.videoStarted.set(true);
+  }
+
+  getPdfUrl(): string {
+    const url = this.selectedLesson()?.contentURL;
+    if (!url) return '';
+    
+    if (this.pdfPage()) {
+      const baseUrl = url.split('#')[0];
+      return `${baseUrl}#page=${this.pdfPage()}`;
+    }
+    
+    return url;
   }
 
   /*
@@ -101,6 +118,13 @@ export class CoursePlayerComponent implements OnInit {
     if (lessonType === 'Reading') {
       if (ref.pageNumber) {
         console.log('PDF Page:', ref.pageNumber);
+        
+        this.showPdf.set(false);
+        this.pdfPage.set(ref.pageNumber);
+        
+        setTimeout(() => {
+          this.showPdf.set(true);
+        }, 50);
       }
       return;
     }

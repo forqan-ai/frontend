@@ -132,7 +132,9 @@
                 </div>
               </div>
 
-              <iframe [src]="selectedLesson()?.contentURL | safeUrl" frameborder="0"> </iframe>
+              @if (showPdf()) {
+                <iframe [src]="getPdfUrl() | safeUrl" frameborder="0"> </iframe>
+              }
             </div>
           }
         </div>
