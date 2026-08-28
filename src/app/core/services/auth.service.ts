@@ -33,6 +33,7 @@ export class AuthService {
         localStorage.setItem(this.userStorageKey, res.data.token);
         localStorage.setItem('userId', res.data.user.id)
         localStorage.setItem('userImg', res.data.user.profileImageURL!);
+        localStorage.setItem('fullName', res.data.user.fullName!);
         this.isLoggedIn.set(true);
         console.log(this.getPayload());
 
@@ -63,6 +64,7 @@ export class AuthService {
           localStorage.setItem(this.userStorageKey, res.data.token);
           localStorage.setItem('userId', res.data.user.id)
           localStorage.setItem('userImg', res.data.user.profileImageURL!)
+          localStorage.setItem('fullName', res.data.user.fullName!);
           this.isLoggedIn.set(true);
         })
       );
@@ -73,6 +75,7 @@ export class AuthService {
     localStorage.removeItem(this.userStorageKey);
     localStorage.removeItem('userId');
     localStorage.removeItem('userImg');
+    localStorage.removeItem('fullName');
     this.isLoggedIn.set(false);
     this.route.navigateByUrl('/login')
   }
