@@ -1,115 +1,440 @@
+/* =========================================
+   NAVBAR
+   ========================================= */
+
 .navbar {
-  background: var(--primary);
   height: 64px;
+  min-height: 64px;
   position: sticky;
   top: 0;
   z-index: 1000;
+
+  display: flex;
+  align-items: center;
+
+  background: var(--primary);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
+
 .navbar .container {
-  height: 100%;
+  height: 64px;
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+
+  padding-top: 0;
+  padding-bottom: 0;
 }
-.navbar-brand img {
+
+
+/* =========================================
+   LOGO
+   ========================================= */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 64px;
+
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-brand img,
+#logo-image {
   width: 50px;
-  height: auto;
+  height: 50px;
+
+  object-fit: contain;
+  display: block;
 }
+
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+
 .navbar-nav {
+  display: flex;
+  align-items: center;
   gap: 28px;
 }
+
 .nav-link {
   color: var(--secondary);
   font-size: 15px;
   font-weight: 600;
   position: relative;
-  transition: 0.3s;
+  padding: 8px 0;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
-.nav-link:hover,
+
+.nav-link:hover {
+  color: var(--primary-light);
+}
+
 .nav-link.active {
   color: var(--primary-light);
 }
+
 .nav-link.active::after {
   content: '';
   position: absolute;
-  bottom: -7px;
+  bottom: -5px;
   right: 0;
+
   width: 100%;
   height: 2px;
+
   background: var(--primary-light);
+  border-radius: 2px;
 }
+
+
+/* =========================================
+   ACTIONS
+   ========================================= */
+
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.login-btn,
-.register-btn {
-  padding: 8px 18px;
-  border-radius: 30px;
-  font-size: 14px;
-  text-decoration: none;
-  transition: 0.3s;
-  white-space: nowrap;
+
+.avatar-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
 }
-.login-btn {
-  color: var(--secondary);
-  border: 1px solid var(--primary-light);
+
+.avatar-link:hover {
+  transform: scale(1.05);
 }
-.login-btn:hover {
-  background: var(--primary-light);
-  color: var(--primary);
-}
-.register-btn {
-  background: var(--primary-light);
-  color: var(--primary);
-  font-weight: 700;
-}
-.register-btn:hover {
-  opacity: 0.85;
-}
+
+
+/* =========================================
+   MOBILE TOGGLE
+   ========================================= */
+
 .navbar-toggler {
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+  margin: 0;
+
   border: none;
-  font-size: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   color: var(--secondary);
+  background: transparent;
+
+  font-size: 27px;
+  line-height: 1;
 }
+
 .navbar-toggler:focus {
   box-shadow: none;
 }
+
+.navbar-toggler i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
+}
+
+
+/* =========================================
+   TABLET / MOBILE
+   ========================================= */
+
 @media (max-width: 991px) {
+
   .navbar {
-    height: auto;
+    height: 64px;
     min-height: 64px;
   }
+
+  .navbar .container {
+    height: 64px;
+    min-height: 64px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+
+ .navbar-brand {
+    position: absolute;
+    top: 50%;
+
+    transform: translate(0%, -50%);
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+  }
+
+  #logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    display: block;
+  }
+
+
+  /* ---------- Toggle ---------- */
+
+ .navbar-toggler {
+    position: absolute;
+    top: 50%;
+    left:4%;
+    transform: translate(0%, -50%);
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+  }
+
+
+  /* =====================================
+     MOBILE MENU
+     ===================================== */
+
   .navbar-collapse {
+    position: absolute;
+
+    top: 64px;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+
+    max-height: 0;
+    opacity: 0;
+
+    overflow: hidden;
+
+    transform: translateY(-10px);
+
+    margin: 0;
+    padding: 0 18px;
+
     background: var(--primary);
-    margin-top: 15px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+    border-radius: 0 0 16px 16px;
+
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.12);
+
+    transition:
+      max-height 0.4s ease,
+      opacity 0.25s ease,
+      transform 0.3s ease,
+      padding 0.3s ease;
   }
+
+
+  /* ---------- Open Menu ---------- */
+
+  .navbar-collapse.show {
+    max-height: 600px;
+    opacity: 1;
+
+    transform: translateY(0);
+
+    margin: 0;
+
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+
+
+  /* =====================================
+     MOBILE NAV LINKS
+     ===================================== */
+
   .navbar-nav {
-    gap: 5px;
-    text-align: right;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 2px;
+
+    margin: 0 !important;
+    padding: 0;
   }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
   .nav-link {
-    padding: 12px 0;
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 48px;
+
+    padding: 12px 10px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
   }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-link.active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
   .nav-link.active::after {
     display: none;
   }
+
+
+  /* =====================================
+     ACTIONS
+     ===================================== */
+
   .navbar-actions {
-    flex-direction: column;
     width: 100%;
-    margin-top: 15px;
+
+    display: flex;
+    align-items: center;
+
+    margin-top: 16px;
+    padding-top: 16px;
+
     gap: 10px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .login-btn,
-  .register-btn {
-    width: 100%;
-    text-align: center;
+
+  .navbar-actions app-button {
+    flex: 1;
+  }
+
+  .avatar-link {
+    margin-left: 4px;
   }
 }
 
-.user-name {
-  font-weight: 500;
-  white-space: nowrap;
+
+/* =========================================
+   SMALL PHONES
+   ========================================= */
+
+@media (max-width: 575px) {
+
+  .navbar {
+    height: 64px;
+    min-height: 64px;
+  }
+
+  .navbar .container {
+    height: 64px;
+    min-height: 64px;
+
+    padding-left: 14px;
+    padding-right: 14px;
+
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* KEEP LOGO SAME SIZE */
+  #logo-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* KEEP TOGGLER CENTERED */
+  .navbar-toggler {
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    font-size: 25px;
+  }
+
+  .navbar-collapse {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .navbar-collapse.show {
+    padding-top: 12px;
+    padding-bottom: 16px;
+  }
+
+  .nav-link {
+    min-height: 46px;
+    padding: 11px 8px;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+   ========================================= */
+
+@media (max-width: 380px) {
+
+  .navbar-actions {
+    flex-wrap: wrap;
+  }
+
+  .navbar-actions app-button {
+    min-width: 100%;
+  }
 }

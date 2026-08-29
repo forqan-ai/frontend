@@ -1,16 +1,23 @@
 <nav class="navbar navbar-expand-lg" dir="rtl">
   <div class="container">
+
+    <!-- Logo -->
     <a class="navbar-brand" routerLink="/" (click)="closeMenu()">
-      <img src="images/logo.png" alt="Furqan" />
+      <img id="logo-image" src="images/logo.png" alt="Furqan" />
     </a>
 
-    <button class="navbar-toggler" type="button" aria-label="Toggle navigation" [attr.aria-expanded]="isMenuOpen"
-      (click)="toggleMenu()">
-      <i class="bi" [class.bi-x-lg]="isMenuOpen" [class.bi-list]="!isMenuOpen"> </i>
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler d-lg-none" type="button" aria-label="Toggle navigation"
+      [attr.aria-expanded]="isMenuOpen" (click)="toggleMenu()">
+      <i class="bi" [class.bi-x-lg]="isMenuOpen" [class.bi-list]="!isMenuOpen">
+      </i>
     </button>
 
-    <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
-      <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
+    <!-- Navigation -->
+    <div class="navbar-collapse" [class.show]="isMenuOpen">
+
+      <ul class="navbar-nav mx-auto mb-0">
+
         <li class="nav-item">
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
             (click)="closeMenu()">
@@ -25,12 +32,6 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/categories" routerLinkActive="active" (click)="closeMenu()">
-            التصنيفات
-          </a>
-        </li>
-
-        <li class="nav-item">
           <a class="nav-link" routerLink="/teachers" routerLinkActive="active" (click)="closeMenu()">
             المعلمون
           </a>
@@ -41,38 +42,52 @@
             من نحن
           </a>
         </li>
+
       </ul>
 
-
+      <!-- Actions -->
       <div class="navbar-actions">
-        <!-- <a [hidden]="authService.isLoggedIn()" class="login-btn" routerLink="/login" (click)="closeMenu()"> تسجيل
-          الدخول </a> -->
-        @if(this.authService.isLoggedIn())
-        {
-        <a (click)="this.routingService.routeToHome()" style="position: relative; ">
-          <app-avatar [size]=45 [src]="userimg()"></app-avatar>
-        </a>
-        <!-- <span class="user-name">
-          {{ user()?.fullName }}
-        </span> -->
-        <app-button (btnClick)="logout()" [hidden]="!authService.isLoggedIn()" variant="secondary" size="small">تسجيل
-          الخروج <i class="bi bi-box-arrow-left"></i>
-        </app-button>
-        }
-        @else{
-        <app-button (btnClick)="closeMenu()" pageLink="/login" variant="secondary" size="small">تسجيل
-          الدخول
-        </app-button>
-        <app-button (btnClick)="closeMenu()" pageLink="/register" variant="secondary" size="small">إنشاء
-          حساب
-        </app-button>
-        }
 
-        <!-- <a [hidden]="authService.isLoggedIn()" class="register-btn" routerLink="/register" (click)="closeMenu()"> إنشاء
-          حساب </a> -->
+        @if (this.authService.isLoggedIn()) {
+        <div class="container">
+          <div class="row justify-content-between align-items-center">
+            <div class="col-3">
+              <a class="avatar-link" (click)="this.routingService.routeToHome()" aria-label="الملف الشخصي">
+                <app-avatar [size]="45" [src]="userimg()">
+                </app-avatar>
+              </a>
+            </div>
+            <div class="col-6">
+              <app-button (click)="closeMenu()" (btnClick)="logout()" [hidden]="!authService.isLoggedIn()"
+                variant="secondary" size="small">
+                تسجيل الخروج
+                <i class="bi bi-box-arrow-left"></i>
+              </app-button>
+            </div>
+          </div>
+        </div>
+        } @else {
 
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-6">
+              <app-button (click)="closeMenu()" pageLink="/login" variant="secondary" size="small">
+                تسجيل الدخول
+              </app-button>
+            </div>
+
+            <div class="col-6">
+              <app-button (click)="closeMenu()" pageLink="/register" variant="secondary" size="small">
+                إنشاء حساب
+              </app-button>
+            </div>
+          </div>
+        </div>
+        }
 
       </div>
+
     </div>
+
   </div>
 </nav>

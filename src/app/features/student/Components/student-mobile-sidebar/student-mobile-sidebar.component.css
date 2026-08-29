@@ -256,10 +256,6 @@ nav .d-flex.flex-column.gap-2 > a {
     cursor: pointer;
 }
 
-.offcanvas-close i {
-    pointer-events: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
     .exit,
     .white-anchor,

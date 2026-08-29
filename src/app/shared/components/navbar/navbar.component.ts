@@ -16,7 +16,6 @@ export class NavbarComponent {
   private router = inject(Router);
   routingService = inject(RoutingService)
   authService = inject(AuthService);
-
   userimg = signal<string>('');
 
   ngOnInit() {
@@ -53,4 +52,14 @@ export class NavbarComponent {
     this.router.navigate(['/login']);
   }
 
+
+  userName() {
+    return localStorage.getItem('fullName');
+  }
+
+  onTouchMove(event: TouchEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
 }
+

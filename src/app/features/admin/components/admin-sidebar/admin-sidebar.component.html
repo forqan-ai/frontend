@@ -1,7 +1,5 @@
-<div
-  class="d-none d-lg-flex flex-column vh-100 position-fixed end-0 top-0"
-  style="width: 240px; z-index: 1000; background-color: var(--primary-hover)"
->
+<div class="d-none d-lg-flex flex-column vh-100 position-fixed end-0 top-0"
+  style="width: 240px; z-index: 1000; background-color: var(--primary-hover)">
   <div class="p-3 border-bottom-side text-center" style="background-color: var(--bg)">
     <div class="d-flex flex-column align-items-center gap-2">
       <app-avatar [border]="true" [size]="70" src="{{ studentImage() }}"> </app-avatar>
@@ -15,36 +13,25 @@
 
   <nav class="flex-grow-1 p-3">
     <div class="d-flex flex-column gap-2">
-      <a
-        routerLink="teaching-requests"
-        (click)="setActiveRoute('teaching-requests')"
-        [class.green-anchor]="isActive('teaching-requests')"
-        [class.grey-anchor]="!isActive('teaching-requests')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="teaching-requests" (click)="setActiveRoute('teaching-requests')"
+        [class.green-anchor]="isActive('teaching-requests')" [class.grey-anchor]="!isActive('teaching-requests')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-grid-1x2-fill"></i> طلبات الانضمام
       </a>
 
-      <a
-        routerLink="courses-review"
-        (click)="setActiveRoute('courses-review')"
-        [class.green-anchor]="isActive('courses-review')"
-        [class.grey-anchor]="!isActive('courses-review')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+      <a routerLink="courses-review" (click)="setActiveRoute('courses-review')"
+        [class.green-anchor]="isActive('courses-review')" [class.grey-anchor]="!isActive('courses-review')"
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-book"></i> مراجعة الدورات
       </a>
-      <a
-        routerLink="profile-change-requests"
-        (click)="setActiveRoute('profile-change-requests')"
+      <a routerLink="profile-change-requests" (click)="setActiveRoute('profile-change-requests')"
         [class.green-anchor]="isActive('profile-change-requests')"
         [class.grey-anchor]="!isActive('profile-change-requests')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-person-check"></i>
         مراجعة بيانات الطلاب
       </a>
-      <a
+      <!-- <a
         routerLink="bookings"
         (click)="setActiveRoute('bookings')"
         [class.green-anchor]="isActive('bookings')"
@@ -52,31 +39,21 @@
         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
       >
         <i class="bi bi-calendar-check"></i> إدارة الحجوزات
-      </a>
+      </a> -->
 
-      <a
-        routerLink="withdrawals"
-        (click)="setActiveRoute('withdrawals')"
-        [class.green-anchor]="isActive('withdrawals')"
+      <a routerLink="withdrawals" (click)="setActiveRoute('withdrawals')" [class.green-anchor]="isActive('withdrawals')"
         [class.grey-anchor]="!isActive('withdrawals')"
-        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none"
-      >
+        class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none">
         <i class="bi bi-cash-stack"></i> إدارة السحوبات
       </a>
     </div>
   </nav>
 
   <div class="p-3 border-top-side">
-    <a
-      href="#"
-      class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none"
-    >
+    <a href="#" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none">
       Help & Support
     </a>
-    <a
-      (click)="logout()"
-      class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none"
-    >
+    <a (click)="logout()" class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 grey-anchor text-decoration-none">
       <i class="bi bi-box-arrow-left"></i> تسجيل خروج
     </a>
   </div>
