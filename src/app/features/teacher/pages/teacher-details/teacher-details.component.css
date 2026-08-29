@@ -511,10 +511,7 @@
     font-size: 21px;
   }
 
-  .teacher-stats-grid,
-  .teacher-courses-grid {
-    grid-template-columns: 1fr;
-  }
+
 
   .stat-card {
     min-height: 112px;

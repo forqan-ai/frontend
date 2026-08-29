@@ -2,20 +2,31 @@
    NAVBAR
    ========================================= */
 
-.navbar { 
-  background: var(--primary);
+.navbar {
   height: 64px;
+  min-height: 64px;
   position: sticky;
   top: 0;
   z-index: 1000;
+
+  display: flex;
+  align-items: center;
+
+  background: var(--primary);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .navbar .container {
-  height: 100%;
+  height: 64px;
+  min-height: 64px;
+
   display: flex;
   align-items: center;
+
+  padding-top: 0;
+  padding-bottom: 0;
 }
+
 
 /* =========================================
    LOGO
@@ -24,13 +35,20 @@
 .navbar-brand {
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  height: 64px;
+
   padding: 0;
   margin: 0;
 }
 
-.navbar-brand img {
+.navbar-brand img,
+#logo-image {
   width: 50px;
-  height: auto;
+  height: 50px;
+
+  object-fit: contain;
   display: block;
 }
 
@@ -51,6 +69,7 @@
   font-weight: 600;
   position: relative;
   padding: 8px 0;
+
   transition:
     color 0.25s ease,
     transform 0.25s ease;
@@ -69,8 +88,10 @@
   position: absolute;
   bottom: -5px;
   right: 0;
+
   width: 100%;
   height: 2px;
+
   background: var(--primary-light);
   border-radius: 2px;
 }
@@ -90,7 +111,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
   transition: transform 0.2s ease;
 }
 
@@ -100,54 +123,27 @@
 
 
 /* =========================================
-   OLD LOGIN / REGISTER LINKS
-   ========================================= */
-
-.login-btn,
-.register-btn {
-  padding: 8px 18px;
-  border-radius: 30px;
-  font-size: 14px;
-  text-decoration: none;
-  transition: 0.3s ease;
-  white-space: nowrap;
-}
-
-.login-btn {
-  color: var(--secondary);
-  border: 1px solid var(--primary-light);
-}
-
-.login-btn:hover {
-  background: var(--primary-light);
-  color: var(--primary);
-}
-
-.register-btn {
-  background: var(--primary-light);
-  color: var(--primary);
-  font-weight: 700;
-}
-
-.register-btn:hover {
-  opacity: 0.85;
-}
-
-
-/* =========================================
    MOBILE TOGGLE
    ========================================= */
 
 .navbar-toggler {
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+  margin: 0;
+
   border: none;
-  padding: 8px;
-  font-size: 27px;
-  line-height: 1;
-  color: var(--secondary);
-  background: transparent;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  color: var(--secondary);
+  background: transparent;
+
+  font-size: 27px;
+  line-height: 1;
 }
 
 .navbar-toggler:focus {
@@ -155,6 +151,12 @@
 }
 
 .navbar-toggler i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
+
   transition:
     transform 0.25s ease,
     opacity 0.2s ease;
@@ -168,33 +170,65 @@
 @media (max-width: 991px) {
 
   .navbar {
-    height: auto;
+    height: 64px;
     min-height: 64px;
   }
 
   .navbar .container {
+    height: 64px;
     min-height: 64px;
-    height: auto;
-    flex-wrap: wrap;
-    padding-top: 8px;
-    padding-bottom: 8px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
 
-  /* ---------- Logo ---------- */
+ .navbar-brand {
+    position: absolute;
+    top: 50%;
+
+    transform: translate(0%, -50%);
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+  }
 
   #logo-image {
-    width: 40px;
-    height: auto;
-    margin: 0;
-    padding: 0;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    display: block;
   }
 
 
   /* ---------- Toggle ---------- */
 
-  .navbar-toggler {
-    margin-right: auto;
+ .navbar-toggler {
+    position: absolute;
+    top: 50%;
+    left:4%;
+    transform: translate(0%, -50%);
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
   }
 
 
@@ -203,26 +237,27 @@
      ===================================== */
 
   .navbar-collapse {
-    /*
-      Do NOT use display:none here.
+    position: absolute;
 
-      max-height + opacity + transform
-      allow the menu to animate.
-    */
+    top: 64px;
+    left: 0;
+    right: 0;
+
     width: 100%;
 
     max-height: 0;
     opacity: 0;
+
     overflow: hidden;
 
     transform: translateY(-10px);
 
-    margin-top: 0;
+    margin: 0;
     padding: 0 18px;
 
     background: var(--primary);
 
-    border-radius: 16px;
+    border-radius: 0 0 16px 16px;
 
     box-shadow:
       0 10px 30px rgba(0, 0, 0, 0.12);
@@ -231,12 +266,11 @@
       max-height 0.4s ease,
       opacity 0.25s ease,
       transform 0.3s ease,
-      margin-top 0.3s ease,
       padding 0.3s ease;
   }
 
 
-  /* ---------- OPEN MENU ---------- */
+  /* ---------- Open Menu ---------- */
 
   .navbar-collapse.show {
     max-height: 600px;
@@ -244,7 +278,8 @@
 
     transform: translateY(0);
 
-    margin-top: 10px;
+    margin: 0;
+
     padding-top: 14px;
     padding-bottom: 18px;
   }
@@ -256,6 +291,7 @@
 
   .navbar-nav {
     width: 100%;
+
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -284,9 +320,6 @@
     font-size: 15px;
   }
 
-  /*
-    Larger touch-friendly area
-  */
   .nav-link:hover {
     background: rgba(255, 255, 255, 0.06);
   }
@@ -318,21 +351,13 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-
-  /*
-    Keep buttons beside each other when possible.
-    They won't become unnecessarily tall.
-  */
-
   .navbar-actions app-button {
     flex: 1;
   }
 
-
   .avatar-link {
     margin-left: 4px;
   }
-
 }
 
 
@@ -342,18 +367,38 @@
 
 @media (max-width: 575px) {
 
+  .navbar {
+    height: 64px;
+    min-height: 64px;
+  }
+
   .navbar .container {
+    height: 64px;
+    min-height: 64px;
+
     padding-left: 14px;
     padding-right: 14px;
+
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
+  /* KEEP LOGO SAME SIZE */
   #logo-image {
-    width: 38px;
+    width: 50px;
+    height: 50px;
   }
 
+  /* KEEP TOGGLER CENTERED */
   .navbar-toggler {
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+
     font-size: 25px;
-    padding: 7px;
   }
 
   .navbar-collapse {
@@ -376,7 +421,6 @@
     margin-top: 14px;
     padding-top: 14px;
   }
-
 }
 
 
@@ -393,5 +437,4 @@
   .navbar-actions app-button {
     min-width: 100%;
   }
-
 }

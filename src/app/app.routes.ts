@@ -153,6 +153,18 @@ export const routes: Routes = [
             .then(m => m.CheckEmailComponent),
         title: 'التحقق من البريد الإلكتروني',
       },
+      {
+        path: 'course-details/:id',
+        loadComponent: () =>
+          import('./features/Course/Pages/course-details/course-details.component').then(
+            (m) => m.CourseDetailsComponent,
+          ),
+      },
+      {
+        path: 'course-details/:id/:teacherid',
+        component: TeacherDetailsComponent,
+        title: 'تفاصيل عن المعلم'
+      },
     ],
   },
   {
