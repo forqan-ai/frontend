@@ -6,7 +6,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast.service';
 @Component({
   selector: 'app-check-email',

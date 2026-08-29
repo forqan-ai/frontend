@@ -1,8 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:5193',
+  apiUrl: '',
   auth: {
-    googleLoginUrl: 'https://localhost:7001/api/auth/external/google',
-    facebookLoginUrl: 'https://localhost:7001/api/auth/external/facebook',
+    googleClientId: '523741505845-oudn1ji6ljid5ki0s8nas6k57a5baimr.apps.googleusercontent.com',
+    googleLoginUrl: '/api/auth/external/google',
+    facebookLoginUrl: '/api/auth/external/facebook',
   },
 };
+

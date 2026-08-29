@@ -20,7 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApiError, ExternalProvider, RegisterRequest } from '../../../core/models/auth.models';
 import { CommonModule } from '@angular/common';
 import { GoogleAuthService } from '../../../core/services/google-auth.service';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-register',
